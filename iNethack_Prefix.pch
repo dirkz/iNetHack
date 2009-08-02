@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'iNethack' target in the 'iNethack' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif
