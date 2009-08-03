@@ -77,6 +77,12 @@
 	result = -1;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	if (result == -1) {
+		[[MainViewController instance] broadcastUIEvent];
+	}
+}
+
 #pragma mark UITableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

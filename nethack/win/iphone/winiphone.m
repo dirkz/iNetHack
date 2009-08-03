@@ -305,7 +305,8 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 	NSLog(@"iphone_yn_function %s", question);
 	if (!choices) {
 		NSString *s = [NSString stringWithCString:question];
-		if ([s isEqualToString:@"In what direction?"] || [s isEqualToString:@"Talk to whom? (in what direction)"]) {
+		if ([s isEqualToString:@"In what direction?"] || [s isEqualToString:@"Talk to whom? (in what direction)"] ||
+			[s isEqualToString:@"Loot in what direction?"]) {
 			return [[MainViewController instance] getDirectionInput];
 		} else {
 			NSRange r = [s rangeOfString:@"*"];
