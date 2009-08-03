@@ -342,12 +342,14 @@ static MainViewController *_instance;
 			[nethackEventQueue addKeyEvent:direction];
 		}
 	}
+	longMoveOccurred = YES;
 	lastSingleTouch = nil;
 	touchesMoved = NO;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	touchesMoved = NO;
+	longMoveOccurred = NO;
 	if (touches.count == 1) {
 		UITouch *touch = [touches anyObject];
 		lastSingleTouch = touch;
@@ -359,16 +361,22 @@ static MainViewController *_instance;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	touchesMoved = YES;
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(longTouchMovement:) object:nil];
-	if (touches.count == 1) {
-		moving = YES;
+	if (touches.count == 1 && !longMoveOccurred) {
 		UITouch *touch = [touches anyObject];
 		CGPoint p = [touch locationInView:self.view];
 		CGPoint delta = CGPointMake(p.x-currentTouchLocation.x, p.y-currentTouchLocation.y);
-		[(MainView *) self.view moveAlongVector:delta];
-		currentTouchLocation = p;
-		[self.view setNeedsDisplay];
+		if (moving) {
+			[(MainView *) self.view moveAlongVector:delta];
+			currentTouchLocation = p;
+			[self.view setNeedsDisplay];
+		} else if (abs(delta.x)+abs(delta.y) > 10) {
+			moving = YES;
+			touchesMoved = YES;
+			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(longTouchMovement:) object:nil];
+			[(MainView *) self.view moveAlongVector:delta];
+			currentTouchLocation = p;
+			[self.view setNeedsDisplay];
+		}
 	}
 }
 

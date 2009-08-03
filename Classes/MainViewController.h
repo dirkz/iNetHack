@@ -73,6 +73,8 @@
 	
 	// imaginary rect for bringing up the main menu
 	CGRect tapRect;
+	
+	BOOL longMoveOccurred;
 
 }
 
