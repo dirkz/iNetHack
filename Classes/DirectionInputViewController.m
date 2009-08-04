@@ -24,6 +24,7 @@
 #import "DirectionInputViewController.h"
 #import "DirectionInputView.h"
 #import "MainViewController.h"
+#import "Shortcut.h"
 
 @implementation DirectionInputViewController
 
@@ -84,37 +85,12 @@
 		CGRect *rects = [(DirectionInputView *) self.view rects];
 		for (int i = 0; i < kNumRects; ++i) {
 			if (CGRectContainsPoint(rects[i], p)) {
-				switch (i) {
-					case 0:
-						direction = 'y';
-						break;
-					case 1:
-						direction = 'k';
-						break;
-					case 2:
-						direction = 'u';
-						break;
-					case 3:
-						direction = 'h';
-						break;
-					case 4:
-						direction = 0;
-						break;
-					case 5:
-						direction = 'l';
-						break;
-					case 6:
-						direction = 'b';
-						break;
-					case 7:
-						direction = 'j';
-						break;
-					case 8:
-						direction = 'n';
-						break;
-					default:
-						direction = 0;
-						break;
+				Shortcut **shortcuts = [(DirectionInputView *) self.view shortcuts];
+				Shortcut *sh = shortcuts[i];
+				if (sh) {
+					direction = sh.key;
+				} else {
+					direction = 0;
 				}
 				[[MainViewController instance] broadcastUIEvent];
 			}

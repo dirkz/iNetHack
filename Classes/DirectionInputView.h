@@ -23,17 +23,22 @@
 
 #import <UIKit/UIKit.h>
 
-#define kNumRects (9)
-#define kNumRows (3)
+#define kNumRows (4)
 #define kNumCols (3)
+#define kNumRects (kNumRows*kNumCols)
+
+@class Shortcut;
 
 @interface DirectionInputView : UIView {
 	
 	CGSize tileSize;
 	CGRect rects[kNumRects];
+	Shortcut *shortcuts[kNumRects];
+	BOOL rectsCreated;
 	
 }
 
-@property (nonatomic, assign) CGRect *rects;
+@property (nonatomic, readonly) CGRect *rects;
+@property (nonatomic, readonly) Shortcut **shortcuts;
 
 @end

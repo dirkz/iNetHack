@@ -52,6 +52,10 @@
 	return self;
 }
 
+- (char) key {
+	return [keys characterAtIndex:0];
+}
+
 - (void) invoke {
 	if (target) {
 		[target performSelector:selector withObject:arg];
