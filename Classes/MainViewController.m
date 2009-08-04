@@ -356,7 +356,9 @@ static MainViewController *_instance;
 		CGPoint p = [touch locationInView:self.view];
 		currentTouchLocation = p;
 		[self.view setNeedsDisplay];
-		[self performSelector:@selector(longTouchMovement:) withObject:nil afterDelay:0.6f];
+		if (!moving) {
+			[self performSelector:@selector(longTouchMovement:) withObject:nil afterDelay:0.6f];
+		}
 	}
 }
 
@@ -365,11 +367,7 @@ static MainViewController *_instance;
 		UITouch *touch = [touches anyObject];
 		CGPoint p = [touch locationInView:self.view];
 		CGPoint delta = CGPointMake(p.x-currentTouchLocation.x, p.y-currentTouchLocation.y);
-		if (moving) {
-			[(MainView *) self.view moveAlongVector:delta];
-			currentTouchLocation = p;
-			[self.view setNeedsDisplay];
-		} else if (abs(delta.x)+abs(delta.y) > 10) {
+		if (moving || (abs(delta.x)+abs(delta.y) > 10)) {
 			moving = YES;
 			touchesMoved = YES;
 			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(longTouchMovement:) object:nil];
