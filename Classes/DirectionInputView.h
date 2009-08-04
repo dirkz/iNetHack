@@ -34,7 +34,6 @@
 	CGSize tileSize;
 	CGRect rects[kNumRects];
 	Shortcut *shortcuts[kNumRects];
-	BOOL rectsCreated;
 	
 }
 
