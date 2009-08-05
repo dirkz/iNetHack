@@ -32,7 +32,7 @@
 		self.clearsContextBeforeDrawing = YES;
 		recentlyTouchedItem = -1;
 		font = [UIFont systemFontOfSize:12];
-		tileSize = CGSizeMake(45,45);
+		tileSize = CGSizeMake(40,40);
 		self.alpha = 0.7f;
     }
     return self;
