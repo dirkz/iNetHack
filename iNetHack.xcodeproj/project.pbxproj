@@ -22,6 +22,7 @@
 		439F0F77100245080050AED4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 439F0F76100245080050AED4 /* Icon.png */; };
 		43A1879D100C9129001BDB88 /* Shortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A1879C100C9129001BDB88 /* Shortcut.m */; };
 		43A187A8100C92DC001BDB88 /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A187A7100C92DC001BDB88 /* ShortcutView.m */; };
+		43AA69771029D9E800C34F47 /* absurd64.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43AA69761029D9E800C34F47 /* absurd64.bmp */; };
 		43ACB5D30FFF4A47005DB589 /* DirectionInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43ACB5D20FFF4A47005DB589 /* DirectionInputView.m */; };
 		43ACB5D60FFF4A53005DB589 /* DirectionInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43ACB5D50FFF4A53005DB589 /* DirectionInputViewController.m */; };
 		43ACB5D80FFF4A9F005DB589 /* DirectionInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43ACB5D70FFF4A9F005DB589 /* DirectionInputView.xib */; };
@@ -348,6 +349,7 @@
 		43A1879C100C9129001BDB88 /* Shortcut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shortcut.m; sourceTree = "<group>"; };
 		43A187A6100C92DC001BDB88 /* ShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortcutView.h; sourceTree = "<group>"; };
 		43A187A7100C92DC001BDB88 /* ShortcutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShortcutView.m; sourceTree = "<group>"; };
+		43AA69761029D9E800C34F47 /* absurd64.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = absurd64.bmp; sourceTree = "<group>"; };
 		43ACB5D10FFF4A47005DB589 /* DirectionInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionInputView.h; sourceTree = "<group>"; };
 		43ACB5D20FFF4A47005DB589 /* DirectionInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionInputView.m; sourceTree = "<group>"; };
 		43ACB5D40FFF4A53005DB589 /* DirectionInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionInputViewController.h; sourceTree = "<group>"; };
@@ -869,6 +871,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				43AA69761029D9E800C34F47 /* absurd64.bmp */,
 				43AECC24100A07FD008B7BE6 /* nhtiles.bmp */,
 				439F0F76100245080050AED4 /* Icon.png */,
 				43DD0A210FF4E0F700580249 /* dat */,
@@ -1534,6 +1537,7 @@
 				43AECC25100A07FD008B7BE6 /* nhtiles.bmp in Resources */,
 				431FD068100B598200DC7260 /* Settings.bundle in Resources */,
 				43BB3E291010AC26004E1160 /* CreditsView.xib in Resources */,
+				43AA69771029D9E800C34F47 /* absurd64.bmp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

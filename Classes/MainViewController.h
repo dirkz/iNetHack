@@ -73,8 +73,9 @@
 	// imaginary rect for bringing up the main menu
 	CGRect tapRect;
 	
-	BOOL longMoveOccurred;
-
+	CGFloat initialDistance;
+	int numberOfCurrentTouches;
+	int maxNumberOfCurrentTouches;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
@@ -100,8 +101,6 @@
 
 - (void) displayYnQuestion:(NethackYnFunction *)yn;
 - (void) displayYnQuestionOnUIThread:(NethackYnFunction *)yn;
-
-- (char) directionFromNormalizedVector:(CGPoint)d;
 
 - (void) getLine:(char *)line prompt:(const char *)prompt;
 - (void) getLineOnUIThread:(NSString *)s;

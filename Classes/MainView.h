@@ -32,6 +32,8 @@
 	UIFont *statusFont;
 	UIFont *flashMessageFont;
 	CGSize tileSize;
+	CGSize maxTileSize;
+	CGSize minTileSize;
 	CGPoint start;
 	IBOutlet UITextField *dummyTextField;
 
@@ -53,5 +55,6 @@
 - (TilePosition *) tilePositionFromPoint:(CGPoint)p;
 - (void) moveAlongVector:(CGPoint)d;
 - (void) resetOffset;
+- (void) zoom:(CGFloat)d;
 
 @end

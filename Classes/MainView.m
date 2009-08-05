@@ -44,8 +44,9 @@ extern short glyph2tile[];
 - (void) awakeFromNib {
 	statusFont = [UIFont systemFontOfSize:12];
 	flashMessageFont = [UIFont systemFontOfSize:24];
-	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"nhtiles.bmp"] tileSize:CGSizeMake(16,16)];
-	tileSize = CGSizeMake(16,16);
+	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"absurd64.bmp"] tileSize:CGSizeMake(64,64)];
+	tileSize = maxTileSize = CGSizeMake(40,40);
+	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
 	
 	NSArray *shortcuts = [[NSArray alloc] initWithObjects:
@@ -151,7 +152,7 @@ extern short glyph2tile[];
 	}
 	
 	float white[] = {1,1,1,1};
-	if (message && !mainViewController.moving) {
+	if (message) {
 		if (message.strings.count > 0) {
 			CGSize totalSize;
 			NSArray *strings = [NSArray arrayWithArray:message.strings];
@@ -165,7 +166,7 @@ extern short glyph2tile[];
 			}
 		}
 	}
-	if (status && !mainViewController.moving) {
+	if (status) {
 		if (status.strings.count > 0) {
 			CGSize totalSize;
 			NSArray *strings = [NSArray arrayWithArray:status.strings];
@@ -179,15 +180,13 @@ extern short glyph2tile[];
 			}
 		}
 	}
-	
-	if (mainViewController.moving) {
-		NSString *s = @"Tap to center again";
-		CGSize stringSize = [s sizeWithFont:flashMessageFont];
-		CGPoint p = CGPointMake(self.bounds.size.width/2-stringSize.width/2, self.bounds.size.height/2-stringSize.height/2);
-		CGContextSetStrokeColor(ctx, white);
-		CGContextSetFillColor(ctx, white);
-		[s drawAtPoint:p withFont:flashMessageFont];
-	}
+}
+
+- (TilePosition *) tilePositionFromPoint:(CGPoint)p {
+	p.x -= start.x;
+	p.y -= start.y;
+	TilePosition *tp = [TilePosition tilePositionWithX:p.x/tileSize.width y:p.y/tileSize.height];
+	return tp;
 }
 
 - (UIFont *) fontAndSize:(CGSize *)size forStrings:(NSArray *)strings withFont:(UIFont *)font {
@@ -220,24 +219,29 @@ extern short glyph2tile[];
 	}
 }
 
-- (TilePosition *) tilePositionFromPoint:(CGPoint)p {
-	p.x -= start.x;
-	p.y -= start.y;
-	TilePosition *tp = [TilePosition tilePositionWithX:p.x/tileSize.width y:p.y/tileSize.height];
-	return tp;
-}
-
 - (void) moveAlongVector:(CGPoint)d {
-	shortcutView.hidden = YES;
-	shortcutViewBottom.hidden = YES;
 	offset.x += d.x;
 	offset.y += d.y;
 }
 
 - (void) resetOffset {
 	offset = CGPointMake(0,0);
-	shortcutView.hidden = NO;
-	shortcutViewBottom.hidden = NO;
+}
+
+- (void) zoom:(CGFloat)d {
+	d /= 10;
+	CGSize originalSize = tileSize;
+	tileSize.width += d;
+	tileSize.height += d;
+	if (tileSize.width > maxTileSize.width) {
+		tileSize = maxTileSize;
+	} else if (tileSize.width < minTileSize.width) {
+		tileSize = minTileSize;
+	}
+	CGFloat aspect = tileSize.width / originalSize.width;
+	offset.x *= aspect;
+	offset.y *= aspect;
+	[self setNeedsDisplay];
 }
 
 - (void)dealloc {

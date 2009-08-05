@@ -288,91 +288,59 @@ static MainViewController *_instance;
 
 #pragma mark touch handling
 
-- (char) directionFromNormalizedVector:(CGPoint)d {
-	char direction = 0;
-	if (d.x > 0 && d.y > 0) {
-		// bottom right
-		direction = 'n';
-	} else if (d.x < 0 && d.y > 0) {
-		// bottom left
-		direction = 'b';
-	} else if (d.x > 0 && d.y == 0) {
-		// right
-		direction = 'l';
-	} else if (d.x < 0 && d.y == 0) {
-		// left
-		direction = 'h';
-	} else if (d.x == 0 && d.y > 0) {
-		// down
-		direction = 'j';
-	} else if (d.x == 0 && d.y < 0) {
-		// up
-		direction = 'k';
-	} else if (d.x < 0 && d.y < 0) {
-		// top left
-		direction = 'y';
-	} else if (d.x > 0 && d.y < 0) {
-		// top right
-		direction = 'u';
-	}
-	return direction;
-}
-
-- (void) longTouchMovement:(id)obj {
-	if (lastSingleTouch && !touchesMoved) {
-		UITouch *touch = lastSingleTouch;
-		CGPoint p = [touch locationInView:self.view];
-		CGPoint translated = CGPointMake(p.x-self.view.bounds.size.width/2,
-										 p.y-self.view.bounds.size.height/2);
-		if (CGRectContainsPoint(tapRect, translated)) {
-			//[self showMainMenu:nil];
-		} else {
-			CGFloat len = sqrt(translated.x*translated.x + translated.y*translated.y);
-			CGPoint normalized = CGPointMake(translated.x/len, translated.y/len);
-			if (fabs(normalized.x) < 0.25f) {
-				normalized.x = 0;
-			}
-			if (fabs(normalized.y) < 0.25f) {
-				normalized.y = 0;
-			}
-			char direction = [self directionFromNormalizedVector:normalized];
-			//direction = toupper(direction);
-			[nethackEventQueue addKeyEvent:'g'];
-			[nethackEventQueue addKeyEvent:direction];
-		}
-	}
-	longMoveOccurred = YES;
-	lastSingleTouch = nil;
-	touchesMoved = NO;
-}
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	numberOfCurrentTouches += touches.count;
 	touchesMoved = NO;
-	longMoveOccurred = NO;
 	if (touches.count == 1) {
 		UITouch *touch = [touches anyObject];
 		lastSingleTouch = touch;
 		CGPoint p = [touch locationInView:self.view];
 		currentTouchLocation = p;
 		[self.view setNeedsDisplay];
-		if (!moving) {
-			[self performSelector:@selector(longTouchMovement:) withObject:nil afterDelay:0.6f];
-		}
+	} else if (touches.count == 2) {
+		NSArray *allTouches = [touches allObjects];
+		UITouch *t1 = [allTouches objectAtIndex:0];
+		UITouch *t2 = [allTouches objectAtIndex:1];
+		CGPoint p1 = [t1 locationInView:self.view];
+		CGPoint p2 = [t2 locationInView:self.view];
+		CGPoint d = CGPointMake(p2.x-p1.x, p2.y-p1.y);
+		initialDistance = sqrt(d.x*d.x + d.y*d.y);
 	}
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (touches.count == 1 && !longMoveOccurred) {
-		UITouch *touch = [touches anyObject];
-		CGPoint p = [touch locationInView:self.view];
-		CGPoint delta = CGPointMake(p.x-currentTouchLocation.x, p.y-currentTouchLocation.y);
-		if (moving || (abs(delta.x)+abs(delta.y) > 10)) {
-			moving = YES;
+	if (touches.count == numberOfCurrentTouches) {
+		if (touches.count == 1) {
+			UITouch *touch = [touches anyObject];
+			CGPoint p = [touch locationInView:self.view];
+			CGPoint delta = CGPointMake(p.x-currentTouchLocation.x, p.y-currentTouchLocation.y);
+			if (moving || (abs(delta.x)+abs(delta.y) > 10)) {
+				moving = YES;
+				touchesMoved = YES;
+				[(MainView *) self.view moveAlongVector:delta];
+				currentTouchLocation = p;
+				[self.view setNeedsDisplay];
+			}
+		} else if (touches.count == 2) {
 			touchesMoved = YES;
-			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(longTouchMovement:) object:nil];
-			[(MainView *) self.view moveAlongVector:delta];
-			currentTouchLocation = p;
-			[self.view setNeedsDisplay];
+			NSArray *allTouches = [touches allObjects];
+			UITouch *t1 = [allTouches objectAtIndex:0];
+			UITouch *t2 = [allTouches objectAtIndex:1];
+			CGPoint p1 = [t1 locationInView:self.view];
+			CGPoint p2 = [t2 locationInView:self.view];
+			CGPoint d = CGPointMake(p2.x-p1.x, p2.y-p1.y);
+			CGFloat currentDistance = sqrt(d.x*d.x + d.y*d.y);
+			if (initialDistance == 0) {
+				initialDistance = currentDistance;
+			} else if (currentDistance-initialDistance > kMinimumPinchDelta) {
+				// zoom (in)
+				CGFloat zoom = currentDistance-initialDistance;
+				[(MainView *) self.view zoom:zoom];
+			} else if (initialDistance-currentDistance > kMinimumPinchDelta) {
+				// zoom (out)
+				CGFloat zoom = currentDistance-initialDistance;
+				[(MainView *) self.view zoom:zoom];
+			}
 		}
 	}
 }
@@ -381,36 +349,29 @@ static MainViewController *_instance;
 	touchesMoved = NO;
 	if (touches.count == 1) {
 		lastSingleTouch = nil;
-		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(longTouchMovement:) object:nil];
 	}
+	numberOfCurrentTouches -= touches.count;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(longTouchMovement:) object:nil];
-	if (touches.count == 1 && lastSingleTouch && !touchesMoved) {
-		//NSLog(@"touchesEnded %d", touches.count);
+	if (touches.count == 1 && lastSingleTouch && !touchesMoved && numberOfCurrentTouches == 1) {
+		UITouch *touch = [touches anyObject];
+		CGPoint p = [touch locationInView:self.view];
+		TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
+		NethackEvent *e = [[NethackEvent alloc] init];
+		e.x = tp.x;
+		e.y = tp.y;
+		e.key = 0;
+		[nethackEventQueue addNethackEvent:e];
+		[e release];
 		if (moving) {
 			moving = NO;
 			[(MainView *) self.view resetOffset];
 			[self.view setNeedsDisplay];
-		} else {
-			UITouch *touch = [touches anyObject];
-			CGPoint p = [touch locationInView:self.view];
-			CGPoint translated = CGPointMake(p.x-self.view.bounds.size.width/2,
-											 p.y-self.view.bounds.size.height/2);
-			CGFloat len = sqrt(translated.x*translated.x + translated.y*translated.y);
-			CGPoint normalized = CGPointMake(translated.x/len, translated.y/len);
-			if (fabs(normalized.x) < 0.3f) {
-				normalized.x = 0;
-			}
-			if (fabs(normalized.y) < 0.3f) {
-				normalized.y = 0;
-			}
-			char direction = [self directionFromNormalizedVector:normalized];
-			[nethackEventQueue addKeyEvent:direction];
 		}
 	}
-	touchesMoved = NO;
+	initialDistance = 0;
+	numberOfCurrentTouches -= touches.count;
 }
 
 #pragma mark windowing

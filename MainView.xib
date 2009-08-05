@@ -9,14 +9,14 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="21"/>
-			<integer value="24"/>
-			<integer value="17"/>
 			<integer value="1"/>
+			<integer value="17"/>
 			<integer value="4"/>
+			<integer value="24"/>
 			<integer value="28"/>
-			<integer value="19"/>
 			<integer value="10"/>
 			<integer value="15"/>
+			<integer value="19"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -74,6 +74,7 @@
 					<bytes key="NSRGB">MCAwIDAAA</bytes>
 				</object>
 				<int key="IBUIContentMode">3</int>
+				<bool key="IBUIMultipleTouchEnabled">YES</bool>
 			</object>
 			<object class="IBUIViewController" id="74007205">
 				<string key="IBUINibName">MenuView</string>
@@ -539,7 +540,7 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.LastKnownRelativeProjectPath">iNethack.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">iNetHack.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<string key="IBCocoaTouchPluginVersion">3.0</string>
 	</data>
