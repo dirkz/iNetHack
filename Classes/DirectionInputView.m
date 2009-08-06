@@ -59,7 +59,7 @@
 	shortcuts[1] = [[Shortcut alloc] initWithTitle:@"k" key:'k'];
 	shortcuts[2] = [[Shortcut alloc] initWithTitle:@"u" key:'u'];
 	shortcuts[3] = [[Shortcut alloc] initWithTitle:@"h" key:'h'];
-	shortcuts[4] = [[Shortcut alloc] initWithTitle:@"." key:'>'];
+	shortcuts[4] = [[Shortcut alloc] initWithTitle:@"." key:'.'];
 	shortcuts[5] = [[Shortcut alloc] initWithTitle:@"l" key:'l'];
 	shortcuts[6] = [[Shortcut alloc] initWithTitle:@"b" key:'b'];
 	shortcuts[7] = [[Shortcut alloc] initWithTitle:@"j" key:'j'];
