@@ -39,12 +39,14 @@
 #import "CreditsViewController.h"
 #import "TouchInfo.h"
 #import "TouchInfoStore.h"
+#import "NetHackMenuInfo.h"
 
 static MainViewController *_instance;
 
 @implementation MainViewController
 
-@synthesize windows, clipx, clipy, prompt, nethackEventQueue;
+@synthesize windows, clipx, clipy, nethackEventQueue;
+@synthesize nethackMenuInfo;
 
 + (id) instance {
 	return _instance;

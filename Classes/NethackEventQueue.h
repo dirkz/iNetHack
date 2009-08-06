@@ -28,11 +28,13 @@
 	
 	NSCondition *mutex;
 	NSMutableArray *events;
+	NethackEvent *lastEvent;
 
 }
 
 - (void) addNethackEvent:(NethackEvent *)e;
 - (void) addKeyEvent:(int)k;
 - (NethackEvent *) waitForNextEvent;
+- (BOOL) repeatLastEvent;
 
 @end

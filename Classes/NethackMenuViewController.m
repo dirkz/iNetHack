@@ -24,6 +24,7 @@
 #import "Window.h"
 #import "NethackMenuItem.h"
 #import "MainViewController.h"
+#import "NetHackMenuInfo.h"
 
 @implementation NethackMenuViewController
 
@@ -74,8 +75,8 @@
 	menuWindow.menuResult = kMenuCancelled;
 	if (w.menuPrompt && w.menuPrompt.length > 0) {
 		self.title = w.menuPrompt;
-	} else if ([[MainViewController instance] prompt]) {
-		self.title = [[MainViewController instance] prompt];
+	} else if ([[MainViewController instance] nethackMenuInfo]) {
+		self.title = [[[MainViewController instance] nethackMenuInfo] prompt];
 	} else {
 		self.title = @"Menu";
 	}
@@ -109,7 +110,7 @@
 		}
 	}
 	[[MainViewController instance] broadcastUIEvent];
-	[[MainViewController instance] setPrompt:nil];
+	[[MainViewController instance] setNethackMenuInfo:nil];
 }
 
 #pragma mark UITableView delegate

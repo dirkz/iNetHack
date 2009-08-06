@@ -28,6 +28,8 @@
 #import "NethackYnFunction.h"
 #import "NethackEvent.h"
 #import "NethackEventQueue.h"
+#import "NSString+Regexp.h"
+#import "NetHackMenuInfo.h"
 
 #include <stdio.h>
 #include "dlb.h"
@@ -304,14 +306,19 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 	NSLog(@"iphone_yn_function %s", question);
 	if (!choices) {
 		NSString *s = [NSString stringWithCString:question];
-		if ([s isEqualToString:@"In what direction?"] || [s isEqualToString:@"Talk to whom? (in what direction)"] ||
-			[s isEqualToString:@"Loot in what direction?"]) {
+		if ([s containsString:@"direction"]) {
 			return [[MainViewController instance] getDirectionInput];
 		} else {
-			NSRange r = [s rangeOfString:@"*"];
-			if (r.location != NSNotFound) {
-				[[MainViewController instance] setPrompt:[NSString stringWithCString:question]];
-				return '*';
+			if ([s containsString:@"or ?*]"]) {
+				NetHackMenuInfo *menuInfo = [[NetHackMenuInfo alloc] init];
+				menuInfo.prompt = [NSString stringWithCString:question];
+				menuInfo.more = YES;
+				if ([s containsString:@"[-"]) {
+					menuInfo.bareHanded = YES;
+				}
+				[[MainViewController instance] setNethackMenuInfo:menuInfo];
+				[menuInfo release];
+				return '?';
 			} else {
 				// try to quit
 				NSRange r = [s rangeOfString:@"q"];

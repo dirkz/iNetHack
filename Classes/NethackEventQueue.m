@@ -52,11 +52,23 @@
 	while (events.count < 1) {
 		[mutex wait];
 	}
+	[lastEvent release];
 	NethackEvent *e = [events objectAtIndex:0];
-	[[e retain] autorelease];
+	lastEvent = [e retain];
 	[events removeObjectAtIndex:0];
 	[mutex unlock];
 	return e;
+}
+
+- (BOOL) repeatLastEvent {
+	if (lastEvent) {
+		[mutex lock];
+		[events insertObject:lastEvent atIndex:0];
+		[mutex signal];
+		[mutex unlock];
+		return YES;
+	}
+	return NO;
 }
 
 - (void) dealloc {

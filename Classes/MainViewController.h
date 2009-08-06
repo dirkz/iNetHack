@@ -40,6 +40,7 @@
 @class TextDisplayViewController, CreditsViewController;
 @class TouchInfo, TouchInfoStore;
 @class TilePosition;
+@class NetHackMenuInfo;
 
 @interface MainViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate> {
 	
@@ -60,8 +61,6 @@
 	
 	NethackYnFunction *currentYnFunction;
 	
-	NSString *prompt;
-	
 	NSCondition *textInputCondition;
 	NSCondition *uiCondition;
 	NSCondition *textDisplayCondition;
@@ -74,6 +73,8 @@
 	TouchInfoStore *touchInfoStore;
 	
 	TilePosition *lastSingleTapDelta;
+	
+	NetHackMenuInfo *nethackMenuInfo;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
@@ -82,8 +83,8 @@
 @property (nonatomic, readonly) Window *mapWindow;
 @property (nonatomic, readonly) Window *messageWindow;
 @property (nonatomic, readonly) Window *statusWindow;
-@property (nonatomic, retain) NSString *prompt;
 @property (nonatomic, retain) NethackEventQueue *nethackEventQueue;
+@property (nonatomic, retain) NetHackMenuInfo *nethackMenuInfo;
 
 + (id) instance;
 - (void) mainNethackLoop:(id)arg;
