@@ -38,6 +38,7 @@
 @class Window, MenuViewController, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
 @class DirectionInputViewController, ExtendedCommandViewController, RoleSelectionViewController;
 @class TextDisplayViewController, CreditsViewController;
+@class TouchInfo;
 
 @interface MainViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate> {
 	
@@ -56,9 +57,6 @@
 	
 	NethackEventQueue *nethackEventQueue;
 	
-	UITouch *lastSingleTouch;
-	BOOL touchesMoved;
-	BOOL moving;
 	NethackYnFunction *currentYnFunction;
 	
 	NSString *prompt;
@@ -74,8 +72,8 @@
 	CGRect tapRect;
 	
 	CGFloat initialDistance;
-	int numberOfCurrentTouches;
-	int maxNumberOfCurrentTouches;
+	
+	NSMutableDictionary *currentTouchInfos;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
@@ -86,7 +84,6 @@
 @property (nonatomic, readonly) Window *statusWindow;
 @property (nonatomic, retain) NSString *prompt;
 @property (nonatomic, retain) NethackEventQueue *nethackEventQueue;
-@property (nonatomic, readonly) BOOL moving;
 
 + (id) instance;
 - (void) mainNethackLoop:(id)arg;
@@ -123,5 +120,9 @@
 
 - (void) initOptions;
 - (void) overrideOptions;
+
+- (void) storeTouches:(NSSet *)touches;
+- (TouchInfo *) touchInfoForTouch:(UITouch *)t;
+- (void) removeTouches:(NSSet *)touches;
 
 @end

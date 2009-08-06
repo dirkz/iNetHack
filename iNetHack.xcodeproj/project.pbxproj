@@ -31,6 +31,7 @@
 		43AECC03100A03EE008B7BE6 /* TiledImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC02100A03EE008B7BE6 /* TiledImages.m */; };
 		43AECC25100A07FD008B7BE6 /* nhtiles.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43AECC24100A07FD008B7BE6 /* nhtiles.bmp */; };
 		43AECC7D100A0DB0008B7BE6 /* tile.c in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC7C100A0DB0008B7BE6 /* tile.c */; };
+		43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0812A102ABE0B00D08BED /* TouchInfo.m */; };
 		43BB3E271010AC15004E1160 /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43BB3E261010AC15004E1160 /* CreditsViewController.m */; };
 		43BB3E291010AC26004E1160 /* CreditsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BB3E281010AC26004E1160 /* CreditsView.xib */; };
 		43C0DD6C0FE79DFE00B63ED3 /* allmain.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD020FE79DFE00B63ED3 /* allmain.c */; };
@@ -362,6 +363,8 @@
 		43AECC02100A03EE008B7BE6 /* TiledImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiledImages.m; sourceTree = "<group>"; };
 		43AECC24100A07FD008B7BE6 /* nhtiles.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = nhtiles.bmp; sourceTree = "<group>"; };
 		43AECC7C100A0DB0008B7BE6 /* tile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tile.c; path = nethack/src/tile.c; sourceTree = "<group>"; };
+		43B08129102ABE0B00D08BED /* TouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchInfo.h; sourceTree = "<group>"; };
+		43B0812A102ABE0B00D08BED /* TouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchInfo.m; sourceTree = "<group>"; };
 		43BB3E251010AC15004E1160 /* CreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditsViewController.h; sourceTree = "<group>"; };
 		43BB3E261010AC15004E1160 /* CreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditsViewController.m; sourceTree = "<group>"; };
 		43BB3E281010AC26004E1160 /* CreditsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreditsView.xib; sourceTree = "<group>"; };
@@ -834,6 +837,8 @@
 				43A1879C100C9129001BDB88 /* Shortcut.m */,
 				43BB3E251010AC15004E1160 /* CreditsViewController.h */,
 				43BB3E261010AC15004E1160 /* CreditsViewController.m */,
+				43B08129102ABE0B00D08BED /* TouchInfo.h */,
+				43B0812A102ABE0B00D08BED /* TouchInfo.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1683,6 +1688,7 @@
 				43A1879D100C9129001BDB88 /* Shortcut.m in Sources */,
 				43A187A8100C92DC001BDB88 /* ShortcutView.m in Sources */,
 				43BB3E271010AC15004E1160 /* CreditsViewController.m in Sources */,
+				43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

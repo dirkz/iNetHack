@@ -37,12 +37,13 @@
 #import "TextDisplayViewController.h"
 #import "TilePosition.h"
 #import "CreditsViewController.h"
+#import "TouchInfo.h"
 
 static MainViewController *_instance;
 
 @implementation MainViewController
 
-@synthesize windows, clipx, clipy, prompt, nethackEventQueue, moving;
+@synthesize windows, clipx, clipy, prompt, nethackEventQueue;
 
 + (id) instance {
 	return _instance;
@@ -67,6 +68,7 @@ static MainViewController *_instance;
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	currentTouchInfos = [[NSMutableDictionary alloc] init];
 	self.title = @"Dungeon";
 	windows = [[NSMutableArray alloc] init];
 	nethackEventQueue = [[NethackEventQueue alloc] init];
@@ -281,19 +283,38 @@ static MainViewController *_instance;
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Credits" target:self
 											selector:@selector(showCredits:) arg:nil accessory:YES]];
 	menuViewController.menuItems = menuItems;
-	lastSingleTouch = nil;
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
 	[self.navigationController pushViewController:menuViewController animated:YES];
 }
 
 #pragma mark touch handling
 
+- (void) storeTouches:(NSSet *)touches {
+	for (UITouch *t in touches) {
+		TouchInfo *ti = [[TouchInfo alloc] initWithTouch:t];
+		NSValue *k = [NSValue valueWithPointer:t];
+		[currentTouchInfos setObject:ti forKey:k];
+		[ti release];
+	}
+}
+
+- (TouchInfo *) touchInfoForTouch:(UITouch *)t {
+	NSValue *k = [NSValue valueWithPointer:t];
+	TouchInfo *ti = [currentTouchInfos objectForKey:k];
+	return ti;
+}
+
+- (void) removeTouches:(NSSet *)touches {
+	for (UITouch *t in touches) {
+		NSValue *k = [NSValue valueWithPointer:t];
+		[currentTouchInfos removeObjectForKey:k];
+	}
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	numberOfCurrentTouches += touches.count;
-	touchesMoved = NO;
+	[self storeTouches:touches];
 	if (touches.count == 1) {
 		UITouch *touch = [touches anyObject];
-		lastSingleTouch = touch;
 		CGPoint p = [touch locationInView:self.view];
 		currentTouchLocation = p;
 		[self.view setNeedsDisplay];
@@ -309,20 +330,25 @@ static MainViewController *_instance;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (touches.count == numberOfCurrentTouches) {
+	if (currentTouchInfos.count == touches.count) {
 		if (touches.count == 1) {
 			UITouch *touch = [touches anyObject];
-			CGPoint p = [touch locationInView:self.view];
-			CGPoint delta = CGPointMake(p.x-currentTouchLocation.x, p.y-currentTouchLocation.y);
-			if (moving || (abs(delta.x)+abs(delta.y) > 10)) {
-				moving = YES;
-				touchesMoved = YES;
-				[(MainView *) self.view moveAlongVector:delta];
-				currentTouchLocation = p;
-				[self.view setNeedsDisplay];
+			TouchInfo *ti = [self touchInfoForTouch:[touches anyObject]];
+			if (!ti.pinched) {
+				CGPoint p = [touch locationInView:self.view];
+				CGPoint delta = CGPointMake(p.x-currentTouchLocation.x, p.y-currentTouchLocation.y);
+				if (!ti.moved || (abs(delta.x)+abs(delta.y) > 10)) {
+					ti.moved = YES;
+					[(MainView *) self.view moveAlongVector:delta];
+					currentTouchLocation = p;
+					[self.view setNeedsDisplay];
+				}
 			}
 		} else if (touches.count == 2) {
-			touchesMoved = YES;
+			for (UITouch *t in touches) {
+				TouchInfo *ti = [self touchInfoForTouch:t];
+				ti.pinched = YES;
+			}
 			NSArray *allTouches = [touches allObjects];
 			UITouch *t1 = [allTouches objectAtIndex:0];
 			UITouch *t2 = [allTouches objectAtIndex:1];
@@ -346,32 +372,28 @@ static MainViewController *_instance;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-	touchesMoved = NO;
-	if (touches.count == 1) {
-		lastSingleTouch = nil;
-	}
-	numberOfCurrentTouches -= touches.count;
+	[self removeTouches:touches];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (touches.count == 1 && lastSingleTouch && !touchesMoved && numberOfCurrentTouches == 1) {
-		UITouch *touch = [touches anyObject];
-		CGPoint p = [touch locationInView:self.view];
-		TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
-		NethackEvent *e = [[NethackEvent alloc] init];
-		e.x = tp.x;
-		e.y = tp.y;
-		e.key = 0;
-		[nethackEventQueue addNethackEvent:e];
-		[e release];
-		if (moving) {
-			moving = NO;
+	if (touches.count == 1) {
+		TouchInfo *ti = [self touchInfoForTouch:[touches anyObject]];
+		if (!ti.pinched && !ti.moved) {
+			UITouch *touch = [touches anyObject];
+			CGPoint p = [touch locationInView:self.view];
+			TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
+			NethackEvent *e = [[NethackEvent alloc] init];
+			e.x = tp.x;
+			e.y = tp.y;
+			e.key = 0;
+			[nethackEventQueue addNethackEvent:e];
+			[e release];
 			[(MainView *) self.view resetOffset];
 			[self.view setNeedsDisplay];
 		}
 	}
 	initialDistance = 0;
-	numberOfCurrentTouches -= touches.count;
+	[self removeTouches:touches];
 }
 
 #pragma mark windowing
@@ -384,7 +406,6 @@ static MainViewController *_instance;
 }
 
 - (void) displayMenuWindowOnUIThread:(Window *)w {
-	lastSingleTouch = nil;
 	nethackMenuViewController.menuWindow = w;
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
 	[self.navigationController pushViewController:nethackMenuViewController animated:YES];
@@ -561,6 +582,7 @@ static MainViewController *_instance;
 #pragma mark dealloc
 
 - (void)dealloc {
+	[currentTouchInfos release];
 	[uiCondition release];
 	[textInputCondition release];
 	[textDisplayCondition release];
