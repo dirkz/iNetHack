@@ -65,9 +65,6 @@
 	NSCondition *uiCondition;
 	NSCondition *textDisplayCondition;
 	
-	// moving the map
-	CGPoint currentTouchLocation;
-	
 	// imaginary rect for bringing up the main menu
 	CGRect tapRect;
 	

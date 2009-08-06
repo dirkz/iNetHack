@@ -294,8 +294,10 @@ static MainViewController *_instance;
 	[touchInfoStore storeTouches:touches];
 	if (touches.count == 1) {
 		UITouch *touch = [touches anyObject];
-		CGPoint p = [touch locationInView:self.view];
-		currentTouchLocation = p;
+		if (touch.tapCount == 2) {
+			TouchInfo *ti = [touchInfoStore touchInfoForTouch:touch];
+			ti.doubleTap = YES;
+		}
 		[self.view setNeedsDisplay];
 	} else if (touches.count == 2) {
 		NSArray *allTouches = [touches allObjects];
@@ -315,7 +317,7 @@ static MainViewController *_instance;
 			TouchInfo *ti = [touchInfoStore touchInfoForTouch:[touches anyObject]];
 			if (!ti.pinched) {
 				CGPoint p = [touch locationInView:self.view];
-				CGPoint delta = CGPointMake(p.x-currentTouchLocation.x, p.y-currentTouchLocation.y);
+				CGPoint delta = CGPointMake(p.x-ti.currentLocation.x, p.y-ti.currentLocation.y);
 				BOOL move = NO;
 				if (!ti.moved && (abs(delta.x)+abs(delta.y) > 10)) {
 					ti.moved = YES;
@@ -325,7 +327,7 @@ static MainViewController *_instance;
 				}
 				if (move) {
 					[(MainView *) self.view moveAlongVector:delta];
-					currentTouchLocation = p;
+					ti.currentLocation = p;
 					[self.view setNeedsDisplay];
 				}
 			}
@@ -363,7 +365,7 @@ static MainViewController *_instance;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	if (touches.count == 1) {
 		TouchInfo *ti = [touchInfoStore touchInfoForTouch:[touches anyObject]];
-		if (!ti.pinched && !ti.moved) {
+		if (!ti.pinched && !ti.moved && !ti.doubleTap) {
 			UITouch *touch = [touches anyObject];
 			CGPoint p = [touch locationInView:self.view];
 			TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
