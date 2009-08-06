@@ -42,7 +42,6 @@
 	
 	CGPoint offset;
 	ShortcutView *shortcutView;
-	ShortcutView *shortcutViewBottom;
 
 }
 

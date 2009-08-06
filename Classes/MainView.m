@@ -53,53 +53,45 @@ extern short glyph2tile[];
 						  [[Shortcut alloc] initWithTitle:@"." key:'.'],
 						  [[Shortcut alloc] initWithTitle:@"20s" keys:@"20s"],
 						  [[Shortcut alloc] initWithTitle:@"," key:','],
-						  [[Shortcut alloc] initWithTitle:@"o" key:'o'],
-						  [[Shortcut alloc] initWithTitle:@"^d" key:C('d')],
-						  [[Shortcut alloc] initWithTitle:@"^a" key:C('a')],
+						  [[Shortcut alloc] initWithTitle:@"#" key:'#'],
+						  [[Shortcut alloc] initWithTitle:@":" key:':'],
+						  [[Shortcut alloc] initWithTitle:@"99." keys:@"99."],
+						  [[Shortcut alloc] initWithTitle:@"abc" keys:nil
+												 selector:@selector(showKeyboard:) target:self arg:nil],
+						  [[Shortcut alloc] initWithTitle:@"menu" keys:nil
+												 selector:@selector(showMainMenu:) target:self arg:nil],
+						  [[Shortcut alloc] initWithTitle:@"t" key:'t'],
+						  [[Shortcut alloc] initWithTitle:@"z" key:'z'],
+						  [[Shortcut alloc] initWithTitle:@"Z" key:'Z'],
+						  [[Shortcut alloc] initWithTitle:@"a" key:'a'],
+						  [[Shortcut alloc] initWithTitle:@"q" key:'q'],
+						  [[Shortcut alloc] initWithTitle:@"Q" key:'Q'],
+						  [[Shortcut alloc] initWithTitle:@"d" key:'d'],
+						  [[Shortcut alloc] initWithTitle:@"D" key:'D'],
+						  [[Shortcut alloc] initWithTitle:@"w" key:'w'],
+						  [[Shortcut alloc] initWithTitle:@"W" key:'W'],
+						  [[Shortcut alloc] initWithTitle:@"P" key:'P'],
+						  [[Shortcut alloc] initWithTitle:@"T" key:'T'],
+						  [[Shortcut alloc] initWithTitle:@"A" key:'A'],
 						  nil];
 	shortcutView = [[ShortcutView alloc] initWithShortcuts:shortcuts];
 	[shortcutView releaseShortcuts];
 	
-	shortcuts = [[NSArray alloc] initWithObjects:
-				 [[Shortcut alloc] initWithTitle:@"t" key:'t'],
-				 [[Shortcut alloc] initWithTitle:@"f" key:'f'],
-				 [[Shortcut alloc] initWithTitle:@"z" key:'z'],
-				 [[Shortcut alloc] initWithTitle:@"#" key:'#'],
-				 [[Shortcut alloc] initWithTitle:@"abc" keys:nil
-										selector:@selector(showKeyboard:) target:self arg:nil],
-				 [[Shortcut alloc] initWithTitle:@"menu" keys:nil
-										selector:@selector(showMainMenu:) target:self arg:nil],
-				 nil];
-	shortcutViewBottom = [[ShortcutView alloc] initWithShortcuts:shortcuts];
-	[shortcutViewBottom releaseShortcuts];
-	
 	[self addSubview:shortcutView];
-	[self addSubview:shortcutViewBottom];
 }
 
 - (void)layoutSubviews {
-	CGSize s = CGSizeMake(0,0);
+	CGSize s = self.bounds.size;
 	CGRect frame;
 	
 	s = [shortcutView sizeThatFits:s];
 	frame.origin.x = (self.bounds.size.width-s.width)/2;
-	frame.origin.y = 0;
-	frame.size.width = s.width;
-	frame.size.height = s.height;
-	shortcutView.frame = frame;
-
-	s = [shortcutViewBottom sizeThatFits:s];
-	frame.origin.x = (self.bounds.size.width-s.width)/2;
 	frame.origin.y = self.bounds.size.height-s.height;
 	frame.size.width = s.width;
 	frame.size.height = s.height;
-	shortcutViewBottom.frame = frame;
+	shortcutView.frame = frame;
 	
-	for (UIView *v in self.subviews) {
-		if (v != shortcutView && v != shortcutViewBottom) {
-			v.frame = self.frame;
-		}
-	}
+	[shortcutView setNeedsDisplay];
 }
 
 #pragma mark ad-hoc methods for shortcuts
@@ -152,28 +144,27 @@ extern short glyph2tile[];
 	}
 	
 	float white[] = {1,1,1,1};
-	if (message) {
-		if (message.strings.count > 0) {
-			CGSize totalSize;
-			NSArray *strings = [NSArray arrayWithArray:message.strings];
-			UIFont *font = [self fontAndSize:&totalSize forStrings:strings withFont:statusFont];
+	CGSize statusSize;
+	if (status) {
+		if (status.strings.count > 0) {
+			NSArray *strings = [NSArray arrayWithArray:status.strings];
+			UIFont *font = [self fontAndSize:&statusSize forStrings:strings withFont:statusFont];
 			CGContextSetStrokeColor(ctx, white);
 			CGContextSetFillColor(ctx, white);
-			CGPoint p = CGPointMake(0, shortcutView.frame.size.height);
+			CGPoint p = CGPointMake(0,0);
 			for (NSString *s in strings) {
 				CGSize tmp = [s drawAtPoint:p withFont:font];
 				p.y += tmp.height;
 			}
 		}
 	}
-	if (status) {
-		if (status.strings.count > 0) {
-			CGSize totalSize;
-			NSArray *strings = [NSArray arrayWithArray:status.strings];
-			UIFont *font = [self fontAndSize:&totalSize forStrings:strings withFont:statusFont];
+	if (message) {
+		if (message.strings.count > 0) {
+			NSArray *strings = [NSArray arrayWithArray:message.strings];
+			UIFont *font = [self fontAndSize:NULL forStrings:strings withFont:statusFont];
 			CGContextSetStrokeColor(ctx, white);
 			CGContextSetFillColor(ctx, white);
-			CGPoint p = CGPointMake(0, self.bounds.size.height-totalSize.height-shortcutViewBottom.frame.size.height);
+			CGPoint p = CGPointMake(0, statusSize.height);
 			for (NSString *s in strings) {
 				CGSize tmp = [s drawAtPoint:p withFont:font];
 				p.y += tmp.height;
@@ -190,6 +181,10 @@ extern short glyph2tile[];
 }
 
 - (UIFont *) fontAndSize:(CGSize *)size forStrings:(NSArray *)strings withFont:(UIFont *)font {
+	CGSize dummySize;
+	if (!size) {
+		size = &dummySize;
+	}
 	*size = CGSizeMake(0,0);
 	CGFloat maxWidth = self.bounds.size.width;
 	for (NSString *s in strings) {

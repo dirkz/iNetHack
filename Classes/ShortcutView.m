@@ -23,6 +23,8 @@
 #import "ShortcutView.h"
 #import "Shortcut.h"
 #import "MainViewController.h"
+#import "TouchInfo.h"
+#import "TouchInfoStore.h"
 
 @implementation ShortcutView
 
@@ -30,9 +32,9 @@
     if (self = [super initWithFrame:frame]) {
 		self.clearsContextBeforeDrawing = YES;
 		recentlyTouchedItem = -1;
-		font = [UIFont systemFontOfSize:12];
+		font = [UIFont boldSystemFontOfSize:12];
 		tileSize = CGSizeMake(40,40);
-		self.alpha = 0.7f;
+		touchInfoStore = [[TouchInfoStore alloc] init];
     }
     return self;
 }
@@ -51,7 +53,12 @@
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-	CGSize s = CGSizeMake(tileSize.width * shortcuts.count, tileSize.height);
+	maxShortcutsOnScreen = size.width / tileSize.width;
+	int n = maxShortcutsOnScreen;
+	if (shortcuts.count - currentIndex < maxShortcutsOnScreen) {
+		n = shortcuts.count - currentIndex;
+	}
+	CGSize s = CGSizeMake(tileSize.width * n, tileSize.height);
 	return s;
 }
 
@@ -63,9 +70,10 @@
 	CGContextSetStrokeColor(ctx, white);
 	CGContextSetFillColor(ctx, white);
 	CGPoint current = CGPointMake(0,0);
-	int i = 0;
-	for (Shortcut *sh in shortcuts) {
-		float pad = 4.0f;
+	int max = shortcuts.count - currentIndex;
+	max = max > maxShortcutsOnScreen ? maxShortcutsOnScreen:max;
+	for (int i = 0; i < max; ++i) {
+		float pad = 2.0f;
 		float halfPad = pad/2;
 		CGRect r = CGRectMake(current.x+halfPad, current.y+halfPad, tileSize.width-pad, tileSize.height-pad);
 		if (i == recentlyTouchedItem) {
@@ -75,24 +83,25 @@
 		}
 		CGContextFillRect(ctx, r);
 		CGContextSetFillColor(ctx, white);
+		Shortcut *sh = [shortcuts objectAtIndex:i+currentIndex];
 		CGSize stringSize = [sh.title sizeWithFont:font];
 		CGPoint p = current;
 		p.x += (tileSize.width-stringSize.width) / 2;
 		p.y += (tileSize.height-stringSize.height) / 2;
 		[sh.title drawAtPoint:p withFont:font];
 		current.x += tileSize.width;
-		i++;
 	}
 }
 
 #pragma mark touch handling
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	touchesMoved = NO;
+	[touchInfoStore storeTouches:touches];
 	UITouch *touch = [touches anyObject];
 	CGPoint p = [touch locationInView:self];
 	int i = floor(p.x/tileSize.width);
-	if (i >= 0 && i < shortcuts.count) {
+	i += currentIndex;
+	if (i >= currentIndex && i < maxShortcutsOnScreen) {
 		recentlyTouchedItem = i;
 		[self setNeedsDisplay];
 	}
@@ -101,27 +110,74 @@
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
 	recentlyTouchedItem = -1;
 	[self setNeedsDisplay];
+	[touchInfoStore removeTouches:touches];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	touchesMoved = YES;
+	if (touches.count == 1) {
+		UITouch *touch = [touches anyObject];
+		TouchInfo *ti = [touchInfoStore touchInfoForTouch:touch];
+		if (!ti.pinched) {
+			CGPoint p = [touch locationInView:self];
+			CGPoint delta = CGPointMake(p.x-ti.initialLocation.x, p.y-ti.initialLocation.y);
+			BOOL move = NO;
+			if (!ti.moved && (abs(delta.x)+abs(delta.y) > 10)) {
+				ti.moved = YES;
+				move = YES;
+			} else if (ti.moved) {
+				move = NO;
+			}
+			if (move) {
+				recentlyTouchedItem = -1;
+				int amount = 0;
+				if (delta.x > 0) {
+					amount = -maxShortcutsOnScreen;
+				} else {
+					amount = maxShortcutsOnScreen;
+				}
+				currentIndex += amount;
+				// no kidding this local variable is needed
+				// otherwise -4 >= 12 ...
+				int sc = shortcuts.count;
+				if (currentIndex >= sc) {
+					//NSLog(@"%d >= %d", currentIndex, sc);
+					currentIndex -= amount;
+				}
+				if (currentIndex < 0) {
+					currentIndex = 0;
+				}
+				CGRect frame = self.frame;
+				CGRect superBounds = self.superview.bounds;
+				frame.size.width = superBounds.size.width;
+				frame.size = [self sizeThatFits:frame.size];
+				[self setFrame:frame];
+				[self setNeedsDisplay];
+			}
+		}
+	}
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (!touchesMoved) {
+	if (touches.count == 1) {
 		UITouch *touch = [touches anyObject];
-		CGPoint p = [touch locationInView:self];
-		int i = floor(p.x/tileSize.width);
-		if (i >= 0 && i < shortcuts.count) {
-			Shortcut *sh = [shortcuts objectAtIndex:i];
-			[sh invoke];
+		TouchInfo *ti = [touchInfoStore touchInfoForTouch:touch];
+		if (!ti.moved) {
+			CGPoint p = [touch locationInView:self];
+			int i = floor(p.x/tileSize.width);
+			i += currentIndex;
+			if (i >= 0 && i < shortcuts.count) {
+				Shortcut *sh = [shortcuts objectAtIndex:i];
+				[sh invoke];
+			}
 		}
 	}
 	recentlyTouchedItem = -1;
 	[self setNeedsDisplay];
+	[touchInfoStore removeTouches:touches];
 }
 
 - (void)dealloc {
+	[touchInfoStore release];
     [super dealloc];
 }
 

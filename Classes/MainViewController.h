@@ -38,7 +38,7 @@
 @class Window, MenuViewController, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
 @class DirectionInputViewController, ExtendedCommandViewController, RoleSelectionViewController;
 @class TextDisplayViewController, CreditsViewController;
-@class TouchInfo;
+@class TouchInfo, TouchInfoStore;
 
 @interface MainViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate> {
 	
@@ -73,7 +73,7 @@
 	
 	CGFloat initialDistance;
 	
-	NSMutableDictionary *currentTouchInfos;
+	TouchInfoStore *touchInfoStore;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
@@ -120,9 +120,5 @@
 
 - (void) initOptions;
 - (void) overrideOptions;
-
-- (void) storeTouches:(NSSet *)touches;
-- (TouchInfo *) touchInfoForTouch:(UITouch *)t;
-- (void) removeTouches:(NSSet *)touches;
 
 @end

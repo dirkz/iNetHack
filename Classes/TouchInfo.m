@@ -10,10 +10,11 @@
 
 @implementation TouchInfo
 
-@synthesize pinched, moved;
+@synthesize pinched, moved, initialLocation;
 
 - (id) initWithTouch:(UITouch *)t {
 	if (self = [super init]) {
+		self.initialLocation = [t locationInView:t.view];
 	}
 	return self;
 }

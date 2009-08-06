@@ -22,16 +22,17 @@
 
 #import <UIKit/UIKit.h>
 
-@class ShortcutViewController;
+@class ShortcutViewController, TouchInfoStore;
 
 @interface ShortcutView : UIView {
 	
-	IBOutlet ShortcutViewController *shortcutViewController;
 	UIFont *font;
 	NSArray *shortcuts;
+	int currentIndex;
+	int maxShortcutsOnScreen;
 	CGSize tileSize;
-	BOOL touchesMoved;
 	int recentlyTouchedItem;
+	TouchInfoStore *touchInfoStore;
 	
 }
 
