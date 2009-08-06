@@ -78,6 +78,7 @@ static MainViewController *_instance;
 	textDisplayCondition = [[NSCondition alloc] init];
 	tapRect = CGRectMake(-25, -25, 50, 50);
 	_instance = self;
+	lastSingleTapDelta = [[TilePosition alloc] init];
 
 	NSThread *nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackLoop:) object:nil];
 	[nethackThread start];
@@ -290,6 +291,36 @@ static MainViewController *_instance;
 
 #pragma mark touch handling
 
+- (char) directionFromTilePositionDelta:(TilePosition *)d {
+	char direction = 0;
+	if (d.x > 0 && d.y > 0) {
+		// bottom right
+		direction = 'n';
+	} else if (d.x < 0 && d.y > 0) {
+		// bottom left
+		direction = 'b';
+	} else if (d.x > 0 && d.y == 0) {
+		// right
+		direction = 'l';
+	} else if (d.x < 0 && d.y == 0) {
+		// left
+		direction = 'h';
+	} else if (d.x == 0 && d.y > 0) {
+		// down
+		direction = 'j';
+	} else if (d.x == 0 && d.y < 0) {
+		// up
+		direction = 'k';
+	} else if (d.x < 0 && d.y < 0) {
+		// top left
+		direction = 'y';
+	} else if (d.x > 0 && d.y < 0) {
+		// top right
+		direction = 'u';
+	}
+	return direction;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	[touchInfoStore storeTouches:touches];
 	if (touches.count == 1) {
@@ -367,16 +398,29 @@ static MainViewController *_instance;
 		TouchInfo *ti = [touchInfoStore touchInfoForTouch:[touches anyObject]];
 		if (!ti.pinched && !ti.moved && !ti.doubleTap) {
 			UITouch *touch = [touches anyObject];
-			CGPoint p = [touch locationInView:self.view];
-			TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
-			NethackEvent *e = [[NethackEvent alloc] init];
-			e.x = tp.x;
-			e.y = tp.y;
-			e.key = 0;
-			[nethackEventQueue addNethackEvent:e];
-			[e release];
-			[(MainView *) self.view resetOffset];
-			[self.view setNeedsDisplay];
+			if (touch.tapCount == 1) {
+				CGPoint p = [touch locationInView:self.view];
+				TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
+				lastSingleTapDelta.x = tp.x-u.ux;
+				lastSingleTapDelta.y = tp.y-u.uy;
+				NethackEvent *e = [[NethackEvent alloc] init];
+				e.x = tp.x;
+				e.y = tp.y;
+				e.key = 0;
+				[nethackEventQueue addNethackEvent:e];
+				[e release];
+				[(MainView *) self.view resetOffset];
+				[self.view setNeedsDisplay];
+			}
+		} else if (!ti.pinched && !ti.moved && ti.doubleTap) {
+			TilePosition *delta = lastSingleTapDelta;
+			if ((abs(delta.x) == 0 || abs(delta.x) == 1) && (abs(delta.y) == 0) || abs(delta.y) == 1) {
+				char direction = [self directionFromTilePositionDelta:delta];
+				if (direction) {
+					[nethackEventQueue addKeyEvent:'g'];
+					[nethackEventQueue addKeyEvent:direction];
+				}
+			}
 		}
 	}
 	initialDistance = 0;
@@ -574,6 +618,7 @@ static MainViewController *_instance;
 	[textInputCondition release];
 	[textDisplayCondition release];
 	[windows release];
+	[lastSingleTapDelta release];
     [super dealloc];
 }
 

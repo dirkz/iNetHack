@@ -37,4 +37,8 @@
 	return self;
 }
 
+- (NSString *) description {
+	return [NSString stringWithFormat:@"%d,%d", x, y];
+}
+
 @end

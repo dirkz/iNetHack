@@ -39,6 +39,7 @@
 @class DirectionInputViewController, ExtendedCommandViewController, RoleSelectionViewController;
 @class TextDisplayViewController, CreditsViewController;
 @class TouchInfo, TouchInfoStore;
+@class TilePosition;
 
 @interface MainViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate> {
 	
@@ -71,6 +72,8 @@
 	CGFloat initialDistance;
 	
 	TouchInfoStore *touchInfoStore;
+	
+	TilePosition *lastSingleTapDelta;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
