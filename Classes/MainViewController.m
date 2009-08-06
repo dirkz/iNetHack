@@ -401,16 +401,20 @@ static MainViewController *_instance;
 			if (touch.tapCount == 1) {
 				CGPoint p = [touch locationInView:self.view];
 				TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
-				lastSingleTapDelta.x = tp.x-u.ux;
-				lastSingleTapDelta.y = tp.y-u.uy;
-				NethackEvent *e = [[NethackEvent alloc] init];
-				e.x = tp.x;
-				e.y = tp.y;
-				e.key = 0;
-				[nethackEventQueue addNethackEvent:e];
-				[e release];
-				[(MainView *) self.view resetOffset];
-				[self.view setNeedsDisplay];
+				// ignore clicks into the dark
+				int glyph = [self.mapWindow glyphAtX:tp.x y:tp.y];
+				if (glyph) {
+					lastSingleTapDelta.x = tp.x-u.ux;
+					lastSingleTapDelta.y = tp.y-u.uy;
+					NethackEvent *e = [[NethackEvent alloc] init];
+					e.x = tp.x;
+					e.y = tp.y;
+					e.key = 0;
+					[nethackEventQueue addNethackEvent:e];
+					[e release];
+					[(MainView *) self.view resetOffset];
+					[self.view setNeedsDisplay];
+				}
 			}
 		} else if (!ti.pinched && !ti.moved && ti.doubleTap) {
 			TilePosition *delta = lastSingleTapDelta;
