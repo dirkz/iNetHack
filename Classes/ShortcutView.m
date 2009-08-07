@@ -54,11 +54,7 @@
 
 - (CGSize)sizeThatFits:(CGSize)size {
 	maxShortcutsOnScreen = size.width / tileSize.width;
-	int n = maxShortcutsOnScreen;
-	if (shortcuts.count - currentIndex < maxShortcutsOnScreen) {
-		n = shortcuts.count - currentIndex;
-	}
-	CGSize s = CGSizeMake(tileSize.width * n, tileSize.height);
+	CGSize s = CGSizeMake(tileSize.width * maxShortcutsOnScreen, tileSize.height);
 	return s;
 }
 
