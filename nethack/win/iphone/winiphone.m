@@ -324,7 +324,8 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 				menuInfo.prompt = q;
 				BOOL alphaBegan = NO;
 				BOOL terminateLoop = NO;
-				char index;
+				int index;
+				int start;
 				for (int i = 0; i < preLets.length, !terminateLoop; ++i) {
 					index = i;
 					char c = [preLets characterAtIndex:i];
@@ -338,6 +339,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 								break;
 							default:
 								if (isalpha(c)) {
+									start = i;
 									alphaBegan = YES;
 								}
 								break;
@@ -348,8 +350,9 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 						}
 					}
 				}
-				NSString *lets = [preLets substringToIndex:index];
-				NSRange r = [preLets rangeOfString:@"or "];
+				NSRange r = NSMakeRange(start, index-start);
+				NSString *lets = [preLets substringWithRange:r];
+				r = [preLets rangeOfString:@"or "];
 				if (r.location != NSNotFound) {
 					NSString *moreOptions = [preLets substringFromIndex:r.location+r.length];
 					for (int i = 0; i < moreOptions.length; ++i) {

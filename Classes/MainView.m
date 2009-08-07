@@ -62,6 +62,7 @@ extern short glyph2tile[];
 												 selector:@selector(showKeyboard:) target:self arg:nil],
 						  [[Shortcut alloc] initWithTitle:@"menu" keys:nil
 												 selector:@selector(showMainMenu:) target:self arg:nil],
+						  [[Shortcut alloc] initWithTitle:@"i" key:'i'],
 						  [[Shortcut alloc] initWithTitle:@"e" key:'e'],
 						  [[Shortcut alloc] initWithTitle:@"t" key:'t'],
 						  [[Shortcut alloc] initWithTitle:@"f" key:'f'],
