@@ -1736,12 +1736,6 @@ long* out_cnt;
 	/* oxymoron? temporarily assign permanent inventory letters */
 	if (!flags.invlet_constant) reassign();
 
-#ifdef __APPLE__
-#include "TargetConditionals.h"
-#endif
-	
-#if !TARGET_OS_IPHONE
-	/* I would prefer this code to be removed for other window ports too Dirk Zimmermann */
 	if (lets && strlen(lets) == 1) {
 	    /* when only one item of interest, use pline instead of menus;
 	       we actually use a fake message-line menu in order to allow
@@ -1758,7 +1752,6 @@ long* out_cnt;
 	    }
 	    return ret;
 	}
-#endif
 
 	start_menu(win);
 nextclass:
