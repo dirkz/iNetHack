@@ -66,25 +66,25 @@
 	CGContextSetStrokeColor(ctx, white);
 	CGContextSetFillColor(ctx, white);
 	CGPoint current = CGPointMake(0,0);
-	int max = shortcuts.count - currentIndex;
-	max = max > maxShortcutsOnScreen ? maxShortcutsOnScreen:max;
-	for (int i = 0; i < max; ++i) {
+	for (int i = 0; i < maxShortcutsOnScreen; ++i) {
 		float pad = 2.0f;
 		float halfPad = pad/2;
 		CGRect r = CGRectMake(current.x+halfPad, current.y+halfPad, tileSize.width-pad, tileSize.height-pad);
-		if (i == recentlyTouchedItem) {
+		if (i+currentIndex == recentlyTouchedItem && i+currentIndex < shortcuts.count) {
 			CGContextSetFillColor(ctx, green);
 		} else {
 			CGContextSetFillColor(ctx, grey);
 		}
 		CGContextFillRect(ctx, r);
 		CGContextSetFillColor(ctx, white);
-		Shortcut *sh = [shortcuts objectAtIndex:i+currentIndex];
-		CGSize stringSize = [sh.title sizeWithFont:font];
-		CGPoint p = current;
-		p.x += (tileSize.width-stringSize.width) / 2;
-		p.y += (tileSize.height-stringSize.height) / 2;
-		[sh.title drawAtPoint:p withFont:font];
+		if (i+currentIndex < shortcuts.count) {
+			Shortcut *sh = [shortcuts objectAtIndex:i+currentIndex];
+			CGSize stringSize = [sh.title sizeWithFont:font];
+			CGPoint p = current;
+			p.x += (tileSize.width-stringSize.width) / 2;
+			p.y += (tileSize.height-stringSize.height) / 2;
+			[sh.title drawAtPoint:p withFont:font];
+		}
 		current.x += tileSize.width;
 	}
 }
@@ -97,7 +97,7 @@
 	CGPoint p = [touch locationInView:self];
 	int i = floor(p.x/tileSize.width);
 	i += currentIndex;
-	if (i >= currentIndex && i < maxShortcutsOnScreen) {
+	if (i < maxShortcutsOnScreen+currentIndex) {
 		recentlyTouchedItem = i;
 		[self setNeedsDisplay];
 	}
