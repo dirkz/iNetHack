@@ -319,6 +319,9 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 				[[MainViewController instance] setNethackMenuInfo:menuInfo];
 				[menuInfo release];
 				return '?';
+			} else if ([s containsString:@"*]"]) {
+				// Wear (and possibly others)
+				return '*';
 			} else {
 				// try to quit
 				NSRange r = [s rangeOfString:@"q"];
