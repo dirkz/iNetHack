@@ -37,6 +37,8 @@
 		43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0812A102ABE0B00D08BED /* TouchInfo.m */; };
 		43BB3E271010AC15004E1160 /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43BB3E261010AC15004E1160 /* CreditsViewController.m */; };
 		43BB3E291010AC26004E1160 /* CreditsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BB3E281010AC26004E1160 /* CreditsView.xib */; };
+		43C0B675102CB1F6001F0716 /* absurd40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43C0B673102CB1F6001F0716 /* absurd40.bmp */; };
+		43C0B676102CB1F6001F0716 /* chozo40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43C0B674102CB1F6001F0716 /* chozo40.bmp */; };
 		43C0DD6C0FE79DFE00B63ED3 /* allmain.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD020FE79DFE00B63ED3 /* allmain.c */; };
 		43C0DD6D0FE79DFE00B63ED3 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD030FE79DFE00B63ED3 /* alloc.c */; };
 		43C0DD6E0FE79DFE00B63ED3 /* apply.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD040FE79DFE00B63ED3 /* apply.c */; };
@@ -377,6 +379,8 @@
 		43BB3E251010AC15004E1160 /* CreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditsViewController.h; sourceTree = "<group>"; };
 		43BB3E261010AC15004E1160 /* CreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditsViewController.m; sourceTree = "<group>"; };
 		43BB3E281010AC26004E1160 /* CreditsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreditsView.xib; sourceTree = "<group>"; };
+		43C0B673102CB1F6001F0716 /* absurd40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = absurd40.bmp; sourceTree = "<group>"; };
+		43C0B674102CB1F6001F0716 /* chozo40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40.bmp; sourceTree = "<group>"; };
 		43C0DD020FE79DFE00B63ED3 /* allmain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = allmain.c; path = nethack/src/allmain.c; sourceTree = "<group>"; };
 		43C0DD030FE79DFE00B63ED3 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = nethack/src/alloc.c; sourceTree = "<group>"; };
 		43C0DD040FE79DFE00B63ED3 /* apply.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = apply.c; path = nethack/src/apply.c; sourceTree = "<group>"; };
@@ -891,6 +895,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				43C0B673102CB1F6001F0716 /* absurd40.bmp */,
+				43C0B674102CB1F6001F0716 /* chozo40.bmp */,
 				43AA69761029D9E800C34F47 /* absurd64.bmp */,
 				43AECC24100A07FD008B7BE6 /* nhtiles.bmp */,
 				439F0F76100245080050AED4 /* Icon.png */,
@@ -1558,6 +1564,8 @@
 				431FD068100B598200DC7260 /* Settings.bundle in Resources */,
 				43BB3E291010AC26004E1160 /* CreditsView.xib in Resources */,
 				43AA69771029D9E800C34F47 /* absurd64.bmp in Resources */,
+				43C0B675102CB1F6001F0716 /* absurd40.bmp in Resources */,
+				43C0B676102CB1F6001F0716 /* chozo40.bmp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
