@@ -10,6 +10,6 @@
 
 @implementation NetHackMenuInfo
 
-@synthesize prompt, bareHanded, more;
+@synthesize prompt, acceptBareHanded, acceptMore, acceptMoney;
 
 @end

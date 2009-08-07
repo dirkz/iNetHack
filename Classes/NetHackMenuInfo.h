@@ -12,13 +12,15 @@
 @interface NetHackMenuInfo : NSObject {
 	
 	NSString *prompt;
-	BOOL bareHanded;
-	BOOL more;
+	BOOL acceptBareHanded;
+	BOOL acceptMore;
+	BOOL acceptMoney;
 
 }
 
-@property (nonatomic, assign) BOOL bareHanded;
-@property (nonatomic, assign) BOOL more;
 @property (nonatomic, retain) NSString *prompt;
+@property (nonatomic, assign) BOOL acceptBareHanded;
+@property (nonatomic, assign) BOOL acceptMore;
+@property (nonatomic, assign) BOOL acceptMoney;
 
 @end

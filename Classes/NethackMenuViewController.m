@@ -25,6 +25,7 @@
 #import "NethackMenuItem.h"
 #import "MainViewController.h"
 #import "NetHackMenuInfo.h"
+#import "NetHackMenuInfo.h"
 
 @implementation NethackMenuViewController
 
@@ -77,6 +78,31 @@
 		self.title = w.menuPrompt;
 	} else if ([[MainViewController instance] nethackMenuInfo]) {
 		self.title = [[[MainViewController instance] nethackMenuInfo] prompt];
+		NetHackMenuInfo *nethackMenuInfo = [[MainViewController instance] nethackMenuInfo];
+		if (nethackMenuInfo) {
+			// extend menu items
+			if (nethackMenuInfo.acceptBareHanded || nethackMenuInfo.acceptMoney || nethackMenuInfo.acceptMore) {
+				anything any;
+				any.a_int = 0;
+				NethackMenuItem *miParent = [[NethackMenuItem alloc] initWithId:&any title:"Meta" preselected:NO];
+				[menuWindow addMenuItem:miParent];
+				if (nethackMenuInfo.acceptBareHanded) {
+					any.a_int = '-';
+					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Hands" preselected:NO];
+					[menuWindow addMenuItem:mi];
+				}
+				if (nethackMenuInfo.acceptMore) {
+					any.a_int = '*';
+					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"More" preselected:NO];
+					[menuWindow addMenuItem:mi];
+				}
+				if (nethackMenuInfo.acceptMoney) {
+					any.a_int = '$';
+					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Money" preselected:NO];
+					[menuWindow addMenuItem:mi];
+				}
+			}
+		}
 	} else {
 		self.title = @"Menu";
 	}

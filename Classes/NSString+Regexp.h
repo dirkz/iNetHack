@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+// WARNING: no actual Regexp code!
 @interface NSString (Regexp)
 
 - (BOOL) containsString:(NSString *)s;
+- (NSString *) substringFromString:(NSString *)src betweenDelimiters:(NSString *)del;
 
 @end

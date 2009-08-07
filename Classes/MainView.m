@@ -69,6 +69,7 @@ extern short glyph2tile[];
 						  [[Shortcut alloc] initWithTitle:@"^d" key:C('d')],
 						  [[Shortcut alloc] initWithTitle:@"^a" key:C('a')],
 						  [[Shortcut alloc] initWithTitle:@"q" key:'q'],
+						  [[Shortcut alloc] initWithTitle:@"E" key:'E'],
 						  [[Shortcut alloc] initWithTitle:@"Q" key:'Q'],
 						  [[Shortcut alloc] initWithTitle:@"d" key:'d'],
 						  [[Shortcut alloc] initWithTitle:@"D" key:'D'],

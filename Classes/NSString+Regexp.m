@@ -18,4 +18,22 @@
 	return NO;
 }
 
+- (NSString *) substringFromString:(NSString *)src betweenDelimiters:(NSString *)del {
+	char c = [del characterAtIndex:0];
+	NSString *s = [NSString stringWithFormat:@"%c", c];
+	NSRange r1 = [self rangeOfString:s];
+	if (r1.location == NSNotFound) {
+		return nil;
+	}
+	c = [del characterAtIndex:1];
+	s = [NSString stringWithFormat:@"%c", c];
+	NSRange r2 = [self rangeOfString:s];
+	if (r2.location == NSNotFound) {
+		return nil;
+	}
+	NSRange r = NSMakeRange(r1.location+1, r2.location-r1.location-1);
+	NSString *sub = [src substringWithRange:r];
+	return sub;
+}
+
 @end

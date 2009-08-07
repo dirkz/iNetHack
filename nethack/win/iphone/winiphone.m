@@ -153,7 +153,14 @@ void iphone_player_selection() {
 
 void iphone_askname() {
 	NSString *name = [[MainViewController instance] askName];
-	[name getCString:plname maxLength:PL_NSIZ encoding:NSASCIIStringEncoding];
+	// issue 33 patch provided by ciawal
+	if(![name getCString:plname maxLength:PL_NSIZ encoding:NSASCIIStringEncoding]) {
+		// If the conversion fails attempt to perform a lossy conversion instead
+		NSData* lossyName = [name dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+		[lossyName getBytes:plname length:PL_NSIZ-1];
+		plname[lossyName.length] = 0;
+	}
+	NSCAssert1(plname[0], @"Failed to init plname from name '%@'", name);
 }
 
 void iphone_get_nh_event() {
@@ -309,34 +316,56 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 		if ([s containsString:@"direction"]) {
 			return [[MainViewController instance] getDirectionInput];
 		} else {
-			if ([s containsString:@"or ?*]"]) {
+			NSString *q = [NSString stringWithCString:question];
+			NSString *preLets = [q substringFromString:q betweenDelimiters:@"[]"];
+			if (preLets && preLets.length > 0) {
 				NetHackMenuInfo *menuInfo = [[NetHackMenuInfo alloc] init];
-				menuInfo.prompt = [NSString stringWithCString:question];
-				menuInfo.more = YES;
-				if ([s containsString:@"[-"]) {
-					menuInfo.bareHanded = YES;
-				}
 				[[MainViewController instance] setNethackMenuInfo:menuInfo];
-				[menuInfo release];
-				return '?';
-			} else if ([s containsString:@"*]"]) {
-				// Wear (and possibly others)
-				return '*';
-			} else {
-				// try to quit
-				NSRange r = [s rangeOfString:@"q"];
-				if (r.location != NSNotFound) {
-					return 'q';
-				} else {
-					r = [s rangeOfString:@"n"];
-					if (r.location != NSNotFound) {
-						return 'n';
+				menuInfo.prompt = q;
+				BOOL alphaBegan = NO;
+				BOOL terminateLoop = NO;
+				char index;
+				for (int i = 0; i < preLets.length, !terminateLoop; ++i) {
+					index = i;
+					char c = [preLets characterAtIndex:i];
+					if (!alphaBegan) {
+						switch (c) {
+							case '$':
+								menuInfo.acceptMoney = YES;
+								break;
+							case '-':
+								menuInfo.acceptBareHanded = YES;
+								break;
+							default:
+								if (isalpha(c)) {
+									alphaBegan = YES;
+								}
+								break;
+						}
 					} else {
-						NSLog(@"can't cancel yn_function %s", question);
-						// return q anyway
-						return 'q';
+						if (c == ' ') {
+							terminateLoop = YES;
+						}
 					}
 				}
+				NSString *lets = [preLets substringToIndex:index];
+				NSRange r = [preLets rangeOfString:@"or "];
+				if (r.location != NSNotFound) {
+					NSString *moreOptions = [preLets substringFromIndex:r.location+r.length];
+					for (int i = 0; i < moreOptions.length; ++i) {
+						char c = [moreOptions characterAtIndex:i];
+						if (c == '*') {
+							menuInfo.acceptMore = YES;
+						}
+					}
+				}
+				char c = display_inventory([lets cStringUsingEncoding:NSASCIIStringEncoding], TRUE);
+				return c;
+			} else {
+				NSLog(@"iphone_yn_function no preLets!");
+				// no preLets defined ([])
+				// todo when did this kick in?
+				return '?';
 			}
 		}
 	} else {
