@@ -77,7 +77,6 @@ static MainViewController *_instance;
 	nethackEventQueue = [[NethackEventQueue alloc] init];
 	uiCondition = [[NSCondition alloc] init];
 	textInputCondition = [[NSCondition alloc] init];
-	textDisplayCondition = [[NSCondition alloc] init];
 	tapRect = CGRectMake(-25, -25, 50, 50);
 	_instance = self;
 	lastSingleTapDelta = [[TilePosition alloc] init];
@@ -222,6 +221,20 @@ static MainViewController *_instance;
 	[tf becomeFirstResponder];
 }
 
+- (void) pushViewControllerOnMainThread:(UIViewController *)viewController
+{
+	[self.navigationController setNavigationBarHidden:NO animated:YES];
+	[self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void) displayText:(NSString *)text withCondition:(NSCondition *)condition {
+	TextDisplayViewController* viewController = [TextDisplayViewController new];
+	viewController.text = text;
+	viewController.condition = condition;
+	[self performSelectorOnMainThread:@selector(pushViewControllerOnMainThread:) withObject:viewController waitUntilDone:YES];
+	[viewController release];
+}
+
 - (void) nethackShowLog:(id)i {
 	NSString *text = @"";
 	for (NSString *l in self.messageWindow.log) {
@@ -233,15 +246,13 @@ static MainViewController *_instance;
 		}
 		text = [NSString stringWithFormat:@"%@%@", text, s];
 	}
-	textDisplayViewController.text = text;
-	[self.navigationController pushViewController:textDisplayViewController animated:YES];
+	[self displayText:text withCondition:nil];
 }
 
 - (void) nethackShowLicense:(id)i {
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"license" ofType:@""];
 	NSString *text = [NSString stringWithContentsOfFile:path];
-	textDisplayViewController.text = text;
-	[self.navigationController pushViewController:textDisplayViewController animated:YES];
+	[self displayText:text withCondition:nil];
 }
 
 - (void) showCredits:(id)obj {
@@ -537,20 +548,15 @@ static MainViewController *_instance;
 	return username;
 }
 
-- (void) displayTextOnUIThread:(NSString *)text {
-	textDisplayViewController.text = text;
-	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self.navigationController pushViewController:textDisplayViewController animated:YES];
-}
-
 - (void) displayFile:(NSString *)filename mustExist:(BOOL)e {
 	if (![filename isEqualToString:@"news"]) {
-		textDisplayViewController.condition = textDisplayCondition;
 		NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:@""];
 		if (path) {
+			NSCondition *textDisplayCondition = [[NSCondition alloc] init];
 			NSString *t = [NSString stringWithContentsOfFile:path];
-			[self performSelectorOnMainThread:@selector(displayTextOnUIThread:) withObject:t waitUntilDone:YES];
+			[self displayText:t withCondition:textDisplayCondition];
 			[self waitForCondition:textDisplayCondition];
+			[textDisplayCondition release];
 		} else {
 			if (e) {
 				NSLog(@"error: could not find file %@ for display", filename);
@@ -622,7 +628,6 @@ static MainViewController *_instance;
 	[touchInfoStore release];
 	[uiCondition release];
 	[textInputCondition release];
-	[textDisplayCondition release];
 	[windows release];
 	[lastSingleTapDelta release];
     [super dealloc];

@@ -37,7 +37,7 @@
 
 @class Window, MenuViewController, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
 @class DirectionInputViewController, ExtendedCommandViewController, RoleSelectionViewController;
-@class TextDisplayViewController, CreditsViewController;
+@class CreditsViewController;
 @class TouchInfo, TouchInfoStore;
 @class TilePosition;
 @class NetHackMenuInfo;
@@ -50,7 +50,6 @@
 	IBOutlet DirectionInputViewController *directionInputViewController;
 	IBOutlet ExtendedCommandViewController *extendedCommandViewController;
 	IBOutlet RoleSelectionViewController *roleSelectionViewController;
-	IBOutlet TextDisplayViewController *textDisplayViewController;
 	IBOutlet CreditsViewController *creditsViewController;
 	
 	NSMutableArray *windows;
@@ -63,7 +62,6 @@
 	
 	NSCondition *textInputCondition;
 	NSCondition *uiCondition;
-	NSCondition *textDisplayCondition;
 	
 	// imaginary rect for bringing up the main menu
 	CGRect tapRect;
