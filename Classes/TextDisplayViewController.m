@@ -28,9 +28,8 @@
 
 - (void)dealloc
 {
-	webView.delegate = nil;
-	[webView release];
-	[textView release];
+	[condition release];
+	self.text = nil;
 	[super dealloc];
 }
 
