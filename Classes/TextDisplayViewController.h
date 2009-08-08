@@ -23,14 +23,16 @@
 #import <UIKit/UIKit.h>
 
 
-@interface TextDisplayViewController : UIViewController {
-	
+@interface TextDisplayViewController : UIViewController <UIWebViewDelegate> {
+	UIWebView *webView;
 	UITextView *textView;
 	NSCondition *condition;
 	NSString *text;
+	BOOL isHTML;
 }
 
 @property (nonatomic, copy) NSString *text;
+@property (assign) BOOL isHTML;
 @property (nonatomic, retain) NSCondition *condition;
 
 @end

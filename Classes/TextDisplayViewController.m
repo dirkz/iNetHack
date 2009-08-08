@@ -24,11 +24,22 @@
 #import "MainViewController.h"
 
 @implementation TextDisplayViewController
-@synthesize text, condition;
+@synthesize text, condition, isHTML;
+
+- (void)dealloc
+{
+	webView.delegate = nil;
+	[webView release];
+	[textView release];
+	[super dealloc];
+}
 
 - (void)updateText {
-	if (textView)
+	if (textView) {
 		textView.text = self.text;
+	} else if (webView) {
+		[webView loadHTMLString:self.text baseURL:nil];
+	}
 }
 
 - (void)setText:(NSString *)newText {
@@ -43,11 +54,28 @@
 	return YES;
 }
 
+- (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+	if ([[NSArray arrayWithObjects:@"http", @"https", nil] containsObject:request.URL.scheme] && navigationType == UIWebViewNavigationTypeLinkClicked) {
+		// Open clicked http links in Safari
+		[[UIApplication sharedApplication] openURL:request.URL];
+		return NO;
+	}
+	return YES;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	textView = [[UITextView alloc] initWithFrame:self.view.frame];
-	[self.view addSubview:textView];
-	[textView release];
+	if (self.isHTML) {
+		webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+		webView.delegate = self;
+		[self.view addSubview:webView];
+		[webView release];
+	} else {
+		textView = [[UITextView alloc] initWithFrame:self.view.frame];
+		[self.view addSubview:textView];
+		[textView release];
+	}
 	[self updateText];
 }
 
