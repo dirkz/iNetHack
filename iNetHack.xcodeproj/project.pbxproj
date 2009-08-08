@@ -319,7 +319,6 @@
 		43DD0B610FF4E0FC00580249 /* yendor.des in Resources */ = {isa = PBXBuildFile; fileRef = 43DD0AC10FF4E0F700580249 /* yendor.des */; };
 		43DD0C430FF4ECEB00580249 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DD0C420FF4ECEB00580249 /* Window.m */; };
 		43DFDA7210033E0600DADAA1 /* RoleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */; };
-		43DFDA7410033E2000DADAA1 /* RoleSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43DFDA7310033E2000DADAA1 /* RoleSelectionView.xib */; };
 		43DFDB631003561300DADAA1 /* RaceSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDB621003561300DADAA1 /* RaceSelectionViewController.m */; };
 		43DFDB6B100356BC00DADAA1 /* RaceSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43DFDB6A100356BC00DADAA1 /* RaceSelectionView.xib */; };
 		43DFDC0810049E5000DADAA1 /* GenderSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDC0710049E5000DADAA1 /* GenderSelectionViewController.m */; };
@@ -764,7 +763,6 @@
 		43DD0C420FF4ECEB00580249 /* Window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Window.m; sourceTree = "<group>"; };
 		43DFDA7010033E0600DADAA1 /* RoleSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleSelectionViewController.h; sourceTree = "<group>"; };
 		43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoleSelectionViewController.m; sourceTree = "<group>"; };
-		43DFDA7310033E2000DADAA1 /* RoleSelectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoleSelectionView.xib; sourceTree = "<group>"; };
 		43DFDB611003561300DADAA1 /* RaceSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RaceSelectionViewController.h; sourceTree = "<group>"; };
 		43DFDB621003561300DADAA1 /* RaceSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RaceSelectionViewController.m; sourceTree = "<group>"; };
 		43DFDB6A100356BC00DADAA1 /* RaceSelectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RaceSelectionView.xib; sourceTree = "<group>"; };
@@ -903,7 +901,6 @@
 				43ACB5D70FFF4A9F005DB589 /* DirectionInputView.xib */,
 				439F0DD41001FECB0050AED4 /* MenuViewLeaf.xib */,
 				439F0ED3100210770050AED4 /* ExtendedCommandView.xib */,
-				43DFDA7310033E2000DADAA1 /* RoleSelectionView.xib */,
 				43DFDB6A100356BC00DADAA1 /* RaceSelectionView.xib */,
 				43DFDC0D1004A00800DADAA1 /* GenderSelectionView.xib */,
 				43DFDC791004A68000DADAA1 /* AlignmentSelectionView.xib */,
@@ -1546,7 +1543,6 @@
 				439F0DD51001FECB0050AED4 /* MenuViewLeaf.xib in Resources */,
 				439F0ED4100210770050AED4 /* ExtendedCommandView.xib in Resources */,
 				439F0F77100245080050AED4 /* Icon.png in Resources */,
-				43DFDA7410033E2000DADAA1 /* RoleSelectionView.xib in Resources */,
 				43DFDB6B100356BC00DADAA1 /* RaceSelectionView.xib in Resources */,
 				43DFDC0E1004A00800DADAA1 /* GenderSelectionView.xib in Resources */,
 				43DFDC7A1004A68000DADAA1 /* AlignmentSelectionView.xib in Resources */,

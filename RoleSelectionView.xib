@@ -181,7 +181,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">RoleSelectionViewController</string>
-					<string key="superclassName">UIViewController</string>
+					<string key="superclassName">UITableViewController</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">raceSelectionViewController</string>
 						<string key="NS.object.0">RaceSelectionViewController</string>

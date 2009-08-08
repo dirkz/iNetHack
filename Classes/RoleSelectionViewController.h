@@ -24,11 +24,15 @@
 
 @class RaceSelectionViewController;
 
-@interface RoleSelectionViewController : UIViewController {
-	
-	IBOutlet RaceSelectionViewController *raceSelectionViewController;
-	UITableView *tf;
-
+@interface RoleSelectionViewController : UITableViewController {
+	NSMutableArray *options;
+	id target;
+	SEL action;
+	NSInteger tag;
 }
+@property (assign) id target;
+@property (assign) SEL action;
+@property (readonly) NSInteger tag;
 
+- (void)addItemWithTitle:(NSString *)title tag:(NSInteger)tag;
 @end

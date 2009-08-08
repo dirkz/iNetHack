@@ -36,7 +36,7 @@
 #define kOptionPickupTypes (@"pickupTypes")
 
 @class Window, MenuViewController, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
-@class DirectionInputViewController, ExtendedCommandViewController, RoleSelectionViewController;
+@class DirectionInputViewController, ExtendedCommandViewController;
 @class TouchInfo, TouchInfoStore;
 @class TilePosition;
 @class NetHackMenuInfo;
@@ -48,7 +48,6 @@
 	IBOutlet TextInputViewController *textInputViewController;
 	IBOutlet DirectionInputViewController *directionInputViewController;
 	IBOutlet ExtendedCommandViewController *extendedCommandViewController;
-	IBOutlet RoleSelectionViewController *roleSelectionViewController;
 	
 	NSMutableArray *windows;
 	int clipx;

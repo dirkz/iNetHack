@@ -21,96 +21,58 @@
 //  along with iNetHack.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "RoleSelectionViewController.h"
-#import "RaceSelectionViewController.h"
-#include "hack.h"
 
 @implementation RoleSelectionViewController
+@synthesize target, action, tag;
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
+- (id)init
+{
+	if(self = [super initWithStyle:UITableViewStylePlain])
+	{
+		options = [NSMutableArray new];
+		tag = -1;
+	}
+	return self;
 }
-*/
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
+- (void)addItemWithTitle:(NSString *)title tag:(NSInteger)itemTag
+{
+	[options addObject:[NSDictionary dictionaryWithObjectsAndKeys:title, @"title", [NSNumber numberWithInt:itemTag], @"tag", nil]];
 }
-*/
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)dealloc
+{
+	[options release];
+	[super dealloc];
 }
-*/
 
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    //return (interfaceOrientation == UIInterfaceOrientationPortrait);
 	return YES;
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-	self.title = @"Your Role?";
-	[self.navigationController.navigationBar.topItem setHidesBackButton:YES animated:YES];
 }
 
 #pragma mark UITableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	int row = [indexPath row];
-	strcpy(pl_character, roles[row].filecode);
-	flags.initrole = row;
-	[self.navigationController pushViewController:raceSelectionViewController animated:YES];
-}
+	tag = [[[options objectAtIndex:indexPath.row] objectForKey:@"tag"] intValue];
 
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-	[self tableView:tableView didSelectRowAtIndexPath:indexPath];
+	if(self.target && self.action)
+		[[UIApplication sharedApplication] sendAction:self.action to:self.target from:self forEvent:nil];
 }
 
 #pragma mark UITableView datasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	tf = tableView;
-	int i;
-	for (i = 0; roles[i].name.m; i++) {
-	}
-	return i;
+	return options.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *cellId = @"playerSelectionViewControllerCellId";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
-		cell = [[[ UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
-	int row = [indexPath row];
-	cell.textLabel.text = [NSString stringWithCString:roles[row].name.m];
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	cell.textLabel.text = [[options objectAtIndex:indexPath.row] objectForKey:@"title"];
 	return cell;
 }
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 @end

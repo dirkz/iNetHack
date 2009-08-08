@@ -34,6 +34,7 @@
 #import "DirectionInputViewController.h"
 #import "ExtendedCommandViewController.h"
 #import "RoleSelectionViewController.h"
+#import "RaceSelectionViewController.h"
 #import "TextDisplayViewController.h"
 #import "TilePosition.h"
 #import "TouchInfo.h"
@@ -532,9 +533,31 @@ static MainViewController *_instance;
 	return extendedCommandViewController.result;
 }
 
+- (void)didSelectRole:(id)sender
+{
+	NSAssert([sender respondsToSelector:@selector(tag)], @"didSelectRole: sender has no tag");
+	flags.initrole = [sender tag];
+	strcpy(pl_character, roles[flags.initrole].filecode);
+
+	RaceSelectionViewController* raceSelectionViewController = [RaceSelectionViewController new];
+	[self.navigationController pushViewController:raceSelectionViewController animated:YES];
+	[raceSelectionViewController release];
+}
+
 - (void) doPlayerSelectionOnUIThread:(id)obj {
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
+
+	RoleSelectionViewController* roleSelectionViewController = [RoleSelectionViewController new];
+
+	roleSelectionViewController.title = @"Your Role?";
+	roleSelectionViewController.target = self;
+	roleSelectionViewController.action = @selector(didSelectRole:);
+	for (int i = 0; roles[i].name.m; ++i)
+		[roleSelectionViewController addItemWithTitle:[NSString stringWithCString:roles[i].name.m] tag:i];
+	[self.navigationController.navigationBar.topItem setHidesBackButton:YES animated:YES];
 	[self.navigationController pushViewController:roleSelectionViewController animated:YES];
+
+	[roleSelectionViewController release];
 }
 
 - (void) doPlayerSelection {
