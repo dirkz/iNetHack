@@ -35,4 +35,5 @@
 @property (readonly) NSInteger tag;
 
 - (void)addItemWithTitle:(NSString *)title tag:(NSInteger)tag;
+@property (readonly) NSUInteger numberOfItems;
 @end

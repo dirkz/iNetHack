@@ -23,7 +23,7 @@
 #import "RoleSelectionViewController.h"
 
 @implementation RoleSelectionViewController
-@synthesize target, action, tag;
+@synthesize target, action;
 
 - (id)init
 {
@@ -38,6 +38,16 @@
 - (void)addItemWithTitle:(NSString *)title tag:(NSInteger)itemTag
 {
 	[options addObject:[NSDictionary dictionaryWithObjectsAndKeys:title, @"title", [NSNumber numberWithInt:itemTag], @"tag", nil]];
+}
+
+- (NSInteger)tag
+{
+	return self.numberOfItems == 1 ? [[[options objectAtIndex:0] objectForKey:@"tag"] intValue] : tag;
+}
+
+- (NSUInteger)numberOfItems
+{
+	return options.count;
 }
 
 - (void)dealloc
