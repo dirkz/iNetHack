@@ -35,8 +35,6 @@
 		43AECC25100A07FD008B7BE6 /* nhtiles.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43AECC24100A07FD008B7BE6 /* nhtiles.bmp */; };
 		43AECC7D100A0DB0008B7BE6 /* tile.c in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC7C100A0DB0008B7BE6 /* tile.c */; };
 		43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0812A102ABE0B00D08BED /* TouchInfo.m */; };
-		43BB3E271010AC15004E1160 /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43BB3E261010AC15004E1160 /* CreditsViewController.m */; };
-		43BB3E291010AC26004E1160 /* CreditsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BB3E281010AC26004E1160 /* CreditsView.xib */; };
 		43C0B675102CB1F6001F0716 /* absurd40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43C0B673102CB1F6001F0716 /* absurd40.bmp */; };
 		43C0B676102CB1F6001F0716 /* chozo40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43C0B674102CB1F6001F0716 /* chozo40.bmp */; };
 		43C0DD6C0FE79DFE00B63ED3 /* allmain.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD020FE79DFE00B63ED3 /* allmain.c */; };
@@ -328,6 +326,7 @@
 		43DFDC0E1004A00800DADAA1 /* GenderSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43DFDC0D1004A00800DADAA1 /* GenderSelectionView.xib */; };
 		43DFDC731004A58300DADAA1 /* AlignmentSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDC721004A58300DADAA1 /* AlignmentSelectionViewController.m */; };
 		43DFDC7A1004A68000DADAA1 /* AlignmentSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43DFDC791004A68000DADAA1 /* AlignmentSelectionView.xib */; };
+		916CE038102C57E8000535FC /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 916CE037102C57E8000535FC /* credits.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -375,9 +374,6 @@
 		43AECC7C100A0DB0008B7BE6 /* tile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tile.c; path = nethack/src/tile.c; sourceTree = "<group>"; };
 		43B08129102ABE0B00D08BED /* TouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchInfo.h; sourceTree = "<group>"; };
 		43B0812A102ABE0B00D08BED /* TouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchInfo.m; sourceTree = "<group>"; };
-		43BB3E251010AC15004E1160 /* CreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditsViewController.h; sourceTree = "<group>"; };
-		43BB3E261010AC15004E1160 /* CreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditsViewController.m; sourceTree = "<group>"; };
-		43BB3E281010AC26004E1160 /* CreditsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreditsView.xib; sourceTree = "<group>"; };
 		43C0B673102CB1F6001F0716 /* absurd40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = absurd40.bmp; sourceTree = "<group>"; };
 		43C0B674102CB1F6001F0716 /* chozo40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40.bmp; sourceTree = "<group>"; };
 		43C0DD020FE79DFE00B63ED3 /* allmain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = allmain.c; path = nethack/src/allmain.c; sourceTree = "<group>"; };
@@ -779,6 +775,7 @@
 		43DFDC721004A58300DADAA1 /* AlignmentSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlignmentSelectionViewController.m; sourceTree = "<group>"; };
 		43DFDC791004A68000DADAA1 /* AlignmentSelectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlignmentSelectionView.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		916CE037102C57E8000535FC /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -846,8 +843,6 @@
 				43AECC02100A03EE008B7BE6 /* TiledImages.m */,
 				43A1879B100C9129001BDB88 /* Shortcut.h */,
 				43A1879C100C9129001BDB88 /* Shortcut.m */,
-				43BB3E251010AC15004E1160 /* CreditsViewController.h */,
-				43BB3E261010AC15004E1160 /* CreditsViewController.m */,
 				43B08129102ABE0B00D08BED /* TouchInfo.h */,
 				43B0812A102ABE0B00D08BED /* TouchInfo.m */,
 				431FE2E9102ADC7200B15149 /* TouchInfoStore.h */,
@@ -912,8 +907,8 @@
 				43DFDB6A100356BC00DADAA1 /* RaceSelectionView.xib */,
 				43DFDC0D1004A00800DADAA1 /* GenderSelectionView.xib */,
 				43DFDC791004A68000DADAA1 /* AlignmentSelectionView.xib */,
-				43BB3E281010AC26004E1160 /* CreditsView.xib */,
 				431FD067100B598200DC7260 /* Settings.bundle */,
+				916CE037102C57E8000535FC /* credits.html */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1558,10 +1553,10 @@
 				43D1142B10074E9F00082C8D /* news in Resources */,
 				43AECC25100A07FD008B7BE6 /* nhtiles.bmp in Resources */,
 				431FD068100B598200DC7260 /* Settings.bundle in Resources */,
-				43BB3E291010AC26004E1160 /* CreditsView.xib in Resources */,
 				43AA69771029D9E800C34F47 /* absurd64.bmp in Resources */,
 				43C0B675102CB1F6001F0716 /* absurd40.bmp in Resources */,
 				43C0B676102CB1F6001F0716 /* chozo40.bmp in Resources */,
+				916CE038102C57E8000535FC /* credits.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1706,7 +1701,6 @@
 				43AECC7D100A0DB0008B7BE6 /* tile.c in Sources */,
 				43A1879D100C9129001BDB88 /* Shortcut.m in Sources */,
 				43A187A8100C92DC001BDB88 /* ShortcutView.m in Sources */,
-				43BB3E271010AC15004E1160 /* CreditsViewController.m in Sources */,
 				43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */,
 				431FE2EB102ADC7200B15149 /* TouchInfoStore.m in Sources */,
 				431FE517102B3CE800B15149 /* NSString+Regexp.m in Sources */,

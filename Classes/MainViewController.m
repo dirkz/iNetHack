@@ -36,7 +36,6 @@
 #import "RoleSelectionViewController.h"
 #import "TextDisplayViewController.h"
 #import "TilePosition.h"
-#import "CreditsViewController.h"
 #import "TouchInfo.h"
 #import "TouchInfoStore.h"
 #import "NetHackMenuInfo.h"
@@ -256,7 +255,12 @@ static MainViewController *_instance;
 }
 
 - (void) showCredits:(id)obj {
-	[self.navigationController pushViewController:creditsViewController animated:YES];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"credits" ofType:@"html"];
+	TextDisplayViewController* viewController = [TextDisplayViewController new];
+	viewController.text = [NSString stringWithContentsOfFile:path];
+	viewController.isHTML = YES;
+	[self.navigationController pushViewController:viewController animated:YES];
+	[viewController release];
 }
 
 - (void) showMainMenu:(id)obj {

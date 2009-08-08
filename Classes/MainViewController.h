@@ -37,7 +37,6 @@
 
 @class Window, MenuViewController, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
 @class DirectionInputViewController, ExtendedCommandViewController, RoleSelectionViewController;
-@class CreditsViewController;
 @class TouchInfo, TouchInfoStore;
 @class TilePosition;
 @class NetHackMenuInfo;
@@ -50,7 +49,6 @@
 	IBOutlet DirectionInputViewController *directionInputViewController;
 	IBOutlet ExtendedCommandViewController *extendedCommandViewController;
 	IBOutlet RoleSelectionViewController *roleSelectionViewController;
-	IBOutlet CreditsViewController *creditsViewController;
 	
 	NSMutableArray *windows;
 	int clipx;
