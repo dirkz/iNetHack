@@ -319,12 +319,6 @@
 		43DD0B610FF4E0FC00580249 /* yendor.des in Resources */ = {isa = PBXBuildFile; fileRef = 43DD0AC10FF4E0F700580249 /* yendor.des */; };
 		43DD0C430FF4ECEB00580249 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DD0C420FF4ECEB00580249 /* Window.m */; };
 		43DFDA7210033E0600DADAA1 /* RoleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */; };
-		43DFDB631003561300DADAA1 /* RaceSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDB621003561300DADAA1 /* RaceSelectionViewController.m */; };
-		43DFDB6B100356BC00DADAA1 /* RaceSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43DFDB6A100356BC00DADAA1 /* RaceSelectionView.xib */; };
-		43DFDC0810049E5000DADAA1 /* GenderSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDC0710049E5000DADAA1 /* GenderSelectionViewController.m */; };
-		43DFDC0E1004A00800DADAA1 /* GenderSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43DFDC0D1004A00800DADAA1 /* GenderSelectionView.xib */; };
-		43DFDC731004A58300DADAA1 /* AlignmentSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDC721004A58300DADAA1 /* AlignmentSelectionViewController.m */; };
-		43DFDC7A1004A68000DADAA1 /* AlignmentSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43DFDC791004A68000DADAA1 /* AlignmentSelectionView.xib */; };
 		916CE038102C57E8000535FC /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 916CE037102C57E8000535FC /* credits.html */; };
 /* End PBXBuildFile section */
 
@@ -763,15 +757,6 @@
 		43DD0C420FF4ECEB00580249 /* Window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Window.m; sourceTree = "<group>"; };
 		43DFDA7010033E0600DADAA1 /* RoleSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleSelectionViewController.h; sourceTree = "<group>"; };
 		43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoleSelectionViewController.m; sourceTree = "<group>"; };
-		43DFDB611003561300DADAA1 /* RaceSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RaceSelectionViewController.h; sourceTree = "<group>"; };
-		43DFDB621003561300DADAA1 /* RaceSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RaceSelectionViewController.m; sourceTree = "<group>"; };
-		43DFDB6A100356BC00DADAA1 /* RaceSelectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RaceSelectionView.xib; sourceTree = "<group>"; };
-		43DFDC0610049E5000DADAA1 /* GenderSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenderSelectionViewController.h; sourceTree = "<group>"; };
-		43DFDC0710049E5000DADAA1 /* GenderSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenderSelectionViewController.m; sourceTree = "<group>"; };
-		43DFDC0D1004A00800DADAA1 /* GenderSelectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenderSelectionView.xib; sourceTree = "<group>"; };
-		43DFDC711004A58300DADAA1 /* AlignmentSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlignmentSelectionViewController.h; sourceTree = "<group>"; };
-		43DFDC721004A58300DADAA1 /* AlignmentSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlignmentSelectionViewController.m; sourceTree = "<group>"; };
-		43DFDC791004A68000DADAA1 /* AlignmentSelectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlignmentSelectionView.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		916CE037102C57E8000535FC /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -827,12 +812,6 @@
 				439F0ED1100210690050AED4 /* ExtendedCommandViewController.m */,
 				43DFDA7010033E0600DADAA1 /* RoleSelectionViewController.h */,
 				43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */,
-				43DFDB611003561300DADAA1 /* RaceSelectionViewController.h */,
-				43DFDB621003561300DADAA1 /* RaceSelectionViewController.m */,
-				43DFDC0610049E5000DADAA1 /* GenderSelectionViewController.h */,
-				43DFDC0710049E5000DADAA1 /* GenderSelectionViewController.m */,
-				43DFDC711004A58300DADAA1 /* AlignmentSelectionViewController.h */,
-				43DFDC721004A58300DADAA1 /* AlignmentSelectionViewController.m */,
 				43D113CD1007491700082C8D /* TextDisplayViewController.h */,
 				43D113CE1007491700082C8D /* TextDisplayViewController.m */,
 				43D1149210075A0A00082C8D /* TilePosition.h */,
@@ -901,9 +880,6 @@
 				43ACB5D70FFF4A9F005DB589 /* DirectionInputView.xib */,
 				439F0DD41001FECB0050AED4 /* MenuViewLeaf.xib */,
 				439F0ED3100210770050AED4 /* ExtendedCommandView.xib */,
-				43DFDB6A100356BC00DADAA1 /* RaceSelectionView.xib */,
-				43DFDC0D1004A00800DADAA1 /* GenderSelectionView.xib */,
-				43DFDC791004A68000DADAA1 /* AlignmentSelectionView.xib */,
 				431FD067100B598200DC7260 /* Settings.bundle */,
 				916CE037102C57E8000535FC /* credits.html */,
 			);
@@ -1543,9 +1519,6 @@
 				439F0DD51001FECB0050AED4 /* MenuViewLeaf.xib in Resources */,
 				439F0ED4100210770050AED4 /* ExtendedCommandView.xib in Resources */,
 				439F0F77100245080050AED4 /* Icon.png in Resources */,
-				43DFDB6B100356BC00DADAA1 /* RaceSelectionView.xib in Resources */,
-				43DFDC0E1004A00800DADAA1 /* GenderSelectionView.xib in Resources */,
-				43DFDC7A1004A68000DADAA1 /* AlignmentSelectionView.xib in Resources */,
 				43D1142B10074E9F00082C8D /* news in Resources */,
 				43AECC25100A07FD008B7BE6 /* nhtiles.bmp in Resources */,
 				431FD068100B598200DC7260 /* Settings.bundle in Resources */,
@@ -1688,9 +1661,6 @@
 				43ACB5D60FFF4A53005DB589 /* DirectionInputViewController.m in Sources */,
 				439F0ED2100210690050AED4 /* ExtendedCommandViewController.m in Sources */,
 				43DFDA7210033E0600DADAA1 /* RoleSelectionViewController.m in Sources */,
-				43DFDB631003561300DADAA1 /* RaceSelectionViewController.m in Sources */,
-				43DFDC0810049E5000DADAA1 /* GenderSelectionViewController.m in Sources */,
-				43DFDC731004A58300DADAA1 /* AlignmentSelectionViewController.m in Sources */,
 				43D113CF1007491700082C8D /* TextDisplayViewController.m in Sources */,
 				43D1149410075A0A00082C8D /* TilePosition.m in Sources */,
 				43AECC03100A03EE008B7BE6 /* TiledImages.m in Sources */,

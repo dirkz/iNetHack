@@ -34,7 +34,6 @@
 #import "DirectionInputViewController.h"
 #import "ExtendedCommandViewController.h"
 #import "RoleSelectionViewController.h"
-#import "RaceSelectionViewController.h"
 #import "TextDisplayViewController.h"
 #import "TilePosition.h"
 #import "TouchInfo.h"
@@ -533,14 +532,72 @@ static MainViewController *_instance;
 	return extendedCommandViewController.result;
 }
 
-- (void)didSelectRole:(id)sender
-{
-	NSAssert([sender respondsToSelector:@selector(tag)], @"didSelectRole: sender has no tag");
+- (void)didSelectAlignment:(id)sender {
+	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
+	flags.initalign = [sender tag];
+	[self.navigationController popToRootViewControllerAnimated:NO];
+	[[MainViewController instance] broadcastUIEvent];
+}
+
+- (void)didSelectGender:(id)sender {
+	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
+	flags.initgend = [sender tag];
+
+	// Set up alignment selection list
+	RoleSelectionViewController* alignSelectionViewController = [RoleSelectionViewController new];
+
+	alignSelectionViewController.title = @"Your Alignment?";
+	alignSelectionViewController.target = self;
+	alignSelectionViewController.action = @selector(didSelectAlignment:);
+	for (int i = 0; i < ROLE_ALIGNS; i++) {
+		if (validalign(flags.initrole, flags.initrace, i)) {
+			[alignSelectionViewController addItemWithTitle:[[NSString stringWithCString:aligns[i].adj] capitalizedString] tag:i];
+		}
+	}
+	[self.navigationController pushViewController:alignSelectionViewController animated:YES];
+
+	[alignSelectionViewController release];
+}
+
+- (void)didSelectRace:(id)sender {
+	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
+	pl_race = [sender tag];
+	flags.initrace = [sender tag];
+
+	// Set up gender selection list
+	RoleSelectionViewController* genderSelectionViewController = [RoleSelectionViewController new];
+
+	genderSelectionViewController.title = @"Your Gender?";
+	genderSelectionViewController.target = self;
+	genderSelectionViewController.action = @selector(didSelectGender:);
+	for (int i = 0; i < ROLE_GENDERS; i++) {
+		if (validgend(flags.initrole, flags.initrace, i)) {
+			[genderSelectionViewController addItemWithTitle:[[NSString stringWithCString:genders[i].adj] capitalizedString] tag:i];
+		}
+	}
+	[self.navigationController pushViewController:genderSelectionViewController animated:YES];
+
+	[genderSelectionViewController release];
+}
+
+- (void)didSelectRole:(id)sender {
+	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
 	flags.initrole = [sender tag];
 	strcpy(pl_character, roles[flags.initrole].filecode);
 
-	RaceSelectionViewController* raceSelectionViewController = [RaceSelectionViewController new];
+	// Set up race selection list
+	RoleSelectionViewController* raceSelectionViewController = [RoleSelectionViewController new];
+
+	raceSelectionViewController.title = @"Your Race?";
+	raceSelectionViewController.target = self;
+	raceSelectionViewController.action = @selector(didSelectRace:);
+	for (int i = 0; races[i].noun; i++) {
+		if (validrace(flags.initrole, i)) {
+			[raceSelectionViewController addItemWithTitle:[[NSString stringWithCString:races[i].noun] capitalizedString] tag:i];
+		}
+	}
 	[self.navigationController pushViewController:raceSelectionViewController animated:YES];
+
 	[raceSelectionViewController release];
 }
 
@@ -552,10 +609,11 @@ static MainViewController *_instance;
 	roleSelectionViewController.title = @"Your Role?";
 	roleSelectionViewController.target = self;
 	roleSelectionViewController.action = @selector(didSelectRole:);
-	for (int i = 0; roles[i].name.m; ++i)
+	for (int i = 0; roles[i].name.m; ++i) {
 		[roleSelectionViewController addItemWithTitle:[NSString stringWithCString:roles[i].name.m] tag:i];
+	}
+	[self.navigationController pushViewController:roleSelectionViewController animated:NO];
 	[self.navigationController.navigationBar.topItem setHidesBackButton:YES animated:YES];
-	[self.navigationController pushViewController:roleSelectionViewController animated:YES];
 
 	[roleSelectionViewController release];
 }
