@@ -36,21 +36,7 @@
 }
 
 - (char) choice {
-	if (!chosen) {
-		const char *p = choices;
-		char c;
-		while (c = *p++) {
-			switch (c) {
-				case 'q':
-				case 'n':
-					return c;
-					break;
-			}
-		}
-		return defaultChoice;
-	} else {
-		return choices[chosen-1];
-	}
+	return choices[chosen];
 }
 
 @end

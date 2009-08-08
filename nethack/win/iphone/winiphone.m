@@ -309,6 +309,29 @@ int iphone_doprev_message() {
 	return 0;
 }
 
+// expands stuff like 'a-c' into 'abc'
+static NSString *expandInventoryLetters(NSString *lets) {
+	NSMutableString *res = [NSMutableString string];
+	char lastChar;
+	BOOL isRange = NO;
+	for (int i = 0; i < lets.length; ++i) {
+		char c = [lets characterAtIndex:i];
+		if (isRange) {
+			for (char ch = lastChar+1; ch <= c; ++ch) {
+				[res appendString:[NSString stringWithFormat:@"%c", ch]];
+			}
+			isRange = NO;
+		} else if (c == '-' && lastChar) {
+			isRange = YES;
+		} else {
+			[res appendString:[NSString stringWithFormat:@"%c", c]];
+			lastChar = c;
+		}
+	}
+	//NSLog(@"expandInventoryLetters(@%) -> %@", lets, res);
+	return res;
+}
+
 char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 	NSLog(@"iphone_yn_function %s", question);
 	if (!choices) {
@@ -362,6 +385,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 						}
 					}
 				}
+				lets = expandInventoryLetters(lets);
 				char c = display_inventory([lets cStringUsingEncoding:NSASCIIStringEncoding], TRUE);
 				return c;
 			} else {

@@ -187,11 +187,6 @@ static MainViewController *_instance;
 	[uiCondition unlock];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	//NSLog(@"alert finished");
-	[self broadcastUIEvent];
-}
-
 #pragma mark commands
 
 - (void) nethackSearchCountEntered:(id)tf {
@@ -480,7 +475,7 @@ static MainViewController *_instance;
 - (void) displayYnQuestionOnUIThread:(NethackYnFunction *)yn {
 	currentYnFunction = yn;
 	UIActionSheet *menu = [[UIActionSheet alloc] initWithTitle:[NSString stringWithCString:yn.question]
-													  delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+													  delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil
 											 otherButtonTitles:nil];
 	const char *p = yn.choices;
 	char c;
