@@ -25,13 +25,12 @@
 
 @interface TextDisplayViewController : UIViewController {
 	
-	IBOutlet UITextView *textView;
+	UITextView *textView;
 	NSCondition *condition;
 	NSString *text;
-	
 }
 
-@property (nonatomic, assign) NSString *text;
-@property (nonatomic, assign) NSCondition *condition;
+@property (nonatomic, copy) NSString *text;
+@property (nonatomic, retain) NSCondition *condition;
 
 @end

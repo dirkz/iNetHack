@@ -152,7 +152,6 @@
 		43C5AD890FFA75F7004F67ED /* NethackMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C5AD880FFA75F7004F67ED /* NethackMenuViewController.m */; };
 		43C5AD930FFA772B004F67ED /* NethackMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43C5AD920FFA772B004F67ED /* NethackMenuView.xib */; };
 		43C5F77F0FFB965800FAC706 /* NethackYnFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C5F77E0FFB965800FAC706 /* NethackYnFunction.m */; };
-		43D113CC1007490200082C8D /* TextDisplayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D113CB1007490200082C8D /* TextDisplayView.xib */; };
 		43D113CF1007491700082C8D /* TextDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D113CE1007491700082C8D /* TextDisplayViewController.m */; };
 		43D1142B10074E9F00082C8D /* news in Resources */ = {isa = PBXBuildFile; fileRef = 43D1142A10074E9F00082C8D /* news */; };
 		43D1149410075A0A00082C8D /* TilePosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D1149310075A0A00082C8D /* TilePosition.m */; };
@@ -592,7 +591,6 @@
 		43C5AD920FFA772B004F67ED /* NethackMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NethackMenuView.xib; sourceTree = "<group>"; };
 		43C5F77D0FFB965800FAC706 /* NethackYnFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NethackYnFunction.h; sourceTree = "<group>"; };
 		43C5F77E0FFB965800FAC706 /* NethackYnFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NethackYnFunction.m; sourceTree = "<group>"; };
-		43D113CB1007490200082C8D /* TextDisplayView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextDisplayView.xib; sourceTree = "<group>"; };
 		43D113CD1007491700082C8D /* TextDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextDisplayViewController.h; sourceTree = "<group>"; };
 		43D113CE1007491700082C8D /* TextDisplayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextDisplayViewController.m; sourceTree = "<group>"; };
 		43D1142A10074E9F00082C8D /* news */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = news; sourceTree = "<group>"; };
@@ -914,7 +912,6 @@
 				43DFDB6A100356BC00DADAA1 /* RaceSelectionView.xib */,
 				43DFDC0D1004A00800DADAA1 /* GenderSelectionView.xib */,
 				43DFDC791004A68000DADAA1 /* AlignmentSelectionView.xib */,
-				43D113CB1007490200082C8D /* TextDisplayView.xib */,
 				43BB3E281010AC26004E1160 /* CreditsView.xib */,
 				431FD067100B598200DC7260 /* Settings.bundle */,
 			);
@@ -1558,7 +1555,6 @@
 				43DFDB6B100356BC00DADAA1 /* RaceSelectionView.xib in Resources */,
 				43DFDC0E1004A00800DADAA1 /* GenderSelectionView.xib in Resources */,
 				43DFDC7A1004A68000DADAA1 /* AlignmentSelectionView.xib in Resources */,
-				43D113CC1007490200082C8D /* TextDisplayView.xib in Resources */,
 				43D1142B10074E9F00082C8D /* news in Resources */,
 				43AECC25100A07FD008B7BE6 /* nhtiles.bmp in Resources */,
 				431FD068100B598200DC7260 /* Settings.bundle in Resources */,
