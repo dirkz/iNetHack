@@ -68,11 +68,11 @@
 	if (self.isHTML) {
 		webView = [[UIWebView alloc] initWithFrame:self.view.frame];
 		webView.delegate = self;
-		[self.view addSubview:webView];
+		self.view = webView;
 		[webView release];
 	} else {
 		textView = [[UITextView alloc] initWithFrame:self.view.frame];
-		[self.view addSubview:textView];
+		self.view = textView;
 		[textView release];
 	}
 	[self updateText];
