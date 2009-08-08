@@ -142,51 +142,6 @@ static MainViewController *_instance;
 	return nil;
 }
 
-- (winid) createWindow:(int)type {
-	Window *w = [[Window alloc] initWithType:type];
-	[windows addObject:w];
-	[w release];
-	return (winid) w;
-}
-
-- (void) destroyWindow:(winid)wid {
-	Window *w = (Window *) wid;
-	[windows removeObject:w];
-}
-
-- (Window *) windowWithId:(winid)wid {
-	return (Window *) wid;
-}
-
-- (void) displayWindowId:(winid)wid blocking:(BOOL)blocking {
-	Window *w = [self windowWithId:wid];
-	if (w.type == NHW_MENU || w.type == NHW_TEXT && blocking) {
-		if ((w.type == NHW_TEXT || w.type == NHW_MENU) && w.strings.count > 0) {
-			[uiCondition lock];
-			[self performSelectorOnMainThread:@selector(displayMessage:) withObject:w waitUntilDone:YES];
-			[uiCondition wait];
-			[uiCondition unlock];
-		}
-	} else if (w.type == NHW_MAP) {
-		[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
-	}
-}
-
-- (void) displayMessage:(Window *)w {
-	NSString *text = w.text;
-	//NSLog(@"displaying text %@", text);
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:text
-												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alert show];
-	[alert release];
-}
-
-- (void) waitForUser {
-	[uiCondition lock];
-	[uiCondition wait];
-	[uiCondition unlock];
-}
-
 #pragma mark commands
 
 - (void) nethackSearchCountEntered:(id)tf {
@@ -445,6 +400,45 @@ static MainViewController *_instance;
 
 #pragma mark windowing
 
+- (winid) createWindow:(int)type {
+	Window *w = [[Window alloc] initWithType:type];
+	[windows addObject:w];
+	[w release];
+	return (winid) w;
+}
+
+- (void) destroyWindow:(winid)wid {
+	Window *w = (Window *) wid;
+	[windows removeObject:w];
+}
+
+- (Window *) windowWithId:(winid)wid {
+	return (Window *) wid;
+}
+
+- (void) displayWindowId:(winid)wid blocking:(BOOL)blocking {
+	Window *w = [self windowWithId:wid];
+	if (w.type == NHW_MENU || w.type == NHW_TEXT && blocking) {
+		if ((w.type == NHW_TEXT || w.type == NHW_MENU) && w.strings.count > 0) {
+			[uiCondition lock];
+			[self performSelectorOnMainThread:@selector(displayMessage:) withObject:w waitUntilDone:YES];
+			[uiCondition wait];
+			[uiCondition unlock];
+		}
+	} else if (w.type == NHW_MAP) {
+		[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+	}
+}
+
+- (void) displayMessage:(Window *)w {
+	NSString *text = w.text;
+	//NSLog(@"displaying text %@", text);
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:text
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
+	[alert release];
+}
+
 - (void) displayMenuWindow:(Window *)w {
 	[uiCondition lock];
 	[self performSelectorOnMainThread:@selector(displayMenuWindowOnUIThread:) withObject:w waitUntilDone:YES];
@@ -456,6 +450,11 @@ static MainViewController *_instance;
 	nethackMenuViewController.menuWindow = w;
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
 	[self.navigationController pushViewController:nethackMenuViewController animated:YES];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	//NSLog(@"alert finished");
+	[self broadcastUIEvent];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -669,6 +668,12 @@ static MainViewController *_instance;
 }
 
 #pragma mark condition utilities
+
+- (void) waitForUser {
+	[uiCondition lock];
+	[uiCondition wait];
+	[uiCondition unlock];
+}
 
 - (void) broadcastUIEvent {
 	[self broadcastCondition:uiCondition];

@@ -397,7 +397,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 		}
 	} else {
 		NSString *s = [NSString stringWithCString:question];
-		if ([s isEqualToString:@"Really save?"]) {
+		if ([s isEqualToString:@"Really save?"] || [s isEqualToString:@"Overwrite the old file?"]) {
 			return 'y';
 		} 
 		NethackYnFunction *yn = [[NethackYnFunction alloc] initWithQuestion:question choices:choices defaultChoice:def];
