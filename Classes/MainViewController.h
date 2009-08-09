@@ -50,8 +50,7 @@
 	IBOutlet ExtendedCommandViewController *extendedCommandViewController;
 	
 	NSMutableArray *windows;
-	int clipx;
-	int clipy;
+	TilePosition *clip;
 	
 	NethackEventQueue *nethackEventQueue;
 	
@@ -73,8 +72,7 @@
 }
 
 @property (nonatomic, readonly) NSArray *windows;
-@property (nonatomic, assign) int clipx;
-@property (nonatomic, assign) int clipy;
+@property (nonatomic, readonly) TilePosition *clip;
 @property (nonatomic, readonly) Window *mapWindow;
 @property (nonatomic, readonly) Window *messageWindow;
 @property (nonatomic, readonly) Window *statusWindow;

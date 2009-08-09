@@ -44,7 +44,7 @@ static MainViewController *_instance;
 
 @implementation MainViewController
 
-@synthesize windows, clipx, clipy, nethackEventQueue;
+@synthesize windows, clip, nethackEventQueue;
 @synthesize nethackMenuInfo;
 
 + (id) instance {
@@ -79,6 +79,7 @@ static MainViewController *_instance;
 	tapRect = CGRectMake(-25, -25, 50, 50);
 	_instance = self;
 	lastSingleTapDelta = [[TilePosition alloc] init];
+	clip = [[TilePosition alloc] init];
 
 	NSThread *nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackLoop:) object:nil];
 	[nethackThread start];
@@ -370,7 +371,7 @@ static MainViewController *_instance;
 				TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
 				// ignore clicks into the dark
 				int glyph = [self.mapWindow glyphAtX:tp.x y:tp.y];
-				if (glyph) {
+				if (glyph != kNoGlyph) {
 					lastSingleTapDelta.x = tp.x-u.ux;
 					lastSingleTapDelta.y = tp.y-u.uy;
 					NethackEvent *e = [[NethackEvent alloc] init];
@@ -723,6 +724,7 @@ static MainViewController *_instance;
 	[textInputCondition release];
 	[windows release];
 	[lastSingleTapDelta release];
+	[clip release];
     [super dealloc];
 }
 

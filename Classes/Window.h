@@ -24,6 +24,8 @@
 
 #include "hack.h"
 
+#define kNoGlyph (-1)
+
 @class NethackMenuItem;
 
 @interface Window : NSObject {

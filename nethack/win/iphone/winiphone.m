@@ -30,6 +30,7 @@
 #import "NethackEventQueue.h"
 #import "NSString+Regexp.h"
 #import "NetHackMenuInfo.h"
+#import "TilePosition.h"
 
 #include <stdio.h>
 #include "dlb.h"
@@ -265,8 +266,8 @@ void iphone_wait_synch() {
 void iphone_cliparound(int x, int y) {
 	//NSLog(@"iphone_cliparound %d,%d", x, y);
 	MainViewController *v = [MainViewController instance];
-	v.clipx = x;
-	v.clipy = y;
+	v.clip.x = x;
+	v.clip.y = y;
 }
 
 void iphone_cliparound_window(winid wid, int x, int y) {

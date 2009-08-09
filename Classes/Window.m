@@ -30,8 +30,8 @@
 - (id) initWithType:(winid)t {
 	if (self = [super init]) {
 		type = t;
-		maxWidth = 80;
-		maxHeight = 23;
+		maxWidth = COLNO;
+		maxHeight = ROWNO;
 		switch (t) {
 			case NHW_MESSAGE:
 				width = maxWidth;
@@ -56,7 +56,7 @@
 		
 		size_t n = sizeof(int) * width * height;
 		glyphs = malloc(n);
-		memset(glyphs, 0, n);
+		memset(glyphs, kNoGlyph, n);
 		strings = [[NSMutableArray alloc] init];
 		maxLogEntries = 50;
 		log = [[NSMutableArray alloc] init];
@@ -75,7 +75,7 @@
 - (void) clear {
 	for (int j = 0; j < height; ++j) {
 		for (int i = 0; i < width; ++i) {
-			[self setGlyph:0 atX:i y:j];
+			[self setGlyph:kNoGlyph atX:i y:j];
 		}
 	}
 	[strings removeAllObjects];

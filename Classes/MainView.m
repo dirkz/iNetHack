@@ -81,6 +81,7 @@ extern short glyph2tile[];
 						  [[Shortcut alloc] initWithTitle:@"P" key:'P'],
 						  [[Shortcut alloc] initWithTitle:@"T" key:'T'],
 						  [[Shortcut alloc] initWithTitle:@"A" key:'A'],
+						  [[Shortcut alloc] initWithTitle:@"p" key:'p'],
 						  nil];
 	shortcutView = [[ShortcutView alloc] initWithShortcuts:shortcuts];
 	[shortcutView releaseShortcuts];
@@ -117,25 +118,30 @@ extern short glyph2tile[];
 - (void) drawTiledMap:(Window *)map inContext:(CGContextRef)ctx {
 	CGPoint center = CGPointMake(self.bounds.size.width/2-tileSize.width/2, self.bounds.size.height/2-tileSize.height/2);
 	
-	start = CGPointMake(-mainViewController.clipx*tileSize.width + center.x + offset.x,
-						-mainViewController.clipy*tileSize.height + center.y + offset.y);
+	start = CGPointMake(-mainViewController.clip.x*tileSize.width + center.x + offset.x,
+						-mainViewController.clip.y*tileSize.height + center.y + offset.y);
 
 	for (int j = 0; j < map.height; ++j) {
 		for (int i = 0; i < map.width; ++i) {
 			int glyph = [map glyphAtX:i y:j];
-			if (glyph) {
+			if (glyph != kNoGlyph) {
+				/*
+				 // might be handy for debugging ...
 				int ochar, ocolor;
 				unsigned special;
 				mapglyph(glyph, &ochar, &ocolor, &special, i, j);
+				 */
 				CGRect r = CGRectMake(start.x+i*tileSize.width, start.y+j*tileSize.height, tileSize.width, tileSize.height);
 				int t = glyph2tile[glyph];
 				CGImageRef img = [images imageAt:t];
-				//CGContextDrawImage(ctx, r, img);
 				UIImage *i = [UIImage imageWithCGImage:img];
 				[i drawInRect:r];
-			}
-			if (glyph_is_pet(glyph)) {
-				// todo
+				if (glyph_is_pet(glyph)) {
+					CGContextRef ctx = UIGraphicsGetCurrentContext();
+					float white[] = {1,1,1,1};
+					CGContextSetStrokeColor(ctx, white);
+					CGContextStrokeRect(ctx, r);
+				}
 			}
 		}
 	}
