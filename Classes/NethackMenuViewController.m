@@ -88,17 +88,17 @@
 				[menuWindow addMenuItem:miParent];
 				if (nethackMenuInfo.acceptBareHanded) {
 					any.a_int = '-';
-					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Hands" preselected:NO];
+					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Hands (-)" preselected:NO];
 					[menuWindow addMenuItem:mi];
 				}
 				if (nethackMenuInfo.acceptMore) {
 					any.a_int = '*';
-					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"More" preselected:NO];
+					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"More (*)" preselected:NO];
 					[menuWindow addMenuItem:mi];
 				}
 				if (nethackMenuInfo.acceptMoney) {
 					any.a_int = '$';
-					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Money" preselected:NO];
+					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Gold ($)" preselected:NO];
 					[menuWindow addMenuItem:mi];
 				}
 			}
