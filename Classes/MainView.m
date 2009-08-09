@@ -54,9 +54,9 @@ extern short glyph2tile[];
 	NSArray *shortcuts = [[NSArray alloc] initWithObjects:
 						  [[Shortcut alloc] initWithTitle:@"." key:'.'],
 						  [[Shortcut alloc] initWithTitle:@"20s" keys:@"20s"],
-						  [[Shortcut alloc] initWithTitle:@"," key:','],
 						  [[Shortcut alloc] initWithTitle:@":" key:':'],
 						  [[Shortcut alloc] initWithTitle:@"99." keys:@"99."],
+						  [[Shortcut alloc] initWithTitle:@";" key:';'],
 						  [[Shortcut alloc] initWithTitle:@"#" key:'#'],
 						  [[Shortcut alloc] initWithTitle:@"abc" keys:nil
 												 selector:@selector(showKeyboard:) target:self arg:nil],
