@@ -350,7 +350,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 				BOOL terminateLoop = NO;
 				int index;
 				int start;
-				for (int i = 0; i < preLets.length, !terminateLoop; ++i) {
+				for (int i = 0; i < preLets.length && !terminateLoop; ++i) {
 					index = i;
 					char c = [preLets characterAtIndex:i];
 					if (!alphaBegan) {
