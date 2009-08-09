@@ -478,8 +478,6 @@ void iphone_main() {
 		 */
 		boolean remember_wiz_mode = wizard;
 #endif
-		const char *fq_save = fqname(SAVEF, SAVEPREFIX, 1);
-		
 		//(void) chmod(fq_save,0);	/* disallow parallel restores */
 		(void) signal(SIGINT, (SIG_RET_TYPE) done1);
 #ifdef NEWS
@@ -500,12 +498,12 @@ void iphone_main() {
 		
 		if (discover || wizard) {
 			if(yn("Do you want to keep the save file?") == 'n') {
-				// todo allows cheating but also saves from crashes
-			    //(void) delete_savefile();
+			    (void) delete_savefile();
 			}
 			else {
 			    //(void) chmod(fq_save,FCMASK); /* back to readable */
-			    compress(fq_save);
+				// compress only works in the sim
+			    //compress(fq_save);
 			}
 		}
 		flags.move = 0;
