@@ -289,6 +289,40 @@ static MainViewController *_instance;
 	return direction;
 }
 
+// non-functional prototype
+- (char) directionFromPointDelta:(CGPoint)d {
+	float length = sqrt(d.x*d.x + d.y*d.y);
+	d.x /= length;
+	d.y /= length;
+	char direction = 0;
+	if (d.x > 0 && d.y > 0) {
+		// bottom right
+		direction = 'n';
+	} else if (d.x < 0 && d.y > 0) {
+		// bottom left
+		direction = 'b';
+	} else if (d.x > 0 && d.y == 0) {
+		// right
+		direction = 'l';
+	} else if (d.x < 0 && d.y == 0) {
+		// left
+		direction = 'h';
+	} else if (d.x == 0 && d.y > 0) {
+		// down
+		direction = 'j';
+	} else if (d.x == 0 && d.y < 0) {
+		// up
+		direction = 'k';
+	} else if (d.x < 0 && d.y < 0) {
+		// top left
+		direction = 'y';
+	} else if (d.x > 0 && d.y < 0) {
+		// top right
+		direction = 'u';
+	}
+	return direction;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	[touchInfoStore storeTouches:touches];
 	if (touches.count == 1) {
