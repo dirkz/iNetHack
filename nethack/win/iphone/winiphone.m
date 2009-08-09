@@ -388,6 +388,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 				}
 				lets = expandInventoryLetters(lets);
 				char c = display_inventory([lets cStringUsingEncoding:NSASCIIStringEncoding], TRUE);
+				[[MainViewController instance] setNethackMenuInfo:nil];
 				return c;
 			} else {
 				NSLog(@"iphone_yn_function no preLets!");
