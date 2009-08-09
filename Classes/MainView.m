@@ -51,41 +51,7 @@ extern short glyph2tile[];
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
 	
-	NSArray *shortcuts = [[NSArray alloc] initWithObjects:
-						  [[Shortcut alloc] initWithTitle:@"." key:'.'],
-						  [[Shortcut alloc] initWithTitle:@"20s" keys:@"20s"],
-						  [[Shortcut alloc] initWithTitle:@":" key:':'],
-						  [[Shortcut alloc] initWithTitle:@"99." keys:@"99."],
-						  [[Shortcut alloc] initWithTitle:@";" key:';'],
-						  [[Shortcut alloc] initWithTitle:@"#" key:'#'],
-						  [[Shortcut alloc] initWithTitle:@"abc" keys:nil
-												 selector:@selector(showKeyboard:) target:self arg:nil],
-						  [[Shortcut alloc] initWithTitle:@"menu" keys:nil
-												 selector:@selector(showMainMenu:) target:self arg:nil],
-						  [[Shortcut alloc] initWithTitle:@"i" key:'i'],
-						  [[Shortcut alloc] initWithTitle:@"e" key:'e'],
-						  [[Shortcut alloc] initWithTitle:@"t" key:'t'],
-						  [[Shortcut alloc] initWithTitle:@"f" key:'f'],
-						  [[Shortcut alloc] initWithTitle:@"z" key:'z'],
-						  [[Shortcut alloc] initWithTitle:@"Z" key:'Z'],
-						  [[Shortcut alloc] initWithTitle:@"a" key:'a'],
-						  [[Shortcut alloc] initWithTitle:@"^d" key:C('d')],
-						  [[Shortcut alloc] initWithTitle:@"^a" key:C('a')],
-						  [[Shortcut alloc] initWithTitle:@"q" key:'q'],
-						  [[Shortcut alloc] initWithTitle:@"E" key:'E'],
-						  [[Shortcut alloc] initWithTitle:@"Q" key:'Q'],
-						  [[Shortcut alloc] initWithTitle:@"d" key:'d'],
-						  [[Shortcut alloc] initWithTitle:@"D" key:'D'],
-						  [[Shortcut alloc] initWithTitle:@"w" key:'w'],
-						  [[Shortcut alloc] initWithTitle:@"W" key:'W'],
-						  [[Shortcut alloc] initWithTitle:@"P" key:'P'],
-						  [[Shortcut alloc] initWithTitle:@"T" key:'T'],
-						  [[Shortcut alloc] initWithTitle:@"A" key:'A'],
-						  [[Shortcut alloc] initWithTitle:@"p" key:'p'],
-						  nil];
-	shortcutView = [[ShortcutView alloc] initWithShortcuts:shortcuts];
-	[shortcutView releaseShortcuts];
-	
+	shortcutView = [[ShortcutView alloc] init];
 	[self addSubview:shortcutView];
 }
 
