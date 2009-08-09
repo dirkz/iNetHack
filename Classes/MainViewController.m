@@ -348,10 +348,12 @@ static MainViewController *_instance;
 				// zoom (in)
 				CGFloat zoom = currentDistance-initialDistance;
 				[(MainView *) self.view zoom:zoom];
+				initialDistance = currentDistance;
 			} else if (initialDistance-currentDistance > kMinimumPinchDelta) {
 				// zoom (out)
 				CGFloat zoom = currentDistance-initialDistance;
 				[(MainView *) self.view zoom:zoom];
+				initialDistance = currentDistance;
 			}
 		}
 	}

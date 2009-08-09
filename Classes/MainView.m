@@ -240,7 +240,7 @@ extern short glyph2tile[];
 }
 
 - (void) zoom:(CGFloat)d {
-	d /= 20;
+	d /= 5;
 	CGSize originalSize = tileSize;
 	tileSize.width += d;
 	tileSize.height += d;
