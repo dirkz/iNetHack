@@ -137,10 +137,12 @@ extern short glyph2tile[];
 				UIImage *i = [UIImage imageWithCGImage:img];
 				[i drawInRect:r];
 				if (glyph_is_pet(glyph)) {
+					/*
 					CGContextRef ctx = UIGraphicsGetCurrentContext();
 					float white[] = {1,1,1,1};
 					CGContextSetStrokeColor(ctx, white);
 					CGContextStrokeRect(ctx, r);
+					 */
 				}
 			}
 		}
