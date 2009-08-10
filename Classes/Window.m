@@ -22,6 +22,7 @@
 
 #import "Window.h"
 #import "NethackMenuItem.h"
+#import "NSString+Regexp.h"
 
 @implementation Window
 
@@ -85,6 +86,9 @@
 	NSString *str = [NSString stringWithCString:s];
 	if (type == NHW_STATUS && strings.count == 2) {
 		[strings removeAllObjects];
+	}
+	if (type == NHW_STATUS) {
+		str = [str stringWithTrimmedWhitespaces];
 	}
 	[strings addObject:str];
 	[self addLogString:str];

@@ -36,4 +36,24 @@
 	return sub;
 }
 
+- (NSString *) stringWithTrimmedWhitespaces {
+	NSMutableString *s1 = [NSMutableString stringWithCapacity:1];
+	BOOL wasSpace = NO;
+	for (int i = 0; i < self.length; ++i) {
+		char c = [self characterAtIndex:i];
+		if (!wasSpace) {
+			[s1 appendFormat:@"%c", c];
+			if (c == ' ') {
+				wasSpace = YES;
+			}
+		} else {
+			if (c != ' ') {
+				wasSpace = NO;
+				[s1 appendFormat:@"%c", c];
+			}
+		}
+	}
+	return s1;
+}
+
 @end

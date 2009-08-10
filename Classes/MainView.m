@@ -42,7 +42,7 @@ extern short glyph2tile[];
 }
 
 - (void) awakeFromNib {
-	statusFont = [UIFont systemFontOfSize:12];
+	statusFont = [UIFont systemFontOfSize:14];
 	flashMessageFont = [UIFont systemFontOfSize:24];
 	//images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"absurd64.bmp"] tileSize:CGSizeMake(64,64)];
 	//images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"absurd40.bmp"] tileSize:CGSizeMake(40,40)];

@@ -13,5 +13,6 @@
 
 - (BOOL) containsString:(NSString *)s;
 - (NSString *) substringFromString:(NSString *)src betweenDelimiters:(NSString *)del;
+- (NSString *) stringWithTrimmedWhitespaces;
 
 @end
