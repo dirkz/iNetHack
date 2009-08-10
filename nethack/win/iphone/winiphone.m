@@ -345,6 +345,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 			if (preLets && preLets.length > 0) {
 				NetHackMenuInfo *menuInfo = [[NetHackMenuInfo alloc] init];
 				[[MainViewController instance] setNethackMenuInfo:menuInfo];
+				[menuInfo release];
 				menuInfo.prompt = q;
 				BOOL alphaBegan = NO;
 				BOOL terminateLoop = NO;
