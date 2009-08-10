@@ -18,6 +18,16 @@
 	return NO;
 }
 
+- (BOOL) containsChar:(char)c {
+	for (int i = 0; i < self.length; ++i) {
+		char ct = [self characterAtIndex:i];
+		if (ct == c) {
+			return YES;
+		}
+	}
+	return NO;
+}
+
 - (NSString *) substringFromString:(NSString *)src betweenDelimiters:(NSString *)del {
 	char c = [del characterAtIndex:0];
 	NSString *s = [NSString stringWithFormat:@"%c", c];

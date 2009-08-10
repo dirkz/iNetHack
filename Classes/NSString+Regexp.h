@@ -12,6 +12,7 @@
 @interface NSString (Regexp)
 
 - (BOOL) containsString:(NSString *)s;
+- (BOOL) containsChar:(char)c;
 - (NSString *) substringFromString:(NSString *)src betweenDelimiters:(NSString *)del;
 - (NSString *) stringWithTrimmedWhitespaces;
 

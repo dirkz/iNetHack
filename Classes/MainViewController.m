@@ -40,6 +40,7 @@
 #import "TouchInfoStore.h"
 #import "NetHackMenuInfo.h"
 #import "DMath.h"
+#import "NSString+Regexp.h"
 
 static MainViewController *_instance;
 
@@ -761,16 +762,23 @@ static MainViewController *_instance;
 	}
 }
 
+#pragma mark options
+
 - (void) initOptions {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	BOOL autopickup = [defaults boolForKey:kOptionAutopickup];
 	flags.pickup = autopickup ? TRUE:FALSE;
 	NSString *pickupTypes = [defaults objectForKey:kOptionPickupTypes];
-	if (pickupTypes) {
-		[pickupTypes getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
+	if (flags.pickup && pickupTypes) {
+		NSMutableString *tmp = [NSMutableString string];
+		for (int i = 0; i < pickupTypes.length; ++i) {
+			int oc_sym = def_char_to_objclass([pickupTypes characterAtIndex:i]);
+			if (![tmp containsChar:oc_sym]) {
+				[tmp appendFormat:@"%c", oc_sym];
+			}
+		}
+		[tmp getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
 	}
-	NSLog(@"autopickup %d", flags.pickup);
-	NSLog(@"pickup_types %s", flags.pickup_types);
 }
 
 - (void) overrideOptions {
