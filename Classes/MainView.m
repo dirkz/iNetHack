@@ -47,6 +47,7 @@ extern short glyph2tile[];
 	//images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"absurd64.bmp"] tileSize:CGSizeMake(64,64)];
 	//images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"absurd40.bmp"] tileSize:CGSizeMake(40,40)];
 	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"chozo40.bmp"] tileSize:CGSizeMake(40,40)];
+	petMark = [UIImage imageNamed:@"petmark.png"];
 	tileSize = maxTileSize = CGSizeMake(40,40);
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
@@ -67,16 +68,6 @@ extern short glyph2tile[];
 	shortcutView.frame = frame;
 	
 	[shortcutView setNeedsDisplay];
-}
-
-#pragma mark ad-hoc methods for shortcuts
-
-- (void) showMainMenu:(id)obj {
-	[[MainViewController instance] showMainMenu:obj];
-}
-
-- (void) showKeyboard:(id)obj {
-	[[MainViewController instance] nethackKeyboard:obj];
 }
 
 #pragma mark drawing
@@ -103,12 +94,7 @@ extern short glyph2tile[];
 				UIImage *i = [UIImage imageWithCGImage:img];
 				[i drawInRect:r];
 				if (glyph_is_pet(glyph)) {
-					/*
-					CGContextRef ctx = UIGraphicsGetCurrentContext();
-					float white[] = {1,1,1,1};
-					CGContextSetStrokeColor(ctx, white);
-					CGContextStrokeRect(ctx, r);
-					 */
+					[petMark drawInRect:r];
 				}
 			}
 		}
@@ -221,9 +207,17 @@ extern short glyph2tile[];
 	[self setNeedsDisplay];
 }
 
+- (BOOL) isMoved {
+	if (offset.x != 0 || offset.y != 0) {
+		return YES;
+	}
+	return NO;
+}
+
 - (void)dealloc {
 	[images release];
 	[shortcutView release];
+	[petMark release];
     [super dealloc];
 }
 

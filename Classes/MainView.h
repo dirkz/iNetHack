@@ -42,12 +42,15 @@
 	
 	CGPoint offset;
 	ShortcutView *shortcutView;
+	
+	UIImage *petMark;
 
 }
 
 @property (nonatomic, readonly) CGPoint start;
 @property (nonatomic, readonly) CGSize tileSize;
 @property (nonatomic, readonly) IBOutlet UITextField *dummyTextField;
+@property (nonatomic, readonly) BOOL isMoved;
 
 - (void) drawTiledMap:(Window *)map inContext:(CGContextRef)ctx;
 - (UIFont *) fontAndSize:(CGSize *)size forStrings:(NSArray *)strings withFont:(UIFont *)font;
