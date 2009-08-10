@@ -33,7 +33,7 @@
 }
 
 - (void) awakeFromNib {
-	tileSize = CGSizeMake(64,64);
+	tileSize = CGSizeMake(48,48);
 }
 
 - (CGRect *) rects {
@@ -46,7 +46,7 @@
 
 - (void) createRects {
 	CGPoint center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-	float tilesAbove = (float) kNumRows/2;
+	float tilesAbove = 1.5f;
 	float tilesLeft = (float) kNumCols/2;
 	CGPoint start = CGPointMake(center.x-(tilesLeft*tileSize.width), center.y-(tilesAbove*tileSize.height));
 	for (int j = 0; j < kNumRows; ++j) {

@@ -67,6 +67,13 @@ extern short glyph2tile[];
 	frame.size.height = s.height;
 	shortcutView.frame = frame;
 	
+	// subviews like direction input
+	for (UIView *v in self.subviews) {
+		if (v != shortcutView) {
+			v.frame = self.frame;
+		}
+	}
+
 	[shortcutView setNeedsDisplay];
 }
 
