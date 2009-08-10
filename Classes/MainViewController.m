@@ -210,7 +210,7 @@ static MainViewController *_instance;
 - (void) showCredits:(id)obj {
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"credits" ofType:@"html"];
 	TextDisplayViewController* viewController = [TextDisplayViewController new];
-	viewController.text = [NSString stringWithContentsOfFile:path];
+	viewController.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
 	viewController.isHTML = YES;
 	[self.navigationController pushViewController:viewController animated:YES];
 	[viewController release];
