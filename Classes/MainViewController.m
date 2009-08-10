@@ -444,19 +444,16 @@ static MainViewController *_instance;
 				if ([(MainView *) self.view isMoved] || lastEvent.key == ';') {
 					// tappable tiles if view is being panned
 					// ignore clicks into the dark
-					int glyph = [self.mapWindow glyphAtX:tp.x y:tp.y];
-					if (glyph != kNoGlyph) {
-						lastSingleTapDelta.x = tp.x-u.ux;
-						lastSingleTapDelta.y = tp.y-u.uy;
-						NethackEvent *e = [[NethackEvent alloc] init];
-						e.x = tp.x;
-						e.y = tp.y;
-						e.key = 0;
-						[nethackEventQueue addNethackEvent:e];
-						[e release];
-						[(MainView *) self.view resetOffset];
-						[self.view setNeedsDisplay];
-					}
+					lastSingleTapDelta.x = tp.x-u.ux;
+					lastSingleTapDelta.y = tp.y-u.uy;
+					NethackEvent *e = [[NethackEvent alloc] init];
+					e.x = tp.x;
+					e.y = tp.y;
+					e.key = 0;
+					[nethackEventQueue addNethackEvent:e];
+					[e release];
+					[(MainView *) self.view resetOffset];
+					[self.view setNeedsDisplay];
 				} else {
 					CGSize tileSize = CGSizeMake(40,40);
 					CGRect middleSquare = CGRectMake(self.view.bounds.size.width/2-tileSize.width/2,
