@@ -131,6 +131,16 @@
 	}
 }
 
+#pragma mark ad-hoc methods for shortcuts
+
+- (void) showMainMenu:(id)obj {
+	[[MainViewController instance] showMainMenu:obj];
+}
+
+- (void) showKeyboard:(id)obj {
+	[[MainViewController instance] nethackKeyboard:obj];
+}
+
 #pragma mark touch handling
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
