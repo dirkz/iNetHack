@@ -32,9 +32,13 @@
 
 }
 
+@property (nonatomic, readonly) NethackEvent *lastEvent;
+
 - (void) addNethackEvent:(NethackEvent *)e;
 - (void) addKeyEvent:(int)k;
 - (NethackEvent *) waitForNextEvent;
+
+// obsolete and untested
 - (BOOL) repeatLastEvent;
 
 @end

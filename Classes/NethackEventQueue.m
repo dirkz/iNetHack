@@ -25,6 +25,8 @@
 
 @implementation NethackEventQueue
 
+@synthesize lastEvent;
+
 - (id) init {
 	if (self = [super init]) {
 		mutex = [[NSCondition alloc] init];
@@ -72,6 +74,7 @@
 }
 
 - (void) dealloc {
+	[lastEvent release];
 	[mutex release];
 	[events release];
 	[super dealloc];

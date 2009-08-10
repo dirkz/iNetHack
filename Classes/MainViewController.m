@@ -39,6 +39,7 @@
 #import "TouchInfo.h"
 #import "TouchInfoStore.h"
 #import "NetHackMenuInfo.h"
+#import "DMath.h"
 
 static MainViewController *_instance;
 
@@ -80,6 +81,7 @@ static MainViewController *_instance;
 	_instance = self;
 	lastSingleTapDelta = [[TilePosition alloc] init];
 	clip = [[TilePosition alloc] init];
+	dmath = [[DMath alloc] init];
 
 	NSThread *nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackLoop:) object:nil];
 	[nethackThread start];
@@ -289,38 +291,70 @@ static MainViewController *_instance;
 	return direction;
 }
 
-// non-functional prototype
-- (char) directionFromPointDelta:(CGPoint)d {
-	float length = sqrt(d.x*d.x + d.y*d.y);
-	d.x /= length;
-	d.y /= length;
+// obsolete
+- (char) directionFromDMathDirection:(dmathdirection)dmdir {
 	char direction = 0;
-	if (d.x > 0 && d.y > 0) {
-		// bottom right
-		direction = 'n';
-	} else if (d.x < 0 && d.y > 0) {
-		// bottom left
-		direction = 'b';
-	} else if (d.x > 0 && d.y == 0) {
-		// right
-		direction = 'l';
-	} else if (d.x < 0 && d.y == 0) {
-		// left
-		direction = 'h';
-	} else if (d.x == 0 && d.y > 0) {
-		// down
-		direction = 'j';
-	} else if (d.x == 0 && d.y < 0) {
-		// up
-		direction = 'k';
-	} else if (d.x < 0 && d.y < 0) {
-		// top left
-		direction = 'y';
-	} else if (d.x > 0 && d.y < 0) {
-		// top right
-		direction = 'u';
+	switch (dmdir) {
+		case kUp:
+			direction = 'k';
+			break;
+		case kUpRight:
+			direction = 'u';
+			break;
+		case kRight:
+			direction = 'l';
+			break;
+		case kDownRight:
+			direction = 'n';
+			break;
+		case kDown:
+			direction = 'j';
+			break;
+		case kDownLeft:
+			direction = 'b';
+			break;
+		case kLeft:
+			direction = 'h';
+			break;
+		case kUpLeft:
+			direction = 'y';
+			break;
 	}
 	return direction;
+}
+
+- (void) moveTilePosition:(TilePosition *)tp intoDMathDirection:(dmathdirection)dmdir {
+	// dmdir is cartesian, tp is not ...
+	switch (dmdir) {
+		case kUp:
+			tp.y--;
+			break;
+		case kUpRight:
+			tp.x++;
+			tp.y--;
+			break;
+		case kRight:
+			tp.x++;
+			break;
+		case kDownRight:
+			tp.x++;
+			tp.y++;
+			break;
+		case kDown:
+			tp.y++;
+			break;
+		case kDownLeft:
+			tp.x--;
+			tp.y++;
+			break;
+		case kLeft:
+			tp.x--;
+			break;
+		case kUpLeft:
+			tp.x--;
+			tp.y--;
+			break;
+	}
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -405,19 +439,60 @@ static MainViewController *_instance;
 			if (touch.tapCount == 1) {
 				CGPoint p = [touch locationInView:self.view];
 				TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
-				// ignore clicks into the dark
-				int glyph = [self.mapWindow glyphAtX:tp.x y:tp.y];
-				if (glyph != kNoGlyph) {
-					lastSingleTapDelta.x = tp.x-u.ux;
-					lastSingleTapDelta.y = tp.y-u.uy;
-					NethackEvent *e = [[NethackEvent alloc] init];
-					e.x = tp.x;
-					e.y = tp.y;
-					e.key = 0;
-					[nethackEventQueue addNethackEvent:e];
-					[e release];
-					[(MainView *) self.view resetOffset];
-					[self.view setNeedsDisplay];
+				NethackEvent *lastEvent = nethackEventQueue.lastEvent;
+				// todo other events to check
+				if ([(MainView *) self.view isMoved] || lastEvent.key == ';') {
+					// tappable tiles if view is being panned
+					// ignore clicks into the dark
+					int glyph = [self.mapWindow glyphAtX:tp.x y:tp.y];
+					if (glyph != kNoGlyph) {
+						lastSingleTapDelta.x = tp.x-u.ux;
+						lastSingleTapDelta.y = tp.y-u.uy;
+						NethackEvent *e = [[NethackEvent alloc] init];
+						e.x = tp.x;
+						e.y = tp.y;
+						e.key = 0;
+						[nethackEventQueue addNethackEvent:e];
+						[e release];
+						[(MainView *) self.view resetOffset];
+						[self.view setNeedsDisplay];
+					}
+				} else {
+					CGSize tileSize = CGSizeMake(40,40);
+					CGRect middleSquare = CGRectMake(self.view.bounds.size.width/2-tileSize.width/2,
+													 self.view.bounds.size.height/2-tileSize.height/2, 40, 40);
+					if (CGRectContainsPoint(middleSquare, p)) {
+						// tap on player (center) tile
+						lastSingleTapDelta.x = 0;
+						lastSingleTapDelta.y = 0;
+						NethackEvent *e = [[NethackEvent alloc] init];
+						e.x = tp.x;
+						e.y = tp.y;
+						e.key = 0;
+						[nethackEventQueue addNethackEvent:e];
+						[e release];
+						[(MainView *) self.view resetOffset];
+						[self.view setNeedsDisplay];
+					} else {
+						// direction based movement
+						CGPoint center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);
+						CGPoint pointDelta = CGPointMake(p.x-center.x, p.y-center.y);
+						pointDelta.y *= -1;
+						pointDelta = [DMath normalizedPoint:pointDelta];
+						dmathdirection dmdir = [dmath directionFromVector:pointDelta];
+						TilePosition *tp = [TilePosition tilePositionWithX:u.ux y:u.uy];
+						[self moveTilePosition:tp intoDMathDirection:dmdir];
+						lastSingleTapDelta.x = tp.x-u.ux;
+						lastSingleTapDelta.y = tp.y-u.uy;
+						NethackEvent *e = [[NethackEvent alloc] init];
+						e.x = tp.x;
+						e.y = tp.y;
+						e.key = 0;
+						[nethackEventQueue addNethackEvent:e];
+						[e release];
+						[(MainView *) self.view resetOffset];
+						[self.view setNeedsDisplay];
+					}
 				}
 			}
 		} else if (!ti.pinched && !ti.moved && ti.doubleTap) {
@@ -761,6 +836,7 @@ static MainViewController *_instance;
 	[windows release];
 	[lastSingleTapDelta release];
 	[clip release];
+	[dmath release];
     [super dealloc];
 }
 

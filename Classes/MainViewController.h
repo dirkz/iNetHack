@@ -40,6 +40,7 @@
 @class TouchInfo, TouchInfoStore;
 @class TilePosition;
 @class NetHackMenuInfo;
+@class DMath;
 
 @interface MainViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate> {
 	
@@ -69,6 +70,8 @@
 	TilePosition *lastSingleTapDelta;
 	
 	NetHackMenuInfo *nethackMenuInfo;
+	
+	DMath *dmath;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
