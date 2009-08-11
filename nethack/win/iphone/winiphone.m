@@ -281,6 +281,7 @@ void iphone_print_glyph(winid wid, XCHAR_P x, XCHAR_P y, int glyph) {
 }
 
 void iphone_raw_print(const char *str) {
+	NSLog(@"raw_print %s", str);
 	winid window = create_nhwindow(NHW_TEXT);
 	putstr(window, ATR_NONE, str);
 	display_nhwindow(window, true);
@@ -288,6 +289,7 @@ void iphone_raw_print(const char *str) {
 }
 
 void iphone_raw_print_bold(const char *str) {
+	NSLog(@"raw_print_bold %s", str);
 	winid window = create_nhwindow(NHW_TEXT);
 	putstr(window, ATR_BOLD, str);
 	display_nhwindow(window, true);
@@ -454,7 +456,6 @@ void iphone_main() {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *saveDirectory = [paths lastObject];
 	saveDirectory = [saveDirectory stringByAppendingPathComponent:@"nethack"];
-	NSString *currentDirectory = [NSString stringWithString:saveDirectory];
 	saveDirectory = [saveDirectory stringByAppendingPathComponent:@"save"];
 	NSLog(@"saveDirectory %@", saveDirectory);
 	if (![[NSFileManager defaultManager] fileExistsAtPath:saveDirectory]) {
@@ -464,7 +465,7 @@ void iphone_main() {
 			NSLog(@"saveDirectory could not be created!");
 		}
 	}
-	[[NSFileManager defaultManager] changeCurrentDirectoryPath:currentDirectory];
+	[[NSFileManager defaultManager] changeCurrentDirectoryPath:saveDirectory];
 	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:saveDirectory];
 	for (NSString *filename in filelist) {
 		NSLog(@"file %@", filename);
