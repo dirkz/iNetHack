@@ -456,6 +456,7 @@ void iphone_main() {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *saveDirectory = [paths lastObject];
 	saveDirectory = [saveDirectory stringByAppendingPathComponent:@"nethack"];
+	NSString *currentDirectory = [NSString stringWithString:saveDirectory];
 	saveDirectory = [saveDirectory stringByAppendingPathComponent:@"save"];
 	NSLog(@"saveDirectory %@", saveDirectory);
 	if (![[NSFileManager defaultManager] fileExistsAtPath:saveDirectory]) {
@@ -465,7 +466,7 @@ void iphone_main() {
 			NSLog(@"saveDirectory could not be created!");
 		}
 	}
-	[[NSFileManager defaultManager] changeCurrentDirectoryPath:saveDirectory];
+	[[NSFileManager defaultManager] changeCurrentDirectoryPath:currentDirectory];
 	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:saveDirectory];
 	for (NSString *filename in filelist) {
 		NSLog(@"file %@", filename);
