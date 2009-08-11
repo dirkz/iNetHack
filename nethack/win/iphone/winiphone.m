@@ -108,13 +108,9 @@ FILE *iphone_fopen(const char *filename, const char *mode) {
 	return file;
 }
 
-void intron() {
-	//NSLog(@"intron");
-}
-
-void introff() {
-	//NSLog(@"introff");
-}
+// These must be defined but are not used (they handle keyboard interrupts).
+void intron() {}
+void introff() {}
 
 int dosuspend() {
 	//NSLog(@"dosuspend");
