@@ -281,11 +281,17 @@ void iphone_print_glyph(winid wid, XCHAR_P x, XCHAR_P y, int glyph) {
 }
 
 void iphone_raw_print(const char *str) {
-	NSLog(@"iphone_raw_print %s", str);
+	winid window = create_nhwindow(NHW_TEXT);
+	putstr(window, ATR_NONE, str);
+	display_nhwindow(window, true);
+	destroy_nhwindow(window);
 }
 
 void iphone_raw_print_bold(const char *str) {
-	NSLog(@"iphone_raw_print_bold %s", str);
+	winid window = create_nhwindow(NHW_TEXT);
+	putstr(window, ATR_BOLD, str);
+	display_nhwindow(window, true);
+	destroy_nhwindow(window);
 }
 
 int iphone_nhgetch() {
