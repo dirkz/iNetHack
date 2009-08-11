@@ -63,6 +63,7 @@
 					 [[Shortcut alloc] initWithTitle:@"a" key:'a'],
 					 [[Shortcut alloc] initWithTitle:@"^d" key:C('d')],
 					 [[Shortcut alloc] initWithTitle:@"^a" key:C('a')],
+					 [[Shortcut alloc] initWithTitle:@"r" key:'r'],
 					 [[Shortcut alloc] initWithTitle:@"q" key:'q'],
 					 [[Shortcut alloc] initWithTitle:@"E" key:'E'],
 					 [[Shortcut alloc] initWithTitle:@"Q" key:'Q'],
