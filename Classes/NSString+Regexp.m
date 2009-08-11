@@ -28,6 +28,14 @@
 	return NO;
 }
 
+- (BOOL) endsWithString:(NSString *)s {
+	NSRange r = [self rangeOfString:s];
+	if (r.location != NSNotFound) {
+		return r.location == self.length-s.length;
+	}
+	return NO;
+}
+
 - (NSString *) substringFromString:(NSString *)src betweenDelimiters:(NSString *)del {
 	char c = [del characterAtIndex:0];
 	NSString *s = [NSString stringWithFormat:@"%c", c];

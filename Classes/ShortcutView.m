@@ -75,6 +75,7 @@
 					 [[Shortcut alloc] initWithTitle:@"T" key:'T'],
 					 [[Shortcut alloc] initWithTitle:@"A" key:'A'],
 					 [[Shortcut alloc] initWithTitle:@"p" key:'p'],
+					 [[Shortcut alloc] initWithTitle:@"p" key:C('x')],
 					 nil];
 		[self releaseShortcuts];
 	}

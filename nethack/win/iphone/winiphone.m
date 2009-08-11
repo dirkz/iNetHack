@@ -469,6 +469,11 @@ void iphone_main() {
 	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:saveDirectory];
 	for (NSString *filename in filelist) {
 		NSLog(@"file %@", filename);
+		/* test after next crash
+		if ([filename endsWithString:@".e"]) {
+			NSLog(@"found crash save %@", filename);
+		}
+		 */
 	}
 	
 	choose_windows(DEFAULT_WINDOW_SYS); /* choose a default window system */
