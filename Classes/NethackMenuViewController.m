@@ -221,7 +221,7 @@
 		i = [i.children objectAtIndex:row];
 	}
 	cell.textLabel.text = i.title;
-	cell.accessoryType = UITableViewCellAccessoryNone;
+	cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	return cell;
 }
 
