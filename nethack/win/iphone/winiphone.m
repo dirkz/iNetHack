@@ -476,6 +476,9 @@ void iphone_main() {
 		 */
 	}
 	
+	// comment out for full wizard mode
+	//wizard = TRUE;
+	
 	choose_windows(DEFAULT_WINDOW_SYS); /* choose a default window system */
 	initoptions();			   /* read the resource file */
 	

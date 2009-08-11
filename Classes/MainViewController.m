@@ -229,17 +229,27 @@ static MainViewController *_instance;
 - (void) showMainMenu:(id)obj {
 	NSMutableArray *menuItems = [NSMutableArray array];
 #ifdef WIZARD
-	[menuItems addObject:[MenuItem menuItemWithTitle:@"Wizard"
-											children:[NSArray arrayWithObjects:
-													  [MenuItem menuItemWithTitle:@"Detect Secrets" key:C('e') accessory:YES],
-													  [MenuItem menuItemWithTitle:@"Magic Mapping" key:C('f') accessory:YES],
-													  [MenuItem menuItemWithTitle:@"Create Monster" key:C('g') accessory:YES],
-													  [MenuItem menuItemWithTitle:@"Identify" key:C('i') accessory:YES],
-													  [MenuItem menuItemWithTitle:@"Special Levels" key:C('o') accessory:YES],
-													  [MenuItem menuItemWithTitle:@"Intra-Level Teleport" key:C('t') accessory:YES],
-													  [MenuItem menuItemWithTitle:@"Trans-Level Teleport" key:C('v') accessory:YES],
-													  [MenuItem menuItemWithTitle:@"Wish" key:C('w') accessory:YES],
-													  nil]]];
+	if (wizard) {
+		[menuItems addObject:[MenuItem menuItemWithTitle:@"Wizard"
+												children:[NSArray arrayWithObjects:
+														  [MenuItem menuItemWithTitle:@"Detect Secrets"
+																				  key:C('e') accessory:YES],
+														  [MenuItem menuItemWithTitle:@"Magic Mapping"
+																				  key:C('f') accessory:YES],
+														  [MenuItem menuItemWithTitle:@"Create Monster"
+																				  key:C('g') accessory:YES],
+														  [MenuItem menuItemWithTitle:@"Identify"
+																				  key:C('i') accessory:YES],
+														  [MenuItem menuItemWithTitle:@"Special Levels"
+																				  key:C('o') accessory:YES],
+														  [MenuItem menuItemWithTitle:@"Intra-Level Teleport"
+																				  key:C('t') accessory:YES],
+														  [MenuItem menuItemWithTitle:@"Trans-Level Teleport"
+																				  key:C('v') accessory:YES],
+														  [MenuItem menuItemWithTitle:@"Wish"
+																				  key:C('w') accessory:YES],
+														  nil]]];
+	}
 #endif
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Show Log" target:self
 											selector:@selector(nethackShowLog:) arg:nil accessory:YES]];
