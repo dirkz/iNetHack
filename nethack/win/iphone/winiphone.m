@@ -109,35 +109,34 @@ FILE *iphone_fopen(const char *filename, const char *mode) {
 }
 
 void intron() {
-	NSLog(@"intron");
+	//NSLog(@"intron");
 }
 
 void introff() {
-	NSLog(@"introff");
+	//NSLog(@"introff");
 }
 
 int dosuspend() {
-	NSLog(@"dosuspend");
+	//NSLog(@"dosuspend");
 	return 0;
 }
 
 int dosh() {
-	NSLog(@"dosh");
+	//NSLog(@"dosh");
 	return 0;
 }
 
 void error(const char *s, ...) {
-	// todo
-	NSLog(@"error: %s");
+	//NSLog(@"error: %s");
 	exit(0);
 }
 
 void regularize(char *s) {
-	NSLog(@"regularize %s", s);
+	//NSLog(@"regularize %s", s);
 }
 
 int child(int wt) {
-	NSLog(@"child %d", wt);
+	//NSLog(@"child %d", wt);
 	return 0;
 }
 
@@ -242,12 +241,12 @@ void iphone_end_menu(winid wid, const char *prompt) {
 }
 
 int iphone_select_menu(winid wid, int how, menu_item **menu_list) {
-	NSLog(@"iphone_select_menu %x", wid);
+	//NSLog(@"iphone_select_menu %x", wid);
 	Window *w = [[MainViewController instance] windowWithId:wid];
 	w.menuHow = how;
 	[[MainViewController instance] displayMenuWindow:w];
 	*menu_list = w.menuList;
-	NSLog(@"iphone_select_menu -> %d", w.menuResult);
+	//NSLog(@"iphone_select_menu -> %d", w.menuResult);
 	return w.menuResult;
 }
 
@@ -271,7 +270,7 @@ void iphone_cliparound(int x, int y) {
 }
 
 void iphone_cliparound_window(winid wid, int x, int y) {
-	NSLog(@"iphone_cliparound_window %d %d,%d", wid, x, y);
+	//NSLog(@"iphone_cliparound_window %d %d,%d", wid, x, y);
 }
 
 void iphone_print_glyph(winid wid, XCHAR_P x, XCHAR_P y, int glyph) {
@@ -305,8 +304,9 @@ int iphone_nh_poskey(int *x, int *y, int *mod) {
 
 void iphone_nhbell() {}
 
+// messag log is accessible from the menu, so we don't really need it here
 int iphone_doprev_message() {
-	NSLog(@"iphone_doprev_message");
+	//NSLog(@"iphone_doprev_message");
 	return 0;
 }
 
@@ -411,7 +411,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 }
 
 void iphone_getlin(const char *prompt, char *line) {
-	NSLog(@"iphone_getlin %s", prompt);
+	//NSLog(@"iphone_getlin %s", prompt);
 	[[MainViewController instance] getLine:line prompt:prompt];
 }
 
@@ -420,23 +420,23 @@ int iphone_get_ext_cmd() {
 }
 
 void iphone_number_pad(int num) {
-	NSLog(@"iphone_number_pad %d", num);
+	//NSLog(@"iphone_number_pad %d", num);
 }
 
 void iphone_delay_output() {
-	NSLog(@"iphone_delay_output");
+	//NSLog(@"iphone_delay_output");
 }
 
 void iphone_start_screen() {
-	NSLog(@"iphone_start_screen");
+	//NSLog(@"iphone_start_screen");
 }
 
 void iphone_end_screen() {
-	NSLog(@"iphone_end_screen");
+	//NSLog(@"iphone_end_screen");
 }
 
 void iphone_outrip(winid wid, int how) {
-	NSLog(@"iphone_outrip %d", wid);
+	//NSLog(@"iphone_outrip %d", wid);
 }
 
 void iphone_main() {
