@@ -282,18 +282,22 @@ void iphone_print_glyph(winid wid, XCHAR_P x, XCHAR_P y, int glyph) {
 
 void iphone_raw_print(const char *str) {
 	NSLog(@"raw_print %s", str);
-	winid window = create_nhwindow(NHW_TEXT);
-	putstr(window, ATR_NONE, str);
-	display_nhwindow(window, true);
-	destroy_nhwindow(window);
+	if (strlen(str)) {
+		winid window = create_nhwindow(NHW_TEXT);
+		putstr(window, ATR_NONE, str);
+		display_nhwindow(window, true);
+		destroy_nhwindow(window);
+	}
 }
 
 void iphone_raw_print_bold(const char *str) {
 	NSLog(@"raw_print_bold %s", str);
-	winid window = create_nhwindow(NHW_TEXT);
-	putstr(window, ATR_BOLD, str);
-	display_nhwindow(window, true);
-	destroy_nhwindow(window);
+	if (strlen(str)) {
+		winid window = create_nhwindow(NHW_TEXT);
+		putstr(window, ATR_BOLD, str);
+		display_nhwindow(window, true);
+		destroy_nhwindow(window);
+	}
 }
 
 int iphone_nhgetch() {
@@ -470,15 +474,10 @@ void iphone_main() {
 	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:saveDirectory];
 	for (NSString *filename in filelist) {
 		NSLog(@"file %@", filename);
-		/* test after next crash
-		if ([filename endsWithString:@".e"]) {
-			NSLog(@"found crash save %@", filename);
-		}
-		 */
 	}
 	
 	// enable for full wizard mode
-	//wizard = TRUE;
+	wizard = TRUE;
 	
 	choose_windows(DEFAULT_WINDOW_SYS); /* choose a default window system */
 	initoptions();			   /* read the resource file */
