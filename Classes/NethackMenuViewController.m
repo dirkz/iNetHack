@@ -86,20 +86,24 @@
 				any.a_int = 0;
 				NethackMenuItem *miParent = [[NethackMenuItem alloc] initWithId:&any title:"Meta" preselected:NO];
 				[menuWindow addMenuItem:miParent];
+				[miParent release];
 				if (nethackMenuInfo.acceptBareHanded) {
 					any.a_int = '-';
 					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Hands (-)" preselected:NO];
 					[menuWindow addMenuItem:mi];
+					[mi release];
 				}
 				if (nethackMenuInfo.acceptMore) {
 					any.a_int = '*';
 					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"More (*)" preselected:NO];
 					[menuWindow addMenuItem:mi];
+					[mi release];
 				}
 				if (nethackMenuInfo.acceptMoney) {
 					any.a_int = '$';
 					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Gold ($)" preselected:NO];
 					[menuWindow addMenuItem:mi];
+					[mi release];
 				}
 			}
 		}
@@ -136,7 +140,6 @@
 		}
 	}
 	[[MainViewController instance] broadcastUIEvent];
-	[[MainViewController instance] setNethackMenuInfo:nil];
 }
 
 #pragma mark UITableView delegate
