@@ -83,6 +83,8 @@
 @property (nonatomic, retain) NetHackMenuInfo *nethackMenuInfo;
 
 + (id) instance;
++ (void) message:(NSString *)format, ...;
+
 - (void) mainNethackLoop:(id)arg;
 - (winid) createWindow:(int)type;
 - (void) destroyWindow:(winid)wid;

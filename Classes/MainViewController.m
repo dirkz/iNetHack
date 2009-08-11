@@ -53,6 +53,15 @@ static MainViewController *_instance;
 	return _instance;
 }
 
++ (void) message:(NSString *)format, ... {
+	va_list arg_list;
+	va_start(arg_list, format);
+	NSString *msg = [[NSString alloc] initWithFormat:format arguments:arg_list];
+	va_end(arg_list);
+	[[[self instance] messageWindow] putString:[msg cStringUsingEncoding:NSASCIIStringEncoding]];
+	[msg release];
+}
+
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
