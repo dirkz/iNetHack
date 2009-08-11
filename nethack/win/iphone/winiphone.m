@@ -132,7 +132,12 @@ void error(const char *s, ...) {
 }
 
 void regularize(char *s) {
-	//NSLog(@"regularize %s", s);
+	register char *lp;
+
+	for (lp = s; *lp; lp++) {
+		if (*lp == '.' || *lp == ':')
+			*lp = '_';
+	}
 }
 
 int child(int wt) {
