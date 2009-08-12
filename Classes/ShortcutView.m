@@ -186,14 +186,10 @@
 					amount = maxShortcutsOnScreen;
 				}
 				currentIndex += amount;
-				// no kidding this local variable is needed
-				// otherwise -4 >= 12 ...
-				int sc = shortcuts.count;
-				if (currentIndex >= sc) {
+				if (currentIndex >= shortcuts.count) {
 					//NSLog(@"%d >= %d", currentIndex, sc);
 					currentIndex -= amount;
-				}
-				if (currentIndex < 0) {
+				} else if (currentIndex < 0) {
 					currentIndex = 0;
 				}
 				CGRect frame = self.frame;

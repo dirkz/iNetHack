@@ -28,7 +28,7 @@
 	
 	UIFont *font;
 	NSArray *shortcuts;
-	int currentIndex;
+	NSUInteger currentIndex;
 	int maxShortcutsOnScreen;
 	CGSize tileSize;
 	int recentlyTouchedItem;
