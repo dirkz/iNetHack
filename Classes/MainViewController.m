@@ -239,6 +239,7 @@ static MainViewController *_instance;
 													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Actions"
 											children:[NSArray arrayWithObjects:
+													  [MenuItem menuItemWithTitle:@"Pickup" key:',' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Eat" key:'e' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Drop" key:'d' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Apply" key:'a' accessory:YES],

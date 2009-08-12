@@ -242,7 +242,7 @@ extern short glyph2tile[];
 	
 	NSArray *strings;
 	NSString *ws = [i.title substringBetweenDelimiters:@"()"];
-	if (ws) {
+	if (ws && ws.length > 1) {
 		NSRange r = [i.title rangeOfString:ws];
 		strings = [NSArray arrayWithObjects:[i.title substringToIndex:r.location-2], ws, nil];
 	} else {
