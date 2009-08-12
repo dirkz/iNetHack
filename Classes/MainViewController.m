@@ -228,6 +228,13 @@ static MainViewController *_instance;
 
 - (void) showMainMenu:(id)obj {
 	NSMutableArray *menuItems = [NSMutableArray array];
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"Show Log" target:self
+											selector:@selector(nethackShowLog:) arg:nil accessory:YES]];
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"License" target:self
+											selector:@selector(nethackShowLicense:) arg:nil accessory:YES]];
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"History" key:'V' accessory:YES]];
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"Credits" target:self
+											selector:@selector(showCredits:) arg:nil accessory:YES]];
 #ifdef WIZARD
 	if (wizard) {
 		[menuItems addObject:[MenuItem menuItemWithTitle:@"Wizard"
@@ -251,13 +258,6 @@ static MainViewController *_instance;
 														  nil]]];
 	}
 #endif
-	[menuItems addObject:[MenuItem menuItemWithTitle:@"Show Log" target:self
-											selector:@selector(nethackShowLog:) arg:nil accessory:YES]];
-	[menuItems addObject:[MenuItem menuItemWithTitle:@"License" target:self
-											selector:@selector(nethackShowLicense:) arg:nil accessory:YES]];
-	[menuItems addObject:[MenuItem menuItemWithTitle:@"History" key:'V' accessory:YES]];
-	[menuItems addObject:[MenuItem menuItemWithTitle:@"Credits" target:self
-											selector:@selector(showCredits:) arg:nil accessory:YES]];
 	menuViewController.menuItems = menuItems;
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
 	[self.navigationController pushViewController:menuViewController animated:YES];
