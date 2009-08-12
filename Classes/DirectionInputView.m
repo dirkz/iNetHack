@@ -55,18 +55,18 @@
 			rects[n] = CGRectMake(start.x+i*tileSize.width, start.y+j*tileSize.height, tileSize.width, tileSize.height);
 		}
 	}
-	shortcuts[0] = [[Shortcut alloc] initWithTitle:@"y" key:'y'];
-	shortcuts[1] = [[Shortcut alloc] initWithTitle:@"k" key:'k'];
-	shortcuts[2] = [[Shortcut alloc] initWithTitle:@"u" key:'u'];
-	shortcuts[3] = [[Shortcut alloc] initWithTitle:@"h" key:'h'];
-	shortcuts[4] = [[Shortcut alloc] initWithTitle:@"." key:'.'];
-	shortcuts[5] = [[Shortcut alloc] initWithTitle:@"l" key:'l'];
-	shortcuts[6] = [[Shortcut alloc] initWithTitle:@"b" key:'b'];
-	shortcuts[7] = [[Shortcut alloc] initWithTitle:@"j" key:'j'];
-	shortcuts[8] = [[Shortcut alloc] initWithTitle:@"n" key:'n'];
-	shortcuts[9] = [[Shortcut alloc] initWithTitle:@"<" key:'<'];
-	shortcuts[10] = [[Shortcut alloc] initWithTitle:@"ESC" key:27];
-	shortcuts[11] = [[Shortcut alloc] initWithTitle:@">" key:'>'];;
+	shortcuts[0] = [[Shortcut alloc] initWithTitle:@"y" keys:@"y"];
+	shortcuts[1] = [[Shortcut alloc] initWithTitle:@"k" keys:@"k"];
+	shortcuts[2] = [[Shortcut alloc] initWithTitle:@"u" keys:@"u"];
+	shortcuts[3] = [[Shortcut alloc] initWithTitle:@"h" keys:@"h"];
+	shortcuts[4] = [[Shortcut alloc] initWithTitle:@"." keys:@"."];
+	shortcuts[5] = [[Shortcut alloc] initWithTitle:@"l" keys:@"l"];
+	shortcuts[6] = [[Shortcut alloc] initWithTitle:@"b" keys:@"b"];
+	shortcuts[7] = [[Shortcut alloc] initWithTitle:@"j" keys:@"j"];
+	shortcuts[8] = [[Shortcut alloc] initWithTitle:@"n" keys:@"n"];
+	shortcuts[9] = [[Shortcut alloc] initWithTitle:@"<" keys:@"<"];
+	shortcuts[10] = [[Shortcut alloc] initWithTitle:@"ESC" keys:@"\x1b"];
+	shortcuts[11] = [[Shortcut alloc] initWithTitle:@">" keys:@">"];;
 }
 
 - (void)drawRect:(CGRect)rect {

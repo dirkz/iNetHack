@@ -38,7 +38,6 @@
 
 - (id) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar arg:(id)a;
 - (id) initWithTitle:(NSString *)t keys:(NSString *)k;
-- (id) initWithTitle:(NSString *)t key:(int)k;
 - (void) invoke;
 
 @end

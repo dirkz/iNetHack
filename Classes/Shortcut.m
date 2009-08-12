@@ -50,14 +50,6 @@ static NSString* ParseShortcutString (NSString* keys) {
 	return [self initWithTitle:t keys:k selector:NULL target:nil arg:nil];
 }
 
-- (id) initWithTitle:(NSString *)t key:(int)k {
-	char s[] = { k, 0 };
-	NSString *string = [[NSString alloc] initWithCString:s];
-	self = [self initWithTitle:t keys:string selector:NULL target:nil arg:nil];
-	[string release];
-	return self;
-}
-
 - (char) key {
 	return [keys characterAtIndex:0];
 }
