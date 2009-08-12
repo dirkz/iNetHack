@@ -656,7 +656,7 @@ static MainViewController *_instance;
 }
 
 - (void) doPlayerSelection {
-	[self performSelectorOnMainThread:@selector(doPlayerSelectionOnUIThread:) withObject:nil waitUntilDone:YES];
+	[self performSelectorOnMainThread:@selector(doPlayerSelectionOnUIThread:) withObject:nil waitUntilDone:NO];
 	[self waitForCondition:uiCondition];
 }
 

@@ -19,6 +19,7 @@
 @interface RoleSelectionController ()
 @property (retain) UINavigationController *navigationController;
 - (id)initWithNavigationController:(UINavigationController *)navController;
+- (void)moveToNextStep:(id)sender;
 @end
 
 @implementation RoleSelectionController
@@ -34,18 +35,12 @@
 // = Selection steps =
 // ===================
 
-- (void)didCompleteSelection:(id)sender
-{
-	[self.delegate didCompleteRoleSelection:self];
-	[self autorelease];
-}
-
 - (void)didSelectAlignment:(id)sender
 {
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
 	flags.initalign = [sender tag];
-	[self.navigationController popToRootViewControllerAnimated:NO];
-	[self didCompleteSelection:nil];
+
+	[self moveToNextStep:nil];
 }
 
 - (void)selectAlignment
@@ -70,7 +65,7 @@
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
 	flags.initgend = [sender tag];
 
-	[self selectAlignment];
+	[self moveToNextStep:nil];
 }
 
 - (void)selectGender
@@ -96,7 +91,7 @@
 	pl_race = [sender tag];
 	flags.initrace = [sender tag];
 
-	[self selectGender];
+	[self moveToNextStep:nil];
 }
 
 - (void)selectRace
@@ -122,7 +117,7 @@
 	flags.initrole = [sender tag];
 	strcpy(pl_character, roles[flags.initrole].filecode);
 
-	[self selectRace];
+	[self moveToNextStep:nil];
 }
 
 - (void)selectRole
@@ -167,9 +162,22 @@
 	[super dealloc];
 }
 
+- (void)moveToNextStep:(id)sender
+{
+	if (flags.initrole == -1)  return [self selectRole];
+	if (flags.initrace == -1)  return [self selectRace];
+	if (flags.initgend == -1)  return [self selectGender];
+	if (flags.initalign == -1) return [self selectAlignment];
+
+	// Done
+	[self.navigationController popToRootViewControllerAnimated:NO];
+	[self.delegate didCompleteRoleSelection:self];
+	[self autorelease];
+}
+
 - (void)start
 {
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self selectRole];
+	[self moveToNextStep:nil];
 }
 @end
