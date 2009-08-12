@@ -36,7 +36,6 @@
 	
 }
 
-- (id) initWithShortcuts:(NSArray *)sh;
 - (void) releaseShortcuts;
 
 @end

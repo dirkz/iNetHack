@@ -52,7 +52,7 @@ extern short glyph2tile[];
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
 	
-	shortcutView = [[ShortcutView alloc] init];
+	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
 	[self addSubview:shortcutView];
 }
 

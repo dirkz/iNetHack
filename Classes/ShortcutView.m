@@ -35,14 +35,7 @@
 		font = [UIFont boldSystemFontOfSize:12];
 		tileSize = CGSizeMake(40,40);
 		touchInfoStore = [[TouchInfoStore alloc] init];
-		shortcuts = [[NSArray alloc] init];
-    }
-    return self;
-}
 
-- (id) init {
-	if (self = [self initWithFrame:CGRectZero]) {
-		[shortcuts release];
 		shortcuts = [[NSArray alloc] initWithObjects:
 					 [[Shortcut alloc] initWithTitle:@"." keys:@"."],
 					 [[Shortcut alloc] initWithTitle:@"20s" keys:@"20s"],
@@ -78,16 +71,8 @@
 					 [[Shortcut alloc] initWithTitle:@"^x" keys:@"^x"],
 					 nil];
 		[self releaseShortcuts];
-	}
-	return self;
-}
-
-- (id) initWithShortcuts:(NSArray *)sh {
-	if (self = [self initWithFrame:CGRectZero]) {
-		[shortcuts release];
-		shortcuts = [sh retain];
-	}
-	return self;
+    }
+    return self;
 }
 
 - (void) releaseShortcuts {
