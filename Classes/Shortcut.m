@@ -24,6 +24,13 @@
 #import "MainViewController.h"
 #import "NethackEventQueue.h"
 
+static NSString* ParseShortcutString (NSString* keys) {
+	if ([keys characterAtIndex:0] == '^') {
+		keys = [NSString stringWithFormat:@"%c", (0x1f & [keys characterAtIndex:1])];
+	}
+	return keys;
+}
+
 @implementation Shortcut
 
 @synthesize title;
@@ -31,7 +38,7 @@
 - (id) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar arg:(id)a {
 	if (self = [super init]) {
 		title = [t retain];
-		keys = [k retain];
+		keys = [ParseShortcutString(k) retain];
 		selector = s;
 		target = [tar retain];
 		arg = [a retain];

@@ -61,8 +61,8 @@
 					 [[Shortcut alloc] initWithTitle:@"z" key:'z'],
 					 [[Shortcut alloc] initWithTitle:@"Z" key:'Z'],
 					 [[Shortcut alloc] initWithTitle:@"a" key:'a'],
-					 [[Shortcut alloc] initWithTitle:@"^d" key:C('d')],
-					 [[Shortcut alloc] initWithTitle:@"^a" key:C('a')],
+					 [[Shortcut alloc] initWithTitle:@"^d" keys:@"^d"],
+					 [[Shortcut alloc] initWithTitle:@"^a" keys:@"^a"],
 					 [[Shortcut alloc] initWithTitle:@"r" key:'r'],
 					 [[Shortcut alloc] initWithTitle:@"q" key:'q'],
 					 [[Shortcut alloc] initWithTitle:@"E" key:'E'],
@@ -75,7 +75,7 @@
 					 [[Shortcut alloc] initWithTitle:@"T" key:'T'],
 					 [[Shortcut alloc] initWithTitle:@"A" key:'A'],
 					 [[Shortcut alloc] initWithTitle:@"p" key:'p'],
-					 [[Shortcut alloc] initWithTitle:@"^X" key:C('x')],
+					 [[Shortcut alloc] initWithTitle:@"^x" keys:@"^x"],
 					 nil];
 		[self releaseShortcuts];
 	}
