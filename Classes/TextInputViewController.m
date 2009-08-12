@@ -78,6 +78,11 @@
 		tf.keyboardType = UIKeyboardTypeNumberPad;
 	}
 	[tf becomeFirstResponder];
+	UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Log" style:UIBarButtonItemStylePlain
+														  target:[MainViewController instance]
+														  action:@selector(nethackShowLog:)];
+	self.navigationItem.rightBarButtonItem = bi;
+	[bi release];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
