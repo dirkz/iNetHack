@@ -32,7 +32,7 @@ extern short glyph2tile[];
 
 @implementation MainView
 
-@synthesize start, tileSize, dummyTextField;
+@synthesize start, tileSize, dummyTextField, images;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
