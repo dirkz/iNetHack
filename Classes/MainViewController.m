@@ -41,6 +41,7 @@
 #import "NetHackMenuInfo.h"
 #import "DMath.h"
 #import "NSString+Regexp.h"
+#import "RoleSelectionController.h"
 
 static MainViewController *_instance;
 
@@ -640,98 +641,18 @@ static MainViewController *_instance;
 	return extendedCommandViewController.result;
 }
 
-- (void)didSelectAlignment:(id)sender {
-	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
-	flags.initalign = [sender tag];
-	[self.navigationController popToRootViewControllerAnimated:NO];
-	[[MainViewController instance] broadcastUIEvent];
-}
-
-- (void)showRoleSelectionController:(RoleSelectionViewController *)controller {
-	if (controller.numberOfItems > 1) {
-		[self.navigationController pushViewController:controller animated:self.navigationController.viewControllers.count > 1];
-	} else {
-		[self performSelector:controller.action withObject:controller];
-	}
-}
-
-- (void)didSelectGender:(id)sender {
-	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
-	flags.initgend = [sender tag];
-
-	// Set up alignment selection list
-	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
-
-	selectionController.title = @"Your Alignment?";
-	selectionController.target = self;
-	selectionController.action = @selector(didSelectAlignment:);
-	for (int i = 0; i < ROLE_ALIGNS; i++) {
-		if (validalign(flags.initrole, flags.initrace, i)) {
-			[selectionController addItemWithTitle:[[NSString stringWithCString:aligns[i].adj] capitalizedString] tag:i];
-		}
-	}
-	[self showRoleSelectionController:selectionController];
-
-	[selectionController release];
-}
-
-- (void)didSelectRace:(id)sender {
-	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
-	pl_race = [sender tag];
-	flags.initrace = [sender tag];
-
-	// Set up gender selection list
-	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
-
-	selectionController.title = @"Your Gender?";
-	selectionController.target = self;
-	selectionController.action = @selector(didSelectGender:);
-	for (int i = 0; i < ROLE_GENDERS; i++) {
-		if (validgend(flags.initrole, flags.initrace, i)) {
-			[selectionController addItemWithTitle:[[NSString stringWithCString:genders[i].adj] capitalizedString] tag:i];
-		}
-	}
-	[self showRoleSelectionController:selectionController];
-
-	[selectionController release];
-}
-
-- (void)didSelectRole:(id)sender {
-	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
-	flags.initrole = [sender tag];
-	strcpy(pl_character, roles[flags.initrole].filecode);
-
-	// Set up race selection list
-	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
-
-	selectionController.title = @"Your Race?";
-	selectionController.target = self;
-	selectionController.action = @selector(didSelectRace:);
-	for (int i = 0; races[i].noun; i++) {
-		if (validrace(flags.initrole, i)) {
-			[selectionController addItemWithTitle:[[NSString stringWithCString:races[i].noun] capitalizedString] tag:i];
-		}
-	}
-	[self showRoleSelectionController:selectionController];
-
-	[selectionController release];
+- (void)didCompleteRoleSelection:(id)sender {
+	NSAssert(flags.initalign != -1, @"Alignment was not set");
+	NSAssert(flags.initrace  != -1, @"Race was not set");
+	NSAssert(flags.initgend  != -1, @"Gender was not set");
+	NSAssert(flags.initrole  != -1, @"Role was not set");
+	[self broadcastUIEvent];
 }
 
 - (void) doPlayerSelectionOnUIThread:(id)obj {
-	[self.navigationController setNavigationBarHidden:NO animated:YES];
-
-	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
-
-	selectionController.title = @"Your Role?";
-	selectionController.target = self;
-	selectionController.action = @selector(didSelectRole:);
-	for (int i = 0; roles[i].name.m; ++i) {
-		[selectionController addItemWithTitle:[NSString stringWithCString:roles[i].name.m] tag:i];
-	}
-	[self showRoleSelectionController:selectionController];
-	[self.navigationController.navigationBar.topItem setHidesBackButton:YES animated:YES];
-
-	[selectionController release];
+	RoleSelectionController* roleSelector = [RoleSelectionController roleSelectorWithNavigationController:self.navigationController];
+	roleSelector.delegate = self;
+	[roleSelector start];
 }
 
 - (void) doPlayerSelection {

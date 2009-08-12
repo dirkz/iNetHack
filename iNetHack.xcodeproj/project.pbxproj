@@ -322,6 +322,7 @@
 		43DD0C430FF4ECEB00580249 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DD0C420FF4ECEB00580249 /* Window.m */; };
 		43DFDA7210033E0600DADAA1 /* RoleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */; };
 		916CE038102C57E8000535FC /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 916CE037102C57E8000535FC /* credits.html */; };
+		9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9194B22B1032CADB009BDE61 /* RoleSelectionController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -764,6 +765,8 @@
 		43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoleSelectionViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		916CE037102C57E8000535FC /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
+		9194B22A1032CADB009BDE61 /* RoleSelectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleSelectionController.h; sourceTree = "<group>"; };
+		9194B22B1032CADB009BDE61 /* RoleSelectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoleSelectionController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -835,6 +838,8 @@
 				431FE556102B3FFC00B15149 /* NetHackMenuInfo.m */,
 				43A7B06810302D880083CE1B /* DMath.h */,
 				43A7B06910302D880083CE1B /* DMath.m */,
+				9194B22A1032CADB009BDE61 /* RoleSelectionController.h */,
+				9194B22B1032CADB009BDE61 /* RoleSelectionController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1681,6 +1686,7 @@
 				431FE517102B3CE800B15149 /* NSString+Regexp.m in Sources */,
 				431FE557102B3FFC00B15149 /* NetHackMenuInfo.m in Sources */,
 				43A7B06A10302D880083CE1B /* DMath.m in Sources */,
+				9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
