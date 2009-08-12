@@ -549,7 +549,6 @@ static MainViewController *_instance;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:text
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alert show];
-	[alert release];
 }
 
 - (void) displayMenuWindow:(Window *)w {
@@ -567,6 +566,7 @@ static MainViewController *_instance;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	//NSLog(@"alert finished");
+	[alertView release];
 	[self broadcastUIEvent];
 }
 

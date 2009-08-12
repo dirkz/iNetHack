@@ -27,19 +27,19 @@
 @synthesize title, accessory, children, key;
 
 + (id) menuItemWithTitle:(NSString *)n target:(id)t selector:(SEL)s arg:(id)arg1 accessory:(BOOL)a {
-	return [[self alloc] initWithTitle:n target:t selector:s arg:arg1 accessory:a];
+	return [[[self alloc] initWithTitle:n target:t selector:s arg:arg1 accessory:a] autorelease];
 }
 
 + (id) menuItemWithTitle:(NSString *)n children:(NSArray *)ch {
-	return [[self alloc] initWithTitle:n children:ch];
+	return [[[self alloc] initWithTitle:n children:ch] autorelease];
 }
 
 + (id) menuItemWithTitle:(NSString *)n key:(char)k accessory:(BOOL)a {
-	return [[self alloc] initWithTitle:n key:k accessory:a];
+	return [[[self alloc] initWithTitle:n key:k accessory:a] autorelease];
 }
 
 + (id) menuItemWithTitle:(NSString *)n key:(char)k {
-	return [[self alloc] initWithTitle:n key:k];
+	return [[[self alloc] initWithTitle:n key:k] autorelease];
 }
 
 - (id) initWithTitle:(NSString *)n target:(id)t selector:(SEL)s arg:(id)a1 accessory:(BOOL)a {
