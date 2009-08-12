@@ -355,7 +355,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 			return [[MainViewController instance] getDirectionInput];
 		} else {
 			NSString *q = [NSString stringWithCString:question];
-			NSString *preLets = [q substringFromString:q betweenDelimiters:@"[]"];
+			NSString *preLets = [q substringBetweenDelimiters:@"[]"];
 			if (preLets && preLets.length > 0) {
 				NetHackMenuInfo *menuInfo = [[NetHackMenuInfo alloc] init];
 				[[MainViewController instance] setNethackMenuInfo:menuInfo];

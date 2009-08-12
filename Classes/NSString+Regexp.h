@@ -28,7 +28,7 @@
 - (BOOL) containsString:(NSString *)s;
 - (BOOL) containsChar:(char)c;
 - (BOOL) endsWithString:(NSString *)s;
-- (NSString *) substringFromString:(NSString *)src betweenDelimiters:(NSString *)del;
+- (NSString *) substringBetweenDelimiters:(NSString *)del;
 - (NSString *) stringWithTrimmedWhitespaces;
 
 @end

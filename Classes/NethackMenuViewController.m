@@ -26,6 +26,12 @@
 #import "MainViewController.h"
 #import "NetHackMenuInfo.h"
 #import "NetHackMenuInfo.h"
+#import "NetHackMenuItemView.h"
+#import "MainView.h"
+#import "TiledImages.h"
+#import "NSString+Regexp.h"
+
+extern short glyph2tile[];
 
 @implementation NethackMenuViewController
 
@@ -210,7 +216,7 @@
 	static NSString *cellId = @"nethackMenuViewControllerCellId";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId] autorelease];
 	}
 	int row = [indexPath row];
 	int section = [indexPath section];
@@ -224,7 +230,33 @@
 		i = [menuWindow.menuItems objectAtIndex:section];
 		i = [i.children objectAtIndex:row];
 	}
-	cell.textLabel.text = i.title;
+
+	if (i.glyph != NO_GLYPH) {
+		MainView *view = (MainView *) [[MainViewController instance] view];
+		int t = glyph2tile[i.glyph];
+		CGImageRef img = [view.images imageAt:t];
+		UIImage *uiImg = [UIImage imageWithCGImage:img];
+		cell.imageView.image = uiImg;
+	} else {
+		cell.imageView.image = nil;
+	}
+	
+	NSArray *strings;
+	NSString *ws = [i.title substringBetweenDelimiters:@"()"];
+	if (ws) {
+		NSRange r = [i.title rangeOfString:ws];
+		strings = [NSArray arrayWithObjects:[i.title substringToIndex:r.location-2], ws, nil];
+	} else {
+		strings = [NSArray arrayWithObjects:i.title, nil];
+	}
+	
+	cell.textLabel.text = [strings objectAtIndex:0];
+	if (strings.count == 2) {
+		cell.detailTextLabel.text = [strings objectAtIndex:1];
+	} else {
+		cell.detailTextLabel.text = nil;
+	}
+	
 	cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	return cell;
 }

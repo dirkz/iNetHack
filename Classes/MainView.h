@@ -51,6 +51,7 @@
 @property (nonatomic, readonly) CGSize tileSize;
 @property (nonatomic, readonly) IBOutlet UITextField *dummyTextField;
 @property (nonatomic, readonly) BOOL isMoved;
+@property (nonatomic, readonly) TiledImages *images;
 
 - (void) drawTiledMap:(Window *)map inContext:(CGContextRef)ctx;
 - (UIFont *) fontAndSize:(CGSize *)size forStrings:(NSArray *)strings withFont:(UIFont *)font;

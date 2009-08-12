@@ -50,7 +50,7 @@
 	return NO;
 }
 
-- (NSString *) substringFromString:(NSString *)src betweenDelimiters:(NSString *)del {
+- (NSString *) substringBetweenDelimiters:(NSString *)del {
 	char c = [del characterAtIndex:0];
 	NSString *s = [NSString stringWithFormat:@"%c", c];
 	NSRange r1 = [self rangeOfString:s];
@@ -64,7 +64,7 @@
 		return nil;
 	}
 	NSRange r = NSMakeRange(r1.location+1, r2.location-r1.location-1);
-	NSString *sub = [src substringWithRange:r];
+	NSString *sub = [self substringWithRange:r];
 	return sub;
 }
 
