@@ -169,6 +169,7 @@ void iphone_get_nh_event() {
 }
 
 void iphone_exit_nhwindows(const char *str) {
+	// please don't touch this without previous discussion dirkz
 	NSLog(@"iphone_exit_nhwindows %s", str);
 }
 
