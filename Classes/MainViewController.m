@@ -229,6 +229,33 @@ static MainViewController *_instance;
 
 - (void) showMainMenu:(id)obj {
 	NSMutableArray *menuItems = [NSMutableArray array];
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"Gear"
+											children:[NSArray arrayWithObjects:
+													  [MenuItem menuItemWithTitle:@"Wear Armor" key:'W'],
+													  [MenuItem menuItemWithTitle:@"Take off (armor ...)" key:'T'],
+													  [MenuItem menuItemWithTitle:@"Wield Weapon" key:'w'],
+													  [MenuItem menuItemWithTitle:@"Switch Weapon" key:'x'],
+													  [MenuItem menuItemWithTitle:@"Remove (rings ...)" key:'R'],
+													  nil]]];
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"Actions"
+											children:[NSArray arrayWithObjects:
+													  [MenuItem menuItemWithTitle:@"Eat" key:'e' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Drop" key:'d' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Apply" key:'a' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Quaff" key:'q' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Engrave" key:'E' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Ascend (<)" key:'<' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Descend (>)" key:'>' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Quiver" key:'Q' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Pay" key:'p' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Search" target:self
+																		 selector:@selector(nethackSearch:)
+																			  arg:nil accessory:YES],
+													  nil]]];
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"Magic"
+											children:[NSArray arrayWithObjects:
+													  [MenuItem menuItemWithTitle:@"Read" key:'r' accessory:YES],
+													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Show Log" target:self
 											selector:@selector(nethackShowLog:) arg:nil accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"License" target:self
