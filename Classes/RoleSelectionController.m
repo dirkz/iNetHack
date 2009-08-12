@@ -48,12 +48,8 @@
 	[self didCompleteSelection:nil];
 }
 
-- (void)didSelectGender:(id)sender
+- (void)selectAlignment
 {
-	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
-	flags.initgend = [sender tag];
-
-	// Set up alignment selection list
 	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
 
 	selectionController.title = @"Your Alignment?";
@@ -69,12 +65,16 @@
 	[selectionController release];
 }
 
-- (void)didSelectRace:(id)sender {
+- (void)didSelectGender:(id)sender
+{
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
-	pl_race = [sender tag];
-	flags.initrace = [sender tag];
+	flags.initgend = [sender tag];
 
-	// Set up gender selection list
+	[self selectAlignment];
+}
+
+- (void)selectGender
+{
 	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
 
 	selectionController.title = @"Your Gender?";
@@ -90,13 +90,17 @@
 	[selectionController release];
 }
 
-- (void)didSelectRole:(id)sender
+- (void)didSelectRace:(id)sender
 {
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
-	flags.initrole = [sender tag];
-	strcpy(pl_character, roles[flags.initrole].filecode);
+	pl_race = [sender tag];
+	flags.initrace = [sender tag];
 
-	// Set up race selection list
+	[self selectGender];
+}
+
+- (void)selectRace
+{
 	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
 
 	selectionController.title = @"Your Race?";
@@ -110,6 +114,15 @@
 	[self showRoleSelectionController:selectionController];
 
 	[selectionController release];
+}
+
+- (void)didSelectRole:(id)sender
+{
+	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
+	flags.initrole = [sender tag];
+	strcpy(pl_character, roles[flags.initrole].filecode);
+
+	[self selectRace];
 }
 
 - (void)selectRole
