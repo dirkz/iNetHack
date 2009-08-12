@@ -82,10 +82,13 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	if (!returned && condition) {
-		[condition lock];
-		[condition broadcast];
-		[condition unlock];
+	if (!returned) {
+		self.text = @"\033";
+		if (condition) {
+			[condition lock];
+			[condition broadcast];
+			[condition unlock];
+		}
 	}
 	self.numerical = NO;
 	self.callOnSuccess = nil;

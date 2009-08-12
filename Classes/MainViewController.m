@@ -612,6 +612,7 @@ static MainViewController *_instance;
 	textInputViewController.condition = textInputCondition;
 	textInputViewController.prompt = s;
 	textInputViewController.text = @"Elbereth";
+	[self.navigationController setNavigationBarHidden:NO animated:YES];
 	[self.navigationController pushViewController:textInputViewController animated:YES];
 }
 
