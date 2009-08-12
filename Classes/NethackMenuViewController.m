@@ -26,7 +26,6 @@
 #import "MainViewController.h"
 #import "NetHackMenuInfo.h"
 #import "NetHackMenuInfo.h"
-#import "NetHackMenuItemView.h"
 #import "MainView.h"
 #import "TiledImages.h"
 #import "NSString+Regexp.h"
