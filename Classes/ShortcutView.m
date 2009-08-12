@@ -56,7 +56,7 @@ static NSArray* DefaultShortcuts (id target) {
 	NSMutableArray *shortcuts = [NSMutableArray arrayWithCapacity:shortcutsCount];
 	for (NSUInteger i = 0; i < shortcutsCount; ++i) {
 		NSString *keys = (defaultShortcuts[i].action ? nil : defaultShortcuts[i].title);
-		Shortcut *shortcut = [[Shortcut alloc] initWithTitle:defaultShortcuts[i].title keys:keys selector:sel_getUid(defaultShortcuts[i].action) target:target arg:nil];
+		Shortcut *shortcut = [[Shortcut alloc] initWithTitle:defaultShortcuts[i].title keys:keys selector:sel_registerName(defaultShortcuts[i].action) target:target arg:nil];
 		[shortcuts addObject:shortcut];
 		[shortcut release];
 	}
