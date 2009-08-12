@@ -228,7 +228,7 @@ void iphone_add_menu(winid wid, int glyph, const ANY_P *identifier,
 					 CHAR_P accelerator, CHAR_P group_accel, int attr, 
 					 const char *str, BOOLEAN_P presel) {
 	//NSLog(@"iphone_add_menu %d %s", wid, str);
-	NethackMenuItem *i = [[NethackMenuItem alloc] initWithId:identifier title:str preselected:presel?YES:NO];
+	NethackMenuItem *i = [[NethackMenuItem alloc] initWithId:identifier title:str glyph:glyph preselected:presel?YES:NO];
 	Window *w = [[MainViewController instance] windowWithId:wid];
 	[w addMenuItem:i];
 	[i release];

@@ -30,6 +30,7 @@
 	BOOL isTitle;
 	NSMutableArray *children;
 	BOOL isSelected;
+	int glyph;
 
 }
 
@@ -38,7 +39,8 @@
 @property (nonatomic, readonly) BOOL isTitle;
 @property (nonatomic, readonly) NSMutableArray *children;
 @property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, readonly) int glyph;
 
-- (id) initWithId:(const anything *)i title:(const char *)t preselected:(BOOL)p;
+- (id) initWithId:(const anything *)i title:(const char *)t glyph:(int)g preselected:(BOOL)p;
 
 @end
