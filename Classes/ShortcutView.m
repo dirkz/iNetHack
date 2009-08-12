@@ -26,6 +26,43 @@
 #import "TouchInfo.h"
 #import "TouchInfoStore.h"
 
+static NSArray* DefaultShortcuts (id target) {
+	// Add shortcut bar items here
+	// The first field is the title, the second is the method selector to perform
+	// If the selector is NULL then the title will be treated as a key sequence
+	static struct { NSString *const title; const char *action; } const defaultShortcuts[] = {
+		// Page 1
+		{ @".",    NULL,            },   { @"20s",  NULL,            },
+		{ @":",    NULL,            },   { @"99.",  NULL,            },
+		{ @";",    NULL,            },   { @"#",    NULL,            },
+		{ @"abc",  "showKeyboard:", },   { @"menu", "showMainMenu:", },
+		// Page 2
+		{ @"i",    NULL,            },   { @"e",    NULL,            },
+		{ @"t",    NULL,            },   { @"f",    NULL,            },
+		{ @"z",    NULL,            },   { @"Z",    NULL,            },
+		{ @"a",    NULL,            },   { @"^d",   NULL,            },
+		// Page 3
+		{ @"^a",   NULL,            },   { @"r",    NULL,            },
+		{ @"q",    NULL,            },   { @"E",    NULL,            },
+		{ @"Q",    NULL,            },   { @"d",    NULL,            },
+		{ @"D",    NULL,            },   { @"w",    NULL,            },
+		// Page 4
+		{ @"W",    NULL,            },   { @"P",    NULL,            },
+		{ @"T",    NULL,            },   { @"A",    NULL,            },
+		{ @"p",    NULL,            },   { @"^x",   NULL             },
+	};
+
+	NSUInteger const shortcutsCount = sizeof(defaultShortcuts) / sizeof(defaultShortcuts[0]);
+	NSMutableArray *shortcuts = [NSMutableArray arrayWithCapacity:shortcutsCount];
+	for (NSUInteger i = 0; i < shortcutsCount; ++i) {
+		NSString *keys = (defaultShortcuts[i].action ? nil : defaultShortcuts[i].title);
+		Shortcut *shortcut = [[Shortcut alloc] initWithTitle:defaultShortcuts[i].title keys:keys selector:sel_getUid(defaultShortcuts[i].action) target:target arg:nil];
+		[shortcuts addObject:shortcut];
+		[shortcut release];
+	}
+	return shortcuts;
+}
+
 @implementation ShortcutView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -35,50 +72,9 @@
 		font = [UIFont boldSystemFontOfSize:12];
 		tileSize = CGSizeMake(40,40);
 		touchInfoStore = [[TouchInfoStore alloc] init];
-
-		shortcuts = [[NSArray alloc] initWithObjects:
-					 [[Shortcut alloc] initWithTitle:@"." keys:@"."],
-					 [[Shortcut alloc] initWithTitle:@"20s" keys:@"20s"],
-					 [[Shortcut alloc] initWithTitle:@":" keys:@":"],
-					 [[Shortcut alloc] initWithTitle:@"99." keys:@"99."],
-					 [[Shortcut alloc] initWithTitle:@";" keys:@";"],
-					 [[Shortcut alloc] initWithTitle:@"#" keys:@"#"],
-					 [[Shortcut alloc] initWithTitle:@"abc" keys:nil
-											selector:@selector(showKeyboard:) target:self arg:nil],
-					 [[Shortcut alloc] initWithTitle:@"menu" keys:nil
-											selector:@selector(showMainMenu:) target:self arg:nil],
-					 [[Shortcut alloc] initWithTitle:@"i" keys:@"i"],
-					 [[Shortcut alloc] initWithTitle:@"e" keys:@"e"],
-					 [[Shortcut alloc] initWithTitle:@"t" keys:@"t"],
-					 [[Shortcut alloc] initWithTitle:@"f" keys:@"f"],
-					 [[Shortcut alloc] initWithTitle:@"z" keys:@"z"],
-					 [[Shortcut alloc] initWithTitle:@"Z" keys:@"Z"],
-					 [[Shortcut alloc] initWithTitle:@"a" keys:@"a"],
-					 [[Shortcut alloc] initWithTitle:@"^d" keys:@"^d"],
-					 [[Shortcut alloc] initWithTitle:@"^a" keys:@"^a"],
-					 [[Shortcut alloc] initWithTitle:@"r" keys:@"r"],
-					 [[Shortcut alloc] initWithTitle:@"q" keys:@"q"],
-					 [[Shortcut alloc] initWithTitle:@"E" keys:@"E"],
-					 [[Shortcut alloc] initWithTitle:@"Q" keys:@"Q"],
-					 [[Shortcut alloc] initWithTitle:@"d" keys:@"d"],
-					 [[Shortcut alloc] initWithTitle:@"D" keys:@"D"],
-					 [[Shortcut alloc] initWithTitle:@"w" keys:@"w"],
-					 [[Shortcut alloc] initWithTitle:@"W" keys:@"W"],
-					 [[Shortcut alloc] initWithTitle:@"P" keys:@"P"],
-					 [[Shortcut alloc] initWithTitle:@"T" keys:@"T"],
-					 [[Shortcut alloc] initWithTitle:@"A" keys:@"A"],
-					 [[Shortcut alloc] initWithTitle:@"p" keys:@"p"],
-					 [[Shortcut alloc] initWithTitle:@"^x" keys:@"^x"],
-					 nil];
-		[self releaseShortcuts];
+		shortcuts = [DefaultShortcuts(self) retain];
     }
     return self;
-}
-
-- (void) releaseShortcuts {
-	for (Shortcut *sh in shortcuts) {
-		[sh release];
-	}
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {

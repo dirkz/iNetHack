@@ -35,7 +35,4 @@
 	TouchInfoStore *touchInfoStore;
 	
 }
-
-- (void) releaseShortcuts;
-
 @end
