@@ -240,15 +240,15 @@ static MainViewController *_instance;
 		[menuItems addObject:[MenuItem menuItemWithTitle:@"Wizard"
 												children:[NSArray arrayWithObjects:
 														  [MenuItem menuItemWithTitle:@"Detect Secrets"
-																				  key:C('e') accessory:YES],
+																				  key:C('e') accessory:NO],
 														  [MenuItem menuItemWithTitle:@"Magic Mapping"
-																				  key:C('f') accessory:YES],
+																				  key:C('f') accessory:NO],
 														  [MenuItem menuItemWithTitle:@"Create Monster"
-																				  key:C('g') accessory:YES],
+																				  key:C('g') accessory:NO],
 														  [MenuItem menuItemWithTitle:@"Identify"
-																				  key:C('i') accessory:YES],
+																				  key:C('i') accessory:NO],
 														  [MenuItem menuItemWithTitle:@"Special Levels"
-																				  key:C('o') accessory:YES],
+																				  key:C('o') accessory:NO],
 														  [MenuItem menuItemWithTitle:@"Intra-Level Teleport"
 																				  key:C('t') accessory:YES],
 														  [MenuItem menuItemWithTitle:@"Trans-Level Teleport"

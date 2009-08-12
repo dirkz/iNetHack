@@ -479,6 +479,16 @@ void iphone_main() {
 	// enable for full wizard mode
 	//wizard = TRUE;
 	
+	// from macmain.c, enables special levels like sokoban
+	x_maze_max = COLNO-1;
+	if (x_maze_max % 2) {
+		x_maze_max--;
+	}
+	y_maze_max = ROWNO-1;
+	if (y_maze_max % 2) {
+		y_maze_max--;
+	}
+	
 	choose_windows(DEFAULT_WINDOW_SYS); /* choose a default window system */
 	initoptions();			   /* read the resource file */
 	
