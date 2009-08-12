@@ -47,7 +47,7 @@ extern short glyph2tile[];
 	//images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"absurd64.bmp"] tileSize:CGSizeMake(64,64)];
 	//images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"absurd40.bmp"] tileSize:CGSizeMake(40,40)];
 	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"chozo40.bmp"] tileSize:CGSizeMake(40,40)];
-	petMark = [UIImage imageNamed:@"petmark.png"];
+	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
 	tileSize = maxTileSize = CGSizeMake(40,40);
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
