@@ -110,7 +110,7 @@
 	static NSString *cellId = @"extendedCommandViewControllerCellId";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
-		cell = [[[ UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
 	}
 	int row = [indexPath row];
 	cell.textLabel.text = [[NSString stringWithCString:extcmdlist[row].ef_txt] capitalizedString];

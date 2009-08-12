@@ -54,6 +54,7 @@
 
 - (void) drawTiledMap:(Window *)map inContext:(CGContextRef)ctx;
 - (UIFont *) fontAndSize:(CGSize *)size forStrings:(NSArray *)strings withFont:(UIFont *)font;
+- (UIFont *) fontAndSize:(CGSize *)size forString:(NSString *)s withFont:(UIFont *)font;
 - (TilePosition *) tilePositionFromPoint:(CGPoint)p;
 - (void) moveAlongVector:(CGPoint)d;
 - (void) resetOffset;

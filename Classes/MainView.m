@@ -119,40 +119,37 @@ extern short glyph2tile[];
 	}
 	
 	float white[] = {1,1,1,1};
+	float transparentBackground[] = {0,0,0,0.6f};
 	CGSize statusSize;
 	if (status) {
 		if (status.strings.count > 0) {
 			NSArray *strings = [NSArray arrayWithArray:status.strings];
-			UIFont *font = [self fontAndSize:&statusSize forStrings:strings withFont:statusFont];
 			CGContextSetStrokeColor(ctx, white);
 			CGPoint p = CGPointMake(0,0);
-			// adding a black background
-			CGRect statusRect;
 			for (NSString *s in strings) {
-				CGSize tmp1 = [s sizeWithFont:font];
-				CGContextSetRGBFillColor(ctx, 0.0,0.0, 0.0, 0.6);
-				statusRect = CGRectMake(0, p.y, self.bounds.size.width, tmp1.height);
-				CGContextFillRect(ctx, statusRect);
+				CGSize backgroundRectSize;
+				UIFont *font = [self fontAndSize:&backgroundRectSize forString:s withFont:statusFont];
+				CGContextSetFillColor(ctx, transparentBackground);
+				CGRect backgroundRect = CGRectMake(p.x, p.y, backgroundRectSize.width, backgroundRectSize.height);
+				CGContextFillRect(ctx, backgroundRect);
 				CGContextSetFillColor(ctx, white);
 				CGSize tmp = [s drawAtPoint:p withFont:font];
 				p.y += tmp.height;
+				statusSize.height += tmp.height;
 			}
 		}
 	}
 	
 	if (message) {
 		if (message.strings.count > 0) {
+			CGPoint p = CGPointMake(0, statusSize.height);
 			NSArray *strings = [NSArray arrayWithArray:message.strings];
 			UIFont *font = [self fontAndSize:NULL forStrings:strings withFont:statusFont];
-			CGContextSetStrokeColor(ctx, white);
-			CGContextSetFillColor(ctx, white);
-			CGPoint p = CGPointMake(0, statusSize.height);
-			// adding a black background
 			CGRect messageRect;
 			for (NSString *s in strings) {
-				CGSize tmp2 = [s sizeWithFont:font];
-				CGContextSetRGBFillColor(ctx, 0.0,0.0, 0.0, 0.6);
-				messageRect = CGRectMake(0, p.y, self.bounds.size.width, tmp2.height);
+				CGSize stringSize = [s sizeWithFont:font];
+				CGContextSetFillColor(ctx, transparentBackground);
+				messageRect = CGRectMake(0, p.y, stringSize.width, stringSize.height);
 				CGContextFillRect(ctx, messageRect);
 				CGContextSetFillColor(ctx, white);
 				CGSize tmp = [s drawAtPoint:p withFont:font];
@@ -185,6 +182,23 @@ extern short glyph2tile[];
 		size->width = tmpSize.width > size->width ? tmpSize.width:size->width;
 		size->height += tmpSize.height;
 	}
+	return font;
+}
+
+- (UIFont *) fontAndSize:(CGSize *)size forString:(NSString *)s withFont:(UIFont *)font {
+	CGSize dummySize;
+	if (!size) {
+		size = &dummySize;
+	}
+	*size = CGSizeMake(0,0);
+	CGFloat maxWidth = self.bounds.size.width;
+	CGSize tmpSize = [s sizeWithFont:font];
+	while (tmpSize.width > maxWidth) {
+		font = [font fontWithSize:font.pointSize-1];
+		tmpSize = [s sizeWithFont:font];
+	}
+	size->width = tmpSize.width > size->width ? tmpSize.width:size->width;
+	size->height += tmpSize.height;
 	return font;
 }
 
