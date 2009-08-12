@@ -55,7 +55,7 @@ static NSString* ParseShortcutString (NSString* keys) {
 }
 
 - (void) invoke {
-	if (target) {
+	if (selector) {
 		[target performSelector:selector withObject:arg];
 	} else {
 		NethackEventQueue *q = [[MainViewController instance] nethackEventQueue];
