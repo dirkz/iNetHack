@@ -230,7 +230,7 @@ extern short glyph2tile[];
 		i = [i.children objectAtIndex:row];
 	}
 
-	if (i.glyph != NO_GLYPH) {
+	if (i.glyph != NO_GLYPH && i.glyph != kNoGlyph) {
 		MainView *view = (MainView *) [[MainViewController instance] view];
 		int t = glyph2tile[i.glyph];
 		CGImageRef img = [view.images imageAt:t];
