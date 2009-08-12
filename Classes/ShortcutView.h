@@ -35,4 +35,5 @@
 	TouchInfoStore *touchInfoStore;
 	
 }
+@property (nonatomic, retain) NSArray* shortcuts;
 @end

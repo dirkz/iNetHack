@@ -65,6 +65,8 @@ static NSArray* DefaultShortcuts (id target) {
 
 @implementation ShortcutView
 
+@synthesize shortcuts;
+
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 		self.clearsContextBeforeDrawing = YES;
@@ -72,9 +74,17 @@ static NSArray* DefaultShortcuts (id target) {
 		font = [UIFont boldSystemFontOfSize:12];
 		tileSize = CGSizeMake(40,40);
 		touchInfoStore = [[TouchInfoStore alloc] init];
-		shortcuts = [DefaultShortcuts(self) retain];
+		self.shortcuts = DefaultShortcuts(self); // TODO make this nil-targeted
     }
     return self;
+}
+
+- (void)setShortcuts:(NSArray*)newShortcuts {
+	if (newShortcuts != shortcuts) {
+		[shortcuts release];
+		shortcuts = [newShortcuts retain];
+		[self setNeedsDisplay];
+	}
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
@@ -205,7 +215,7 @@ static NSArray* DefaultShortcuts (id target) {
 
 - (void)dealloc {
 	[touchInfoStore release];
-	[shortcuts release];
+	self.shortcuts = nil;
     [super dealloc];
 }
 
