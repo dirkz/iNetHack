@@ -96,6 +96,7 @@ static const CGFloat InterCellPadding = 1;
 		self.cornerRadius  = 5;
 		self.bounds        = (CGRect){CGPointZero, ShortcutTileSize};
 		self.anchorPoint   = CGPointZero;
+		[[self animationForKey:@"backgroundColor"] setDuration:0.1];
 	}
 	return self;
 }
@@ -151,8 +152,13 @@ static const CGFloat InterCellPadding = 1;
 
 - (void)setHighlightedIndex:(NSInteger)index {
 	if (index != highlightedIndex) {
+		if (highlightedIndex >= 0 && highlightedIndex < shortcutLayers.count) {
+			[[shortcutLayers objectAtIndex:highlightedIndex] setIsHighlighted:NO];
+		}
 		highlightedIndex = index;
-		[self updateLayers];
+		if (highlightedIndex >= 0 && highlightedIndex < shortcutLayers.count) {
+			[[shortcutLayers objectAtIndex:highlightedIndex] setIsHighlighted:YES];
+		}
 	}
 }
 
@@ -235,6 +241,17 @@ static const CGFloat InterCellPadding = 1;
 	NSUInteger touchedIndex = [self shortcutIndexForTouch:touches.anyObject];
 	if (touchedIndex != NSNotFound) {
 		[[shortcuts objectAtIndex:touchedIndex] invoke];
+
+		self.highlightedIndex = -1;
+
+		CALayer* layer = [shortcutLayers objectAtIndex:touchedIndex];
+
+		CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
+		[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+		[animation setToValue:(id)HighlightColor];
+		[animation setAutoreverses:YES];
+		[animation setDuration:0.1];
+		[layer addAnimation:animation forKey:@"backgroundColor"];
 	}
 
 	self.highlightedIndex = -1;
