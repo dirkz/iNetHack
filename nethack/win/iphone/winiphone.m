@@ -33,7 +33,9 @@
 #import "TilePosition.h"
 
 #include <stdio.h>
+#include <fcntl.h>
 #include "dlb.h"
+#include "hack.h"
 
 #define kOptionUsername (@"username")
 #define kOptionAutopickup (@"autopickup")
@@ -487,6 +489,40 @@ void process_options(int argc, char *argv[]) {
 	iflags.use_color = TRUE;
 }
 
+void
+getlock(void)
+{
+	int fd;
+	int pid = getpid(); /* Process ID */
+
+	set_levelfile_name (lock, 0);
+
+	const char* fq_lock = fqname(lock, LEVELPREFIX, 1);
+	if ((fd = open (lock, O_RDWR | O_EXCL | O_CREAT, 0644)) == -1) {
+		if(iflags.window_inited) {
+			char c = yn("There are files from a game in progress under your name. Recover?");
+			if (c != 'y' && c != 'Y') {
+				raw_printf ("Could not lock the game %s.", lock);
+				panic ("Another game in progress?");
+			}
+
+			// Try to recover
+			if(!recover_savefile()) {
+				panic("Couldn't recover old game.");
+			} else {
+				set_levelfile_name (lock, 0);
+				fd = open (fq_lock, O_RDWR | O_EXCL | O_CREAT, 0644);
+			}
+		}
+	}
+
+	if (write (fd, (char *)&pid, sizeof (pid)) != sizeof (pid))  {
+		raw_printf ("Could not lock the game %s.", lock);
+		panic("Disk locked?");
+	}
+	close (fd);
+}
+
 void iphone_main() {
 	int argc = 0;
 	char **argv = NULL;
@@ -520,16 +556,34 @@ void iphone_main() {
 	if (y_maze_max % 2) {
 		y_maze_max--;
 	}
+
+	hackpid = getpid();
 	
 	choose_windows(DEFAULT_WINDOW_SYS); /* choose a default window system */
 	initoptions();			   /* read the resource file */
 	
 	init_nhwindows(&argc, argv);		   /* initialize the window system */
 	process_options(argc, argv);	   /* process command line options or equiv */
-	
+
+	NSString* logFilePath = [[NSString alloc] initWithCString:LOGFILE];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:logFilePath]) {
+		[[NSFileManager defaultManager] createFileAtPath:logFilePath contents:nil attributes:nil];
+	}
+	[logFilePath release];
+
+	check_recordfile("");
+
 	dlb_init();
 	vision_init();
 	display_gamewindows();		   /* create & display the game windows */
+
+	if(!*plname)
+		askname();
+	plnamesuffix();		/* strip suffix from name; calls askname() */
+				/* again if suffix was whole name */
+				/* accepts any suffix */
+	Sprintf (lock, "%d%s", getuid (), plname);
+	getlock ();
 
 	register int fd;
 	if ((fd = restore_saved_game()) >= 0) {

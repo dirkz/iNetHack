@@ -200,7 +200,7 @@
 #endif
 
 #if TARGET_OS_IPHONE
-#undef INSURANCE
+	 #define SELF_RECOVER		/* Allow the game itself to recover from an aborted game */
 #endif
 
 #ifndef MAC
