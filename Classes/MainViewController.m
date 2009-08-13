@@ -218,6 +218,15 @@ static MainViewController *_instance;
 	[self displayText:text withCondition:nil];
 }
 
+- (void) showManual:(id)obj {
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"manual" ofType:@"html"];
+	TextDisplayViewController* viewController = [TextDisplayViewController new];
+	viewController.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
+	viewController.isHTML = YES;
+	[self.navigationController pushViewController:viewController animated:YES];
+	[viewController release];
+}
+
 - (void) showCredits:(id)obj {
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"credits" ofType:@"html"];
 	TextDisplayViewController* viewController = [TextDisplayViewController new];
@@ -262,6 +271,8 @@ static MainViewController *_instance;
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"License" target:self
 											selector:@selector(nethackShowLicense:) arg:nil accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"History" key:'V' accessory:YES]];
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"Manual" target:self
+											selector:@selector(showManual:) arg:nil accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Credits" target:self
 											selector:@selector(showCredits:) arg:nil accessory:YES]];
 #ifdef WIZARD
