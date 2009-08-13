@@ -35,6 +35,11 @@
 #include <stdio.h>
 #include "dlb.h"
 
+#define kOptionUsername (@"username")
+#define kOptionAutopickup (@"autopickup")
+#define kOptionPickupTypes (@"pickupTypes")
+#define kOptionWizard (@"wizard")
+
 #undef DEFAULT_WINDOW_SYS
 #define DEFAULT_WINDOW_SYS "iphone"
 
@@ -96,11 +101,6 @@ iphone_outrip,
 genl_preference_update,
 };
 
-void process_options(int argc, char *argv[]) {
-	[[MainViewController instance] initOptions];
-	iflags.use_color = TRUE;
-}
-
 FILE *iphone_fopen(const char *filename, const char *mode) {
 	NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithCString:filename] ofType:@""];
 	const char *pathc = [path cStringUsingEncoding:NSStringEncodingConversionAllowLossy];
@@ -153,7 +153,12 @@ void iphone_player_selection() {
 }
 
 void iphone_askname() {
-	NSString *name = [[MainViewController instance] askName];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *name = [defaults objectForKey:kOptionUsername];
+	if (!name || name.length == 0) {
+		name = [NSFullUserName() capitalizedString];
+		[defaults setObject:name forKey:kOptionUsername];
+	}
 	// issue 33 patch provided by ciawal
 	if(![name getCString:plname maxLength:PL_NSIZ encoding:NSASCIIStringEncoding]) {
 		// If the conversion fails attempt to perform a lossy conversion instead
@@ -453,6 +458,35 @@ void iphone_outrip(winid wid, int how) {
 	//NSLog(@"iphone_outrip %d", wid);
 }
 
+#pragma mark options
+
+void iphone_init_options() {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	BOOL autopickup = [defaults boolForKey:kOptionAutopickup];
+	flags.pickup = autopickup ? TRUE:FALSE;
+	NSString *pickupTypes = [defaults objectForKey:kOptionPickupTypes];
+	if (flags.pickup && pickupTypes) {
+		NSMutableString *tmp = [NSMutableString string];
+		for (int i = 0; i < pickupTypes.length; ++i) {
+			int oc_sym = def_char_to_objclass([pickupTypes characterAtIndex:i]);
+			if (![tmp containsChar:oc_sym]) {
+				[tmp appendFormat:@"%c", oc_sym];
+			}
+		}
+		[tmp getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
+	}
+	BOOL wiz = [defaults boolForKey:kOptionWizard];
+	wizard = wiz ? TRUE:FALSE;
+}
+
+void iphone_override_options() {
+}
+
+void process_options(int argc, char *argv[]) {
+	iphone_init_options();
+	iflags.use_color = TRUE;
+}
+
 void iphone_main() {
 	int argc = 0;
 	char **argv = NULL;
@@ -476,9 +510,6 @@ void iphone_main() {
 	for (NSString *filename in filelist) {
 		NSLog(@"file %@", filename);
 	}
-	
-	// enable for full wizard mode
-	//wizard = TRUE;
 	
 	// from macmain.c, enables special levels like sokoban
 	x_maze_max = COLNO-1;
@@ -548,7 +579,7 @@ void iphone_main() {
 		(void) pickup(1);
 	}
 	
-	[[MainViewController instance] overrideOptions];
+	iphone_override_options();
 	moveloop();
 	exit(EXIT_SUCCESS);
 }

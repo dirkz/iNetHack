@@ -688,16 +688,6 @@ static MainViewController *_instance;
 	[self waitForCondition:uiCondition];
 }
 
-- (NSString *) askName {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *username = [defaults objectForKey:kOptionUsername];
-	if (!username || username.length == 0) {
-		username = [NSFullUserName() capitalizedString];
-		[defaults setObject:username forKey:kOptionUsername];
-	}
-	return username;
-}
-
 - (void) displayFile:(NSString *)filename mustExist:(BOOL)e {
 	if (![filename isEqualToString:@"news"]) {
 		NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:@""];
@@ -713,28 +703,6 @@ static MainViewController *_instance;
 			}
 		}
 	}
-}
-
-#pragma mark options
-
-- (void) initOptions {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	BOOL autopickup = [defaults boolForKey:kOptionAutopickup];
-	flags.pickup = autopickup ? TRUE:FALSE;
-	NSString *pickupTypes = [defaults objectForKey:kOptionPickupTypes];
-	if (flags.pickup && pickupTypes) {
-		NSMutableString *tmp = [NSMutableString string];
-		for (int i = 0; i < pickupTypes.length; ++i) {
-			int oc_sym = def_char_to_objclass([pickupTypes characterAtIndex:i]);
-			if (![tmp containsChar:oc_sym]) {
-				[tmp appendFormat:@"%c", oc_sym];
-			}
-		}
-		[tmp getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
-	}
-}
-
-- (void) overrideOptions {
 }
 
 #pragma mark condition utilities

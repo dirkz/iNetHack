@@ -31,10 +31,6 @@
 
 #define kMinimumPinchDelta (15)
 
-#define kOptionUsername (@"username")
-#define kOptionAutopickup (@"autopickup")
-#define kOptionPickupTypes (@"pickupTypes")
-
 @class Window, MenuViewController, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
 @class DirectionInputViewController, ExtendedCommandViewController;
 @class TouchInfo, TouchInfoStore;
@@ -113,11 +109,7 @@
 - (int) getExtendedCommand;
 
 - (void) doPlayerSelection;
-- (NSString *) askName;
 
 - (void) displayFile:(NSString *)filename mustExist:(BOOL)e;
-
-- (void) initOptions;
-- (void) overrideOptions;
 
 @end
