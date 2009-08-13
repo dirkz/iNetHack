@@ -323,6 +323,7 @@
 		43DFDA7210033E0600DADAA1 /* RoleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */; };
 		916CE038102C57E8000535FC /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 916CE037102C57E8000535FC /* credits.html */; };
 		9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9194B22B1032CADB009BDE61 /* RoleSelectionController.m */; };
+		9194B2AE1032E48A009BDE61 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9194B2AD1032E48A009BDE61 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -767,6 +768,7 @@
 		916CE037102C57E8000535FC /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		9194B22A1032CADB009BDE61 /* RoleSelectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleSelectionController.h; sourceTree = "<group>"; };
 		9194B22B1032CADB009BDE61 /* RoleSelectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoleSelectionController.m; sourceTree = "<group>"; };
+		9194B2AD1032E48A009BDE61 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -777,6 +779,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				9194B2AE1032E48A009BDE61 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -861,6 +864,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				9194B2AD1032E48A009BDE61 /* QuartzCore.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";

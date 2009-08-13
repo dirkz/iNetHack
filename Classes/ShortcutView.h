@@ -22,18 +22,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class ShortcutViewController, TouchInfoStore;
-
-@interface ShortcutView : UIView {
-	
-	UIFont *font;
+@interface ShortcutView : UIScrollView {
 	NSArray *shortcuts;
-	NSUInteger currentIndex;
-	int maxShortcutsOnScreen;
-	CGSize tileSize;
-	int recentlyTouchedItem;
-	TouchInfoStore *touchInfoStore;
-	
+	NSMutableArray *shortcutLayers;
+	NSInteger highlightedIndex;
 }
 @property (nonatomic, retain) NSArray* shortcuts;
 @end

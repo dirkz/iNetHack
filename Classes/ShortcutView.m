@@ -23,8 +23,7 @@
 #import "ShortcutView.h"
 #import "Shortcut.h"
 #import "MainViewController.h"
-#import "TouchInfo.h"
-#import "TouchInfoStore.h"
+#import <QuartzCore/QuartzCore.h>
 
 static NSArray* DefaultShortcuts (id target) {
 	// Add shortcut bar items here
@@ -63,161 +62,181 @@ static NSArray* DefaultShortcuts (id target) {
 	return shortcuts;
 }
 
-@implementation ShortcutView
+@interface ShortcutView ()
+@property (assign) NSInteger highlightedIndex;
+- (void)updateLayers;
+@end
 
-@synthesize shortcuts;
+static const CGSize ShortcutTileSize  = { 40, 40 };
+static const CGFloat InterCellPadding = 1;
+
+#define TextColor        UIColor.whiteColor.CGColor
+#define BackgroundColor  UIColor.grayColor.CGColor
+#define HighlightColor   UIColor.greenColor.CGColor
+
+@interface ShortcutLayer : CALayer
+{
+	NSString *title;
+	BOOL isHighlighted;
+}
+@property (retain) NSString *title;
+@property (assign) BOOL isHighlighted;
+@end
+
+@implementation ShortcutLayer
+@synthesize title, isHighlighted;
+
+- (id)init
+{
+	if (self = [super init]) {
+		self.opacity       = 0.5;
+		self.isHighlighted = NO;
+		self.borderColor   = UIColor.whiteColor.CGColor;
+		self.borderWidth   = 0.5;
+		self.cornerRadius  = 5;
+		self.bounds        = (CGRect){CGPointZero, ShortcutTileSize};
+		self.anchorPoint   = CGPointZero;
+	}
+	return self;
+}
+
+- (void)setIsHighlighted:(BOOL)flag
+{
+	isHighlighted = flag;
+	self.backgroundColor = self.isHighlighted ? HighlightColor : BackgroundColor;
+}
+
+- (void)drawInContext:(CGContextRef)context
+{
+	if (self.title) {
+		UIFont* const font = [UIFont boldSystemFontOfSize:12];
+		UIGraphicsPushContext(context);
+		CGContextSetFillColorWithColor(context, TextColor);
+		CGSize stringSize = [self.title sizeWithFont:font];
+		CGPoint p;
+		p.x = (self.bounds.size.width - stringSize.width) / 2;
+		p.y = (self.bounds.size.height - stringSize.height) / 2;
+		[self.title drawAtPoint:p withFont:font];
+		UIGraphicsPopContext();
+	}
+}
+@end
+
+@implementation ShortcutView
+// ==================
+// = Setup/Teardown =
+// ==================
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-		self.clearsContextBeforeDrawing = YES;
-		recentlyTouchedItem = -1;
-		font = [UIFont boldSystemFontOfSize:12];
-		tileSize = CGSizeMake(40,40);
-		touchInfoStore = [[TouchInfoStore alloc] init];
-		self.shortcuts = DefaultShortcuts(self); // TODO make this nil-targeted
+		shortcutLayers      = [NSMutableArray new];
+		self.shortcuts      = DefaultShortcuts(self); // TODO make this nil-targeted
+		self.pagingEnabled  = YES;
+		self.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     }
     return self;
+}
+
+- (void)dealloc {
+	self.shortcuts = nil;
+	[self updateLayers];
+	[super dealloc];
+}
+
+// ==============
+// = Properties =
+// ==============
+
+@synthesize shortcuts, highlightedIndex;
+
+- (void)setHighlightedIndex:(NSInteger)index {
+	if (index != highlightedIndex) {
+		highlightedIndex = index;
+		[self updateLayers];
+	}
+}
+
+- (void)updateLayers {
+	// TODO re-use layers
+	for(CALayer *layer in shortcutLayers) {
+		[layer removeFromSuperlayer];
+	}
+	[shortcutLayers removeAllObjects];
+	for(NSUInteger index = 0; index < self.shortcuts.count; ++index) {
+		ShortcutLayer *layer = [ShortcutLayer layer];
+		layer.position       = CGPointMake(layer.bounds.size.width * index, 0);
+		layer.title          = [[self.shortcuts objectAtIndex:index] title];
+		layer.isHighlighted  = index == self.highlightedIndex;
+		[self.layer addSublayer:layer];
+		[layer setNeedsDisplay];
+		[shortcutLayers addObject:layer];
+	}
 }
 
 - (void)setShortcuts:(NSArray*)newShortcuts {
 	if (newShortcuts != shortcuts) {
 		[shortcuts release];
 		shortcuts = [newShortcuts retain];
-		[self setNeedsDisplay];
+		self.highlightedIndex = -1;
+		[self updateLayers];
 	}
+}
+
+// ===========
+// = Drawing =
+// ===========
+
+- (void)layoutSubviews {
+	CGFloat tilesOnScreen = self.bounds.size.width / ShortcutTileSize.width;
+	CGFloat pages = ceil(self.shortcuts.count / tilesOnScreen);
+	self.contentSize = CGSizeMake((pages * tilesOnScreen) * ShortcutTileSize.width, ShortcutTileSize.height);
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-	maxShortcutsOnScreen = size.width / tileSize.width;
-	CGSize s = CGSizeMake(tileSize.width * maxShortcutsOnScreen, tileSize.height);
-	return s;
+	NSUInteger tilesOnScreen = size.width / ShortcutTileSize.width;
+	return CGSizeMake(tilesOnScreen * ShortcutTileSize.width, ShortcutTileSize.height);
 }
 
-- (void)drawRect:(CGRect)rect {
-	CGContextRef ctx = UIGraphicsGetCurrentContext();
-	float white[] = {1,1,1,1};
-	float grey[] = {0.5f,0.5f,0.5f,1};
-	float green[] = {0,1,0,1};
-	CGContextSetStrokeColor(ctx, white);
-	CGContextSetFillColor(ctx, white);
-	CGPoint current = CGPointMake(0,0);
-	for (int i = 0; i < maxShortcutsOnScreen; ++i) {
-		float pad = 2.0f;
-		float halfPad = pad/2;
-		CGRect r = CGRectMake(current.x+halfPad, current.y+halfPad, tileSize.width-pad, tileSize.height-pad);
-		if (i+currentIndex == recentlyTouchedItem && i+currentIndex < shortcuts.count) {
-			CGContextSetFillColor(ctx, green);
-		} else {
-			CGContextSetFillColor(ctx, grey);
-		}
-		CGContextFillRect(ctx, r);
-		CGContextSetFillColor(ctx, white);
-		if (i+currentIndex < shortcuts.count) {
-			Shortcut *sh = [shortcuts objectAtIndex:i+currentIndex];
-			CGSize stringSize = [sh.title sizeWithFont:font];
-			CGPoint p = current;
-			p.x += (tileSize.width-stringSize.width) / 2;
-			p.y += (tileSize.height-stringSize.height) / 2;
-			[sh.title drawAtPoint:p withFont:font];
-		}
-		current.x += tileSize.width;
-	}
-}
-
-#pragma mark ad-hoc methods for shortcuts
+// ===========
+// = Actions =
+// ===========
 
 - (void) showMainMenu:(id)obj {
-	[[MainViewController instance] showMainMenu:obj];
+	[[MainViewController instance] showMainMenu:obj]; // FIXME
 }
 
 - (void) showKeyboard:(id)obj {
-	[[MainViewController instance] nethackKeyboard:obj];
+	[[MainViewController instance] nethackKeyboard:obj]; // FIXME
 }
 
-#pragma mark touch handling
+// ==================
+// = Touch Handling =
+// ==================
+
+- (NSUInteger)shortcutIndexForTouch:(UITouch *)touch {
+	// FIXME I don’t think this logic is correct (but it works…)
+	CGPoint point = [touch locationInView:touch.view];
+	point = [touch.view convertPoint:point toView:self.superview];
+	return [shortcutLayers indexOfObject:[self.layer hitTest:point]];
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	[touchInfoStore storeTouches:touches];
-	UITouch *touch = [touches anyObject];
-	CGPoint p = [touch locationInView:self];
-	int i = floor(p.x/tileSize.width);
-	i += currentIndex;
-	if (i < maxShortcutsOnScreen+currentIndex) {
-		recentlyTouchedItem = i;
-		[self setNeedsDisplay];
+	NSUInteger touchedIndex = [self shortcutIndexForTouch:touches.anyObject];
+	if (touchedIndex != NSNotFound) {
+		self.highlightedIndex = touchedIndex;
 	}
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-	recentlyTouchedItem = -1;
-	[self setNeedsDisplay];
-	[touchInfoStore removeTouches:touches];
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (touches.count == 1) {
-		UITouch *touch = [touches anyObject];
-		TouchInfo *ti = [touchInfoStore touchInfoForTouch:touch];
-		if (!ti.pinched) {
-			CGPoint p = [touch locationInView:self];
-			CGPoint delta = CGPointMake(p.x-ti.initialLocation.x, p.y-ti.initialLocation.y);
-			BOOL move = NO;
-			if (!ti.moved && (abs(delta.x)+abs(delta.y) > 10)) {
-				ti.moved = YES;
-				move = YES;
-			} else if (ti.moved) {
-				move = NO;
-			}
-			if (move) {
-				recentlyTouchedItem = -1;
-				int amount = 0;
-				if (delta.x > 0) {
-					amount = -maxShortcutsOnScreen;
-				} else {
-					amount = maxShortcutsOnScreen;
-				}
-				currentIndex += amount;
-				if (currentIndex >= shortcuts.count) {
-					//NSLog(@"%d >= %d", currentIndex, sc);
-					currentIndex -= amount;
-				} else if (currentIndex < 0) {
-					currentIndex = 0;
-				}
-				CGRect frame = self.frame;
-				CGRect superBounds = self.superview.bounds;
-				frame.size.width = superBounds.size.width;
-				frame.size = [self sizeThatFits:frame.size];
-				[self setFrame:frame];
-				[self setNeedsDisplay];
-			}
-		}
-	}
+	self.highlightedIndex = -1;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (touches.count == 1) {
-		UITouch *touch = [touches anyObject];
-		TouchInfo *ti = [touchInfoStore touchInfoForTouch:touch];
-		if (!ti.moved) {
-			CGPoint p = [touch locationInView:self];
-			int i = floor(p.x/tileSize.width);
-			i += currentIndex;
-			if (i >= 0 && i < shortcuts.count) {
-				Shortcut *sh = [shortcuts objectAtIndex:i];
-				[sh invoke];
-			}
-		}
+	NSUInteger touchedIndex = [self shortcutIndexForTouch:touches.anyObject];
+	if (touchedIndex != NSNotFound) {
+		[[shortcuts objectAtIndex:touchedIndex] invoke];
 	}
-	recentlyTouchedItem = -1;
-	[self setNeedsDisplay];
-	[touchInfoStore removeTouches:touches];
+
+	self.highlightedIndex = -1;
 }
-
-- (void)dealloc {
-	[touchInfoStore release];
-	self.shortcuts = nil;
-    [super dealloc];
-}
-
-
 @end
