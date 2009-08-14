@@ -17,6 +17,7 @@
 		431FE2EB102ADC7200B15149 /* TouchInfoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 431FE2EA102ADC7200B15149 /* TouchInfoStore.m */; };
 		431FE517102B3CE800B15149 /* NSString+Regexp.m in Sources */ = {isa = PBXBuildFile; fileRef = 431FE516102B3CE800B15149 /* NSString+Regexp.m */; };
 		431FE557102B3FFC00B15149 /* NetHackMenuInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 431FE556102B3FFC00B15149 /* NetHackMenuInfo.m */; };
+		4325C35C1035FC3F00653E8A /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4325C35B1035FC3F00653E8A /* Entitlements.plist */; };
 		435C0D7A10342A490007613E /* manual.html in Resources */ = {isa = PBXBuildFile; fileRef = 435C0D7910342A490007613E /* manual.html */; };
 		439D6BB00FFE4B9600F60623 /* NethackEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BAF0FFE4B9600F60623 /* NethackEvent.m */; };
 		439D6BE10FFE4DC000F60623 /* NethackEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BE00FFE4DC000F60623 /* NethackEventQueue.m */; };
@@ -341,6 +342,7 @@
 		431FE516102B3CE800B15149 /* NSString+Regexp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regexp.m"; sourceTree = "<group>"; };
 		431FE555102B3FFC00B15149 /* NetHackMenuInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetHackMenuInfo.h; sourceTree = "<group>"; };
 		431FE556102B3FFC00B15149 /* NetHackMenuInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetHackMenuInfo.m; sourceTree = "<group>"; };
+		4325C35B1035FC3F00653E8A /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		435C0D7910342A490007613E /* manual.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = manual.html; sourceTree = "<group>"; };
 		439D6BAE0FFE4B9600F60623 /* NethackEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NethackEvent.h; sourceTree = "<group>"; };
 		439D6BAF0FFE4B9600F60623 /* NethackEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NethackEvent.m; sourceTree = "<group>"; };
@@ -877,6 +879,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4325C35B1035FC3F00653E8A /* Entitlements.plist */,
 				43A7B1C9103046EA0083CE1B /* petmark.png */,
 				43C0B674102CB1F6001F0716 /* chozo40.bmp */,
 				439F0F76100245080050AED4 /* Icon.png */,
@@ -1536,6 +1539,7 @@
 				916CE038102C57E8000535FC /* credits.html in Resources */,
 				43A7B1CA103046EA0083CE1B /* petmark.png in Resources */,
 				435C0D7A10342A490007613E /* manual.html in Resources */,
+				4325C35C1035FC3F00653E8A /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1719,12 +1723,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dirk Zimmermann";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "102BE7D9-E49E-4227-858B-2142897F572F";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Distribution;
