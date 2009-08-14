@@ -49,6 +49,7 @@ static MainViewController *_instance;
 
 @synthesize windows, clip, nethackEventQueue;
 @synthesize nethackMenuInfo;
+@synthesize roleSelectionInProgress;
 
 + (id) instance {
 	return _instance;
@@ -691,6 +692,7 @@ static MainViewController *_instance;
 - (void) doPlayerSelectionOnUIThread:(id)obj {
 	RoleSelectionController* roleSelector = [RoleSelectionController roleSelectorWithNavigationController:self.navigationController];
 	roleSelector.delegate = self;
+	roleSelectionInProgress = YES;
 	[roleSelector start];
 }
 

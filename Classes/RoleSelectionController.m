@@ -15,6 +15,7 @@
 #import "RoleSelectionController.h"
 #import "RoleSelectionViewController.h"
 #import "hack.h"
+#import "MainViewController.h"
 
 @interface RoleSelectionController ()
 @property (retain) UINavigationController *navigationController;
@@ -173,6 +174,8 @@
 	[self.navigationController popToRootViewControllerAnimated:NO];
 	[self.delegate didCompleteRoleSelection:self];
 	[self autorelease];
+	
+	[[MainViewController instance] setRoleSelectionInProgress:NO];
 }
 
 - (void)start

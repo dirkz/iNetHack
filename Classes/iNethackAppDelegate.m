@@ -38,8 +38,12 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-	dosave();
-	NSLog(@"saved");
+	if (![[MainViewController instance] roleSelectionInProgress]) {
+		dosave();
+	} else {
+		int fail = unlink(lock);
+		NSCAssert1(!fail, @"Failed to unlink lock %s", lock);
+	}
 }
 
 - (void)dealloc {

@@ -498,20 +498,24 @@ getlock(void)
 	set_levelfile_name (lock, 0);
 
 	const char* fq_lock = fqname(lock, LEVELPREFIX, 1);
-	if ((fd = open (lock, O_RDWR | O_EXCL | O_CREAT, 0644)) == -1) {
+	if ((fd = open(lock, O_RDWR | O_EXCL | O_CREAT, 0644)) == -1) {
 		if(iflags.window_inited) {
 			char c = yn("There are files from a game in progress under your name. Recover?");
 			if (c != 'y' && c != 'Y') {
-				raw_printf ("Could not lock the game %s.", lock);
-				panic ("Another game in progress?");
-			}
-
-			// Try to recover
-			if(!recover_savefile()) {
-				panic("Couldn't recover old game.");
+				int fail = unlink(lock);
+				if (!fail) {
+					fd = open(lock, O_RDWR | O_EXCL | O_CREAT, 0644);
+				}
 			} else {
-				set_levelfile_name (lock, 0);
-				fd = open (fq_lock, O_RDWR | O_EXCL | O_CREAT, 0644);
+				// Try to recover
+				if(!recover_savefile()) {
+					int fail = unlink(lock);
+					NSCAssert1(!fail, @"Failed to unlink lock %s", lock);
+					panic("Couldn't recover old game.");
+				} else {
+					set_levelfile_name (lock, 0);
+					fd = open (fq_lock, O_RDWR | O_EXCL | O_CREAT, 0644);
+				}
 			}
 		}
 	}
@@ -543,6 +547,12 @@ void iphone_main() {
 	}
 	[[NSFileManager defaultManager] changeCurrentDirectoryPath:currentDirectory];
 	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:saveDirectory];
+	NSLog(@"files in save directory");
+	for (NSString *filename in filelist) {
+		NSLog(@"file %@", filename);
+	}
+	filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
+	NSLog(@"files in current directory %@", currentDirectory);
 	for (NSString *filename in filelist) {
 		NSLog(@"file %@", filename);
 	}

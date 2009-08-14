@@ -68,6 +68,8 @@
 	NetHackMenuInfo *nethackMenuInfo;
 	
 	DMath *dmath;
+	
+	BOOL roleSelectionInProgress;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
@@ -77,6 +79,7 @@
 @property (nonatomic, readonly) Window *statusWindow;
 @property (nonatomic, retain) NethackEventQueue *nethackEventQueue;
 @property (nonatomic, retain) NetHackMenuInfo *nethackMenuInfo;
+@property (nonatomic, assign) BOOL roleSelectionInProgress;
 
 + (id) instance;
 + (void) message:(NSString *)format, ...;
