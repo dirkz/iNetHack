@@ -79,7 +79,7 @@ extern short glyph2tile[];
 
 #pragma mark drawing
 
-- (void) drawTiledMap:(Window *)map inContext:(CGContextRef)ctx {
+- (void) drawTiledMap:(Window *)map inContext:(CGContextRef)ctx clipRect:(CGRect)clipRect {
 	CGPoint center = CGPointMake(self.bounds.size.width/2-tileSize.width/2, self.bounds.size.height/2-tileSize.height/2);
 	
 	start = CGPointMake(-mainViewController.clip.x*tileSize.width + center.x + offset.x,
@@ -96,12 +96,14 @@ extern short glyph2tile[];
 				mapglyph(glyph, &ochar, &ocolor, &special, i, j);
 				 */
 				CGRect r = CGRectMake(start.x+i*tileSize.width, start.y+j*tileSize.height, tileSize.width, tileSize.height);
-				int t = glyph2tile[glyph];
-				CGImageRef img = [images imageAt:t];
-				UIImage *i = [UIImage imageWithCGImage:img];
-				[i drawInRect:r];
-				if (glyph_is_pet(glyph)) {
-					[petMark drawInRect:r];
+				if (CGRectIntersectsRect(clipRect, r)) {
+					int t = glyph2tile[glyph];
+					CGImageRef img = [images imageAt:t];
+					UIImage *i = [UIImage imageWithCGImage:img];
+					[i drawInRect:r];
+					if (glyph_is_pet(glyph)) {
+						[petMark drawInRect:r];
+					}
 				}
 			}
 		}
@@ -115,7 +117,7 @@ extern short glyph2tile[];
 	Window *status = mainViewController.statusWindow;
 	Window *message = mainViewController.messageWindow;
 	if (map) {
-		[self drawTiledMap:map inContext:ctx];
+		[self drawTiledMap:map inContext:ctx clipRect:rect];
 	}
 	
 	float white[] = {1,1,1,1};
