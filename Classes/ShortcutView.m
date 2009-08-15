@@ -49,7 +49,8 @@ static NSArray* DefaultShortcuts (id target) {
 		// Page 4
 		{ @"W",    NULL,            },   { @"P",    NULL,            },
 		{ @"T",    NULL,            },   { @"A",    NULL,            },
-		{ @"p",    NULL,            },   { @"^x",   NULL             },
+		{ @"R",    NULL             },   { @"p",    NULL,            },
+		{ @"^x",   NULL             },
 	};
 
 	NSUInteger const shortcutsCount = sizeof(defaultShortcuts) / sizeof(defaultShortcuts[0]);
