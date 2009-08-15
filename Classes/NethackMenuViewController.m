@@ -212,10 +212,34 @@ extern short glyph2tile[];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	static int kTagImageView = 1;
+	static int kTagTextLabel = 2;
+	static int kTagDetailTextLabel = 3;
 	static NSString *cellId = @"nethackMenuViewControllerCellId";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
+#ifdef IPHONE_OS_3.0
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId] autorelease];
+#else
+		CGFloat width = self.view.frame.size.width;
+		CGFloat height = 44; // standard cell height
+		CGRect cellRect = CGRectMake(0, 0, width, height);
+		cell = [[[UITableViewCell alloc] initWithFrame:cellRect reuseIdentifier:cellId] autorelease];
+		UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+		imageView.tag = kTagImageView;
+		[cell addSubview:imageView];
+		[imageView release];
+		UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 0, width, 22)];
+		textLabel.font = [UIFont boldSystemFontOfSize:14];
+		textLabel.tag = kTagTextLabel;
+		[cell addSubview:textLabel];
+		[textLabel release];
+		UILabel *detailTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, textLabel.frame.size.height, width, 15)];
+		detailTextLabel.font = [UIFont systemFontOfSize:12];
+		detailTextLabel.tag = kTagDetailTextLabel;
+		[cell addSubview:detailTextLabel];
+		[detailTextLabel release];
+#endif
 	}
 	int row = [indexPath row];
 	int section = [indexPath section];
@@ -230,14 +254,16 @@ extern short glyph2tile[];
 		i = [i.children objectAtIndex:row];
 	}
 
+	//cell.imageView.image = uiImg;
+	UIImageView *imageView = (UIImageView *) [cell viewWithTag:kTagImageView];
 	if (i.glyph != NO_GLYPH && i.glyph != kNoGlyph) {
 		MainView *view = (MainView *) [[MainViewController instance] view];
 		int t = glyph2tile[i.glyph];
 		CGImageRef img = [view.images imageAt:t];
 		UIImage *uiImg = [UIImage imageWithCGImage:img];
-		cell.imageView.image = uiImg;
+		imageView.image = uiImg;
 	} else {
-		cell.imageView.image = nil;
+		imageView.image = nil;
 	}
 	
 	NSArray *strings;
@@ -249,11 +275,18 @@ extern short glyph2tile[];
 		strings = [NSArray arrayWithObjects:i.title, nil];
 	}
 	
-	cell.textLabel.text = [strings objectAtIndex:0];
+#ifdef IPHONE_OS_3.0
+	UILabel *textLabel = cell.textLabel;
+	UILabel *detailTextLabel = cell.detailTextLabel;
+#else
+	UILabel *textLabel = (UILabel *) [cell viewWithTag:kTagTextLabel];
+	UILabel *detailTextLabel = (UILabel *) [cell viewWithTag:kTagDetailTextLabel];
+#endif
+	textLabel.text = [strings objectAtIndex:0];
 	if (strings.count == 2) {
-		cell.detailTextLabel.text = [strings objectAtIndex:1];
+		detailTextLabel.text = [strings objectAtIndex:1];
 	} else {
-		cell.detailTextLabel.text = nil;
+		detailTextLabel.text = nil;
 	}
 	
 	cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
