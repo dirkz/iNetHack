@@ -39,7 +39,8 @@ static NSArray* DefaultShortcuts (id target) {
 		{ @"i",    NULL,            },   { @"e",    NULL,            },
 		{ @"t",    NULL,            },   { @"f",    NULL,            },
 		{ @"z",    NULL,            },   { @"Z",    NULL,            },
-		{ @"a",    NULL,            },   { @"^d",   NULL,            },
+		{ @"a",    NULL,            },   { @"o",    NULL,            },
+		{ @"^d",   NULL,            },
 		// Page 3
 		{ @"^a",   NULL,            },   { @"r",    NULL,            },
 		{ @"q",    NULL,            },   { @"E",    NULL,            },
