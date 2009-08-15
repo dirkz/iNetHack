@@ -1748,32 +1748,6 @@
 			};
 			name = Distribution;
 		};
-		4325C32B1035DDE100653E8A /* AdHoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dirk Zimmermann";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "102BE7D9-E49E-4227-858B-2142897F572F";
-				SDKROOT = iphoneos2.2.1;
-			};
-			name = AdHoc;
-		};
-		4325C32C1035DDE100653E8A /* AdHoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = iNetHack_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = iNetHack;
-			};
-			name = AdHoc;
-		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1809,7 +1783,6 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
-				4325C32C1035DDE100653E8A /* AdHoc */,
 				431296221010C5310072866C /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1820,7 +1793,6 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
-				4325C32B1035DDE100653E8A /* AdHoc */,
 				431296211010C5310072866C /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
