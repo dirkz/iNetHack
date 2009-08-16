@@ -24,6 +24,8 @@
 #import "Shortcut.h"
 #import <QuartzCore/QuartzCore.h>
 
+NSString *const ShortcutPrefencesIdentifier = @"Shortcut Bar";
+
 #define ShortcutMainMenuIdentifier @"mainMenu"
 #define ShortcutKeyboardIdentifier @"keyboard"
 
@@ -39,36 +41,6 @@ static Shortcut *ShortcutForIdentifier (NSString *identifier) {
 	}
 	return [[[Shortcut alloc] initWithTitle:title keys:(selector ? nil : identifier) selector:selector target:nil] autorelease];
 }
-
-static NSArray* DefaultShortcuts () {
-	static NSString *const defaultShortcutIdentifiers[] = {
-		// Page 1
-		@".",          @"20s",      @":",        @"99.",
-		@";",          @"#",
-		ShortcutMainMenuIdentifier,   ShortcutKeyboardIdentifier,
-		// Page 2
-		@"i",          @"e",        @"t",        @"f",
-		@"z",          @"Z",        @"a",        @"o",
-		// Page 3
-		@"o",          @"^a",       @"r",        @"q",
-		@"E",          @"Q",        @"d",        @"D",
-		// Page 4
-		@"w",          @"W",        @"P",        @"T",
-		@"A",          @"R",        @"p",        @"^x",
-	};
-
-	NSUInteger const shortcutsCount = sizeof(defaultShortcutIdentifiers) / sizeof(defaultShortcutIdentifiers[0]);
-	NSMutableArray *shortcuts = [NSMutableArray arrayWithCapacity:shortcutsCount];
-	for (NSUInteger i = 0; i < shortcutsCount; ++i) {
-		[shortcuts addObject:ShortcutForIdentifier(defaultShortcutIdentifiers[i])];
-	}
-	return shortcuts;
-}
-
-@interface ShortcutView ()
-@property (assign) NSInteger highlightedIndex;
-- (void)updateLayers;
-@end
 
 static const CGSize ShortcutTileSize  = { 40, 40 };
 
@@ -125,24 +97,53 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 }
 @end
 
+@interface ShortcutView ()
+@property (assign) NSInteger highlightedIndex;
+@property (nonatomic, retain) NSArray* shortcuts;
+@end
+
 @implementation ShortcutView
 // ==================
 // = Setup/Teardown =
 // ==================
 
+static NSArray *DefaultShortcuts () {
+	return [NSArray arrayWithObjects:
+		// Page 1
+		@".",          @"20s",      @":",        @"99.",
+		@";",          @"#",
+		ShortcutMainMenuIdentifier,   ShortcutKeyboardIdentifier,
+		// Page 2
+		@"i",          @"e",        @"t",        @"f",
+		@"z",          @"Z",        @"a",        @"o",
+		// Page 3
+		@"o",          @"^a",       @"r",        @"q",
+		@"E",          @"Q",        @"d",        @"D",
+		// Page 4
+		@"w",          @"W",        @"P",        @"T",
+		@"A",          @"R",        @"p",        @"^x",
+	nil];
+}
+
++ (void)load {
+	NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:DefaultShortcuts() forKey:ShortcutPrefencesIdentifier]];
+	[pool drain];
+}
+
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 		shortcutLayers      = [NSMutableArray new];
-		self.shortcuts      = DefaultShortcuts();
 		self.pagingEnabled  = YES;
 		self.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+		[[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:ShortcutPrefencesIdentifier options:NSKeyValueObservingOptionInitial context:NULL];
     }
     return self;
 }
 
 - (void)dealloc {
+	[[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:ShortcutPrefencesIdentifier];
 	self.shortcuts = nil;
-	[self updateLayers];
 	[super dealloc];
 }
 
@@ -162,6 +163,18 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 			[[shortcutLayers objectAtIndex:highlightedIndex] setIsHighlighted:YES];
 		}
 	}
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
+{
+	NSAssert([keyPath isEqualToString:ShortcutPrefencesIdentifier] && object == [NSUserDefaults standardUserDefaults], @"Unknown observed object/keypath");
+	NSArray* identifiers = [[NSUserDefaults standardUserDefaults] arrayForKey:ShortcutPrefencesIdentifier];
+	NSMutableArray *newShortcuts = [NSMutableArray arrayWithCapacity:identifiers.count];
+	for (NSString *identifier in identifiers) {
+		[newShortcuts addObject:ShortcutForIdentifier(identifier)];
+	}
+	self.shortcuts = newShortcuts;
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)updateLayers {

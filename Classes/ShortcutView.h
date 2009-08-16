@@ -23,9 +23,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ShortcutView : UIScrollView {
-	NSArray *shortcuts;
+	NSArray        *shortcuts;
 	NSMutableArray *shortcutLayers;
-	NSInteger highlightedIndex;
+	NSInteger       highlightedIndex;
 }
-@property (nonatomic, retain) NSArray* shortcuts;
 @end
