@@ -687,6 +687,7 @@ static MainViewController *_instance;
 	NSAssert(flags.initrace  != -1, @"Race was not set");
 	NSAssert(flags.initgend  != -1, @"Gender was not set");
 	NSAssert(flags.initrole  != -1, @"Role was not set");
+	self.roleSelectionInProgress = NO;
 	[self broadcastUIEvent];
 }
 
