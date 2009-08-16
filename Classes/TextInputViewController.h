@@ -31,7 +31,9 @@
 	NSString *text;
 	BOOL numerical;
 	
-	NSInvocation *callOnSuccess;
+	id target;
+	SEL action;
+
 	NSCondition *condition;
 	BOOL returned;
 }
@@ -39,7 +41,8 @@
 @property (nonatomic, retain) NSString *prompt;
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, assign) BOOL numerical;
-@property (nonatomic, retain) NSInvocation *callOnSuccess;
+@property (nonatomic, retain) id target;
+@property (nonatomic, assign) SEL action;
 @property (nonatomic, retain) NSCondition *condition;
 
 @end

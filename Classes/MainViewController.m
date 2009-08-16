@@ -168,11 +168,8 @@ static MainViewController *_instance;
 }
 
 - (void) nethackSearch:(id)i {
-	SEL sel = @selector(nethackSearchCountEntered:);
-	NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:sel]];
-	inv.selector = sel;
-	inv.target = self;
-	textInputViewController.callOnSuccess = inv;
+	textInputViewController.target = self;
+	textInputViewController.action = @selector(nethackSearchCountEntered:);
 	textInputViewController.prompt = @"Enter search count";
 	textInputViewController.text = @"20";
 	[self.navigationController pushViewController:textInputViewController animated:YES];
