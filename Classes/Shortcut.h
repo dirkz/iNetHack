@@ -33,6 +33,7 @@
 }
 
 @property (nonatomic, readonly) NSString *title;
+@property (nonatomic, readonly) NSString *keys;
 @property (nonatomic, readonly) char key;
 
 - (id) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar;

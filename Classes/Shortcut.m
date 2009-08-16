@@ -33,7 +33,7 @@ static NSString* ParseShortcutString (NSString* keys) {
 
 @implementation Shortcut
 
-@synthesize title;
+@synthesize title, keys;
 
 - (id) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar {
 	if (self = [super init]) {

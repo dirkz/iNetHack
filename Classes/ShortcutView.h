@@ -22,10 +22,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShortcutView : UIScrollView {
+@interface ShortcutView : UIScrollView <UIActionSheetDelegate, UITextFieldDelegate> {
 	NSArray        *shortcuts;
 	NSMutableArray *shortcutLayers;
 	NSInteger       highlightedIndex;
+
 	NSTimer        *editTimer;
+	NSInteger       editIndex;
 }
 @end

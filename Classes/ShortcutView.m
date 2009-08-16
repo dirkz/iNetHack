@@ -23,6 +23,7 @@
 #import "ShortcutView.h"
 #import "Shortcut.h"
 #import <QuartzCore/QuartzCore.h>
+#import "TextInputViewController.h"
 
 NSString *const ShortcutPrefencesIdentifier = @"Shortcut Bar";
 
@@ -228,13 +229,68 @@ static NSArray *DefaultShortcuts () {
 	return CGSizeMake(tilesOnScreen * ShortcutTileSize.width, ShortcutTileSize.height);
 }
 
+// ===========
+// = Editing =
+// ===========
+
+- (void)didEnterKeySequence:(TextInputViewController *)textInputViewController {
+	if (textInputViewController.text.length > 0) {
+		// Update edited shortcut with new identifier
+		NSMutableArray* identifiers = [[[NSUserDefaults standardUserDefaults] arrayForKey:ShortcutPrefencesIdentifier] mutableCopy];
+		[identifiers replaceObjectAtIndex:editIndex withObject:textInputViewController.text];
+		[[NSUserDefaults standardUserDefaults] setObject:identifiers forKey:ShortcutPrefencesIdentifier];
+		[identifiers release];
+	}
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 3) {
+		// Remove shortcut
+		NSMutableArray* identifiers = [[[NSUserDefaults standardUserDefaults] arrayForKey:ShortcutPrefencesIdentifier] mutableCopy];
+		[identifiers removeObjectAtIndex:editIndex];
+		[[NSUserDefaults standardUserDefaults] setObject:identifiers forKey:ShortcutPrefencesIdentifier];
+		[identifiers release];
+	} else if (buttonIndex == 0 || buttonIndex == 1) {
+		// Main Menu or Keyboard
+		NSMutableArray* identifiers = [[[NSUserDefaults standardUserDefaults] arrayForKey:ShortcutPrefencesIdentifier] mutableCopy];
+		[identifiers replaceObjectAtIndex:editIndex withObject:(buttonIndex == 0 ? ShortcutMainMenuIdentifier : ShortcutKeyboardIdentifier)];
+		[[NSUserDefaults standardUserDefaults] setObject:identifiers forKey:ShortcutPrefencesIdentifier];
+		[identifiers release];
+	} else if (buttonIndex == 2) {
+		// Custom key sequence
+		TextInputViewController* textInputViewController = [TextInputViewController new];
+		textInputViewController.prompt        = @"Enter a key sequence:";
+		textInputViewController.target        = self;
+		textInputViewController.action        = @selector(didEnterKeySequence:);
+		textInputViewController.text          = [[shortcuts objectAtIndex:editIndex] keys];
+		textInputViewController.returnKeyType = UIReturnKeyDone;
+		// FIXME This is bad, but I don’t know enough about the UIKit architecture yet to fix it
+		[[(UIViewController*)self.superview.nextResponder navigationController] pushViewController:textInputViewController animated:YES];
+		[textInputViewController release];
+	}
+}
+
+- (void)startEdit:(NSTimer *)timer {
+	editIndex = self.highlightedIndex;
+	self.highlightedIndex = -1;
+
+	UIActionSheet *menu = [[UIActionSheet alloc] init];
+	[menu addButtonWithTitle:@"Show Main Menu"];
+	[menu addButtonWithTitle:@"Show Keyboard"];
+	[menu addButtonWithTitle:@"Custom Key Sequence"];
+	[menu addButtonWithTitle:@"Remove Shortcut"];
+	[menu addButtonWithTitle:@"Cancel"];
+	menu.title                  = @"What action would you like this shortcut to perform?";
+	menu.delegate               = self;
+	menu.destructiveButtonIndex = 3;
+	menu.cancelButtonIndex      = 4;
+	[menu showInView:self.superview];
+	[menu release];
+}
+
 // ==================
 // = Touch Handling =
 // ==================
-
-- (void)startEdit:(NSTimer *)timer {
-	self.highlightedIndex = -1;
-}
 
 - (NSUInteger)shortcutIndexForTouch:(UITouch *)touch {
 	// FIXME I don’t think this logic is correct (but it works…)
@@ -260,6 +316,9 @@ static NSArray *DefaultShortcuts () {
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	if (self.highlightedIndex == -1) {
+		return;
+	}
 	self.editTimer = nil;
 	NSUInteger touchedIndex = [self shortcutIndexForTouch:touches.anyObject];
 	if (touchedIndex != NSNotFound) {
