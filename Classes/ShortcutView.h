@@ -26,5 +26,6 @@
 	NSArray        *shortcuts;
 	NSMutableArray *shortcutLayers;
 	NSInteger       highlightedIndex;
+	NSTimer        *editTimer;
 }
 @end

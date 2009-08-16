@@ -100,6 +100,7 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 @interface ShortcutView ()
 @property (assign) NSInteger highlightedIndex;
 @property (nonatomic, retain) NSArray* shortcuts;
+@property (nonatomic, retain) NSTimer* editTimer;
 @end
 
 @implementation ShortcutView
@@ -143,6 +144,7 @@ static NSArray *DefaultShortcuts () {
 
 - (void)dealloc {
 	[[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:ShortcutPrefencesIdentifier];
+	self.editTimer = nil;
 	self.shortcuts = nil;
 	[super dealloc];
 }
@@ -151,7 +153,15 @@ static NSArray *DefaultShortcuts () {
 // = Properties =
 // ==============
 
-@synthesize shortcuts, highlightedIndex;
+@synthesize shortcuts, highlightedIndex, editTimer;
+
+- (void)setEditTimer:(NSTimer *)timer {
+	if (timer != editTimer) {
+		[editTimer invalidate];
+		[editTimer release];
+		editTimer = [timer retain];
+	}
+}
 
 - (void)setHighlightedIndex:(NSInteger)index {
 	if (index != highlightedIndex) {
@@ -222,6 +232,10 @@ static NSArray *DefaultShortcuts () {
 // = Touch Handling =
 // ==================
 
+- (void)startEdit:(NSTimer *)timer {
+	self.highlightedIndex = -1;
+}
+
 - (NSUInteger)shortcutIndexForTouch:(UITouch *)touch {
 	// FIXME I don’t think this logic is correct (but it works…)
 	CGPoint point = [touch locationInView:touch.view];
@@ -233,14 +247,20 @@ static NSArray *DefaultShortcuts () {
 	NSUInteger touchedIndex = [self shortcutIndexForTouch:touches.anyObject];
 	if (touchedIndex != NSNotFound) {
 		self.highlightedIndex = touchedIndex;
+		self.editTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startEdit:) userInfo:[NSNumber numberWithInt:self.highlightedIndex] repeats:NO];
+	} else {
+		self.highlightedIndex = -1;
+		self.editTimer = nil;
 	}
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	self.editTimer = nil;
 	self.highlightedIndex = -1;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	self.editTimer = nil;
 	NSUInteger touchedIndex = [self shortcutIndexForTouch:touches.anyObject];
 	if (touchedIndex != NSNotFound) {
 		[[shortcuts objectAtIndex:touchedIndex] invoke:self];
