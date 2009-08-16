@@ -29,52 +29,8 @@
 
 @synthesize menuItems;
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-*/
-
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    //return (interfaceOrientation == UIInterfaceOrientationPortrait);
 	return YES;
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	// first time we are here tf is nil, later it gets set, which works fine
-	[tf reloadData];
 }
 
 #pragma mark UITableView delegate
@@ -83,8 +39,11 @@
 	int row = [indexPath row];
 	MenuItem *menuItem = [menuItems objectAtIndex:row];
 	if (menuItem.children) {
-		menuViewController.menuItems = menuItem.children;
-		[self.navigationController pushViewController:menuViewController animated:YES];
+		MenuViewController* submenuController = [MenuViewController new];
+		submenuController.title = menuItem.title;
+		submenuController.menuItems = menuItem.children;
+		[self.navigationController pushViewController:submenuController animated:YES];
+		[submenuController release];
 	} else if (menuItem.key) {
 		[[[MainViewController instance] nethackEventQueue] addKeyEvent:menuItem.key];
 		[self.navigationController popToRootViewControllerAnimated:NO];
@@ -100,7 +59,6 @@
 #pragma mark UITableView datasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	tf = tableView;
 	return menuItems.count;
 }
 
@@ -108,7 +66,7 @@
 	static NSString *cellId = @"menuViewControllerCellId";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
-		cell = [[[ UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
 	}
 	int row = [indexPath row];
 	MenuItem *menuItem = [menuItems objectAtIndex:row];
@@ -125,6 +83,5 @@
 	[menuItems release];
     [super dealloc];
 }
-
 
 @end

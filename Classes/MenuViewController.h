@@ -23,11 +23,9 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MenuViewController : UIViewController {
+@interface MenuViewController : UITableViewController {
 	
 	NSArray *menuItems;
-	IBOutlet MenuViewController *menuViewController;
-	UITableView *tf;
 
 }
 
