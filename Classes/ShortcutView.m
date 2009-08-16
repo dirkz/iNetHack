@@ -130,6 +130,10 @@ static NSArray *DefaultShortcuts () {
 + (void)load {
 	NSAutoreleasePool* pool = [NSAutoreleasePool new];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:DefaultShortcuts() forKey:ShortcutPrefencesIdentifier]];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"resetShortcutsOnNextLaunch"]) {
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:ShortcutPrefencesIdentifier];
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"resetShortcutsOnNextLaunch"];
+	}
 	[pool drain];
 }
 
