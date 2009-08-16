@@ -25,7 +25,7 @@
 
 @implementation TextInputViewController
 
-@synthesize prompt, text, numerical, target, action, condition;
+@synthesize prompt, text, numerical, target, action, condition, returnKeyType;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
@@ -39,6 +39,7 @@
 	if (numerical) {
 		tf.keyboardType = UIKeyboardTypeNumberPad;
 	}
+	tf.returnKeyType = returnKeyType;
 	[tf becomeFirstResponder];
 	UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Log" style:UIBarButtonItemStylePlain
 														  target:[MainViewController instance]

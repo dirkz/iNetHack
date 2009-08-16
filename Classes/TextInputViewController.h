@@ -30,6 +30,7 @@
 	NSString *prompt;
 	NSString *text;
 	BOOL numerical;
+	UIReturnKeyType returnKeyType;
 	
 	id target;
 	SEL action;
@@ -40,9 +41,9 @@
 
 @property (nonatomic, retain) NSString *prompt;
 @property (nonatomic, retain) NSString *text;
+@property (nonatomic, assign) UIReturnKeyType returnKeyType;
 @property (nonatomic, assign) BOOL numerical;
 @property (nonatomic, retain) id target;
 @property (nonatomic, assign) SEL action;
 @property (nonatomic, retain) NSCondition *condition;
-
 @end
