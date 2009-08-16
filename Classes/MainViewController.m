@@ -260,7 +260,7 @@ static MainViewController *_instance;
 													  [MenuItem menuItemWithTitle:@"Quiver" key:'Q' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Pay" key:'p' accessory:NO],
 													  [MenuItem menuItemWithTitle:@"Search" target:self
-																		 selector:@selector(nethackSearch:)
+																		 action:@selector(nethackSearch:)
 																			  accessory:YES],
 													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Magic"
@@ -268,14 +268,14 @@ static MainViewController *_instance;
 													  [MenuItem menuItemWithTitle:@"Read" key:'r' accessory:YES],
 													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Show Log" target:self
-											selector:@selector(nethackShowLog:) accessory:YES]];
+											action:@selector(nethackShowLog:) accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"License" target:self
-											selector:@selector(nethackShowLicense:) accessory:YES]];
+											action:@selector(nethackShowLicense:) accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"History" key:'V' accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Manual" target:self
-											selector:@selector(showManual:) accessory:YES]];
+											action:@selector(showManual:) accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Credits" target:self
-											selector:@selector(showCredits:) accessory:YES]];
+											action:@selector(showCredits:) accessory:YES]];
 #ifdef WIZARD
 	if (wizard) {
 		[menuItems addObject:[MenuItem menuItemWithTitle:@"Wizard"
