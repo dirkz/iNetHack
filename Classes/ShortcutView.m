@@ -24,41 +24,43 @@
 #import "Shortcut.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define ShortcutMainMenuIdentifier @"mainMenu"
+#define ShortcutKeyboardIdentifier @"keyboard"
+
+static Shortcut *ShortcutForIdentifier (NSString *identifier) {
+	NSString *title = identifier;
+	SEL selector    = NULL;
+	if ([identifier isEqualToString:ShortcutMainMenuIdentifier]) {
+		title    = @"menu";
+		selector = @selector(showMainMenu:);
+	} else if ([identifier isEqualToString:ShortcutKeyboardIdentifier]) {
+		title    = @"abc";
+		selector = @selector(nethackKeyboard:);
+	}
+	return [[[Shortcut alloc] initWithTitle:title keys:(selector ? nil : identifier) selector:selector target:nil] autorelease];
+}
+
 static NSArray* DefaultShortcuts () {
-	// Add shortcut bar items here
-	// The first field is the title, the second is the method selector to perform
-	// If the selector is NULL then the title will be treated as a key sequence
-	static struct { NSString *const title; const char *action; } const defaultShortcuts[] = {
+	static NSString *const defaultShortcutIdentifiers[] = {
 		// Page 1
-		{ @".",    NULL,            },   { @"20s",  NULL,            },
-		{ @":",    NULL,            },   { @"99.",  NULL,            },
-		{ @";",    NULL,            },   { @"#",    NULL,            },
-		{ @"abc",  "showKeyboard:", },   { @"menu", "showMainMenu:", },
+		@".",          @"20s",      @":",        @"99.",
+		@";",          @"#",
+		ShortcutMainMenuIdentifier,   ShortcutKeyboardIdentifier,
 		// Page 2
-		{ @"i",    NULL,            },   { @"e",    NULL,            },
-		{ @"t",    NULL,            },   { @"f",    NULL,            },
-		{ @"z",    NULL,            },   { @"Z",    NULL,            },
-		{ @"a",    NULL,            },   { @"o",    NULL,            },
-		{ @"^d",   NULL,            },
+		@"i",          @"e",        @"t",        @"f",
+		@"z",          @"Z",        @"a",        @"o",
 		// Page 3
-		{ @"^a",   NULL,            },   { @"r",    NULL,            },
-		{ @"q",    NULL,            },   { @"E",    NULL,            },
-		{ @"Q",    NULL,            },   { @"d",    NULL,            },
-		{ @"D",    NULL,            },   { @"w",    NULL,            },
+		@"o",          @"^a",       @"r",        @"q",
+		@"E",          @"Q",        @"d",        @"D",
 		// Page 4
-		{ @"W",    NULL,            },   { @"P",    NULL,            },
-		{ @"T",    NULL,            },   { @"A",    NULL,            },
-		{ @"R",    NULL             },   { @"p",    NULL,            },
-		{ @"^x",   NULL             },
+		@"w",          @"W",        @"P",        @"T",
+		@"A",          @"R",        @"p",        @"^x",
 	};
 
-	NSUInteger const shortcutsCount = sizeof(defaultShortcuts) / sizeof(defaultShortcuts[0]);
+	NSUInteger const shortcutsCount = sizeof(defaultShortcutIdentifiers) / sizeof(defaultShortcutIdentifiers[0]);
 	NSMutableArray *shortcuts = [NSMutableArray arrayWithCapacity:shortcutsCount];
 	for (NSUInteger i = 0; i < shortcutsCount; ++i) {
-		NSString *keys = (defaultShortcuts[i].action ? nil : defaultShortcuts[i].title);
-		Shortcut *shortcut = [[Shortcut alloc] initWithTitle:defaultShortcuts[i].title keys:keys selector:sel_registerName(defaultShortcuts[i].action) target:nil];
-		[shortcuts addObject:shortcut];
-		[shortcut release];
+		[shortcuts addObject:ShortcutForIdentifier(defaultShortcutIdentifiers[i])];
 	}
 	return shortcuts;
 }
@@ -69,7 +71,6 @@ static NSArray* DefaultShortcuts () {
 @end
 
 static const CGSize ShortcutTileSize  = { 40, 40 };
-static const CGFloat InterCellPadding = 1;
 
 #define TextColor        UIColor.whiteColor.CGColor
 #define BackgroundColor  UIColor.blackColor.CGColor
