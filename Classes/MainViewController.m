@@ -299,9 +299,11 @@ static MainViewController *_instance;
 														  nil]]];
 	}
 #endif
+	MenuViewController* menuViewController = [MenuViewController new];
 	menuViewController.menuItems = menuItems;
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
 	[self.navigationController pushViewController:menuViewController animated:YES];
+	[menuViewController release];
 }
 
 #pragma mark touch handling

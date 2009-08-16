@@ -31,7 +31,7 @@
 
 #define kMinimumPinchDelta (15)
 
-@class Window, MenuViewController, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
+@class Window, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
 @class DirectionInputViewController, ExtendedCommandViewController;
 @class TouchInfo, TouchInfoStore;
 @class TilePosition;
@@ -40,7 +40,6 @@
 
 @interface MainViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate> {
 	
-	IBOutlet MenuViewController *menuViewController;
 	IBOutlet NethackMenuViewController *nethackMenuViewController;
 	IBOutlet TextInputViewController *textInputViewController;
 	IBOutlet DirectionInputViewController *directionInputViewController;
