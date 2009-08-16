@@ -33,7 +33,6 @@
 #import "NethackEventQueue.h"
 #import "DirectionInputViewController.h"
 #import "ExtendedCommandViewController.h"
-#import "RoleSelectionViewController.h"
 #import "TextDisplayViewController.h"
 #import "TilePosition.h"
 #import "TouchInfo.h"

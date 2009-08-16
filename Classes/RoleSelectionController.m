@@ -13,7 +13,8 @@
 //  along with iNetHack.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "RoleSelectionController.h"
-#import "RoleSelectionViewController.h"
+#import "MenuItem.h"
+#import "MenuViewController.h"
 #import "hack.h"
 #import "MainViewController.h"
 
@@ -24,11 +25,16 @@
 @end
 
 @implementation RoleSelectionController
-- (void)showRoleSelectionController:(RoleSelectionViewController *)controller {
-	if (controller.numberOfItems > 1) {
+- (void)showChoices:(NSArray *)items withTitle:(NSString *)title {
+	if (items.count > 1) {
+		MenuViewController* controller = [MenuViewController new];
+		controller.title     = title;
+		controller.menuItems = items;
 		[self.navigationController pushViewController:controller animated:self.navigationController.viewControllers.count > 1];
+		[controller release];
 	} else {
-		[self performSelector:controller.action withObject:controller];
+		MenuItem *item = [items objectAtIndex:0];
+		[self performSelector:item.action withObject:item];
 	}
 }
 
@@ -46,19 +52,21 @@
 
 - (void)selectAlignment
 {
-	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
-
-	selectionController.title = @"Your Alignment?";
-	selectionController.target = self;
-	selectionController.action = @selector(didSelectAlignment:);
+	NSMutableArray *items = [NSMutableArray new];
 	for (int i = 0; i < ROLE_ALIGNS; i++) {
 		if (validalign(flags.initrole, flags.initrace, i)) {
-			[selectionController addItemWithTitle:[[NSString stringWithCString:aligns[i].adj] capitalizedString] tag:i];
+			MenuItem *item = [MenuItem new];
+			item.title     = [[NSString stringWithCString:aligns[i].adj] capitalizedString];
+			item.target    = self;
+			item.action    = @selector(didSelectAlignment:);
+			item.tag       = i;
+			item.accessory = YES;
+			[items addObject:item];
+			[item release];
 		}
 	}
-	[self showRoleSelectionController:selectionController];
-
-	[selectionController release];
+	[self showChoices:items withTitle:@"Your Alignment?"];
+	[items release];
 }
 
 - (void)didSelectGender:(id)sender
@@ -71,19 +79,21 @@
 
 - (void)selectGender
 {
-	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
-
-	selectionController.title = @"Your Gender?";
-	selectionController.target = self;
-	selectionController.action = @selector(didSelectGender:);
+	NSMutableArray *items = [NSMutableArray new];
 	for (int i = 0; i < ROLE_GENDERS; i++) {
 		if (validgend(flags.initrole, flags.initrace, i)) {
-			[selectionController addItemWithTitle:[[NSString stringWithCString:genders[i].adj] capitalizedString] tag:i];
+			MenuItem *item = [MenuItem new];
+			item.title     = [[NSString stringWithCString:genders[i].adj] capitalizedString];
+			item.target    = self;
+			item.action    = @selector(didSelectGender:);
+			item.tag       = i;
+			item.accessory = YES;
+			[items addObject:item];
+			[item release];
 		}
 	}
-	[self showRoleSelectionController:selectionController];
-
-	[selectionController release];
+	[self showChoices:items withTitle:@"Your Gender?"];
+	[items release];
 }
 
 - (void)didSelectRace:(id)sender
@@ -97,19 +107,21 @@
 
 - (void)selectRace
 {
-	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
-
-	selectionController.title = @"Your Race?";
-	selectionController.target = self;
-	selectionController.action = @selector(didSelectRace:);
+	NSMutableArray *items = [NSMutableArray new];
 	for (int i = 0; races[i].noun; i++) {
 		if (validrace(flags.initrole, i)) {
-			[selectionController addItemWithTitle:[[NSString stringWithCString:races[i].noun] capitalizedString] tag:i];
+			MenuItem *item = [MenuItem new];
+			item.title     = [[NSString stringWithCString:races[i].noun] capitalizedString];
+			item.target    = self;
+			item.action    = @selector(didSelectRace:);
+			item.tag       = i;
+			item.accessory = YES;
+			[items addObject:item];
+			[item release];
 		}
 	}
-	[self showRoleSelectionController:selectionController];
-
-	[selectionController release];
+	[self showChoices:items withTitle:@"Your Race?"];
+	[items release];
 }
 
 - (void)didSelectRole:(id)sender
@@ -123,18 +135,19 @@
 
 - (void)selectRole
 {
-	RoleSelectionViewController* selectionController = [RoleSelectionViewController new];
-
-	selectionController.title = @"Your Role?";
-	selectionController.target = self;
-	selectionController.action = @selector(didSelectRole:);
+	NSMutableArray *items = [NSMutableArray new];
 	for (int i = 0; roles[i].name.m; ++i) {
-		[selectionController addItemWithTitle:[NSString stringWithCString:roles[i].name.m] tag:i];
+		MenuItem *item = [MenuItem new];
+		item.title     = [NSString stringWithCString:roles[i].name.m];
+		item.target    = self;
+		item.action    = @selector(didSelectRole:);
+		item.tag       = i;
+		item.accessory = YES;
+		[items addObject:item];
+		[item release];
 	}
-	[self showRoleSelectionController:selectionController];
-	[self.navigationController.navigationBar.topItem setHidesBackButton:YES animated:YES];
-
-	[selectionController release];
+	[self showChoices:items withTitle:@"Your Role?"];
+	[items release];
 }
 
 // ==================

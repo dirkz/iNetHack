@@ -319,7 +319,6 @@
 		43DD0B600FF4E0FC00580249 /* wizhelp in Resources */ = {isa = PBXBuildFile; fileRef = 43DD0AC00FF4E0F700580249 /* wizhelp */; };
 		43DD0B610FF4E0FC00580249 /* yendor.des in Resources */ = {isa = PBXBuildFile; fileRef = 43DD0AC10FF4E0F700580249 /* yendor.des */; };
 		43DD0C430FF4ECEB00580249 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DD0C420FF4ECEB00580249 /* Window.m */; };
-		43DFDA7210033E0600DADAA1 /* RoleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */; };
 		916CE038102C57E8000535FC /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 916CE037102C57E8000535FC /* credits.html */; };
 		9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9194B22B1032CADB009BDE61 /* RoleSelectionController.m */; };
 		9194B2AE1032E48A009BDE61 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9194B2AD1032E48A009BDE61 /* QuartzCore.framework */; };
@@ -760,8 +759,6 @@
 		43DD0AC10FF4E0F700580249 /* yendor.des */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = yendor.des; sourceTree = "<group>"; };
 		43DD0C410FF4ECEB00580249 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
 		43DD0C420FF4ECEB00580249 /* Window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Window.m; sourceTree = "<group>"; };
-		43DFDA7010033E0600DADAA1 /* RoleSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleSelectionViewController.h; sourceTree = "<group>"; };
-		43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoleSelectionViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		916CE037102C57E8000535FC /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		9194B22A1032CADB009BDE61 /* RoleSelectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleSelectionController.h; sourceTree = "<group>"; };
@@ -819,8 +816,6 @@
 				43ACB5D50FFF4A53005DB589 /* DirectionInputViewController.m */,
 				439F0ED0100210690050AED4 /* ExtendedCommandViewController.h */,
 				439F0ED1100210690050AED4 /* ExtendedCommandViewController.m */,
-				43DFDA7010033E0600DADAA1 /* RoleSelectionViewController.h */,
-				43DFDA7110033E0600DADAA1 /* RoleSelectionViewController.m */,
 				43D113CD1007491700082C8D /* TextDisplayViewController.h */,
 				43D113CE1007491700082C8D /* TextDisplayViewController.m */,
 				43D1149210075A0A00082C8D /* TilePosition.h */,
@@ -1674,7 +1669,6 @@
 				43ACB5D30FFF4A47005DB589 /* DirectionInputView.m in Sources */,
 				43ACB5D60FFF4A53005DB589 /* DirectionInputViewController.m in Sources */,
 				439F0ED2100210690050AED4 /* ExtendedCommandViewController.m in Sources */,
-				43DFDA7210033E0600DADAA1 /* RoleSelectionViewController.m in Sources */,
 				43D113CF1007491700082C8D /* TextDisplayViewController.m in Sources */,
 				43D1149410075A0A00082C8D /* TilePosition.m in Sources */,
 				43AECC03100A03EE008B7BE6 /* TiledImages.m in Sources */,
