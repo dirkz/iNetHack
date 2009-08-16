@@ -73,7 +73,7 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 static const CGFloat InterCellPadding = 1;
 
 #define TextColor        UIColor.whiteColor.CGColor
-#define BackgroundColor  UIColor.grayColor.CGColor
+#define BackgroundColor  UIColor.blackColor.CGColor
 #define HighlightColor   UIColor.greenColor.CGColor
 
 @interface ShortcutLayer : CALayer
@@ -91,7 +91,7 @@ static const CGFloat InterCellPadding = 1;
 - (id)init
 {
 	if (self = [super init]) {
-		self.opacity       = 0.5;
+		self.opacity       = 1.0f;
 		self.isHighlighted = NO;
 		self.borderColor   = UIColor.whiteColor.CGColor;
 		self.borderWidth   = 0.5;
