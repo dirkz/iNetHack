@@ -261,21 +261,21 @@ static MainViewController *_instance;
 													  [MenuItem menuItemWithTitle:@"Pay" key:'p' accessory:NO],
 													  [MenuItem menuItemWithTitle:@"Search" target:self
 																		 selector:@selector(nethackSearch:)
-																			  arg:nil accessory:YES],
+																			  accessory:YES],
 													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Magic"
 											children:[NSArray arrayWithObjects:
 													  [MenuItem menuItemWithTitle:@"Read" key:'r' accessory:YES],
 													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Show Log" target:self
-											selector:@selector(nethackShowLog:) arg:nil accessory:YES]];
+											selector:@selector(nethackShowLog:) accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"License" target:self
-											selector:@selector(nethackShowLicense:) arg:nil accessory:YES]];
+											selector:@selector(nethackShowLicense:) accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"History" key:'V' accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Manual" target:self
-											selector:@selector(showManual:) arg:nil accessory:YES]];
+											selector:@selector(showManual:) accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Credits" target:self
-											selector:@selector(showCredits:) arg:nil accessory:YES]];
+											selector:@selector(showCredits:) accessory:YES]];
 #ifdef WIZARD
 	if (wizard) {
 		[menuItems addObject:[MenuItem menuItemWithTitle:@"Wizard"

@@ -28,24 +28,24 @@
 	NSString *title;
 	id target;
 	SEL selector;
-	id arg1;
 	BOOL accessory;
 	
 	NSArray *children;
 	char key;
-
+	NSInteger tag;
 }
 
 @property (nonatomic, readonly) NSString *title;
 @property (nonatomic, readonly) BOOL accessory;
-@property (nonatomic, retain) NSArray *children;
+@property (nonatomic, retain)   NSArray *children;
 @property (nonatomic, readonly) char key;
+@property (nonatomic, assign)   NSInteger tag;
 
-+ (id) menuItemWithTitle:(NSString *)n target:(id)t selector:(SEL)s arg:(id)arg1 accessory:(BOOL)a;
++ (id) menuItemWithTitle:(NSString *)n target:(id)t selector:(SEL)s accessory:(BOOL)a;
 + (id) menuItemWithTitle:(NSString *)n children:(NSArray *)ch;
 + (id) menuItemWithTitle:(NSString *)n key:(char)k accessory:(BOOL)a;
 + (id) menuItemWithTitle:(NSString *)n key:(char)k;
-- (id) initWithTitle:(NSString *)n target:(id)t selector:(SEL)s arg:(id)arg1 accessory:(BOOL)a;
+- (id) initWithTitle:(NSString *)n target:(id)t selector:(SEL)s accessory:(BOOL)a;
 - (id) initWithTitle:(NSString *)n children:(NSArray *)ch;
 - (id) initWithTitle:(NSString *)n key:(char)k accessory:(BOOL)a;
 - (id) initWithTitle:(NSString *)n key:(char)k;

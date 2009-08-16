@@ -24,10 +24,10 @@
 
 @implementation MenuItem
 
-@synthesize title, accessory, children, key;
+@synthesize title, accessory, children, key, tag;
 
-+ (id) menuItemWithTitle:(NSString *)n target:(id)t selector:(SEL)s arg:(id)arg1 accessory:(BOOL)a {
-	return [[[self alloc] initWithTitle:n target:t selector:s arg:arg1 accessory:a] autorelease];
++ (id) menuItemWithTitle:(NSString *)n target:(id)t selector:(SEL)s accessory:(BOOL)a {
+	return [[[self alloc] initWithTitle:n target:t selector:s accessory:a] autorelease];
 }
 
 + (id) menuItemWithTitle:(NSString *)n children:(NSArray *)ch {
@@ -42,26 +42,25 @@
 	return [[[self alloc] initWithTitle:n key:k] autorelease];
 }
 
-- (id) initWithTitle:(NSString *)n target:(id)t selector:(SEL)s arg:(id)a1 accessory:(BOOL)a {
+- (id) initWithTitle:(NSString *)n target:(id)t selector:(SEL)s accessory:(BOOL)a {
 	if (self = [super init]) {
 		title = [n retain];
 		selector = s;
 		target = [t retain];
-		arg1 = [a1 retain];
 		accessory = a;
 	}
 	return self;
 }
 
 - (id) initWithTitle:(NSString *)n children:(NSArray *)ch {
-	if (self = [self initWithTitle:n target:nil selector:NULL arg:nil accessory:YES]) {
+	if (self = [self initWithTitle:n target:nil selector:NULL accessory:YES]) {
 		self.children = ch;
 	}
 	return self;
 }
 
 - (id) initWithTitle:(NSString *)n key:(char)k accessory:(BOOL)a {
-	if (self = [self initWithTitle:n target:nil selector:NULL arg:nil accessory:YES]) {
+	if (self = [self initWithTitle:n target:nil selector:NULL accessory:YES]) {
 		key = k;
 		accessory = a;
 	}
@@ -73,13 +72,12 @@
 }
 
 - (void) invoke {
-	[target performSelector:selector withObject:arg1];
+	[target performSelector:selector withObject:self];
 }
 
 - (void) dealloc {
 	[title release];
 	[target release];
-	[arg1 release];
 	[children release];
 	[super dealloc];
 }
