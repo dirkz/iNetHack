@@ -35,28 +35,27 @@ static NSString* ParseShortcutString (NSString* keys) {
 
 @synthesize title;
 
-- (id) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar arg:(id)a {
+- (id) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar {
 	if (self = [super init]) {
 		title = [t retain];
 		keys = [ParseShortcutString(k) retain];
 		selector = s;
 		target = [tar retain];
-		arg = [a retain];
 	}
 	return self;
 }
 
 - (id) initWithTitle:(NSString *)t keys:(NSString *)k {
-	return [self initWithTitle:t keys:k selector:NULL target:nil arg:nil];
+	return [self initWithTitle:t keys:k selector:NULL target:nil];
 }
 
 - (char) key {
 	return [keys characterAtIndex:0];
 }
 
-- (void) invoke {
+- (void) invoke:(id)sender {
 	if (selector) {
-		[target performSelector:selector withObject:arg];
+		[[UIApplication sharedApplication] sendAction:selector to:target from:sender forEvent:nil];
 	} else {
 		NethackEventQueue *q = [[MainViewController instance] nethackEventQueue];
 		for (int i = 0; i < keys.length; ++i) {
@@ -69,7 +68,6 @@ static NSString* ParseShortcutString (NSString* keys) {
 	[title release];
 	[keys release];
 	[target release];
-	[arg release];
 	[super dealloc];
 }
 

@@ -56,6 +56,8 @@ extern short glyph2tile[];
 	[self addSubview:shortcutView];
 }
 
+- (BOOL)canBecomeFirstResponder { return YES; }
+
 - (void)layoutSubviews {
 	CGSize s = self.bounds.size;
 	CGRect frame;

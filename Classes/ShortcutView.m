@@ -22,10 +22,9 @@
 
 #import "ShortcutView.h"
 #import "Shortcut.h"
-#import "MainViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-static NSArray* DefaultShortcuts (id target) {
+static NSArray* DefaultShortcuts () {
 	// Add shortcut bar items here
 	// The first field is the title, the second is the method selector to perform
 	// If the selector is NULL then the title will be treated as a key sequence
@@ -57,7 +56,7 @@ static NSArray* DefaultShortcuts (id target) {
 	NSMutableArray *shortcuts = [NSMutableArray arrayWithCapacity:shortcutsCount];
 	for (NSUInteger i = 0; i < shortcutsCount; ++i) {
 		NSString *keys = (defaultShortcuts[i].action ? nil : defaultShortcuts[i].title);
-		Shortcut *shortcut = [[Shortcut alloc] initWithTitle:defaultShortcuts[i].title keys:keys selector:sel_registerName(defaultShortcuts[i].action) target:target arg:nil];
+		Shortcut *shortcut = [[Shortcut alloc] initWithTitle:defaultShortcuts[i].title keys:keys selector:sel_registerName(defaultShortcuts[i].action) target:nil];
 		[shortcuts addObject:shortcut];
 		[shortcut release];
 	}
@@ -133,7 +132,7 @@ static const CGFloat InterCellPadding = 1;
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 		shortcutLayers      = [NSMutableArray new];
-		self.shortcuts      = DefaultShortcuts(self); // TODO make this nil-targeted
+		self.shortcuts      = DefaultShortcuts();
 		self.pagingEnabled  = YES;
 		self.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     }
@@ -205,18 +204,6 @@ static const CGFloat InterCellPadding = 1;
 	return CGSizeMake(tilesOnScreen * ShortcutTileSize.width, ShortcutTileSize.height);
 }
 
-// ===========
-// = Actions =
-// ===========
-
-- (void) showMainMenu:(id)obj {
-	[[MainViewController instance] showMainMenu:obj]; // FIXME
-}
-
-- (void) showKeyboard:(id)obj {
-	[[MainViewController instance] nethackKeyboard:obj]; // FIXME
-}
-
 // ==================
 // = Touch Handling =
 // ==================
@@ -242,7 +229,7 @@ static const CGFloat InterCellPadding = 1;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	NSUInteger touchedIndex = [self shortcutIndexForTouch:touches.anyObject];
 	if (touchedIndex != NSNotFound) {
-		[[shortcuts objectAtIndex:touchedIndex] invoke];
+		[[shortcuts objectAtIndex:touchedIndex] invoke:self];
 
 		self.highlightedIndex = -1;
 

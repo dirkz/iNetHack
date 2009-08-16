@@ -113,6 +113,7 @@ static MainViewController *_instance;
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[self.view becomeFirstResponder];
 	[self.view setNeedsDisplay];
 }
 

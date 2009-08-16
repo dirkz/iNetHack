@@ -29,15 +29,14 @@
 	NSString *keys;
 	SEL selector;
 	id target;
-	id arg;
 
 }
 
 @property (nonatomic, readonly) NSString *title;
 @property (nonatomic, readonly) char key;
 
-- (id) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar arg:(id)a;
+- (id) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar;
 - (id) initWithTitle:(NSString *)t keys:(NSString *)k;
-- (void) invoke;
+- (void) invoke:(id)sender;
 
 @end
