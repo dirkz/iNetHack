@@ -13,6 +13,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		4311C6651039446B00266F9B /* chozo40b.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4311C6641039446B00266F9B /* chozo40b.bmp */; };
 		431FD068100B598200DC7260 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 431FD067100B598200DC7260 /* Settings.bundle */; };
 		431FE2EB102ADC7200B15149 /* TouchInfoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 431FE2EA102ADC7200B15149 /* TouchInfoStore.m */; };
 		431FE517102B3CE800B15149 /* NSString+Regexp.m in Sources */ = {isa = PBXBuildFile; fileRef = 431FE516102B3CE800B15149 /* NSString+Regexp.m */; };
@@ -334,6 +335,7 @@
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* iNethack_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iNethack_Prefix.pch; sourceTree = "<group>"; };
+		4311C6641039446B00266F9B /* chozo40b.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40b.bmp; sourceTree = "<group>"; };
 		431FD067100B598200DC7260 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		431FE2E9102ADC7200B15149 /* TouchInfoStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchInfoStore.h; sourceTree = "<group>"; };
 		431FE2EA102ADC7200B15149 /* TouchInfoStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchInfoStore.m; sourceTree = "<group>"; };
@@ -877,6 +879,7 @@
 				4325C35B1035FC3F00653E8A /* Entitlements.plist */,
 				43A7B1C9103046EA0083CE1B /* petmark.png */,
 				43C0B674102CB1F6001F0716 /* chozo40.bmp */,
+				4311C6641039446B00266F9B /* chozo40b.bmp */,
 				439F0F76100245080050AED4 /* Icon.png */,
 				43DD0A210FF4E0F700580249 /* dat */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
@@ -1535,6 +1538,7 @@
 				43A7B1CA103046EA0083CE1B /* petmark.png in Resources */,
 				435C0D7A10342A490007613E /* manual.html in Resources */,
 				4325C35C1035FC3F00653E8A /* Entitlements.plist in Resources */,
+				4311C6651039446B00266F9B /* chozo40b.bmp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
