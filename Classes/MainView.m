@@ -28,6 +28,8 @@
 #import "ShortcutView.h"
 #import "Shortcut.h"
 
+#define kKeyTileset (@"tileset")
+
 extern short glyph2tile[];
 
 @implementation MainView
@@ -44,11 +46,18 @@ extern short glyph2tile[];
 - (void) awakeFromNib {
 	statusFont = [UIFont systemFontOfSize:14];
 	flashMessageFont = [UIFont systemFontOfSize:24];
-	//images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"absurd64.bmp"] tileSize:CGSizeMake(64,64)];
-	//images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"absurd40.bmp"] tileSize:CGSizeMake(40,40)];
-	//images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"chozo40.bmp"] tileSize:CGSizeMake(40,40)];
-	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:@"chozo40b.bmp"] tileSize:CGSizeMake(40,40)];
+	
+	// load tileset
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *tilesetName = [defaults objectForKey:kKeyTileset];
+	if (!tilesetName) {
+		NSLog(@"tileset nil");
+		tilesetName = @"chozo40b.bmp";
+	}
+	NSLog(@"tileset %@", tilesetName);
+	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:tilesetName] tileSize:CGSizeMake(40,40)];
 	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
+
 	tileSize = maxTileSize = CGSizeMake(40,40);
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);

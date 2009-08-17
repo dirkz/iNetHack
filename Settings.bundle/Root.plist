@@ -58,6 +58,28 @@
 			<key>DefaultValue</key>
 			<false/>
 		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string>chozo40b.bmp</string>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Tileset</string>
+			<key>Key</key>
+			<string>tileset</string>
+			<key>Titles</key>
+			<array>
+				<string>Absurd</string>
+				<string>Abigaba Chozo</string>
+				<string>Abigaba Chozo B</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>absurd40.bmp</string>
+				<string>chozo40.bmp</string>
+				<string>chozo40b.bmp</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>
