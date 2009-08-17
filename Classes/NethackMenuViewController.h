@@ -26,10 +26,9 @@
 
 @class Window;
 
-@interface NethackMenuViewController : UIViewController {
+@interface NethackMenuViewController : UITableViewController {
 	
 	Window *menuWindow;
-	UITableView *tf;
 
 }
 
