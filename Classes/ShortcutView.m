@@ -119,7 +119,8 @@ static NSArray *DefaultShortcuts () {
 		@"i",          @"e",        @"t",        @"f",
 		@"z",          @"Z",        @"a",        @"o",
 		// Page 3
-		@"o",          @"^a",       @"r",        @"q",
+		@"o",          @"^a",       @"^d",       @"r",
+		@"q",
 		@"E",          @"Q",        @"d",        @"D",
 		// Page 4
 		@"w",          @"W",        @"x",
