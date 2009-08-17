@@ -482,6 +482,9 @@ void iphone_init_options() {
 }
 
 void iphone_override_options() {
+	// somehow the flags seem to be erased (after restore?)
+	// so just call it again
+	iphone_init_options();
 }
 
 void process_options(int argc, char *argv[]) {
