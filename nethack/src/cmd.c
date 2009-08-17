@@ -2213,6 +2213,8 @@ register int x, y;
 
 static NEARDATA int last_multi;
 
+extern boolean winiphone_autokick;
+
 /*
  * convert a MAP window position into a movecmd
  */
@@ -2270,11 +2272,12 @@ click_to_cmd(x, y, mod)
             cmd[2] = 0;
             if (IS_DOOR(levl[u.ux+x][u.uy+y].typ)) {
                 /* slight assistance to the player: choose kick/open for them */
-                if (levl[u.ux+x][u.uy+y].doormask & D_LOCKED) {
-                    cmd[0] = C('d');
-                    return cmd;
+                if (levl[u.ux+x][u.uy+y].doormask & D_LOCKED && winiphone_autokick) {
+					cmd[0] = C('d');
+					return cmd;
                 }
-                if (levl[u.ux+x][u.uy+y].doormask & D_CLOSED) {
+                if ((levl[u.ux+x][u.uy+y].doormask & D_CLOSED) ||
+					(levl[u.ux+x][u.uy+y].doormask & D_LOCKED && !winiphone_autokick)) {
                     cmd[0] = 'o';
                     return cmd;
                 }

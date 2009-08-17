@@ -40,9 +40,12 @@
 #define kOptionAutopickup (@"autopickup")
 #define kOptionPickupTypes (@"pickupTypes")
 #define kOptionWizard (@"wizard")
+#define kOptionAutokick (@"autokick")
 
 #undef DEFAULT_WINDOW_SYS
 #define DEFAULT_WINDOW_SYS "iphone"
+
+boolean winiphone_autokick = TRUE;
 
 struct window_procs iphone_procs = {
 "iphone",
@@ -478,6 +481,8 @@ void iphone_init_options() {
 	}
 	BOOL wiz = [defaults boolForKey:kOptionWizard];
 	wizard = wiz ? TRUE:FALSE;
+	BOOL autokick = [defaults boolForKey:kOptionAutokick];
+	winiphone_autokick = autokick ? TRUE:FALSE;
 }
 
 void iphone_override_options() {

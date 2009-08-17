@@ -80,6 +80,16 @@
 				<string>chozo40b.bmp</string>
 			</array>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Auto-Kick Doors</string>
+			<key>Key</key>
+			<string>autokick</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
 	</array>
 </dict>
 </plist>
