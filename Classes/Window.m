@@ -27,6 +27,7 @@
 @implementation Window
 
 @synthesize type, curx, cury, width, height, strings, menuItems, menuPrompt, isShallowMenu, menuHow, menuList, menuResult, log;
+@synthesize acceptBareHanded, acceptMore, acceptMoney;
 
 - (id) initWithType:(winid)t {
 	if (self = [super init]) {
@@ -55,7 +56,7 @@
 				break;
 		}
 		
-		size_t n = sizeof(int) * width * height;
+		size_t n = sizeof(glyphs[0]) * width * height;
 		glyphs = malloc(n);
 		memset(glyphs, kNoGlyph, n);
 		strings = [[NSMutableArray alloc] init];

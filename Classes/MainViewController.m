@@ -37,7 +37,6 @@
 #import "TilePosition.h"
 #import "TouchInfo.h"
 #import "TouchInfoStore.h"
-#import "NetHackMenuInfo.h"
 #import "DMath.h"
 #import "NSString+Regexp.h"
 #import "RoleSelectionController.h"
@@ -47,7 +46,6 @@ static MainViewController *_instance;
 @implementation MainViewController
 
 @synthesize windows, clip, nethackEventQueue;
-@synthesize nethackMenuInfo;
 @synthesize roleSelectionInProgress;
 
 + (id) instance {

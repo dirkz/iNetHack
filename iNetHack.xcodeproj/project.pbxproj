@@ -16,7 +16,6 @@
 		431FD068100B598200DC7260 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 431FD067100B598200DC7260 /* Settings.bundle */; };
 		431FE2EB102ADC7200B15149 /* TouchInfoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 431FE2EA102ADC7200B15149 /* TouchInfoStore.m */; };
 		431FE517102B3CE800B15149 /* NSString+Regexp.m in Sources */ = {isa = PBXBuildFile; fileRef = 431FE516102B3CE800B15149 /* NSString+Regexp.m */; };
-		431FE557102B3FFC00B15149 /* NetHackMenuInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 431FE556102B3FFC00B15149 /* NetHackMenuInfo.m */; };
 		4325C35C1035FC3F00653E8A /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4325C35B1035FC3F00653E8A /* Entitlements.plist */; };
 		435C0D7A10342A490007613E /* manual.html in Resources */ = {isa = PBXBuildFile; fileRef = 435C0D7910342A490007613E /* manual.html */; };
 		4394EB9810394C5F0053C8C2 /* chozo40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EB9610394C5F0053C8C2 /* chozo40.bmp */; };
@@ -341,8 +340,6 @@
 		431FE2EA102ADC7200B15149 /* TouchInfoStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchInfoStore.m; sourceTree = "<group>"; };
 		431FE515102B3CE800B15149 /* NSString+Regexp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Regexp.h"; sourceTree = "<group>"; };
 		431FE516102B3CE800B15149 /* NSString+Regexp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regexp.m"; sourceTree = "<group>"; };
-		431FE555102B3FFC00B15149 /* NetHackMenuInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetHackMenuInfo.h; sourceTree = "<group>"; };
-		431FE556102B3FFC00B15149 /* NetHackMenuInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetHackMenuInfo.m; sourceTree = "<group>"; };
 		4325C35B1035FC3F00653E8A /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		435C0D7910342A490007613E /* manual.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = manual.html; sourceTree = "<group>"; };
 		4394EB9610394C5F0053C8C2 /* chozo40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40.bmp; sourceTree = "<group>"; };
@@ -834,8 +831,6 @@
 				431FE2EA102ADC7200B15149 /* TouchInfoStore.m */,
 				431FE515102B3CE800B15149 /* NSString+Regexp.h */,
 				431FE516102B3CE800B15149 /* NSString+Regexp.m */,
-				431FE555102B3FFC00B15149 /* NetHackMenuInfo.h */,
-				431FE556102B3FFC00B15149 /* NetHackMenuInfo.m */,
 				43A7B06810302D880083CE1B /* DMath.h */,
 				43A7B06910302D880083CE1B /* DMath.m */,
 				9194B22A1032CADB009BDE61 /* RoleSelectionController.h */,
@@ -1694,7 +1689,6 @@
 				43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */,
 				431FE2EB102ADC7200B15149 /* TouchInfoStore.m in Sources */,
 				431FE517102B3CE800B15149 /* NSString+Regexp.m in Sources */,
-				431FE557102B3FFC00B15149 /* NetHackMenuInfo.m in Sources */,
 				43A7B06A10302D880083CE1B /* DMath.m in Sources */,
 				9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */,
 			);

@@ -24,8 +24,6 @@
 #import "Window.h"
 #import "NethackMenuItem.h"
 #import "MainViewController.h"
-#import "NetHackMenuInfo.h"
-#import "NetHackMenuInfo.h"
 #import "MainView.h"
 #import "TiledImages.h"
 #import "NSString+Regexp.h"
@@ -43,46 +41,35 @@ extern short glyph2tile[];
 - (void) setMenuWindow:(Window *)w {
 	menuWindow = w;
 	menuWindow.menuResult = kMenuCancelled;
-	if (w.menuPrompt && w.menuPrompt.length > 0) {
-		self.title = w.menuPrompt;
-	} else if ([[MainViewController instance] nethackMenuInfo]) {
-		self.title = [[[MainViewController instance] nethackMenuInfo] prompt];
-		NetHackMenuInfo *nethackMenuInfo = [[MainViewController instance] nethackMenuInfo];
-		if (nethackMenuInfo) {
-			// extend menu items
-			if (nethackMenuInfo.acceptBareHanded || nethackMenuInfo.acceptMoney || nethackMenuInfo.acceptMore) {
-				anything any;
-				any.a_int = 0;
-				NethackMenuItem *miParent = [[NethackMenuItem alloc] initWithId:&any title:"Meta" glyph:kNoGlyph
-																	preselected:NO];
-				[menuWindow addMenuItem:miParent];
-				[miParent release];
-				if (nethackMenuInfo.acceptBareHanded) {
-					any.a_int = '-';
-					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Hands (-)" glyph:kNoGlyph
-																  preselected:NO];
-					[menuWindow addMenuItem:mi];
-					[mi release];
-				}
-				if (nethackMenuInfo.acceptMore) {
-					any.a_int = '*';
-					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"More (*)" glyph:kNoGlyph
-																  preselected:NO];
-					[menuWindow addMenuItem:mi];
-					[mi release];
-				}
-				if (nethackMenuInfo.acceptMoney) {
-					any.a_int = '$';
-					NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Gold ($)" glyph:kNoGlyph
-																  preselected:NO];
-					[menuWindow addMenuItem:mi];
-					[mi release];
-				}
-			}
+	self.title = (w.menuPrompt && w.menuPrompt.length > 0) ? menuWindow.menuPrompt : @"Menu";
+
+	// extend menu items
+	if (menuWindow.acceptBareHanded || menuWindow.acceptMoney || menuWindow.acceptMore) {
+		anything any;
+		any.a_int = 0;
+		NethackMenuItem *miParent = [[NethackMenuItem alloc] initWithId:&any title:"Meta" glyph:kNoGlyph preselected:NO];
+		[menuWindow addMenuItem:miParent];
+		[miParent release];
+		if (menuWindow.acceptBareHanded) {
+			any.a_int = '-';
+			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Hands (-)" glyph:kNoGlyph preselected:NO];
+			[menuWindow addMenuItem:mi];
+			[mi release];
 		}
-	} else {
-		self.title = @"Menu";
+		if (menuWindow.acceptMore) {
+			any.a_int = '*';
+			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"More (*)" glyph:kNoGlyph preselected:NO];
+			[menuWindow addMenuItem:mi];
+			[mi release];
+		}
+		if (menuWindow.acceptMoney) {
+			any.a_int = '$';
+			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Gold ($)" glyph:kNoGlyph preselected:NO];
+			[menuWindow addMenuItem:mi];
+			[mi release];
+		}
 	}
+
 	[self.tableView reloadData];
 }
 

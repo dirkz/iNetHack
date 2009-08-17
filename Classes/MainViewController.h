@@ -35,7 +35,6 @@
 @class DirectionInputViewController, ExtendedCommandViewController;
 @class TouchInfo, TouchInfoStore;
 @class TilePosition;
-@class NetHackMenuInfo;
 @class DMath;
 
 @interface MainViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate> {
@@ -64,8 +63,6 @@
 	
 	TilePosition *lastSingleTapDelta;
 	
-	NetHackMenuInfo *nethackMenuInfo;
-	
 	DMath *dmath;
 	
 	BOOL roleSelectionInProgress;
@@ -77,7 +74,6 @@
 @property (nonatomic, readonly) Window *messageWindow;
 @property (nonatomic, readonly) Window *statusWindow;
 @property (nonatomic, retain) NethackEventQueue *nethackEventQueue;
-@property (nonatomic, retain) NetHackMenuInfo *nethackMenuInfo;
 @property (nonatomic, assign) BOOL roleSelectionInProgress;
 
 + (id) instance;

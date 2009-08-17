@@ -29,7 +29,6 @@
 #import "NethackEvent.h"
 #import "NethackEventQueue.h"
 #import "NSString+Regexp.h"
-#import "NetHackMenuInfo.h"
 #import "TilePosition.h"
 
 #include <stdio.h>
@@ -364,10 +363,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 			NSString *q = [NSString stringWithCString:question];
 			NSString *preLets = [q substringBetweenDelimiters:@"[]"];
 			if (preLets && preLets.length > 0) {
-				NetHackMenuInfo *menuInfo = [[NetHackMenuInfo alloc] init];
-				[[MainViewController instance] setNethackMenuInfo:menuInfo];
-				[menuInfo release];
-				menuInfo.prompt = q;
+				Window *inventoryWindow = [[MainViewController instance] windowWithId:WIN_INVEN];
 				BOOL alphaBegan = NO;
 				BOOL terminateLoop = NO;
 				int index;
@@ -378,10 +374,10 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 					if (!alphaBegan) {
 						switch (c) {
 							case '$':
-								menuInfo.acceptMoney = YES;
+								inventoryWindow.acceptMoney = YES;
 								break;
 							case '-':
-								menuInfo.acceptBareHanded = YES;
+								inventoryWindow.acceptBareHanded = YES;
 								break;
 							default:
 								if (isalpha(c)) {
@@ -404,13 +400,16 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 					for (int i = 0; i < moreOptions.length; ++i) {
 						char c = [moreOptions characterAtIndex:i];
 						if (c == '*') {
-							menuInfo.acceptMore = YES;
+							inventoryWindow.acceptMore = YES;
 						}
 					}
 				}
 				lets = expandInventoryLetters(lets);
+				inventoryWindow.menuPrompt = q;
 				char c = display_inventory([lets cStringUsingEncoding:NSASCIIStringEncoding], TRUE);
-				[[MainViewController instance] setNethackMenuInfo:nil];
+				inventoryWindow.acceptMoney      = NO;
+				inventoryWindow.acceptBareHanded = NO;
+				inventoryWindow.acceptMore       = NO;
 				return c;
 			} else {
 				NSLog(@"iphone_yn_function no preLets!");

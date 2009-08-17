@@ -50,6 +50,11 @@
 	int menuHow;
 	menu_item *menuList;
 	int menuResult;
+
+	NSString *prompt;
+	BOOL acceptBareHanded;
+	BOOL acceptMore;
+	BOOL acceptMoney;
 }
 
 @property (nonatomic, readonly) int type;
@@ -66,6 +71,10 @@
 @property (nonatomic, assign) int menuHow;
 @property (nonatomic, assign) menu_item *menuList;
 @property (nonatomic, assign) int menuResult;
+
+@property (nonatomic, assign) BOOL acceptBareHanded;
+@property (nonatomic, assign) BOOL acceptMore;
+@property (nonatomic, assign) BOOL acceptMoney;
 
 - (id) initWithType:(int)t;
 - (int) glyphAtX:(int)x y:(int)y;
