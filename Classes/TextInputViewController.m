@@ -31,6 +31,13 @@
 	return YES;
 }
 
+- (void) nethackShowLog:(id)sender {
+	// save what user has typed so far
+	self.text = tf.text;
+	reentered++;
+	[[MainViewController instance] nethackShowLog:sender];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	returned = NO;
@@ -42,24 +49,27 @@
 	tf.returnKeyType = returnKeyType;
 	[tf becomeFirstResponder];
 	UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Log" style:UIBarButtonItemStylePlain
-														  target:[MainViewController instance]
-														  action:@selector(nethackShowLog:)];
+														  target:self action:@selector(nethackShowLog:)];
 	self.navigationItem.rightBarButtonItem = bi;
 	[bi release];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	if (!returned) {
-		self.text = @"\033";
-		if (condition) {
-			[condition lock];
-			[condition broadcast];
-			[condition unlock];
+	if (reentered == 0) {
+		if (!returned) {
+			self.text = @"\033";
+			if (condition) {
+				[condition lock];
+				[condition broadcast];
+				[condition unlock];
+			}
 		}
+		self.numerical = NO;
+		self.condition = nil;
+	} else {
+		reentered--;
 	}
-	self.numerical = NO;
-	self.condition = nil;
 }
 
 #pragma mark UITextFieldDelegate

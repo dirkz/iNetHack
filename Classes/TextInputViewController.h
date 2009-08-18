@@ -37,6 +37,9 @@
 
 	NSCondition *condition;
 	BOOL returned;
+	
+	// avoid reentrance problems (issue 66)
+	int reentered;
 }
 
 @property (nonatomic, retain) NSString *prompt;
