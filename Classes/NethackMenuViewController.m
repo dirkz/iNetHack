@@ -94,7 +94,7 @@ extern short glyph2tile[];
 	}
 
 	selectAll = YES;
-	if (w.menuHow = PICK_ANY) {
+	if (w.menuHow == PICK_ANY) {
 		UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"All" style:UIBarButtonItemStylePlain
 															  target:self action:@selector(selectAll:)];
 		self.navigationItem.rightBarButtonItem = bi;
