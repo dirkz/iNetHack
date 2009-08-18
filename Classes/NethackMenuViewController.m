@@ -99,6 +99,8 @@ extern short glyph2tile[];
 															  target:self action:@selector(selectAll:)];
 		self.navigationItem.rightBarButtonItem = bi;
 		[bi release];
+	} else {
+		self.navigationItem.rightBarButtonItem = nil;
 	}
 
 	[self.tableView reloadData];
