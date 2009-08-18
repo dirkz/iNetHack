@@ -97,6 +97,17 @@ extern short glyph2tile[];
 	start = CGPointMake(-mainViewController.clip.x*tileSize.width + center.x + offset.x,
 						-mainViewController.clip.y*tileSize.height + center.y + offset.y);
 
+	// draw border
+	CGRect borderRect = CGRectMake(start.x, start.y, map.width*tileSize.width, map.height*tileSize.height);
+	float w = 2.0f;
+	borderRect.origin.x -= w;
+	borderRect.origin.y -= w;
+	borderRect.size.width += 2*w;
+	borderRect.size.height += 2*w;
+	float borderColor[] = {1,1,1,1};
+	CGContextSetStrokeColor(ctx, borderColor);
+	CGContextStrokeRect(ctx, borderRect);
+
 	for (int j = 0; j < map.height; ++j) {
 		for (int i = 0; i < map.width; ++i) {
 			int glyph = [map glyphAtX:i y:j];
