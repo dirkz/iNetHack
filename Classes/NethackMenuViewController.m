@@ -38,6 +38,29 @@ extern short glyph2tile[];
 	return YES;
 }
 
+- (void) selectAllItems:(NSArray *)items select:(BOOL)s {
+	for (NethackMenuItem *i in items) {
+		if (i.isTitle) {
+			[self selectAllItems:i.children select:s];
+		} else {
+			i.isSelected = s;
+		}
+	}
+}
+
+- (void) selectAll:(id)sender {
+	UIBarButtonItem *bi = sender;
+
+	if (selectAll) {
+		bi.title = @"None";
+	} else {
+		bi.title = @"All";
+	}
+	[self selectAllItems:menuWindow.menuItems select:selectAll];
+	selectAll = !selectAll;
+	[self.tableView reloadData];
+}
+
 - (void) setMenuWindow:(Window *)w {
 	menuWindow = w;
 	menuWindow.menuResult = kMenuCancelled;
@@ -68,6 +91,14 @@ extern short glyph2tile[];
 			[menuWindow addMenuItem:mi];
 			[mi release];
 		}
+	}
+
+	selectAll = YES;
+	if (w.menuHow = PICK_ANY) {
+		UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"All" style:UIBarButtonItemStylePlain
+															  target:self action:@selector(selectAll:)];
+		self.navigationItem.rightBarButtonItem = bi;
+		[bi release];
 	}
 
 	[self.tableView reloadData];

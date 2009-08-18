@@ -29,6 +29,7 @@
 @interface NethackMenuViewController : UITableViewController {
 	
 	Window *menuWindow;
+	BOOL selectAll;
 
 }
 
