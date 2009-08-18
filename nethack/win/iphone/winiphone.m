@@ -465,6 +465,7 @@ void iphone_outrip(winid wid, int how) {
 #pragma mark options
 
 void iphone_init_options() {
+	iflags.use_color = TRUE;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	BOOL autopickup = [defaults boolForKey:kOptionAutopickup];
 	flags.pickup = autopickup ? TRUE:FALSE;
@@ -483,6 +484,7 @@ void iphone_init_options() {
 	wizard = wiz ? TRUE:FALSE;
 	BOOL autokick = [defaults boolForKey:kOptionAutokick];
 	winiphone_autokick = autokick ? TRUE:FALSE;
+	flags.time = TRUE;
 }
 
 void iphone_override_options() {
@@ -492,8 +494,6 @@ void iphone_override_options() {
 }
 
 void process_options(int argc, char *argv[]) {
-	iphone_init_options();
-	iflags.use_color = TRUE;
 }
 
 void
