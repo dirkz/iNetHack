@@ -41,6 +41,8 @@
 #define kOptionPickupTypes (@"pickupTypes")
 #define kOptionWizard (@"wizard")
 #define kOptionAutokick (@"autokick")
+#define kOptionTime (@"time")
+#define kOptionShowExp (@"showexp")
 
 #undef DEFAULT_WINDOW_SYS
 #define DEFAULT_WINDOW_SYS "iphone"
@@ -468,8 +470,7 @@ void iphone_init_options() {
 	iflags.use_color = TRUE;
 	iflags.runmode = RUN_STEP;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	BOOL autopickup = [defaults boolForKey:kOptionAutopickup];
-	flags.pickup = autopickup ? TRUE:FALSE;
+	flags.pickup = [defaults boolForKey:kOptionAutopickup];
 	NSString *pickupTypes = [defaults objectForKey:kOptionPickupTypes];
 	if (flags.pickup && pickupTypes) {
 		NSMutableString *tmp = [NSMutableString string];
@@ -481,11 +482,10 @@ void iphone_init_options() {
 		}
 		[tmp getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
 	}
-	BOOL wiz = [defaults boolForKey:kOptionWizard];
-	wizard = wiz ? TRUE:FALSE;
-	BOOL autokick = [defaults boolForKey:kOptionAutokick];
-	winiphone_autokick = autokick ? TRUE:FALSE;
-	flags.time = TRUE;
+	wizard = [defaults boolForKey:kOptionWizard];
+	winiphone_autokick = [defaults boolForKey:kOptionAutokick];
+	flags.showexp = [defaults boolForKey:kOptionShowExp];
+	flags.time = [defaults boolForKey:kOptionTime];
 }
 
 void iphone_override_options() {
