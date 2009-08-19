@@ -469,6 +469,7 @@ void iphone_outrip(winid wid, int how) {
 void iphone_init_options() {
 	iflags.use_color = TRUE;
 	iflags.runmode = RUN_STEP;
+	flags.toptenwin = TRUE;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	flags.pickup = [defaults boolForKey:kOptionAutopickup];
 	NSString *pickupTypes = [defaults objectForKey:kOptionPickupTypes];
