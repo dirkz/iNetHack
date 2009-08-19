@@ -281,7 +281,7 @@ void iphone_cliparound(int x, int y) {
 }
 
 void iphone_cliparound_window(winid wid, int x, int y) {
-	//NSLog(@"iphone_cliparound_window %d %d,%d", wid, x, y);
+	NSLog(@"iphone_cliparound_window %d %d,%d", wid, x, y);
 }
 
 void iphone_print_glyph(winid wid, XCHAR_P x, XCHAR_P y, int glyph) {
@@ -466,6 +466,7 @@ void iphone_outrip(winid wid, int how) {
 
 void iphone_init_options() {
 	iflags.use_color = TRUE;
+	iflags.runmode = RUN_STEP;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	BOOL autopickup = [defaults boolForKey:kOptionAutopickup];
 	flags.pickup = autopickup ? TRUE:FALSE;
