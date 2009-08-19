@@ -596,12 +596,7 @@ void iphone_main() {
 	vision_init();
 	display_gamewindows();		   /* create & display the game windows */
 
-	if(!*plname)
-		askname();
-	plnamesuffix();		/* strip suffix from name; calls askname() */
-				/* again if suffix was whole name */
-				/* accepts any suffix */
-	Sprintf (lock, "%d%s", getuid (), plname);
+	Sprintf (lock, "%d%s", getuid (), [NSUserName() cStringUsingEncoding:NSASCIIStringEncoding]);
 	getlock ();
 
 	register int fd;
