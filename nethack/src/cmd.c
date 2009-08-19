@@ -2247,6 +2247,28 @@ click_to_cmd(x, y, mod)
 
         if(x == 0 && y == 0) {
             /* here */
+#ifdef TARGET_OS_IPHONE
+            if(IS_FOUNTAIN(levl[u.ux][u.uy].typ) || IS_SINK(levl[u.ux][u.uy].typ)) {
+                cmd[0]=mod == CLICK_1 ? 'q' : M('d');
+                return cmd;
+            } else if(IS_THRONE(levl[u.ux][u.uy].typ)) {
+                cmd[0]=M('s');
+                return cmd;
+            } else if(OBJ_AT(u.ux, u.uy)) {
+                cmd[0] = Is_container(level.objects[u.ux][u.uy]) ? M('l') : ',';
+                return cmd;
+            } else if((u.ux == xupstair && u.uy == yupstair)
+                      || (u.ux == sstairs.sx && u.uy == sstairs.sy && sstairs.up)
+                      || (u.ux == xupladder && u.uy == yupladder)) {
+                return "<";
+            } else if((u.ux == xdnstair && u.uy == ydnstair)
+                      || (u.ux == sstairs.sx && u.uy == sstairs.sy && !sstairs.up)
+                      || (u.ux == xdnladder && u.uy == ydnladder)) {
+                return ">";
+            } else {
+                return "."; /* just rest */
+            }
+#else
             if(IS_FOUNTAIN(levl[u.ux][u.uy].typ) || IS_SINK(levl[u.ux][u.uy].typ)) {
                 cmd[0]=mod == CLICK_1 ? 'q' : M('d');
                 return cmd;
@@ -2267,6 +2289,7 @@ click_to_cmd(x, y, mod)
             } else {
                 return "."; /* just rest */
             }
+#endif
         }
 
         /* directional commands */
