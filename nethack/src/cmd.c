@@ -14,6 +14,14 @@
 #define NR_OF_EOFS	20
 #endif
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
+#if TARGET_OS_IPHONE
+extern boolean winiphone_autokick;
+#endif
+
 #define CMD_TRAVEL (char)0x90
 
 #ifdef DEBUG
@@ -2213,8 +2221,6 @@ register int x, y;
 
 static NEARDATA int last_multi;
 
-extern boolean winiphone_autokick;
-
 /*
  * convert a MAP window position into a movecmd
  */
@@ -2272,6 +2278,7 @@ click_to_cmd(x, y, mod)
             cmd[2] = 0;
             if (IS_DOOR(levl[u.ux+x][u.uy+y].typ)) {
                 /* slight assistance to the player: choose kick/open for them */
+#if TARGET_OS_IPHONE
                 if (levl[u.ux+x][u.uy+y].doormask & D_LOCKED && winiphone_autokick) {
 					cmd[0] = C('d');
 					return cmd;
@@ -2281,11 +2288,28 @@ click_to_cmd(x, y, mod)
                     cmd[0] = 'o';
                     return cmd;
                 }
+#else
+                if (levl[u.ux+x][u.uy+y].doormask & D_LOCKED) {
+                    cmd[0] = C('d');
+                    return cmd;
+                }
+                if (levl[u.ux+x][u.uy+y].doormask & D_CLOSED) {
+                    cmd[0] = 'o';
+                    return cmd;
+                }
+#endif
+				
             }
             if (levl[u.ux+x][u.uy+y].typ <= SCORR) {
+#if TARGET_OS_IPHONE
+				// do nothing
+                cmd[0] = 0;
+                return cmd;
+#else
                 cmd[0] = 's';
                 cmd[1] = 0;
                 return cmd;
+#endif
             }
         }
     } else {
