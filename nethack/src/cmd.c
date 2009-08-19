@@ -2267,7 +2267,10 @@ click_to_cmd(x, y, mod)
 					} else {
 						return ",";
 					}
+				} else {
+					return "<";
 				}
+
 #else
 					return "<";
 #endif
@@ -2285,6 +2288,8 @@ click_to_cmd(x, y, mod)
 					} else {
 						return ",";
 					}
+				} else {
+					return ">";
 				}
 #else
                 return ">";
