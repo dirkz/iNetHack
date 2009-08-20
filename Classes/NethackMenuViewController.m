@@ -231,8 +231,6 @@ extern short glyph2tile[];
 		strings = [NSArray arrayWithObjects:i.title, nil];
 	}
 	
-	cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
-	cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12];
 	cell.textLabel.text = [strings objectAtIndex:0];
 	if (strings.count == 2) {
 		cell.detailTextLabel.text = [strings objectAtIndex:1];
