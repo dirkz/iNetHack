@@ -23,6 +23,24 @@
 - (void)moveToNextStep:(id)sender;
 @end
 
+enum {
+	RESET_ROLE,
+	RESET_RACE,
+	RESET_GENDER,
+	RESET_ALIGNMENT,
+};
+
+static void reset_choices (int type)
+{
+	switch(type)
+	{
+		case RESET_ROLE:      flags.initrole  = -1;
+		case RESET_RACE:      flags.initrace  = -1;
+		case RESET_GENDER:    flags.initgend  = -1;
+		case RESET_ALIGNMENT: flags.initalign = -1;
+	}
+}
+
 @implementation RoleSelectionController
 - (void)showChoices:(NSArray *)items withTitle:(NSString *)title {
 	if (items.count > 1) {
@@ -44,6 +62,8 @@
 - (void)didSelectAlignment:(id)sender
 {
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
+
+	reset_choices(RESET_ALIGNMENT);
 	flags.initalign = [sender tag];
 
 	[self moveToNextStep:nil];
@@ -71,6 +91,8 @@
 - (void)didSelectGender:(id)sender
 {
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
+
+	reset_choices(RESET_GENDER);
 	flags.initgend = [sender tag];
 
 	[self moveToNextStep:nil];
@@ -98,6 +120,8 @@
 - (void)didSelectRace:(id)sender
 {
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
+
+	reset_choices(RESET_RACE);
 	pl_race = [sender tag];
 	flags.initrace = [sender tag];
 
@@ -126,6 +150,8 @@
 - (void)didSelectRole:(id)sender
 {
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
+
+	reset_choices(RESET_ROLE);
 	flags.initrole = [sender tag];
 	strcpy(pl_character, roles[flags.initrole].filecode);
 
