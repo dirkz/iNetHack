@@ -41,6 +41,8 @@
 #import "NSString+Regexp.h"
 #import "RoleSelectionController.h"
 
+extern volatile boolean winiphone_clickable_tiles;
+
 static MainViewController *_instance;
 
 @implementation MainViewController
@@ -483,9 +485,8 @@ static MainViewController *_instance;
 				TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
 				NethackEvent *lastEvent = nethackEventQueue.lastEvent;
 				// todo other events to check
-				if ([(MainView *) self.view isMoved] || lastEvent.key == ';') {
-					// tappable tiles if view is being panned
-					// ignore clicks into the dark
+				if ([(MainView *) self.view isMoved] || lastEvent.key == ';' || winiphone_clickable_tiles) {
+					// tappable tiles
 					lastSingleTapDelta.x = tp.x-u.ux;
 					lastSingleTapDelta.y = tp.y-u.uy;
 					NethackEvent *e = [[NethackEvent alloc] init];

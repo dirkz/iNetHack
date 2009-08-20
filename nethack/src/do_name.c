@@ -4,6 +4,14 @@
 
 #include "hack.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
+#if TARGET_OS_IPHONE
+extern volatile boolean winiphone_clickable_tiles;
+#endif
+
 #ifdef OVLB
 
 STATIC_DCL void FDECL(do_oname, (struct obj *));
@@ -69,8 +77,14 @@ const char *goal;
     lock_mouse_cursor(TRUE);
 #endif
     for (;;) {
+#if TARGET_OS_IPHONE
+		winiphone_clickable_tiles = TRUE;
+#endif
 	c = nh_poskey(&tx, &ty, &sidx);
-	if (c == '\033') {
+#if TARGET_OS_IPHONE
+		winiphone_clickable_tiles = FALSE;
+#endif
+		if (c == '\033') {
 	    cx = cy = -10;
 	    msg_given = TRUE;	/* force clear */
 	    result = -1;

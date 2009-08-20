@@ -48,6 +48,7 @@
 #define DEFAULT_WINDOW_SYS "iphone"
 
 boolean winiphone_autokick = TRUE;
+boolean winiphone_clickable_tiles = FALSE;
 
 struct window_procs iphone_procs = {
 "iphone",
@@ -467,6 +468,7 @@ void iphone_outrip(winid wid, int how) {
 #pragma mark options
 
 void iphone_init_options() {
+	flags.verbose = FALSE;
 	iflags.use_color = TRUE;
 	iflags.runmode = RUN_STEP;
 	flags.toptenwin = TRUE;
