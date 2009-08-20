@@ -30,6 +30,7 @@
 #endif
 
 #define kMinimumPinchDelta (15)
+#define kMinimumPanDelta (20)
 
 @class Window, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
 @class DirectionInputViewController, ExtendedCommandViewController;

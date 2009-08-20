@@ -430,7 +430,7 @@ static MainViewController *_instance;
 				CGPoint p = [touch locationInView:self.view];
 				CGPoint delta = CGPointMake(p.x-ti.currentLocation.x, p.y-ti.currentLocation.y);
 				BOOL move = NO;
-				if (!ti.moved && (abs(delta.x)+abs(delta.y) > 20)) {
+				if (!ti.moved && (abs(delta.x)+abs(delta.y) > kMinimumPanDelta)) {
 					ti.moved = YES;
 					move = YES;
 				} else if (ti.moved) {
