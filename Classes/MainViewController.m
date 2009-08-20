@@ -723,9 +723,11 @@ static MainViewController *_instance;
 
 - (void) showKeyboard:(BOOL)d {
 	if (d) {
+		keyboardReturnShouldQueueEscape = YES;
 		[self performSelectorOnMainThread:@selector(nethackKeyboard:) withObject:nil waitUntilDone:YES];
 	} else {
 		// todo find a save way to let keyboard disappear
+		keyboardReturnShouldQueueEscape = NO;
 	}
 }
 
@@ -756,6 +758,9 @@ static MainViewController *_instance;
 #pragma mark UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+	if (keyboardReturnShouldQueueEscape) {
+		[nethackEventQueue addKeyEvent:27];
+	}
 	[textField resignFirstResponder];
 	return YES;
 }

@@ -66,6 +66,7 @@
 	DMath *dmath;
 	
 	BOOL roleSelectionInProgress;
+	BOOL keyboardReturnShouldQueueEscape;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
