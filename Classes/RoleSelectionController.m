@@ -147,6 +147,7 @@
 	}
 	[self showChoices:items withTitle:@"Your Role?"];
 	[items release];
+	self.navigationController.navigationBar.topItem.hidesBackButton = YES;
 }
 
 // ==================
