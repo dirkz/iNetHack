@@ -420,7 +420,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 			} else {
 				NSLog(@"iphone_yn_function no preLets!");
 				// no preLets defined ([])
-				// todo when did this kick in?
+				// todo crystal balls (orb of fate!) land here
 				return '?';
 			}
 		}
