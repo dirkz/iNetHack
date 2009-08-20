@@ -717,6 +717,18 @@ static MainViewController *_instance;
 	}
 }
 
+- (void) updateScreen {
+	[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+}
+
+- (void) showKeyboard:(BOOL)d {
+	if (d) {
+		[self performSelectorOnMainThread:@selector(nethackKeyboard:) withObject:nil waitUntilDone:YES];
+	} else {
+		// todo find a save way to let keyboard disappear
+	}
+}
+
 #pragma mark condition utilities
 
 - (void) waitForUser {

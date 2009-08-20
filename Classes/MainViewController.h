@@ -110,4 +110,7 @@
 
 - (void) displayFile:(NSString *)filename mustExist:(BOOL)e;
 
+- (void) updateScreen;
+- (void) showKeyboard:(BOOL)d;
+
 @end

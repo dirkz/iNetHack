@@ -361,6 +361,7 @@ static NSString *expandInventoryLetters(NSString *lets) {
 
 char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 	NSLog(@"iphone_yn_function %s", question);
+	[[MainViewController instance] updateScreen];
 	if (!choices) {
 		NSString *s = [NSString stringWithCString:question];
 		if ([s containsString:@"direction"]) {
@@ -418,10 +419,13 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 				inventoryWindow.acceptMore       = NO;
 				return c;
 			} else {
-				NSLog(@"iphone_yn_function no preLets!");
 				// no preLets defined ([])
-				// todo crystal balls (orb of fate!) land here
-				return '?';
+				iphone_putstr(WIN_MESSAGE, ATR_NONE, question);
+				[[MainViewController instance] updateScreen];
+				[[MainViewController instance] showKeyboard:YES];
+				NethackEvent *e = [[[MainViewController instance] nethackEventQueue] waitForNextEvent];
+				[[MainViewController instance] showKeyboard:NO];
+				return e.key;
 			}
 		}
 	} else {
