@@ -472,7 +472,7 @@ void iphone_outrip(winid wid, int how) {
 #pragma mark options
 
 void iphone_init_options() {
-	flags.verbose = FALSE;
+	flags.verbose = TRUE;
 	iflags.use_color = TRUE;
 	iflags.runmode = RUN_STEP;
 	flags.toptenwin = TRUE;
