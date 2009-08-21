@@ -41,6 +41,8 @@
 #import "NSString+Regexp.h"
 #import "RoleSelectionController.h"
 
+#define kOptionDoubleTapSensitivity (@"doubleTapSensitivity")
+
 extern volatile boolean winiphone_clickable_tiles;
 
 static MainViewController *_instance;
@@ -94,6 +96,11 @@ static MainViewController *_instance;
 	clip = [[TilePosition alloc] init];
 	dmath = [[DMath alloc] init];
 
+	// read options
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	doubleTapSensitivity = [defaults floatForKey:kOptionDoubleTapSensitivity];
+	NSLog(@"doubleTapSensitivity %f", doubleTapSensitivity);
+	
 	NSThread *nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackLoop:) object:nil];
 	[nethackThread start];
 }
@@ -405,9 +412,14 @@ static MainViewController *_instance;
 	[touchInfoStore storeTouches:touches];
 	if (touches.count == 1) {
 		UITouch *touch = [touches anyObject];
+		NSLog(@"touchesBegan %x count %d timestamp %f", touch, touch.tapCount, touch.timestamp);
 		if (touch.tapCount == 2) {
 			TouchInfo *ti = [touchInfoStore touchInfoForTouch:touch];
+			NSTimeInterval touchDuration = touch.timestamp - touchInfoStore.singleTapTimestamp;
+			NSLog(@"touchDuration %f", touchDuration);
 			ti.doubleTap = YES;
+		} else {
+			touchInfoStore.singleTapTimestamp = touch.timestamp;
 		}
 		[self.view setNeedsDisplay];
 	} else if (touches.count == 2) {

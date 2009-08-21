@@ -8,6 +8,12 @@
 	<array>
 		<dict>
 			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Gameplay</string>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
 			<string>Username</string>
@@ -52,11 +58,37 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Reset Shortcuts Bar</string>
+			<string>Auto-Kick Doors</string>
 			<key>Key</key>
-			<string>resetShortcutsOnNextLaunch</string>
+			<string>autokick</string>
 			<key>DefaultValue</key>
 			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Show Time</string>
+			<key>Key</key>
+			<string>time</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Show XP</string>
+			<key>Key</key>
+			<string>showexp</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>UI</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
@@ -84,31 +116,31 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Auto-Kick Doors</string>
+			<string>Reset Shortcuts Bar</string>
 			<key>Key</key>
-			<string>autokick</string>
+			<string>resetShortcutsOnNextLaunch</string>
 			<key>DefaultValue</key>
 			<false/>
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
+			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>Show Time</string>
-			<key>Key</key>
-			<string>time</string>
-			<key>DefaultValue</key>
-			<true/>
+			<string>Double Tap Sensitivity</string>
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
+			<string>PSSliderSpecifier</string>
 			<key>Title</key>
-			<string>Show XP</string>
+			<string>Double Tap Sensitivity</string>
 			<key>Key</key>
-			<string>showexp</string>
+			<string>doubleTapSensitivity</string>
+			<key>MinimumValue</key>
+			<real>0.1</real>
+			<key>MaximumValue</key>
+			<real>1</real>
 			<key>DefaultValue</key>
-			<true/>
+			<real>0.5</real>
 		</dict>
 	</array>
 </dict>

@@ -68,6 +68,8 @@
 	
 	BOOL roleSelectionInProgress;
 	BOOL keyboardReturnShouldQueueEscape;
+	
+	NSTimeInterval doubleTapSensitivity;
 }
 
 @property (nonatomic, readonly) NSArray *windows;

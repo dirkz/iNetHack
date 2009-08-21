@@ -25,6 +25,8 @@
 
 @implementation TouchInfoStore
 
+@synthesize singleTapTimestamp;
+
 - (id) init {
 	if (self = [super init]) {
 		currentTouchInfos = [[NSMutableDictionary alloc] init];
