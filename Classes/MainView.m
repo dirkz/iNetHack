@@ -36,6 +36,13 @@ extern short glyph2tile[];
 
 @synthesize start, tileSize, dummyTextField, images;
 
++ (void) initialize {
+	NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	[[NSUserDefaults standardUserDefaults]
+	 registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:40] forKey:kKeyTileSize]];
+	[pool drain];
+}
+
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // Initialization code
@@ -58,7 +65,10 @@ extern short glyph2tile[];
 	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:tilesetName] tileSize:CGSizeMake(40,40)];
 	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
 
-	tileSize = maxTileSize = CGSizeMake(40,40);
+	// tileSize
+	maxTileSize = CGSizeMake(40,40);
+	float ts = [[NSUserDefaults standardUserDefaults] floatForKey:kKeyTileSize];
+	tileSize = CGSizeMake(ts,ts);
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
 	

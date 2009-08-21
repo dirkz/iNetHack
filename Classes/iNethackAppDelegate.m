@@ -23,6 +23,8 @@
 #import "iNethackAppDelegate.h"
 #import "MainViewController.h"
 #import "NethackEventQueue.h"
+#import "MainView.h"
+
 #include "hack.h"
 
 @implementation iNethackAppDelegate
@@ -38,6 +40,10 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
+	[[NSUserDefaults standardUserDefaults] setFloat:[(MainView *) [[MainViewController instance] view] tileSize].width
+											 forKey:kKeyTileSize];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	
 	if (![[MainViewController instance] roleSelectionInProgress]) {
 		dosave();
 	} else {

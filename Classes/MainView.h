@@ -24,6 +24,8 @@
 
 #import "hack.h"
 
+#define kKeyTileSize (@"tileSize")
+
 @class MainViewController, TilePosition, Window, TiledImages, ShortcutView;
 
 @interface MainView : UIView {
