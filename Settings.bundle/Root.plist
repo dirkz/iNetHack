@@ -136,11 +136,11 @@
 			<key>Key</key>
 			<string>doubleTapSensitivity</string>
 			<key>MinimumValue</key>
-			<real>0.1</real>
+			<real>0</real>
 			<key>MaximumValue</key>
-			<real>1</real>
+			<integer>1</integer>
 			<key>DefaultValue</key>
-			<real>0.5</real>
+			<integer>1</integer>
 		</dict>
 	</array>
 </dict>

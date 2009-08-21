@@ -412,12 +412,12 @@ static MainViewController *_instance;
 	[touchInfoStore storeTouches:touches];
 	if (touches.count == 1) {
 		UITouch *touch = [touches anyObject];
-		NSLog(@"touchesBegan %x count %d timestamp %f", touch, touch.tapCount, touch.timestamp);
 		if (touch.tapCount == 2) {
 			TouchInfo *ti = [touchInfoStore touchInfoForTouch:touch];
 			NSTimeInterval touchDuration = touch.timestamp - touchInfoStore.singleTapTimestamp;
-			NSLog(@"touchDuration %f", touchDuration);
-			ti.doubleTap = YES;
+			if (doubleTapSensitivity >= 1.0f || doubleTapSensitivity == 0 || touchDuration < doubleTapSensitivity) {
+				ti.doubleTap = YES;
+			}
 		} else {
 			touchInfoStore.singleTapTimestamp = touch.timestamp;
 		}
@@ -492,13 +492,47 @@ static MainViewController *_instance;
 		TouchInfo *ti = [touchInfoStore touchInfoForTouch:[touches anyObject]];
 		if (!ti.pinched && !ti.moved && !ti.doubleTap) {
 			UITouch *touch = [touches anyObject];
-			if (touch.tapCount == 1) {
-				CGPoint p = [touch locationInView:self.view];
-				TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
-				NethackEvent *lastEvent = nethackEventQueue.lastEvent;
-				// todo other events to check
-				if ([(MainView *) self.view isMoved] || lastEvent.key == ';' || winiphone_clickable_tiles) {
-					// tappable tiles
+			CGPoint p = [touch locationInView:self.view];
+			TilePosition *tp = [(MainView *) self.view tilePositionFromPoint:p];
+			NethackEvent *lastEvent = nethackEventQueue.lastEvent;
+			// todo other events to check
+			if ([(MainView *) self.view isMoved] || lastEvent.key == ';' || winiphone_clickable_tiles) {
+				// tappable tiles
+				lastSingleTapDelta.x = tp.x-u.ux;
+				lastSingleTapDelta.y = tp.y-u.uy;
+				NethackEvent *e = [[NethackEvent alloc] init];
+				e.x = tp.x;
+				e.y = tp.y;
+				e.key = 0;
+				[nethackEventQueue addNethackEvent:e];
+				[e release];
+				[(MainView *) self.view resetOffset];
+				[self.view setNeedsDisplay];
+			} else {
+				CGSize tileSize = CGSizeMake(40,40);
+				CGRect middleSquare = CGRectMake(self.view.bounds.size.width/2-tileSize.width/2,
+												 self.view.bounds.size.height/2-tileSize.height/2, 40, 40);
+				if (CGRectContainsPoint(middleSquare, p)) {
+					// tap on player (center) tile
+					lastSingleTapDelta.x = 0;
+					lastSingleTapDelta.y = 0;
+					NethackEvent *e = [[NethackEvent alloc] init];
+					e.x = tp.x;
+					e.y = tp.y;
+					e.key = 0;
+					[nethackEventQueue addNethackEvent:e];
+					[e release];
+					[(MainView *) self.view resetOffset];
+					[self.view setNeedsDisplay];
+				} else {
+					// direction based movement
+					CGPoint center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);
+					CGPoint pointDelta = CGPointMake(p.x-center.x, p.y-center.y);
+					pointDelta.y *= -1;
+					pointDelta = [DMath normalizedPoint:pointDelta];
+					dmathdirection dmdir = [dmath directionFromVector:pointDelta];
+					TilePosition *tp = [TilePosition tilePositionWithX:u.ux y:u.uy];
+					[self moveTilePosition:tp intoDMathDirection:dmdir];
 					lastSingleTapDelta.x = tp.x-u.ux;
 					lastSingleTapDelta.y = tp.y-u.uy;
 					NethackEvent *e = [[NethackEvent alloc] init];
@@ -509,42 +543,6 @@ static MainViewController *_instance;
 					[e release];
 					[(MainView *) self.view resetOffset];
 					[self.view setNeedsDisplay];
-				} else {
-					CGSize tileSize = CGSizeMake(40,40);
-					CGRect middleSquare = CGRectMake(self.view.bounds.size.width/2-tileSize.width/2,
-													 self.view.bounds.size.height/2-tileSize.height/2, 40, 40);
-					if (CGRectContainsPoint(middleSquare, p)) {
-						// tap on player (center) tile
-						lastSingleTapDelta.x = 0;
-						lastSingleTapDelta.y = 0;
-						NethackEvent *e = [[NethackEvent alloc] init];
-						e.x = tp.x;
-						e.y = tp.y;
-						e.key = 0;
-						[nethackEventQueue addNethackEvent:e];
-						[e release];
-						[(MainView *) self.view resetOffset];
-						[self.view setNeedsDisplay];
-					} else {
-						// direction based movement
-						CGPoint center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);
-						CGPoint pointDelta = CGPointMake(p.x-center.x, p.y-center.y);
-						pointDelta.y *= -1;
-						pointDelta = [DMath normalizedPoint:pointDelta];
-						dmathdirection dmdir = [dmath directionFromVector:pointDelta];
-						TilePosition *tp = [TilePosition tilePositionWithX:u.ux y:u.uy];
-						[self moveTilePosition:tp intoDMathDirection:dmdir];
-						lastSingleTapDelta.x = tp.x-u.ux;
-						lastSingleTapDelta.y = tp.y-u.uy;
-						NethackEvent *e = [[NethackEvent alloc] init];
-						e.x = tp.x;
-						e.y = tp.y;
-						e.key = 0;
-						[nethackEventQueue addNethackEvent:e];
-						[e release];
-						[(MainView *) self.view resetOffset];
-						[self.view setNeedsDisplay];
-					}
 				}
 			}
 		} else if (!ti.pinched && !ti.moved && ti.doubleTap) {
