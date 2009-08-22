@@ -27,6 +27,7 @@
 #import "MainView.h"
 #import "TiledImages.h"
 #import "NSString+Regexp.h"
+#import "TextInputViewController.h"
 
 extern short glyph2tile[];
 
@@ -75,19 +76,22 @@ extern short glyph2tile[];
 		[miParent release];
 		if (menuWindow.acceptBareHanded) {
 			any.a_int = '-';
-			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Hands (-)" glyph:kNoGlyph preselected:NO];
+			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Hands (-)"
+																glyph:kNoGlyph isMeta:YES preselected:NO];
 			[menuWindow addMenuItem:mi];
 			[mi release];
 		}
 		if (menuWindow.acceptMore) {
 			any.a_int = '*';
-			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"More (*)" glyph:kNoGlyph preselected:NO];
+			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"More (*)"
+																glyph:kNoGlyph isMeta:YES preselected:NO];
 			[menuWindow addMenuItem:mi];
 			[mi release];
 		}
 		if (menuWindow.acceptMoney) {
 			any.a_int = '$';
-			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Gold ($)" glyph:kNoGlyph preselected:NO];
+			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Gold ($)"
+																glyph:kNoGlyph isMeta:YES preselected:NO];
 			[menuWindow addMenuItem:mi];
 			[mi release];
 		}
@@ -103,6 +107,7 @@ extern short glyph2tile[];
 		self.navigationItem.rightBarButtonItem = nil;
 	}
 
+	itemWithAmountToSet = nil;
 	[self.tableView reloadData];
 }
 
@@ -127,7 +132,7 @@ extern short glyph2tile[];
 		menuWindow.menuList = malloc(sizeof(menu_item) * items.count);
 		for (int i = 0; i < items.count; ++i) {
 			NethackMenuItem *item = [items objectAtIndex:i];
-			menuWindow.menuList[i].count = -1;
+			menuWindow.menuList[i].count = item.amount;
 			menuWindow.menuList[i].item = item.identifier;
 		}
 	}
@@ -136,7 +141,7 @@ extern short glyph2tile[];
 
 #pragma mark UITableView delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NethackMenuItem *) nethackMenuItemAtIndexPath:(NSIndexPath *)indexPath {
 	int row = [indexPath row];
 	int section = [indexPath section];
 	NethackMenuItem *i = nil;
@@ -149,21 +154,78 @@ extern short glyph2tile[];
 		i = [menuWindow.menuItems objectAtIndex:section];
 		i = [i.children objectAtIndex:row];
 	}
+	return i;
+}
+
+- (void) finishPickOne:(NethackMenuItem *)i {
+	menuWindow.menuResult = 1;
+	menuWindow.menuList = malloc(sizeof(menu_item));
+	menuWindow.menuList->count = i.amount;
+	menuWindow.menuList->item = i.identifier;
+	[self.navigationController popToRootViewControllerAnimated:NO];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
 	if (menuWindow.menuHow == PICK_ANY) {
 		i.isSelected = !i.isSelected;
 		UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 		cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	} else {
-		menuWindow.menuResult = 1;
-		menuWindow.menuList = malloc(sizeof(menu_item));
-		menuWindow.menuList->count = -1;
-		menuWindow.menuList->item = i.identifier;
-		[self.navigationController popToRootViewControllerAnimated:NO];
+		[self finishPickOne:i];
 	}
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
 	[self tableView:tableView didSelectRowAtIndexPath:indexPath];
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (menuWindow.menuHow == PICK_NONE) {
+		return UITableViewCellEditingStyleNone;
+	} else {
+		NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
+		if (i.isTitle || i.isMeta) {
+			return UITableViewCellEditingStyleNone;
+		} else {
+			return UITableViewCellEditingStyleDelete;
+		}
+	}
+}
+
+- (void) setAmount:(TextInputViewController *)tic {
+	if (tic.text.length > 0) {
+		int a = tic.text.intValue;
+		if (a != 0) {
+			itemWithAmountToSet.amount = a;
+			if (menuWindow.menuHow == PICK_ANY) {
+				itemWithAmountToSet.isSelected = YES;
+				[tf reloadData];
+			} else if (menuWindow.menuHow == PICK_ONE) {
+				[self finishPickOne:itemWithAmountToSet];
+			}
+		}
+	}
+	itemWithAmountToSet = nil;
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+	// the reload cancels the delete
+	[tableView reloadData];
+	NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
+	if (!i.isTitle && !i.isMeta) {
+		itemWithAmountToSet = i;
+		/*
+		TextInputViewController *tic = [[MainViewController instance] textInputViewController];
+		tic.condition = nil;
+		tic.numerical = YES;
+		tic.prompt = @"How many?";
+		tic.text = @"1";
+		tic.target = self;
+		tic.action = @selector(setAmount:);
+		[self.navigationController pushViewController:tic animated:YES];
+		 */
+	}
 }
 
 #pragma mark UITableView datasource
@@ -177,6 +239,7 @@ extern short glyph2tile[];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	tf = tableView;
 	if (menuWindow.isShallowMenu) {
 		if (section != 0) {
 			NSLog(@"error in %s: section number in shallow menu!", __FUNCTION__);
@@ -199,18 +262,8 @@ extern short glyph2tile[];
 	if (!cell) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId] autorelease];
 	}
-	int row = [indexPath row];
-	int section = [indexPath section];
-	NethackMenuItem *i = nil;
-	if (menuWindow.isShallowMenu) {
-		if (section != 0) {
-			NSLog(@"error in %s: section number in shallow menu!", __FUNCTION__);
-		}
-		i = [menuWindow.menuItems objectAtIndex:row];
-	} else {
-		i = [menuWindow.menuItems objectAtIndex:section];
-		i = [i.children objectAtIndex:row];
-	}
+
+	NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
 
 	if (i.glyph != NO_GLYPH && i.glyph != kNoGlyph) {
 		MainView *view = (MainView *) [[MainViewController instance] view];
@@ -240,6 +293,11 @@ extern short glyph2tile[];
 	
 	cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSLog(@"commit editing");
 }
 
 @end

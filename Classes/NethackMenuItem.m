@@ -24,9 +24,9 @@
 
 @implementation NethackMenuItem
 
-@synthesize identifier, title, isTitle, children, isSelected, glyph;
+@synthesize identifier, title, isTitle, children, isSelected, glyph, isMeta, amount;
 
-- (id) initWithId:(const anything *)i title:(const char *)t glyph:(int)g preselected:(BOOL)p {
+- (id) initWithId:(const anything *)i title:(const char *)t glyph:(int)g isMeta:(BOOL)m preselected:(BOOL)p {
 	if (self = [super init]) {
 		identifier = *i;
 		if (!i->a_int) {
@@ -36,8 +36,14 @@
 		title = [[NSString alloc] initWithCString:t];
 		isSelected = p;
 		glyph = g;
+		self.isMeta = m;
+		amount = -1;
 	}
 	return self;
+}
+
+- (id) initWithId:(const anything *)i title:(const char *)t glyph:(int)g preselected:(BOOL)p {
+	return [self initWithId:i title:t glyph:g isMeta:NO preselected:p];
 }
 
 - (void) dealloc {

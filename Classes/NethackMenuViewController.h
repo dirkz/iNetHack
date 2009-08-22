@@ -24,12 +24,14 @@
 
 #define kMenuCancelled (-1)
 
-@class Window;
+@class Window, NethackMenuItem;
 
 @interface NethackMenuViewController : UITableViewController {
 	
 	Window *menuWindow;
 	BOOL selectAll;
+	NethackMenuItem *itemWithAmountToSet;
+	UITableView *tf;
 
 }
 
