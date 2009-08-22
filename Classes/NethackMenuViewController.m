@@ -122,14 +122,6 @@ extern short glyph2tile[];
 	}
 }
 
-- (void) finishPickOne:(NethackMenuItem *)i {
-	menuWindow.menuResult = 1;
-	menuWindow.menuList = malloc(sizeof(menu_item));
-	menuWindow.menuList->count = i.amount;
-	menuWindow.menuList->item = i.identifier;
-	[self.navigationController popToRootViewControllerAnimated:NO];
-}
-
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 	if (self.navigationController.topViewController != itemAmountViewController) {
@@ -166,6 +158,14 @@ extern short glyph2tile[];
 	return i;
 }
 
+- (void) finishPickOne:(NethackMenuItem *)i {
+	menuWindow.menuResult = 1;
+	menuWindow.menuList = malloc(sizeof(menu_item));
+	menuWindow.menuList->count = i.amount;
+	menuWindow.menuList->item = i.identifier;
+	[self.navigationController popToRootViewControllerAnimated:NO];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
 	if (menuWindow.menuHow == PICK_ANY) {
@@ -173,14 +173,16 @@ extern short glyph2tile[];
 		UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 		cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	} else {
-		int a = [i.title parseNetHackAmount];
+		[self finishPickOne:i];
+		/*
+		 int a = [i.title parseNetHackAmount];
 		if (a > 0) {
 			itemAmountViewController.nethackMenuItem = i;
 			itemAmountViewController.menuWindow = menuWindow;
 			[self.navigationController pushViewController:itemAmountViewController animated:YES];
 		} else {
-			[self finishPickOne:i];
 		}
+		 */
 	}
 }
 
