@@ -254,12 +254,12 @@ void iphone_end_menu(winid wid, const char *prompt) {
 	}
 }
 
-int iphone_select_menu(winid wid, int how, menu_item **menu_list) {
+int iphone_select_menu(winid wid, int how, menu_item **selected) {
 	//NSLog(@"iphone_select_menu %x", wid);
 	Window *w = [[MainViewController instance] windowWithId:wid];
 	w.menuHow = how;
 	[[MainViewController instance] displayMenuWindow:w];
-	*menu_list = w.menuList;
+	*selected = w.menuList;
 	//NSLog(@"iphone_select_menu -> %d", w.menuResult);
 	return w.menuResult;
 }
