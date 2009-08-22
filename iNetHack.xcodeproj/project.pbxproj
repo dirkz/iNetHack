@@ -38,6 +38,7 @@
 		43AE49100FFDE3620010A6F5 /* TextInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43AE490F0FFDE3620010A6F5 /* TextInputView.xib */; };
 		43AECC03100A03EE008B7BE6 /* TiledImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC02100A03EE008B7BE6 /* TiledImages.m */; };
 		43AECC7D100A0DB0008B7BE6 /* tile.c in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC7C100A0DB0008B7BE6 /* tile.c */; };
+		43AFFBE0103FDF4B00DCC8C1 /* NSString+NetHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */; };
 		43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0812A102ABE0B00D08BED /* TouchInfo.m */; };
 		43C0DD6C0FE79DFE00B63ED3 /* allmain.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD020FE79DFE00B63ED3 /* allmain.c */; };
 		43C0DD6D0FE79DFE00B63ED3 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD030FE79DFE00B63ED3 /* alloc.c */; };
@@ -372,6 +373,8 @@
 		43AECC01100A03EE008B7BE6 /* TiledImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiledImages.h; sourceTree = "<group>"; };
 		43AECC02100A03EE008B7BE6 /* TiledImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiledImages.m; sourceTree = "<group>"; };
 		43AECC7C100A0DB0008B7BE6 /* tile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tile.c; path = nethack/src/tile.c; sourceTree = "<group>"; };
+		43AFFBDE103FDF4B00DCC8C1 /* NSString+NetHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NetHack.h"; sourceTree = "<group>"; };
+		43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NetHack.m"; sourceTree = "<group>"; };
 		43B08129102ABE0B00D08BED /* TouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchInfo.h; sourceTree = "<group>"; };
 		43B0812A102ABE0B00D08BED /* TouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchInfo.m; sourceTree = "<group>"; };
 		43C0DD020FE79DFE00B63ED3 /* allmain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = allmain.c; path = nethack/src/allmain.c; sourceTree = "<group>"; };
@@ -835,6 +838,8 @@
 				43A7B06910302D880083CE1B /* DMath.m */,
 				9194B22A1032CADB009BDE61 /* RoleSelectionController.h */,
 				9194B22B1032CADB009BDE61 /* RoleSelectionController.m */,
+				43AFFBDE103FDF4B00DCC8C1 /* NSString+NetHack.h */,
+				43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1691,6 +1696,7 @@
 				431FE517102B3CE800B15149 /* NSString+Regexp.m in Sources */,
 				43A7B06A10302D880083CE1B /* DMath.m in Sources */,
 				9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */,
+				43AFFBE0103FDF4B00DCC8C1 /* NSString+NetHack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

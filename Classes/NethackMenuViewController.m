@@ -27,7 +27,7 @@
 #import "MainView.h"
 #import "TiledImages.h"
 #import "NSString+Regexp.h"
-#import "TextInputViewController.h"
+#import "NSString+NetHack.h"
 
 extern short glyph2tile[];
 
@@ -193,6 +193,7 @@ extern short glyph2tile[];
 	}
 }
 
+/*
 - (void) setAmount:(TextInputViewController *)tic {
 	if (tic.text.length > 0) {
 		int a = tic.text.intValue;
@@ -208,6 +209,7 @@ extern short glyph2tile[];
 	}
 	itemWithAmountToSet = nil;
 }
+ */
 
 - (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 	// the reload cancels the delete
@@ -275,15 +277,7 @@ extern short glyph2tile[];
 		cell.imageView.image = nil;
 	}
 	
-	NSArray *strings;
-	NSString *ws = [i.title substringBetweenDelimiters:@"()"];
-	if (ws && ws.length > 1) {
-		NSRange r = [i.title rangeOfString:ws];
-		strings = [NSArray arrayWithObjects:[i.title substringToIndex:r.location-2], ws, nil];
-	} else {
-		strings = [NSArray arrayWithObjects:i.title, nil];
-	}
-	
+	NSArray *strings = [i.title splitNetHackDetails];
 	cell.textLabel.text = [strings objectAtIndex:0];
 	if (strings.count == 2) {
 		cell.detailTextLabel.text = [strings objectAtIndex:1];
