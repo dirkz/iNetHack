@@ -28,4 +28,7 @@
 // splits the given string into title and detail string
 - (NSArray *) splitNetHackDetails;
 
+// tries to parse an item amount
+- (int) parseNetHackAmount;
+
 @end

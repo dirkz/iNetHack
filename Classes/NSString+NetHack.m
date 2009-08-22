@@ -37,4 +37,19 @@
 	return strings;
 }
 
+- (int) parseNetHackAmount {
+	int amount = -1;
+	NSRange r = [self rangeOfString:@" "];
+	if (r.location != NSNotFound) {
+		NSString *amountString = [self substringToIndex:r.location];
+		if (amountString.length > 0) {
+			amount = [amountString intValue];
+			if (amount == 0) {
+				amount = -1;
+			}
+		}
+	}
+	return amount;
+}
+
 @end

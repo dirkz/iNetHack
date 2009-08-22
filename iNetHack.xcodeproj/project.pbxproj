@@ -39,6 +39,8 @@
 		43AECC03100A03EE008B7BE6 /* TiledImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC02100A03EE008B7BE6 /* TiledImages.m */; };
 		43AECC7D100A0DB0008B7BE6 /* tile.c in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC7C100A0DB0008B7BE6 /* tile.c */; };
 		43AFFBE0103FDF4B00DCC8C1 /* NSString+NetHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */; };
+		43AFFC21103FE53500DCC8C1 /* ItemAmountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFC1F103FE53500DCC8C1 /* ItemAmountViewController.m */; };
+		43AFFC22103FE53500DCC8C1 /* ItemAmountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43AFFC20103FE53500DCC8C1 /* ItemAmountView.xib */; };
 		43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0812A102ABE0B00D08BED /* TouchInfo.m */; };
 		43C0DD6C0FE79DFE00B63ED3 /* allmain.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD020FE79DFE00B63ED3 /* allmain.c */; };
 		43C0DD6D0FE79DFE00B63ED3 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD030FE79DFE00B63ED3 /* alloc.c */; };
@@ -375,6 +377,9 @@
 		43AECC7C100A0DB0008B7BE6 /* tile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tile.c; path = nethack/src/tile.c; sourceTree = "<group>"; };
 		43AFFBDE103FDF4B00DCC8C1 /* NSString+NetHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NetHack.h"; sourceTree = "<group>"; };
 		43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NetHack.m"; sourceTree = "<group>"; };
+		43AFFC1E103FE53500DCC8C1 /* ItemAmountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemAmountViewController.h; sourceTree = "<group>"; };
+		43AFFC1F103FE53500DCC8C1 /* ItemAmountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemAmountViewController.m; sourceTree = "<group>"; };
+		43AFFC20103FE53500DCC8C1 /* ItemAmountView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ItemAmountView.xib; path = Classes/ItemAmountView.xib; sourceTree = "<group>"; };
 		43B08129102ABE0B00D08BED /* TouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchInfo.h; sourceTree = "<group>"; };
 		43B0812A102ABE0B00D08BED /* TouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchInfo.m; sourceTree = "<group>"; };
 		43C0DD020FE79DFE00B63ED3 /* allmain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = allmain.c; path = nethack/src/allmain.c; sourceTree = "<group>"; };
@@ -840,6 +845,8 @@
 				9194B22B1032CADB009BDE61 /* RoleSelectionController.m */,
 				43AFFBDE103FDF4B00DCC8C1 /* NSString+NetHack.h */,
 				43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */,
+				43AFFC1E103FE53500DCC8C1 /* ItemAmountViewController.h */,
+				43AFFC1F103FE53500DCC8C1 /* ItemAmountViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -891,6 +898,7 @@
 				43ACB5D70FFF4A9F005DB589 /* DirectionInputView.xib */,
 				439F0DD41001FECB0050AED4 /* MenuViewLeaf.xib */,
 				439F0ED3100210770050AED4 /* ExtendedCommandView.xib */,
+				43AFFC20103FE53500DCC8C1 /* ItemAmountView.xib */,
 				431FD067100B598200DC7260 /* Settings.bundle */,
 				916CE037102C57E8000535FC /* credits.html */,
 				435C0D7910342A490007613E /* manual.html */,
@@ -1551,6 +1559,7 @@
 				4394EB9810394C5F0053C8C2 /* chozo40.bmp in Resources */,
 				4394EB9910394C5F0053C8C2 /* chozo40b.bmp in Resources */,
 				4394EBA210394CCC0053C8C2 /* absurd40.bmp in Resources */,
+				43AFFC22103FE53500DCC8C1 /* ItemAmountView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1697,6 +1706,7 @@
 				43A7B06A10302D880083CE1B /* DMath.m in Sources */,
 				9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */,
 				43AFFBE0103FDF4B00DCC8C1 /* NSString+NetHack.m in Sources */,
+				43AFFC21103FE53500DCC8C1 /* ItemAmountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

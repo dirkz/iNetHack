@@ -28,6 +28,7 @@
 #import "TiledImages.h"
 #import "NSString+Regexp.h"
 #import "NSString+NetHack.h"
+#import "ItemAmountViewController.h"
 
 extern short glyph2tile[];
 
@@ -51,7 +52,6 @@ extern short glyph2tile[];
 
 - (void) selectAll:(id)sender {
 	UIBarButtonItem *bi = sender;
-
 	if (selectAll) {
 		bi.title = @"None";
 	} else {
@@ -107,7 +107,6 @@ extern short glyph2tile[];
 		self.navigationItem.rightBarButtonItem = nil;
 	}
 
-	itemWithAmountToSet = nil;
 	[self.tableView reloadData];
 }
 
@@ -123,20 +122,30 @@ extern short glyph2tile[];
 	}
 }
 
+- (void) finishPickOne:(NethackMenuItem *)i {
+	menuWindow.menuResult = 1;
+	menuWindow.menuList = malloc(sizeof(menu_item));
+	menuWindow.menuList->count = i.amount;
+	menuWindow.menuList->item = i.identifier;
+	[self.navigationController popToRootViewControllerAnimated:NO];
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	if (menuWindow.menuHow == PICK_ANY) {
-		NSMutableArray *items = [NSMutableArray array];
-		[self collectSelectedItems:menuWindow.menuItems into:items];
-		menuWindow.menuResult = items.count;
-		menuWindow.menuList = malloc(sizeof(menu_item) * items.count);
-		for (int i = 0; i < items.count; ++i) {
-			NethackMenuItem *item = [items objectAtIndex:i];
-			menuWindow.menuList[i].count = item.amount;
-			menuWindow.menuList[i].item = item.identifier;
+	if (self.navigationController.topViewController != itemAmountViewController) {
+		if (menuWindow.menuHow == PICK_ANY) {
+			NSMutableArray *items = [NSMutableArray array];
+			[self collectSelectedItems:menuWindow.menuItems into:items];
+			menuWindow.menuResult = items.count;
+			menuWindow.menuList = malloc(sizeof(menu_item) * items.count);
+			for (int i = 0; i < items.count; ++i) {
+				NethackMenuItem *item = [items objectAtIndex:i];
+				menuWindow.menuList[i].count = item.amount;
+				menuWindow.menuList[i].item = item.identifier;
+			}
 		}
+		[[MainViewController instance] broadcastUIEvent];
 	}
-	[[MainViewController instance] broadcastUIEvent];
 }
 
 #pragma mark UITableView delegate
@@ -157,14 +166,6 @@ extern short glyph2tile[];
 	return i;
 }
 
-- (void) finishPickOne:(NethackMenuItem *)i {
-	menuWindow.menuResult = 1;
-	menuWindow.menuList = malloc(sizeof(menu_item));
-	menuWindow.menuList->count = i.amount;
-	menuWindow.menuList->item = i.identifier;
-	[self.navigationController popToRootViewControllerAnimated:NO];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
 	if (menuWindow.menuHow == PICK_ANY) {
@@ -172,62 +173,19 @@ extern short glyph2tile[];
 		UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 		cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	} else {
-		[self finishPickOne:i];
+		int a = [i.title parseNetHackAmount];
+		if (a > 0) {
+			itemAmountViewController.nethackMenuItem = i;
+			itemAmountViewController.menuWindow = menuWindow;
+			[self.navigationController pushViewController:itemAmountViewController animated:YES];
+		} else {
+			[self finishPickOne:i];
+		}
 	}
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
 	[self tableView:tableView didSelectRowAtIndexPath:indexPath];
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (menuWindow.menuHow == PICK_NONE) {
-		return UITableViewCellEditingStyleNone;
-	} else {
-		NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
-		if (i.isTitle || i.isMeta) {
-			return UITableViewCellEditingStyleNone;
-		} else {
-			return UITableViewCellEditingStyleDelete;
-		}
-	}
-}
-
-/*
-- (void) setAmount:(TextInputViewController *)tic {
-	if (tic.text.length > 0) {
-		int a = tic.text.intValue;
-		if (a != 0) {
-			itemWithAmountToSet.amount = a;
-			if (menuWindow.menuHow == PICK_ANY) {
-				itemWithAmountToSet.isSelected = YES;
-				[tf reloadData];
-			} else if (menuWindow.menuHow == PICK_ONE) {
-				[self finishPickOne:itemWithAmountToSet];
-			}
-		}
-	}
-	itemWithAmountToSet = nil;
-}
- */
-
-- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-	// the reload cancels the delete
-	[tableView reloadData];
-	NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
-	if (!i.isTitle && !i.isMeta) {
-		itemWithAmountToSet = i;
-		/*
-		TextInputViewController *tic = [[MainViewController instance] textInputViewController];
-		tic.condition = nil;
-		tic.numerical = YES;
-		tic.prompt = @"How many?";
-		tic.text = @"1";
-		tic.target = self;
-		tic.action = @selector(setAmount:);
-		[self.navigationController pushViewController:tic animated:YES];
-		 */
-	}
 }
 
 #pragma mark UITableView datasource
@@ -287,11 +245,6 @@ extern short glyph2tile[];
 	
 	cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-forRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"commit editing");
 }
 
 @end

@@ -1,8 +1,8 @@
 //
-//  NethackMenuViewController.h
+//  ItemAmountViewController.h
 //  iNetHack
 //
-//  Created by dirk on 6/30/09.
+//  Created by dirk on 8/22/09.
 //  Copyright 2009 Dirk Zimmermann. All rights reserved.
 //
 
@@ -22,20 +22,23 @@
 
 #import <UIKit/UIKit.h>
 
-#define kMenuCancelled (-1)
+@class NethackMenuItem, Window;
 
-@class Window, NethackMenuItem, ItemAmountViewController;
+@interface ItemAmountViewController : UIViewController {
 
-@interface NethackMenuViewController : UITableViewController {
+	IBOutlet UIImageView *imageView;
+	IBOutlet UILabel *itemTextLabel;
+	IBOutlet UILabel *itemDetailTextLabel;
+	IBOutlet UILabel *amountTextLabel;
+	IBOutlet UISlider *amountSlider;
+	IBOutlet UIButton *dropButton;
 	
-	IBOutlet ItemAmountViewController *itemAmountViewController;
-	
+	NethackMenuItem *nethackMenuItem;
 	Window *menuWindow;
-	BOOL selectAll;
-	UITableView *tf;
-
+	
 }
 
+@property (nonatomic, assign) NethackMenuItem *nethackMenuItem;
 @property (nonatomic, assign) Window *menuWindow;
 
 @end
