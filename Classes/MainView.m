@@ -147,25 +147,22 @@
 }
 
 - (CGSize) drawStrings:(NSArray *)strings withSize:(CGSize)size atPoint:(CGPoint)p {
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+	
+	float white[] = {1,1,1,1};
+	float transparentBackground[] = {0,0,0,0.6f};
+	
 	CGSize total = CGSizeMake(size.width, 0);
-	UIColor *labelBackgroundColor = UIColor.blackColor;
-	UIColor *labelTextColor = UIColor.whiteColor;
 	CGRect backgroundRect = CGRectMake(p.x, p.y, size.width, size.height);
 	for (NSString *s in strings) {
-		backgroundRect.origin.x = p.x;
-		backgroundRect.origin.y = p.y;
-		UILabel *l = [[UILabel alloc] initWithFrame:backgroundRect];
-		l.adjustsFontSizeToFitWidth = YES;
-		l.alpha = 0.5f;
-		l.backgroundColor = labelBackgroundColor;
-		l.textColor = labelTextColor;
-		l.text = s;
-		l.font = statusFont;
-		[self addSubview:l];
-		[messageLabels addObject:l];
-		[l release];
-		p.y += backgroundRect.size.height;
-		total.height += backgroundRect.size.height;
+		UIFont *font = [self fontAndSize:&backgroundRect.size forString:s withFont:statusFont];
+		CGContextSetFillColor(ctx, transparentBackground);
+		CGRect backgroundRect = CGRectMake(p.x, p.y, backgroundRect.size.width, backgroundRect.size.height);
+		CGContextFillRect(ctx, backgroundRect);
+		CGContextSetFillColor(ctx, white);
+		CGSize tmp = [s drawAtPoint:p withFont:font];
+		p.y += tmp.height;
+		total.height += tmp.height;
 	}
 	return total;
 }
