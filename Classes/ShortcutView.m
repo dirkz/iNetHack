@@ -46,7 +46,7 @@ static Shortcut *ShortcutForIdentifier (NSString *identifier) {
 static const CGSize ShortcutTileSize  = { 40, 40 };
 
 #define TextColor        UIColor.whiteColor.CGColor
-#define BackgroundColor  UIColor.blackColor.CGColor
+#define BackgroundColor  UIColor.darkGrayColor.CGColor
 #define HighlightColor   UIColor.greenColor.CGColor
 
 @interface ShortcutLayer : CALayer

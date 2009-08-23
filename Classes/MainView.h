@@ -32,7 +32,6 @@
 
 	MainViewController *mainViewController;
 	UIFont *statusFont;
-	UIFont *flashMessageFont;
 	CGSize tileSize;
 	CGSize maxTileSize;
 	CGSize minTileSize;
@@ -46,6 +45,8 @@
 	ShortcutView *shortcutView;
 	
 	UIImage *petMark;
+	
+	NSMutableArray *messageLabels;
 
 }
 

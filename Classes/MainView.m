@@ -51,8 +51,7 @@ extern short glyph2tile[];
 }
 
 - (void) awakeFromNib {
-	statusFont = [UIFont systemFontOfSize:14];
-	flashMessageFont = [UIFont systemFontOfSize:24];
+	statusFont = [UIFont systemFontOfSize:16];
 	
 	// tileSize
 	maxTileSize = CGSizeMake(40,40);
@@ -80,6 +79,8 @@ extern short glyph2tile[];
 
 	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
 	[self addSubview:shortcutView];
+	
+	messageLabels = [[NSMutableArray alloc] init];
 }
 
 - (BOOL)canBecomeFirstResponder { return YES; }
@@ -97,7 +98,7 @@ extern short glyph2tile[];
 	
 	// subviews like direction input
 	for (UIView *v in self.subviews) {
-		if (v != shortcutView) {
+		if (v != shortcutView && ![messageLabels containsObject:v]) {
 			v.frame = self.frame;
 		}
 	}
@@ -149,6 +150,30 @@ extern short glyph2tile[];
 	}
 }
 
+- (CGSize) drawStrings:(NSArray *)strings withSize:(CGSize)size atPoint:(CGPoint)p {
+	CGSize total = CGSizeMake(size.width, 0);
+	UIColor *labelBackgroundColor = UIColor.blackColor;
+	UIColor *labelTextColor = UIColor.whiteColor;
+	CGRect backgroundRect = CGRectMake(p.x, p.y, size.width, size.height);
+	for (NSString *s in strings) {
+		backgroundRect.origin.x = p.x;
+		backgroundRect.origin.y = p.y;
+		UILabel *l = [[UILabel alloc] initWithFrame:backgroundRect];
+		l.adjustsFontSizeToFitWidth = YES;
+		l.alpha = 0.5f;
+		l.backgroundColor = labelBackgroundColor;
+		l.textColor = labelTextColor;
+		l.text = s;
+		l.font = statusFont;
+		[self addSubview:l];
+		[messageLabels addObject:l];
+		[l release];
+		p.y += backgroundRect.size.height;
+		total.height += backgroundRect.size.height;
+	}
+	return total;
+}
+
 - (void)drawRect:(CGRect)rect {
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	mainViewController = [MainViewController instance];
@@ -159,43 +184,22 @@ extern short glyph2tile[];
 		[self drawTiledMap:map inContext:ctx clipRect:rect];
 	}
 	
-	float white[] = {1,1,1,1};
-	float transparentBackground[] = {0,0,0,0.6f};
+	for (UILabel *l in messageLabels) {
+		[l removeFromSuperview];
+	}
+	[messageLabels removeAllObjects];
+	
 	CGSize statusSize;
+	CGPoint p = CGPointMake(0,0);
 	if (status) {
 		if (status.strings.count > 0) {
-			NSArray *strings = [NSArray arrayWithArray:status.strings];
-			CGContextSetStrokeColor(ctx, white);
-			CGPoint p = CGPointMake(0,0);
-			for (NSString *s in strings) {
-				CGSize backgroundRectSize;
-				UIFont *font = [self fontAndSize:&backgroundRectSize forString:s withFont:statusFont];
-				CGContextSetFillColor(ctx, transparentBackground);
-				CGRect backgroundRect = CGRectMake(p.x, p.y, backgroundRectSize.width, backgroundRectSize.height);
-				CGContextFillRect(ctx, backgroundRect);
-				CGContextSetFillColor(ctx, white);
-				CGSize tmp = [s drawAtPoint:p withFont:font];
-				p.y += tmp.height;
-				statusSize.height += tmp.height;
-			}
+			statusSize = [self drawStrings:[status.strings copy] withSize:CGSizeMake(self.bounds.size.width, 18) atPoint:p];
 		}
 	}
-	
 	if (message) {
-		if (message.strings.count > 0) {
-			CGPoint p = CGPointMake(0, statusSize.height);
-			NSArray *strings = [NSArray arrayWithArray:message.strings];
-			UIFont *font = [self fontAndSize:NULL forStrings:strings withFont:statusFont];
-			CGRect messageRect;
-			for (NSString *s in strings) {
-				CGSize stringSize = [s sizeWithFont:font];
-				CGContextSetFillColor(ctx, transparentBackground);
-				messageRect = CGRectMake(0, p.y, stringSize.width, stringSize.height);
-				CGContextFillRect(ctx, messageRect);
-				CGContextSetFillColor(ctx, white);
-				CGSize tmp = [s drawAtPoint:p withFont:font];
-				p.y += tmp.height;
-			}
+		p.y = statusSize.height;
+		if (status.strings.count > 0) {
+			statusSize = [self drawStrings:[message.strings copy] withSize:CGSizeMake(self.bounds.size.width, 18) atPoint:p];
 		}
 	}
 }
@@ -295,6 +299,7 @@ extern short glyph2tile[];
 	[images release];
 	[shortcutView release];
 	[petMark release];
+	[messageLabels release];
     [super dealloc];
 }
 
