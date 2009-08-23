@@ -54,17 +54,6 @@ extern short glyph2tile[];
 	statusFont = [UIFont systemFontOfSize:14];
 	flashMessageFont = [UIFont systemFontOfSize:24];
 	
-	// load tileset
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *tilesetName = [defaults objectForKey:kKeyTileset];
-	if (!tilesetName) {
-		NSLog(@"tileset nil");
-		tilesetName = @"chozo40b.bmp";
-	}
-	NSLog(@"tileset %@", tilesetName);
-	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:tilesetName] tileSize:CGSizeMake(40,40)];
-	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
-
 	// tileSize
 	maxTileSize = CGSizeMake(40,40);
 	float ts = [[NSUserDefaults standardUserDefaults] floatForKey:kKeyTileSize];
@@ -72,6 +61,23 @@ extern short glyph2tile[];
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
 	
+	// load tileset
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *tilesetName = [defaults objectForKey:kKeyTileset];
+	if (!tilesetName) {
+		tilesetName = @"chozo40b.bmp";
+	}
+	CGSize tilesetTileSize = CGSizeMake(40,40);
+	if ([tilesetName isEqualToString:@"nhtiles.bmp"]) {
+		tilesetTileSize = CGSizeMake(16,16);
+		maxTileSize = tilesetTileSize;
+		if (tileSize.width > 16) {
+			tileSize = CGSizeMake(16,16);
+		}
+	}
+	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:tilesetName] tileSize:tilesetTileSize];
+	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
+
 	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
 	[self addSubview:shortcutView];
 }

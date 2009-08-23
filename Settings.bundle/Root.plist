@@ -104,12 +104,14 @@
 				<string>Absurd</string>
 				<string>Abigaba Chozo</string>
 				<string>Abigaba Chozo B</string>
+				<string>Original (16x16)</string>
 			</array>
 			<key>Values</key>
 			<array>
 				<string>absurd40.bmp</string>
 				<string>chozo40.bmp</string>
 				<string>chozo40b.bmp</string>
+				<string>nhtiles.bmp</string>
 			</array>
 		</dict>
 		<dict>

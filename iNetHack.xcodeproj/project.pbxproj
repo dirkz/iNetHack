@@ -21,6 +21,7 @@
 		4394EB9810394C5F0053C8C2 /* chozo40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EB9610394C5F0053C8C2 /* chozo40.bmp */; };
 		4394EB9910394C5F0053C8C2 /* chozo40b.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EB9710394C5F0053C8C2 /* chozo40b.bmp */; };
 		4394EBA210394CCC0053C8C2 /* absurd40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EBA110394CCC0053C8C2 /* absurd40.bmp */; };
+		439AB8891041067B00D3F533 /* nhtiles.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 439AB8881041067B00D3F533 /* nhtiles.bmp */; };
 		439D6BB00FFE4B9600F60623 /* NethackEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BAF0FFE4B9600F60623 /* NethackEvent.m */; };
 		439D6BE10FFE4DC000F60623 /* NethackEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BE00FFE4DC000F60623 /* NethackEventQueue.m */; };
 		439F0DD51001FECB0050AED4 /* MenuViewLeaf.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439F0DD41001FECB0050AED4 /* MenuViewLeaf.xib */; };
@@ -348,6 +349,7 @@
 		4394EB9610394C5F0053C8C2 /* chozo40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40.bmp; sourceTree = "<group>"; };
 		4394EB9710394C5F0053C8C2 /* chozo40b.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40b.bmp; sourceTree = "<group>"; };
 		4394EBA110394CCC0053C8C2 /* absurd40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = absurd40.bmp; sourceTree = "<group>"; };
+		439AB8881041067B00D3F533 /* nhtiles.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = nhtiles.bmp; sourceTree = "<group>"; };
 		439D6BAE0FFE4B9600F60623 /* NethackEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NethackEvent.h; sourceTree = "<group>"; };
 		439D6BAF0FFE4B9600F60623 /* NethackEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NethackEvent.m; sourceTree = "<group>"; };
 		439D6BDF0FFE4DC000F60623 /* NethackEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NethackEventQueue.h; sourceTree = "<group>"; };
@@ -919,6 +921,7 @@
 		4394EB9510394C5F0053C8C2 /* Tilesets */ = {
 			isa = PBXGroup;
 			children = (
+				439AB8881041067B00D3F533 /* nhtiles.bmp */,
 				43A7B1C9103046EA0083CE1B /* petmark.png */,
 				4394EBA110394CCC0053C8C2 /* absurd40.bmp */,
 				4394EB9610394C5F0053C8C2 /* chozo40.bmp */,
@@ -1560,6 +1563,7 @@
 				4394EB9910394C5F0053C8C2 /* chozo40b.bmp in Resources */,
 				4394EBA210394CCC0053C8C2 /* absurd40.bmp in Resources */,
 				43AFFC22103FE53500DCC8C1 /* ItemAmountView.xib in Resources */,
+				439AB8891041067B00D3F533 /* nhtiles.bmp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -99,7 +99,6 @@ static MainViewController *_instance;
 	// read options
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	doubleTapSensitivity = [defaults floatForKey:kOptionDoubleTapSensitivity];
-	NSLog(@"doubleTapSensitivity %f", doubleTapSensitivity);
 	
 	NSThread *nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackLoop:) object:nil];
 	[nethackThread start];
