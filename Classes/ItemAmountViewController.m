@@ -22,7 +22,6 @@
 
 #import "ItemAmountViewController.h"
 #import "NethackMenuItem.h"
-#import "MainView.h"
 #import "MainViewController.h"
 #import "Window.h"
 #import "TiledImages.h"
@@ -87,10 +86,7 @@ extern short glyph2tile[];
 	 [bi release];
 	*/
 	if (nethackMenuItem.glyph != NO_GLYPH && nethackMenuItem.glyph != kNoGlyph) {
-		MainView *view = (MainView *) [[MainViewController instance] view];
-		int t = glyph2tile[nethackMenuItem.glyph];
-		CGImageRef img = [view.images imageAt:t];
-		UIImage *uiImg = [UIImage imageWithCGImage:img];
+		UIImage *uiImg = [UIImage imageWithCGImage:[[TiledImages instance] imageForGlyph:nethackMenuItem.glyph]];
 		imageView.image = uiImg;
 	} else {
 		imageView.image = nil;

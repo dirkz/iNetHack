@@ -30,8 +30,6 @@
 
 #define kKeyTileset (@"tileset")
 
-extern short glyph2tile[];
-
 @implementation MainView
 
 @synthesize start, tileSize, dummyTextField, images;
@@ -137,9 +135,7 @@ extern short glyph2tile[];
 				 */
 				CGRect r = CGRectMake(start.x+i*tileSize.width, start.y+j*tileSize.height, tileSize.width, tileSize.height);
 				if (CGRectIntersectsRect(clipRect, r)) {
-					int t = glyph2tile[glyph];
-					CGImageRef img = [images imageAt:t];
-					UIImage *i = [UIImage imageWithCGImage:img];
+					UIImage *i = [UIImage imageWithCGImage:[images imageForGlyph:glyph]];
 					[i drawInRect:r];
 					if (glyph_is_pet(glyph)) {
 						[petMark drawInRect:r];

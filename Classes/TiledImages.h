@@ -31,7 +31,11 @@
 
 }
 
++ (id) instance;
++ (int) glyphToTileIndex:(int)g;
+
 - (id) initWithImage:(UIImage *)image tileSize:(CGSize)ts;
 - (CGImageRef) imageAt:(int)i;
+- (CGImageRef) imageForGlyph:(int)g;
 
 @end

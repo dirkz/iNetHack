@@ -22,8 +22,19 @@
 
 #import "TiledImages.h"
 
+extern short glyph2tile[];
+
+static TiledImages *_instance;
 
 @implementation TiledImages
+
++ (id) instance {
+	return _instance;
+}
+
++ (int) glyphToTileIndex:(int)g {
+	return glyph2tile[g];
+}
 
 - (id) initWithImage:(UIImage *)image tileSize:(CGSize)ts {
 	if (self = [super init]) {
@@ -40,12 +51,17 @@
 				images[index++] = CGImageRetain(CGImageCreateWithImageInRect(base, r));
 			}
 		}
+		_instance = self;
 	}
 	return self;
 }
 
 - (CGImageRef) imageAt:(int)i {
 	return images[i];
+}
+
+- (CGImageRef) imageForGlyph:(int)g {
+	return [self imageAt:[TiledImages glyphToTileIndex:g]];
 }
 
 - (void) dealloc {
