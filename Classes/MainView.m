@@ -271,7 +271,8 @@ extern short glyph2tile[];
 	d /= 5;
 	CGSize originalSize = tileSize;
 	tileSize.width += d;
-	tileSize.height += d;
+	tileSize.width = round(tileSize.width);
+	tileSize.height = tileSize.width;
 	if (tileSize.width > maxTileSize.width) {
 		tileSize = maxTileSize;
 	} else if (tileSize.width < minTileSize.width) {
