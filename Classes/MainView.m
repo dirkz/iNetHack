@@ -135,9 +135,28 @@
 				 */
 				CGRect r = CGRectMake(start.x+i*tileSize.width, start.y+j*tileSize.height, tileSize.width, tileSize.height);
 				if (CGRectIntersectsRect(clipRect, r)) {
-					UIImage *i = [UIImage imageWithCGImage:[images imageForGlyph:glyph]];
-					[i drawInRect:r];
-					if (glyph_is_pet(glyph)) {
+					UIImage *img = [UIImage imageWithCGImage:[images imageForGlyph:glyph]];
+					[img drawInRect:r];
+					if (u.ux == i && u.uy == j) {
+						// hp100 calculation from qt_win.cpp
+						int hp100;
+						if (u.mtimedone) {
+							hp100 = u.mhmax ? u.mh*100/u.mhmax : 100;
+						} else {
+							hp100 = u.uhpmax ? u.uhp*100/u.uhpmax : 100;
+						}
+						const static float colorValue = 0.7f;
+						float playerRectColor[] = {colorValue, 0, 0, 0.5f};
+						if (hp100 > 75) {
+							playerRectColor[0] = 0;
+							playerRectColor[1] = colorValue;
+						} else if (hp100 > 50) {
+							playerRectColor[0] = 0;
+							playerRectColor[1] = playerRectColor[2] = colorValue;
+						}
+						CGContextSetStrokeColor(ctx, playerRectColor);
+						CGContextStrokeRect(ctx, r);
+					} else if (glyph_is_pet(glyph)) {
 						[petMark drawInRect:r];
 					}
 				}
