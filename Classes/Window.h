@@ -55,8 +55,6 @@
 	BOOL acceptBareHanded;
 	BOOL acceptMore;
 	BOOL acceptMoney;
-	
-	BOOL dirty;
 }
 
 @property (nonatomic, readonly) int type;
@@ -77,8 +75,6 @@
 @property (nonatomic, assign) BOOL acceptBareHanded;
 @property (nonatomic, assign) BOOL acceptMore;
 @property (nonatomic, assign) BOOL acceptMoney;
-
-@property (nonatomic, assign) BOOL dirty;
 
 - (id) initWithType:(int)t;
 - (int) glyphAtX:(int)x y:(int)y;

@@ -421,7 +421,7 @@ static MainViewController *_instance;
 		} else {
 			touchInfoStore.singleTapTimestamp = touch.timestamp;
 		}
-		[self.view setNeedsDisplay];
+		//[self.view setNeedsDisplay];
 	} else if (touches.count == 2) {
 		NSArray *allTouches = [touches allObjects];
 		UITouch *t1 = [allTouches objectAtIndex:0];
@@ -507,7 +507,7 @@ static MainViewController *_instance;
 				[nethackEventQueue addNethackEvent:e];
 				[e release];
 				[(MainView *) self.view resetOffset];
-				[self.view setNeedsDisplay];
+				//[self.view setNeedsDisplay];
 			} else {
 				CGSize tileSize = CGSizeMake(40,40);
 				CGRect middleSquare = CGRectMake(self.view.bounds.size.width/2-tileSize.width/2,
@@ -523,7 +523,7 @@ static MainViewController *_instance;
 					[nethackEventQueue addNethackEvent:e];
 					[e release];
 					[(MainView *) self.view resetOffset];
-					[self.view setNeedsDisplay];
+					//[self.view setNeedsDisplay];
 				} else {
 					// direction based movement
 					CGPoint center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);
@@ -542,7 +542,7 @@ static MainViewController *_instance;
 					[nethackEventQueue addNethackEvent:e];
 					[e release];
 					[(MainView *) self.view resetOffset];
-					[self.view setNeedsDisplay];
+					//[self.view setNeedsDisplay];
 				}
 			}
 		} else if (!ti.pinched && !ti.moved && ti.doubleTap) {
@@ -587,7 +587,7 @@ static MainViewController *_instance;
 			[uiCondition wait];
 			[uiCondition unlock];
 		}
-	} else if (w.type == NHW_MAP) {
+	} else if (w.type == NHW_MAP || w.type == NHW_MESSAGE) {
 		[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
 	}
 }
