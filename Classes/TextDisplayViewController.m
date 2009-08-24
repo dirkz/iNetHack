@@ -53,9 +53,11 @@
 	return YES;
 }
 
-- (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request
+ navigationType:(UIWebViewNavigationType)navigationType
 {
-	if ([[NSArray arrayWithObjects:@"http", @"https", nil] containsObject:request.URL.scheme] && navigationType == UIWebViewNavigationTypeLinkClicked) {
+	if ([[NSArray arrayWithObjects:@"http", @"https", nil] containsObject:request.URL.scheme]
+		&& navigationType == UIWebViewNavigationTypeLinkClicked) {
 		// Open clicked http links in Safari
 		[[UIApplication sharedApplication] openURL:request.URL];
 		return NO;
