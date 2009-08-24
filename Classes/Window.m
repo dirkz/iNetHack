@@ -141,6 +141,10 @@
 	}
 }
 
+- (void) clearMessages {
+	[strings removeAllObjects];
+}
+
 - (void) dealloc {
 	free(glyphs);
 	[strings release];

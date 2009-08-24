@@ -213,6 +213,7 @@ static MainViewController *_instance;
 		}
 		text = [NSString stringWithFormat:@"%@%@", text, s];
 	}
+	[self.messageWindow clearMessages];
 	[self displayText:text withCondition:nil];
 }
 

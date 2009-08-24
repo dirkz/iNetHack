@@ -84,5 +84,6 @@
 - (void) startMenu;
 - (void) addMenuItem:(NethackMenuItem *)item;
 - (void) addLogString:(NSString *)s;
+- (void) clearMessages;
 
 @end
