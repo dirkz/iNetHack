@@ -151,8 +151,8 @@
 							playerRectColor[0] = 0;
 							playerRectColor[1] = colorValue;
 						} else if (hp100 > 50) {
-							playerRectColor[0] = 0;
-							playerRectColor[1] = playerRectColor[2] = colorValue;
+							playerRectColor[2] = 0;
+							playerRectColor[0] = playerRectColor[1] = colorValue;
 						}
 						CGContextSetStrokeColor(ctx, playerRectColor);
 						CGContextStrokeRect(ctx, r);
