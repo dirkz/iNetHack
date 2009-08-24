@@ -8,11 +8,11 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="15"/>
 			<integer value="19"/>
+			<integer value="10"/>
 			<integer value="17"/>
 			<integer value="1"/>
-			<integer value="10"/>
-			<integer value="15"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -69,6 +69,7 @@
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MCAwIDAAA</bytes>
 				</object>
+				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				<int key="IBUIContentMode">3</int>
 				<bool key="IBUIMultipleTouchEnabled">YES</bool>
 			</object>
@@ -238,7 +239,7 @@
 					<string>{{-958, 376}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>NethackMenuViewController</string>
-					<string>{{-958, 376}, {320, 480}}</string>
+					<string>{{-943, 479}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>TextInputViewController</string>
@@ -302,6 +303,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>amountSlider</string>
 							<string>amountTextLabel</string>
+							<string>dropButton</string>
 							<string>imageView</string>
 							<string>itemDetailTextLabel</string>
 							<string>itemTextLabel</string>
@@ -310,6 +312,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UISlider</string>
 							<string>UILabel</string>
+							<string>UIButton</string>
 							<string>UIImageView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>

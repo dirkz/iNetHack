@@ -47,6 +47,8 @@
 	UIImage *petMark;
 	
 	NSMutableArray *messageLabels;
+	
+	BOOL dirty;
 
 }
 

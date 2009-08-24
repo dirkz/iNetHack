@@ -79,6 +79,8 @@
 	[self addSubview:shortcutView];
 	
 	messageLabels = [[NSMutableArray alloc] init];
+
+	dirty = YES;
 }
 
 - (BOOL)canBecomeFirstResponder { return YES; }
@@ -186,14 +188,26 @@
 	return total;
 }
 
+- (void)setNeedsDisplay {
+	mainViewController = [MainViewController instance];
+	Window *map = mainViewController.mapWindow;
+	Window *status = mainViewController.statusWindow;
+	Window *message = mainViewController.messageWindow;
+	if (dirty || (map && map.dirty) || (status && status.dirty) || (message && message.dirty)) {
+		[super setNeedsDisplay];
+	}
+}
+
 - (void)drawRect:(CGRect)rect {
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	mainViewController = [MainViewController instance];
 	Window *map = mainViewController.mapWindow;
 	Window *status = mainViewController.statusWindow;
 	Window *message = mainViewController.messageWindow;
+	
 	if (map) {
 		[self drawTiledMap:map inContext:ctx clipRect:rect];
+		map.dirty = NO;
 	}
 	
 	for (UILabel *l in messageLabels) {
@@ -205,13 +219,17 @@
 	CGPoint p = CGPointMake(0,0);
 	if (status) {
 		if (status.strings.count > 0) {
-			statusSize = [self drawStrings:[status.strings copy] withSize:CGSizeMake(self.bounds.size.width, 18) atPoint:p];
+			status.dirty = NO;
+			statusSize = [self drawStrings:[status.strings copy] withSize:CGSizeMake(self.bounds.size.width, 18)
+								   atPoint:p];
 		}
 	}
 	if (message) {
 		p.y = statusSize.height;
 		if (status.strings.count > 0) {
-			statusSize = [self drawStrings:[message.strings copy] withSize:CGSizeMake(self.bounds.size.width, 18) atPoint:p];
+			message.dirty = NO;
+			statusSize = [self drawStrings:[message.strings copy] withSize:CGSizeMake(self.bounds.size.width, 18)
+								   atPoint:p];
 		}
 	}
 }
@@ -275,15 +293,18 @@
 }
 
 - (void) moveAlongVector:(CGPoint)d {
+	dirty = YES;
 	offset.x += d.x;
 	offset.y += d.y;
 }
 
 - (void) resetOffset {
+	dirty = YES;
 	offset = CGPointMake(0,0);
 }
 
 - (void) zoom:(CGFloat)d {
+	dirty = YES;
 	d /= 5;
 	CGSize originalSize = tileSize;
 	tileSize.width += d;

@@ -26,8 +26,10 @@
 
 @implementation Window
 
-@synthesize type, curx, cury, width, height, strings, menuItems, menuPrompt, isShallowMenu, menuHow, menuList, menuResult, log;
+@synthesize type, curx, cury, width, height, strings, menuItems, menuPrompt;
+@synthesize isShallowMenu, menuHow, menuList, menuResult, log;
 @synthesize acceptBareHanded, acceptMore, acceptMoney;
+@synthesize dirty;
 
 - (id) initWithType:(winid)t {
 	if (self = [super init]) {
@@ -71,10 +73,12 @@
 }
 
 - (void) setGlyph:(int)g atX:(int)x y:(int)y {
+	dirty = YES;
 	glyphs[width * y + x] = g;
 }
 
 - (void) clear {
+	dirty = YES;
 	for (int j = 0; j < height; ++j) {
 		for (int i = 0; i < width; ++i) {
 			[self setGlyph:kNoGlyph atX:i y:j];
@@ -84,6 +88,7 @@
 }
 
 - (void) putString:(const char *)s {
+	dirty = YES;
 	NSString *str = [NSString stringWithCString:s];
 	if (type == NHW_STATUS && strings.count == 2) {
 		[strings removeAllObjects];
@@ -113,6 +118,7 @@
 }
 
 - (void) addMenuItem:(NethackMenuItem *)item {
+	dirty = YES;
 	if (menuItems.count == 0) {
 		if (item.isTitle) {
 			isShallowMenu = NO;
@@ -142,6 +148,7 @@
 }
 
 - (void) clearMessages {
+	dirty = YES;
 	[strings removeAllObjects];
 }
 
