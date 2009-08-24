@@ -27,6 +27,7 @@
 #import "TileSet.h"
 #import "ShortcutView.h"
 #import "Shortcut.h"
+#import "AsciiTileSet.h"
 
 #define kKeyTileset (@"tileset")
 
@@ -62,17 +63,23 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *tilesetName = [defaults objectForKey:kKeyTileset];
 	if (!tilesetName) {
-		tilesetName = @"chozo40b.bmp";
+		tilesetName = @"chozo40b";
 	}
 	CGSize tilesetTileSize = CGSizeMake(40,40);
-	if ([tilesetName isEqualToString:@"nhtiles.bmp"]) {
+	if ([tilesetName isEqualToString:@"nhtiles"]) {
 		tilesetTileSize = CGSizeMake(16,16);
 		maxTileSize = tilesetTileSize;
 		if (tileSize.width > 16) {
 			tileSize = CGSizeMake(16,16);
 		}
+		NSString *imgName = [NSString stringWithFormat:@"%@.bmp", tilesetName];
+		tileSet = [[TileSet alloc] initWithImage:[UIImage imageNamed:imgName] tileSize:tilesetTileSize];
+	} else if ([tilesetName isEqualToString:@"ascii"]) {
+		tileSet = [[AsciiTileSet alloc] initWithTileSize:tilesetTileSize];
+	} else {
+		NSString *imgName = [NSString stringWithFormat:@"%@.bmp", tilesetName];
+		tileSet = [[TileSet alloc] initWithImage:[UIImage imageNamed:imgName] tileSize:tilesetTileSize];
 	}
-	tileSet = [[TileSet alloc] initWithImage:[UIImage imageNamed:tilesetName] tileSize:tilesetTileSize];
 	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
 
 	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
@@ -108,7 +115,8 @@
 
 #pragma mark drawing
 
-- (void) drawTiledMap:(Window *)map inContext:(CGContextRef)ctx clipRect:(CGRect)clipRect {
+- (void) drawTiledMap:(Window *)map clipRect:(CGRect)clipRect {
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	CGPoint center = CGPointMake(self.bounds.size.width/2-tileSize.width/2, self.bounds.size.height/2-tileSize.height/2);
 	
 	start = CGPointMake(-mainViewController.clip.x*tileSize.width + center.x + offset.x,
@@ -189,14 +197,13 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	mainViewController = [MainViewController instance];
 	Window *map = mainViewController.mapWindow;
 	Window *status = mainViewController.statusWindow;
 	Window *message = mainViewController.messageWindow;
 	
 	if (map) {
-		[self drawTiledMap:map inContext:ctx clipRect:rect];
+		[self drawTiledMap:map clipRect:rect];
 	}
 	
 	for (UILabel *l in messageLabels) {

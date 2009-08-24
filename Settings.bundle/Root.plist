@@ -105,13 +105,15 @@
 				<string>Abigaba Chozo</string>
 				<string>Abigaba Chozo B</string>
 				<string>Original (16x16)</string>
+				<string>ASCII</string>
 			</array>
 			<key>Values</key>
 			<array>
-				<string>absurd40.bmp</string>
-				<string>chozo40.bmp</string>
-				<string>chozo40b.bmp</string>
-				<string>nhtiles.bmp</string>
+				<string>absurd40</string>
+				<string>chozo40</string>
+				<string>chozo40b</string>
+				<string>nhtiles</string>
+				<string>ascii</string>
 			</array>
 		</dict>
 		<dict>

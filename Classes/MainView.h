@@ -58,7 +58,7 @@
 @property (nonatomic, readonly) BOOL isMoved;
 @property (nonatomic, readonly) TileSet *tileSet;
 
-- (void) drawTiledMap:(Window *)map inContext:(CGContextRef)ctx clipRect:(CGRect)clipRect;
+- (void) drawTiledMap:(Window *)map clipRect:(CGRect)clipRect;
 - (UIFont *) fontAndSize:(CGSize *)size forStrings:(NSArray *)strings withFont:(UIFont *)font;
 - (UIFont *) fontAndSize:(CGSize *)size forString:(NSString *)s withFont:(UIFont *)font;
 - (TilePosition *) tilePositionFromPoint:(CGPoint)p;

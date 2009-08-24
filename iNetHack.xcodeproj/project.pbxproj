@@ -18,6 +18,7 @@
 		431FE517102B3CE800B15149 /* NSString+Regexp.m in Sources */ = {isa = PBXBuildFile; fileRef = 431FE516102B3CE800B15149 /* NSString+Regexp.m */; };
 		4325C35C1035FC3F00653E8A /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4325C35B1035FC3F00653E8A /* Entitlements.plist */; };
 		435C0D7A10342A490007613E /* manual.html in Resources */ = {isa = PBXBuildFile; fileRef = 435C0D7910342A490007613E /* manual.html */; };
+		43753C96104307DB0021BFC5 /* AsciiTileSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 43753C95104307DB0021BFC5 /* AsciiTileSet.m */; };
 		4394EB9810394C5F0053C8C2 /* chozo40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EB9610394C5F0053C8C2 /* chozo40.bmp */; };
 		4394EB9910394C5F0053C8C2 /* chozo40b.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EB9710394C5F0053C8C2 /* chozo40b.bmp */; };
 		4394EBA210394CCC0053C8C2 /* absurd40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EBA110394CCC0053C8C2 /* absurd40.bmp */; };
@@ -346,6 +347,8 @@
 		431FE516102B3CE800B15149 /* NSString+Regexp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regexp.m"; sourceTree = "<group>"; };
 		4325C35B1035FC3F00653E8A /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		435C0D7910342A490007613E /* manual.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = manual.html; sourceTree = "<group>"; };
+		43753C94104307DB0021BFC5 /* AsciiTileSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsciiTileSet.h; sourceTree = "<group>"; };
+		43753C95104307DB0021BFC5 /* AsciiTileSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsciiTileSet.m; sourceTree = "<group>"; };
 		4394EB9610394C5F0053C8C2 /* chozo40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40.bmp; sourceTree = "<group>"; };
 		4394EB9710394C5F0053C8C2 /* chozo40b.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40b.bmp; sourceTree = "<group>"; };
 		4394EBA110394CCC0053C8C2 /* absurd40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = absurd40.bmp; sourceTree = "<group>"; };
@@ -829,10 +832,16 @@
 				439F0ED1100210690050AED4 /* ExtendedCommandViewController.m */,
 				43D113CD1007491700082C8D /* TextDisplayViewController.h */,
 				43D113CE1007491700082C8D /* TextDisplayViewController.m */,
+				9194B22A1032CADB009BDE61 /* RoleSelectionController.h */,
+				9194B22B1032CADB009BDE61 /* RoleSelectionController.m */,
+				43AFFC1E103FE53500DCC8C1 /* ItemAmountViewController.h */,
+				43AFFC1F103FE53500DCC8C1 /* ItemAmountViewController.m */,
 				43D1149210075A0A00082C8D /* TilePosition.h */,
 				43D1149310075A0A00082C8D /* TilePosition.m */,
 				43AECC01100A03EE008B7BE6 /* TileSet.h */,
 				43AECC02100A03EE008B7BE6 /* TileSet.m */,
+				43753C94104307DB0021BFC5 /* AsciiTileSet.h */,
+				43753C95104307DB0021BFC5 /* AsciiTileSet.m */,
 				43A1879B100C9129001BDB88 /* Shortcut.h */,
 				43A1879C100C9129001BDB88 /* Shortcut.m */,
 				43B08129102ABE0B00D08BED /* TouchInfo.h */,
@@ -843,12 +852,8 @@
 				431FE516102B3CE800B15149 /* NSString+Regexp.m */,
 				43A7B06810302D880083CE1B /* DMath.h */,
 				43A7B06910302D880083CE1B /* DMath.m */,
-				9194B22A1032CADB009BDE61 /* RoleSelectionController.h */,
-				9194B22B1032CADB009BDE61 /* RoleSelectionController.m */,
 				43AFFBDE103FDF4B00DCC8C1 /* NSString+NetHack.h */,
 				43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */,
-				43AFFC1E103FE53500DCC8C1 /* ItemAmountViewController.h */,
-				43AFFC1F103FE53500DCC8C1 /* ItemAmountViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1711,6 +1716,7 @@
 				9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */,
 				43AFFBE0103FDF4B00DCC8C1 /* NSString+NetHack.m in Sources */,
 				43AFFC21103FE53500DCC8C1 /* ItemAmountViewController.m in Sources */,
+				43753C96104307DB0021BFC5 /* AsciiTileSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
