@@ -26,7 +26,7 @@
 
 #define kKeyTileSize (@"tileSize")
 
-@class MainViewController, TilePosition, Window, TiledImages, ShortcutView;
+@class MainViewController, TilePosition, Window, TileSet, ShortcutView;
 
 @interface MainView : UIView {
 
@@ -39,7 +39,7 @@
 	IBOutlet UITextField *dummyTextField;
 
 	BOOL tiled;
-	TiledImages *images;
+	TileSet *tileSet;
 	
 	CGPoint offset;
 	ShortcutView *shortcutView;
@@ -54,7 +54,7 @@
 @property (nonatomic, readonly) CGSize tileSize;
 @property (nonatomic, readonly) IBOutlet UITextField *dummyTextField;
 @property (nonatomic, readonly) BOOL isMoved;
-@property (nonatomic, readonly) TiledImages *images;
+@property (nonatomic, readonly) TileSet *tileSet;
 
 - (void) drawTiledMap:(Window *)map inContext:(CGContextRef)ctx clipRect:(CGRect)clipRect;
 - (UIFont *) fontAndSize:(CGSize *)size forStrings:(NSArray *)strings withFont:(UIFont *)font;

@@ -24,7 +24,7 @@
 #import "NethackMenuItem.h"
 #import "MainViewController.h"
 #import "Window.h"
-#import "TiledImages.h"
+#import "TileSet.h"
 #import "NSString+NetHack.h"
 
 extern short glyph2tile[];
@@ -86,7 +86,7 @@ extern short glyph2tile[];
 	 [bi release];
 	*/
 	if (nethackMenuItem.glyph != NO_GLYPH && nethackMenuItem.glyph != kNoGlyph) {
-		UIImage *uiImg = [UIImage imageWithCGImage:[[TiledImages instance] imageForGlyph:nethackMenuItem.glyph]];
+		UIImage *uiImg = [UIImage imageWithCGImage:[[TileSet instance] imageForGlyph:nethackMenuItem.glyph]];
 		imageView.image = uiImg;
 	} else {
 		imageView.image = nil;

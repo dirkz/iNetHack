@@ -1,5 +1,5 @@
 //
-//  TiledImages.h
+//  TileSet.h
 //  iNetHack
 //
 //  Created by dirk on 7/12/09.
@@ -22,8 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface TiledImages : NSObject {
+@interface TileSet : NSObject {
 	
 	CGSize tileSize;
 	CGImageRef *images;

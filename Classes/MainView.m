@@ -24,7 +24,7 @@
 #import "MainViewController.h"
 #import "Window.h"
 #import "TilePosition.h"
-#import "TiledImages.h"
+#import "TileSet.h"
 #import "ShortcutView.h"
 #import "Shortcut.h"
 
@@ -32,7 +32,7 @@
 
 @implementation MainView
 
-@synthesize start, tileSize, dummyTextField, images;
+@synthesize start, tileSize, dummyTextField, tileSet;
 
 + (void) initialize {
 	NSAutoreleasePool* pool = [NSAutoreleasePool new];
@@ -72,7 +72,7 @@
 			tileSize = CGSizeMake(16,16);
 		}
 	}
-	images = [[TiledImages alloc] initWithImage:[UIImage imageNamed:tilesetName] tileSize:tilesetTileSize];
+	tileSet = [[TileSet alloc] initWithImage:[UIImage imageNamed:tilesetName] tileSize:tilesetTileSize];
 	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
 
 	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
@@ -135,7 +135,7 @@
 				 */
 				CGRect r = CGRectMake(start.x+i*tileSize.width, start.y+j*tileSize.height, tileSize.width, tileSize.height);
 				if (CGRectIntersectsRect(clipRect, r)) {
-					UIImage *img = [UIImage imageWithCGImage:[images imageForGlyph:glyph]];
+					UIImage *img = [UIImage imageWithCGImage:[tileSet imageForGlyph:glyph]];
 					[img drawInRect:r];
 					if (u.ux == i && u.uy == j) {
 						// hp100 calculation from qt_win.cpp
@@ -308,7 +308,7 @@
 }
 
 - (void)dealloc {
-	[images release];
+	[tileSet release];
 	[shortcutView release];
 	[petMark release];
 	[messageLabels release];

@@ -1,5 +1,5 @@
 //
-//  TiledImages.m
+//  TileSet.m
 //  iNetHack
 //
 //  Created by dirk on 7/12/09.
@@ -20,13 +20,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with iNetHack.  If not, see <http://www.gnu.org/licenses/>.
 
-#import "TiledImages.h"
+#import "TileSet.h"
 
 extern short glyph2tile[];
 
-static TiledImages *_instance;
+static TileSet *_instance;
 
-@implementation TiledImages
+@implementation TileSet
 
 + (id) instance {
 	return _instance;
@@ -61,7 +61,7 @@ static TiledImages *_instance;
 }
 
 - (CGImageRef) imageForGlyph:(int)g {
-	return [self imageAt:[TiledImages glyphToTileIndex:g]];
+	return [self imageAt:[TileSet glyphToTileIndex:g]];
 }
 
 - (void) dealloc {

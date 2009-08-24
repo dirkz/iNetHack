@@ -37,7 +37,7 @@
 		43ACB5D80FFF4A9F005DB589 /* DirectionInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43ACB5D70FFF4A9F005DB589 /* DirectionInputView.xib */; };
 		43AE49080FFDE32B0010A6F5 /* TextInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AE49070FFDE32B0010A6F5 /* TextInputViewController.m */; };
 		43AE49100FFDE3620010A6F5 /* TextInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43AE490F0FFDE3620010A6F5 /* TextInputView.xib */; };
-		43AECC03100A03EE008B7BE6 /* TiledImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC02100A03EE008B7BE6 /* TiledImages.m */; };
+		43AECC03100A03EE008B7BE6 /* TileSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC02100A03EE008B7BE6 /* TileSet.m */; };
 		43AECC7D100A0DB0008B7BE6 /* tile.c in Sources */ = {isa = PBXBuildFile; fileRef = 43AECC7C100A0DB0008B7BE6 /* tile.c */; };
 		43AFFBE0103FDF4B00DCC8C1 /* NSString+NetHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */; };
 		43AFFC21103FE53500DCC8C1 /* ItemAmountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFC1F103FE53500DCC8C1 /* ItemAmountViewController.m */; };
@@ -374,8 +374,8 @@
 		43AE49060FFDE32B0010A6F5 /* TextInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputViewController.h; sourceTree = "<group>"; };
 		43AE49070FFDE32B0010A6F5 /* TextInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextInputViewController.m; sourceTree = "<group>"; };
 		43AE490F0FFDE3620010A6F5 /* TextInputView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextInputView.xib; sourceTree = "<group>"; };
-		43AECC01100A03EE008B7BE6 /* TiledImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiledImages.h; sourceTree = "<group>"; };
-		43AECC02100A03EE008B7BE6 /* TiledImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiledImages.m; sourceTree = "<group>"; };
+		43AECC01100A03EE008B7BE6 /* TileSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileSet.h; sourceTree = "<group>"; };
+		43AECC02100A03EE008B7BE6 /* TileSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileSet.m; sourceTree = "<group>"; };
 		43AECC7C100A0DB0008B7BE6 /* tile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tile.c; path = nethack/src/tile.c; sourceTree = "<group>"; };
 		43AFFBDE103FDF4B00DCC8C1 /* NSString+NetHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NetHack.h"; sourceTree = "<group>"; };
 		43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NetHack.m"; sourceTree = "<group>"; };
@@ -831,8 +831,8 @@
 				43D113CE1007491700082C8D /* TextDisplayViewController.m */,
 				43D1149210075A0A00082C8D /* TilePosition.h */,
 				43D1149310075A0A00082C8D /* TilePosition.m */,
-				43AECC01100A03EE008B7BE6 /* TiledImages.h */,
-				43AECC02100A03EE008B7BE6 /* TiledImages.m */,
+				43AECC01100A03EE008B7BE6 /* TileSet.h */,
+				43AECC02100A03EE008B7BE6 /* TileSet.m */,
 				43A1879B100C9129001BDB88 /* Shortcut.h */,
 				43A1879C100C9129001BDB88 /* Shortcut.m */,
 				43B08129102ABE0B00D08BED /* TouchInfo.h */,
@@ -1700,7 +1700,7 @@
 				439F0ED2100210690050AED4 /* ExtendedCommandViewController.m in Sources */,
 				43D113CF1007491700082C8D /* TextDisplayViewController.m in Sources */,
 				43D1149410075A0A00082C8D /* TilePosition.m in Sources */,
-				43AECC03100A03EE008B7BE6 /* TiledImages.m in Sources */,
+				43AECC03100A03EE008B7BE6 /* TileSet.m in Sources */,
 				43AECC7D100A0DB0008B7BE6 /* tile.c in Sources */,
 				43A1879D100C9129001BDB88 /* Shortcut.m in Sources */,
 				43A187A8100C92DC001BDB88 /* ShortcutView.m in Sources */,
