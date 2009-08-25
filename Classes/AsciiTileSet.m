@@ -25,6 +25,7 @@
 #include "hack.h"
 #include "display.h"
 
+/*
 static float _colorTable[][4] = {
 {0,0,0,1}, // CLR_BLACK
 {1,0,0,1}, // CLR_RED
@@ -43,6 +44,7 @@ static float _colorTable[][4] = {
 {0,1,1,1}, // CLR_BRIGHT_CYAN
 {1,1,1,1}, // CLR_WHITE
 };
+ */
 
 @implementation AsciiTileSet
 
@@ -53,6 +55,32 @@ static float _colorTable[][4] = {
 		size_t size = numImages * sizeof(CGImageRef);
 		images = malloc(size);
 		memset(images, 0, size);
+		UIColor *brightGreenColor = [[UIColor alloc] initWithRed:0 green:1 blue:0 alpha:1];
+		UIColor *brightBlueColor = [[UIColor alloc] initWithRed:0 green:0 blue:1 alpha:1];
+		UIColor *brightMagentaColor = [[UIColor alloc] initWithRed:0.2f green:0 blue:0.2f alpha:1];
+		UIColor *brightCyanColor = [[UIColor alloc] initWithRed:0 green:1 blue:1 alpha:1];
+		colorTable = [[NSArray alloc] initWithObjects:
+					  [UIColor blackColor],
+					  [UIColor redColor],
+					  [UIColor greenColor],
+					  [UIColor brownColor],
+					  [UIColor blueColor],
+					  [UIColor magentaColor],
+					  [UIColor cyanColor],
+					  [UIColor grayColor],
+					  [UIColor redColor], // NO_COLOR
+					  [UIColor orangeColor],
+					  brightGreenColor,
+					  [UIColor yellowColor],
+					  brightBlueColor,
+					  brightMagentaColor,
+					  brightCyanColor,
+					  [UIColor whiteColor],
+					  nil];
+		[brightGreenColor release];
+		[brightBlueColor release];
+		[brightMagentaColor release];
+		[brightCyanColor release];
 	}
 	return self;
 }
@@ -62,6 +90,7 @@ static float _colorTable[][4] = {
 }
 
 - (CGImageRef) imageForGlyph:(int)g {
+	iflags.use_color = TRUE;
 	int tile = [TileSet glyphToTileIndex:g];
 	if (!images[tile]) {
 		UIFont *font = [UIFont systemFontOfSize:28];
@@ -69,14 +98,13 @@ static float _colorTable[][4] = {
 		unsigned special;
 		mapglyph(g, &ochar, &ocolor, &special, 0, 0);
 		//NSLog(@"glyph %d, tile %d %c", g, tile, ochar);
-		//float *color = [self mapNetHackColor:ocolor];
-		float color[] = {1,1,1,0};
 		NSString *s = [NSString stringWithFormat:@"%c", ochar];
 		CGSize size = [s sizeWithFont:font];
 		CGPoint p = CGPointMake((tileSize.width-size.width)/2, (tileSize.height-size.height)/2);
 		UIGraphicsBeginImageContext(tileSize);
 		CGContextRef ctx = UIGraphicsGetCurrentContext();
-		CGContextSetFillColor(ctx, color);
+		UIColor *color = [self mapNetHackColor:ocolor];
+		CGContextSetFillColorWithColor(ctx, color.CGColor);
 		[s drawAtPoint:p withFont:font];
 		UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
 		images[tile] = CGImageRetain(img.CGImage);
@@ -85,8 +113,13 @@ static float _colorTable[][4] = {
 	return images[tile];
 }
 
-- (float *) mapNetHackColor:(int)ocolor {
-	return _colorTable[ocolor];
+- (UIColor *) mapNetHackColor:(int)ocolor {
+	return [colorTable objectAtIndex:ocolor];
+}
+
+- (void) dealloc {
+	[colorTable release];
+	[super dealloc];
 }
 
 @end

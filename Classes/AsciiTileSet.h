@@ -25,10 +25,12 @@
 #import "TileSet.h"
 
 @interface AsciiTileSet : TileSet {
+	
+	NSArray *colorTable;
 
 }
 
 - (id) initWithTileSize:(CGSize)ts;
-- (float *) mapNetHackColor:(int)ocolor;
+- (UIColor *) mapNetHackColor:(int)ocolor;
 
 @end

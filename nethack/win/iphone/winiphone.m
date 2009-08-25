@@ -472,9 +472,9 @@ void iphone_outrip(winid wid, int how) {
 #pragma mark options
 
 void iphone_init_options() {
-	flags.verbose = TRUE;
 	iflags.use_color = TRUE;
 	iflags.runmode = RUN_STEP;
+	flags.verbose = TRUE;
 	flags.toptenwin = TRUE;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	flags.pickup = [defaults boolForKey:kOptionAutopickup];
