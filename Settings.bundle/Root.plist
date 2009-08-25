@@ -92,7 +92,7 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<string>chozo40b.bmp</string>
+			<string>chozo40b</string>
 			<key>Type</key>
 			<string>PSMultiValueSpecifier</string>
 			<key>Title</key>
