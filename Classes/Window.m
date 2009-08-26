@@ -29,6 +29,7 @@
 @synthesize type, curx, cury, width, height, strings, menuItems, menuPrompt;
 @synthesize isShallowMenu, menuHow, menuList, menuResult, log;
 @synthesize acceptBareHanded, acceptMore, acceptMoney;
+@synthesize nethackMenuItem;
 
 - (id) initWithType:(winid)t {
 	if (self = [super init]) {

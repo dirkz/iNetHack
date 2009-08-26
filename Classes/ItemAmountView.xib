@@ -127,7 +127,7 @@
 							<int key="NSfFlags">16</int>
 						</object>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">Drop</string>
+						<string key="IBUINormalTitle">OK</string>
 						<reference key="IBUIHighlightedTitleColor" ref="48572269"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>

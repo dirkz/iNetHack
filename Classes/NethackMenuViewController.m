@@ -172,16 +172,14 @@ extern short glyph2tile[];
 		UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 		cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	} else {
-		[self finishPickOne:i];
-		/*
-		 int a = [i.title parseNetHackAmount];
-		if (a > 0) {
-			itemAmountViewController.nethackMenuItem = i;
+		int a = [i.title parseNetHackAmount];
+		if (a > 0 && [menuWindow.menuPrompt containsString:@"drop"]) {
+			menuWindow.nethackMenuItem = i;
 			itemAmountViewController.menuWindow = menuWindow;
 			[self.navigationController pushViewController:itemAmountViewController animated:YES];
 		} else {
+			[self finishPickOne:i];
 		}
-		 */
 	}
 }
 

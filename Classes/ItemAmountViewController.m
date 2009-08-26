@@ -31,7 +31,7 @@ extern short glyph2tile[];
 
 @implementation ItemAmountViewController
 
-@synthesize nethackMenuItem, menuWindow;
+@synthesize menuWindow;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
@@ -62,14 +62,14 @@ extern short glyph2tile[];
 	int v = round(slider.value);
 	amountTextLabel.text = [NSString stringWithFormat:@"%d", v];
 	if (v > 0) {
-		nethackMenuItem.amount = v;
+		menuWindow.nethackMenuItem.amount = v;
 	} else {
-		nethackMenuItem.amount = -1;
+		menuWindow.nethackMenuItem.amount = -1;
 	}
 }
 
 - (void) finishPickOne:(id)sender {
-	NethackMenuItem *i = nethackMenuItem;
+	NethackMenuItem *i = menuWindow.nethackMenuItem;
 	menuWindow.menuResult = 1;
 	menuWindow.menuList = malloc(sizeof(menu_item));
 	menuWindow.menuList->count = i.amount;
@@ -85,20 +85,20 @@ extern short glyph2tile[];
 	self.navigationItem.rightBarButtonItem = bi;
 	 [bi release];
 	*/
-	if (nethackMenuItem.glyph != NO_GLYPH && nethackMenuItem.glyph != kNoGlyph) {
-		UIImage *uiImg = [UIImage imageWithCGImage:[[TileSet instance] imageForGlyph:nethackMenuItem.glyph]];
+	if (menuWindow.nethackMenuItem.glyph != NO_GLYPH && menuWindow.nethackMenuItem.glyph != kNoGlyph) {
+		UIImage *uiImg = [UIImage imageWithCGImage:[[TileSet instance] imageForGlyph:menuWindow.nethackMenuItem.glyph]];
 		imageView.image = uiImg;
 	} else {
 		imageView.image = nil;
 	}
-	NSArray *descriptions = [nethackMenuItem.title splitNetHackDetails];
+	NSArray *descriptions = [menuWindow.nethackMenuItem.title splitNetHackDetails];
 	itemTextLabel.text = [descriptions objectAtIndex:0];
 	if (descriptions.count >= 2) {
 		itemDetailTextLabel.text = [descriptions objectAtIndex:1];
 	} else {
 		itemDetailTextLabel.text = nil;
 	}
-	int amount = [nethackMenuItem.title parseNetHackAmount];
+	int amount = [menuWindow.nethackMenuItem.title parseNetHackAmount];
 	amountTextLabel.text = [NSString stringWithFormat:@"%d", amount];
 	amountSlider.minimumValue = 0;
 	amountSlider.maximumValue = amount;

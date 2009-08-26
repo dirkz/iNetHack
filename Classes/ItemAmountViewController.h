@@ -33,12 +33,10 @@
 	IBOutlet UISlider *amountSlider;
 	IBOutlet UIButton *dropButton;
 	
-	NethackMenuItem *nethackMenuItem;
 	Window *menuWindow;
 	
 }
 
-@property (nonatomic, assign) NethackMenuItem *nethackMenuItem;
 @property (nonatomic, assign) Window *menuWindow;
 
 @end

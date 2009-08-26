@@ -55,6 +55,9 @@
 	BOOL acceptBareHanded;
 	BOOL acceptMore;
 	BOOL acceptMoney;
+	
+	// used for determining amounts on PICK_ONE
+	NethackMenuItem *nethackMenuItem;
 }
 
 @property (nonatomic, readonly) int type;
@@ -71,6 +74,7 @@
 @property (nonatomic, assign) int menuHow;
 @property (nonatomic, assign) menu_item *menuList;
 @property (nonatomic, assign) int menuResult;
+@property (nonatomic, retain) NethackMenuItem *nethackMenuItem;
 
 @property (nonatomic, assign) BOOL acceptBareHanded;
 @property (nonatomic, assign) BOOL acceptMore;

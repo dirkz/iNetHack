@@ -417,7 +417,19 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 				inventoryWindow.acceptMoney      = NO;
 				inventoryWindow.acceptBareHanded = NO;
 				inventoryWindow.acceptMore       = NO;
-				return c;
+				if (inventoryWindow.nethackMenuItem && inventoryWindow.nethackMenuItem.amount != -1) {
+					int amount = inventoryWindow.nethackMenuItem.amount;
+					inventoryWindow.nethackMenuItem = nil;
+					NSString *stringAmount = [NSString stringWithFormat:@"%d%c", amount, c];
+					c = [stringAmount characterAtIndex:0];
+					for (int i = 1; i < stringAmount.length; ++i) {
+						char ch = [stringAmount characterAtIndex:i];
+						[[[MainViewController instance] nethackEventQueue] addKeyEvent:ch];
+					}
+					return c;
+				} else {
+					return c;
+				}
 			} else {
 				// no preLets defined ([])
 				iphone_putstr(WIN_MESSAGE, ATR_NONE, question);
