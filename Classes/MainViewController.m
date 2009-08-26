@@ -42,6 +42,7 @@
 #import "RoleSelectionController.h"
 
 #define kOptionDoubleTapSensitivity (@"doubleTapSensitivity")
+#define kConstThingsThatAreHereTitle (@"Things that are here:")
 
 extern volatile boolean winiphone_clickable_tiles;
 
@@ -593,10 +594,16 @@ static MainViewController *_instance;
 }
 
 - (void) displayMessage:(Window *)w {
-	NSString *text = w.text;
-	//NSLog(@"displaying text %@", text);
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:text
-												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	UIAlertView *alert = nil;
+	if ([w.text containsString:kConstThingsThatAreHereTitle]) {
+		NSString *toReplaced = [NSString stringWithFormat:@"%@\n", kConstThingsThatAreHereTitle];
+		NSString *text = [w.text stringByReplacingOccurrencesOfString:toReplaced withString:@""];
+		alert = [[UIAlertView alloc] initWithTitle:kConstThingsThatAreHereTitle message:text
+										  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Pickup", nil];
+	} else {
+		alert = [[UIAlertView alloc] initWithTitle:@"Message" message:w.text
+										  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	}
 	[alert show];
 }
 
@@ -615,6 +622,11 @@ static MainViewController *_instance;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	//NSLog(@"alert finished");
+	if (alertView.numberOfButtons == 2) {
+		if (buttonIndex == 1) {
+			[nethackEventQueue addKeyEvent:','];
+		}
+	}
 	[alertView release];
 	[self broadcastUIEvent];
 }
