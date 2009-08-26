@@ -49,8 +49,7 @@ static float _colorTable[][4] = {
 @implementation AsciiTileSet
 
 - (id) initWithTileSize:(CGSize)ts {
-	if (self = [super init]) {
-		tileSize = ts;
+	if (self = [super initWithImage:nil tileSize:ts]) {
 		numImages = MAX_GLYPH;
 		size_t size = numImages * sizeof(CGImageRef);
 		images = malloc(size);
@@ -104,6 +103,10 @@ static float _colorTable[][4] = {
 		UIGraphicsBeginImageContext(tileSize);
 		CGContextRef ctx = UIGraphicsGetCurrentContext();
 		UIColor *color = [self mapNetHackColor:ocolor];
+		CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
+		CGRect r = CGRectZero;
+		r.size = tileSize;
+		CGContextFillRect(ctx, r);
 		CGContextSetFillColorWithColor(ctx, color.CGColor);
 		[s drawAtPoint:p withFont:font];
 		UIImage *img = UIGraphicsGetImageFromCurrentImageContext();

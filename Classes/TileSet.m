@@ -39,16 +39,18 @@ static TileSet *_instance;
 - (id) initWithImage:(UIImage *)image tileSize:(CGSize)ts {
 	if (self = [super init]) {
 		tileSize = ts;
-		CGImageRef base = image.CGImage;
-		int x = CGImageGetWidth(base) / tileSize.width;
-		int y = CGImageGetHeight(base) / tileSize.height;
-		numImages = x*y;
-		images = malloc(numImages * sizeof(CGImageRef));
-		int index = 0;
-		for (int j = 0; j < y; ++j) {
-			for (int i = 0; i < x; ++i) {
-				CGRect r = CGRectMake(i * tileSize.width, j * tileSize.height, tileSize.width, tileSize.height);
-				images[index++] = CGImageRetain(CGImageCreateWithImageInRect(base, r));
+		if (image) {
+			CGImageRef base = image.CGImage;
+			int x = CGImageGetWidth(base) / tileSize.width;
+			int y = CGImageGetHeight(base) / tileSize.height;
+			numImages = x*y;
+			images = malloc(numImages * sizeof(CGImageRef));
+			int index = 0;
+			for (int j = 0; j < y; ++j) {
+				for (int i = 0; i < x; ++i) {
+					CGRect r = CGRectMake(i * tileSize.width, j * tileSize.height, tileSize.width, tileSize.height);
+					images[index++] = CGImageRetain(CGImageCreateWithImageInRect(base, r));
+				}
 			}
 		}
 		_instance = self;
