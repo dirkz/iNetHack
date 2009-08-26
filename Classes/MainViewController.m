@@ -251,10 +251,12 @@ static MainViewController *_instance;
 													  [MenuItem menuItemWithTitle:@"Wield Weapon" key:'w'],
 													  [MenuItem menuItemWithTitle:@"Switch Weapon" key:'x'],
 													  [MenuItem menuItemWithTitle:@"Remove (rings ...)" key:'R'],
+													  [MenuItem menuItemWithTitle:@"Take off all armor" key:'A'],
 													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Actions"
 											children:[NSArray arrayWithObjects:
 													  [MenuItem menuItemWithTitle:@"Pickup" key:',' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Rest" key:'.' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Eat" key:'e' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Drop" key:'d' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Apply" key:'a' accessory:YES],
@@ -271,6 +273,8 @@ static MainViewController *_instance;
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Magic"
 											children:[NSArray arrayWithObjects:
 													  [MenuItem menuItemWithTitle:@"Read" key:'r' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Zap" key:'z' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Cast" key:'Z' accessory:YES],
 													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Show Log" target:self
 											action:@selector(nethackShowLog:) accessory:YES]];
