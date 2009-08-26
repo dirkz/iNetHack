@@ -2258,7 +2258,7 @@ click_to_cmd(x, y, mod)
                       || (u.ux == xupladder && u.uy == yupladder)) {
 #ifdef TARGET_OS_IPHONE
 				if (OBJ_AT(u.ux, u.uy)) {
-					int r = yn_function("There are objects here. Still climb?", "ynq", 'y');
+					int r = yn_function("There are objects here. Still climb?", "yq,", 'y');
 					if (r == 'y') {
 						return "<";
 					} else if (r == 'q') {
@@ -2279,7 +2279,7 @@ click_to_cmd(x, y, mod)
                       || (u.ux == xdnladder && u.uy == ydnladder)) {
 #ifdef TARGET_OS_IPHONE
 				if (OBJ_AT(u.ux, u.uy)) {
-					int r = yn_function("There are objects here. Still climb?", "ynq", 'y');
+					int r = yn_function("There are objects here. Still climb?", "yq,", 'y');
 					if (r == 'y') {
 						return ">";
 					} else if (r == 'q') {
