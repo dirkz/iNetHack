@@ -371,6 +371,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 			NSString *preLets = [q substringBetweenDelimiters:@"[]"];
 			if (preLets && preLets.length > 0) {
 				Window *inventoryWindow = [[MainViewController instance] windowWithId:WIN_INVEN];
+				inventoryWindow.nethackMenuItem = nil;
 				BOOL alphaBegan = NO;
 				BOOL terminateLoop = NO;
 				int index;
