@@ -514,16 +514,16 @@ static MainViewController *_instance;
 				[(MainView *) self.view resetOffset];
 				//[self.view setNeedsDisplay];
 			} else {
-				CGSize tileSize = CGSizeMake(40,40);
-				CGRect middleSquare = CGRectMake(self.view.bounds.size.width/2-tileSize.width/2,
-												 self.view.bounds.size.height/2-tileSize.height/2, 40, 40);
+				CGRect middleSquare = CGRectMake(self.view.bounds.size.width/2-kCenterTapWidth/2,
+												 self.view.bounds.size.height/2-kCenterTapWidth/2,
+												 kCenterTapWidth, kCenterTapWidth);
 				if (CGRectContainsPoint(middleSquare, p)) {
 					// tap on player (center) tile
 					lastSingleTapDelta.x = 0;
 					lastSingleTapDelta.y = 0;
 					NethackEvent *e = [[NethackEvent alloc] init];
-					e.x = tp.x;
-					e.y = tp.y;
+					e.x = u.ux;
+					e.y = u.uy;
 					e.key = 0;
 					[nethackEventQueue addNethackEvent:e];
 					[e release];

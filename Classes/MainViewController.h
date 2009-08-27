@@ -32,6 +32,8 @@
 #define kMinimumPinchDelta (15)
 #define kMinimumPanDelta (20)
 
+#define kCenterTapWidth (40)
+
 @class Window, NethackMenuViewController, NethackYnFunction, TextInputViewController, NethackEventQueue;
 @class DirectionInputViewController, ExtendedCommandViewController;
 @class TouchInfo, TouchInfoStore;
