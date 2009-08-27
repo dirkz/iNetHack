@@ -62,8 +62,12 @@ static TileSet *_instance;
 	return images[i];
 }
 
-- (CGImageRef) imageForGlyph:(int)g {
+- (CGImageRef) imageForGlyph:(int)g atX:(int)x y:(int)y {
 	return [self imageAt:[TileSet glyphToTileIndex:g]];
+}
+
+- (CGImageRef) imageForGlyph:(int)g {
+	return [self imageForGlyph:g atX:0 y:0];
 }
 
 - (void) dealloc {

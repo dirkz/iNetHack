@@ -35,6 +35,7 @@
 
 - (id) initWithImage:(UIImage *)image tileSize:(CGSize)ts;
 - (CGImageRef) imageAt:(int)i;
+- (CGImageRef) imageForGlyph:(int)g atX:(int)x y:(int)y;
 - (CGImageRef) imageForGlyph:(int)g;
 
 @end

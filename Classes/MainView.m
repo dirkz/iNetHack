@@ -150,7 +150,7 @@
 				 */
 				CGRect r = CGRectMake(start.x+i*tileSize.width, start.y+j*tileSize.height, tileSize.width, tileSize.height);
 				if (CGRectIntersectsRect(clipRect, r)) {
-					UIImage *img = [UIImage imageWithCGImage:[tileSet imageForGlyph:glyph]];
+					UIImage *img = [UIImage imageWithCGImage:[tileSet imageForGlyph:glyph atX:i y:j]];
 					[img drawInRect:r];
 					if (u.ux == i && u.uy == j) {
 						// hp100 calculation from qt_win.cpp

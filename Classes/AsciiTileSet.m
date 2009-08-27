@@ -88,14 +88,14 @@ static float _colorTable[][4] = {
 	return [self initWithTileSize:ts];
 }
 
-- (CGImageRef) imageForGlyph:(int)g {
+- (CGImageRef) imageForGlyph:(int)g atX:(int)x y:(int)y {
 	iflags.use_color = TRUE;
 	int tile = [TileSet glyphToTileIndex:g];
 	if (!images[tile]) {
 		UIFont *font = [UIFont systemFontOfSize:28];
 		int ochar, ocolor;
 		unsigned special;
-		mapglyph(g, &ochar, &ocolor, &special, 0, 0);
+		mapglyph(g, &ochar, &ocolor, &special, x, y);
 		//NSLog(@"glyph %d, tile %d %c", g, tile, ochar);
 		NSString *s = [NSString stringWithFormat:@"%c", ochar];
 		CGSize size = [s sizeWithFont:font];
