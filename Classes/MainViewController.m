@@ -246,26 +246,33 @@ static MainViewController *_instance;
 	NSMutableArray *menuItems = [NSMutableArray array];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Gear"
 											children:[NSArray arrayWithObjects:
-													  [MenuItem menuItemWithTitle:@"Wear Armor" key:'W'],
-													  [MenuItem menuItemWithTitle:@"Take off (armor ...)" key:'T'],
-													  [MenuItem menuItemWithTitle:@"Wield Weapon" key:'w'],
-													  [MenuItem menuItemWithTitle:@"Switch Weapon" key:'x'],
-													  [MenuItem menuItemWithTitle:@"Remove (rings ...)" key:'R'],
-													  [MenuItem menuItemWithTitle:@"Take off all armor" key:'A'],
+													  [MenuItem menuItemWithTitle:@"Wear Armor" key:'W' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Take off (armor ...)" key:'T' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Wield Weapon" key:'w' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Switch Weapon" key:'x' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Put on jewelry" key:'P' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Remove jewelry" key:'R' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Take off all armor" key:'A' accessory:YES],
 													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Actions"
 											children:[NSArray arrayWithObjects:
-													  [MenuItem menuItemWithTitle:@"Pickup" key:',' accessory:YES],
-													  [MenuItem menuItemWithTitle:@"Rest" key:'.' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Pickup" key:',' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Open" key:'o' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Close" key:'c' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Kick" key:C('d') accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Teleport" key:C('t') accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Repeat" key:C('a') accessory:NO],
 													  [MenuItem menuItemWithTitle:@"Eat" key:'e' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Drop" key:'d' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Drop Several" key:'D' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Apply" key:'a' accessory:YES],
-													  [MenuItem menuItemWithTitle:@"Quaff" key:'q' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Quaff" key:'q' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Engrave" key:'E' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Ascend (<)" key:'<' accessory:NO],
 													  [MenuItem menuItemWithTitle:@"Descend (>)" key:'>' accessory:NO],
 													  [MenuItem menuItemWithTitle:@"Quiver" key:'Q' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Pay" key:'p' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Rest" key:'.' accessory:NO],
 													  [MenuItem menuItemWithTitle:@"Search" target:self
 																		 action:@selector(nethackSearch:)
 																			  accessory:YES],
@@ -275,6 +282,13 @@ static MainViewController *_instance;
 													  [MenuItem menuItemWithTitle:@"Read" key:'r' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Zap" key:'z' accessory:YES],
 													  [MenuItem menuItemWithTitle:@"Cast" key:'Z' accessory:YES],
+													  nil]]];
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"Info"
+											children:[NSArray arrayWithObjects:
+													  [MenuItem menuItemWithTitle:@"What's here" key:':' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"What is" key:';' accessory:NO],
+													  [MenuItem menuItemWithTitle:@"Discoveries" key:'\\' accessory:YES],
+													  [MenuItem menuItemWithTitle:@"Character Info" key:C('x') accessory:YES],
 													  nil]]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Show Log" target:self
 											action:@selector(nethackShowLog:) accessory:YES]];
