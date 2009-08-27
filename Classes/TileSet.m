@@ -24,7 +24,7 @@
 
 extern short glyph2tile[];
 
-static TileSet *_instance;
+static TileSet *_instance = nil;
 
 @implementation TileSet
 
@@ -53,7 +53,9 @@ static TileSet *_instance;
 				}
 			}
 		}
-		_instance = self;
+		if (!_instance) {
+			_instance = self;
+		}
 	}
 	return self;
 }

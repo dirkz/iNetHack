@@ -533,6 +533,9 @@ getlock(void)
 				int fail = unlink(lock);
 				if (!fail) {
 					fd = open(lock, O_RDWR | O_EXCL | O_CREAT, 0644);
+					// remove old save file
+					set_savefile_name();
+					fail = unlink(SAVEF);
 				}
 			} else {
 				// Try to recover
@@ -616,7 +619,7 @@ void iphone_main() {
 	display_gamewindows();		   /* create & display the game windows */
 
 	Sprintf (lock, "%d%s", getuid (), [NSUserName() cStringUsingEncoding:NSASCIIStringEncoding]);
-	getlock ();
+	getlock();
 
 	register int fd;
 	if ((fd = restore_saved_game()) >= 0) {

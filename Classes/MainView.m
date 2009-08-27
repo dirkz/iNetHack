@@ -180,7 +180,7 @@
 }
 
 - (void) checkForRogueLevel {
-	if (Is_rogue_level(&u.uz)) {
+	if (u.uz.dlevel && Is_rogue_level(&u.uz)) {
 		tileSet = tileSets[1] = [[AsciiTileSet alloc] initWithTileSize:tilesetTileSize];
 	} else {
 		tileSet = tileSets[0];
