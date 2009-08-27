@@ -184,7 +184,7 @@ extern short glyph2tile[];
 
 - (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView reloadData]; // cancel delete
-	if (menuWindow.menuHow == PICK_ONE) {
+	if (menuWindow.menuHow == PICK_ONE && ([self.title containsString:@"throw"] || [self.title containsString:@"drop"])) {
 		NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
 		if (!i.isMeta || i.isGold) {
 			menuWindow.nethackMenuItem = i;
