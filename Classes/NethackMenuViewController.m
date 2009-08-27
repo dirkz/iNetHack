@@ -89,8 +89,10 @@ extern short glyph2tile[];
 		}
 		if (menuWindow.acceptMoney) {
 			any.a_int = '$';
-			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:"Gold ($)"
+			NSString *title = [NSString stringWithFormat:@"%d %s ($)", u.ugold, currency(u.ugold)];
+			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:[title cStringUsingEncoding:NSASCIIStringEncoding]
 																glyph:kNoGlyph isMeta:YES preselected:NO];
+			mi.isGold = YES;
 			[menuWindow addMenuItem:mi];
 			[mi release];
 		}
@@ -172,19 +174,27 @@ extern short glyph2tile[];
 		UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 		cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	} else {
-		int a = [i.title parseNetHackAmount];
-		if (a > 0 && [menuWindow.menuPrompt containsString:@"drop"]) {
-			menuWindow.nethackMenuItem = i;
-			itemAmountViewController.menuWindow = menuWindow;
-			[self.navigationController pushViewController:itemAmountViewController animated:YES];
-		} else {
-			[self finishPickOne:i];
-		}
+		[self finishPickOne:i];
 	}
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
 	[self tableView:tableView didSelectRowAtIndexPath:indexPath];
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+	[tableView reloadData]; // cancel delete
+	if (menuWindow.menuHow == PICK_ONE) {
+		NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
+		if (!i.isMeta || i.isGold) {
+			menuWindow.nethackMenuItem = i;
+			int a = [i.title parseNetHackAmount];
+			if (a > 1) {
+				itemAmountViewController.menuWindow = menuWindow;
+				[self.navigationController pushViewController:itemAmountViewController animated:YES];
+			}
+		}
+	}
 }
 
 #pragma mark UITableView datasource
@@ -240,7 +250,16 @@ extern short glyph2tile[];
 	}
 	
 	cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
+	
+	cell.editing = YES;
+	
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath {
+	// I guess we never land here
+	NSLog(@"commitEditingStyle");
 }
 
 @end

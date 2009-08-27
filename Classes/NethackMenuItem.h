@@ -33,6 +33,7 @@
 	int glyph;
 	BOOL isMeta;
 	int amount;
+	BOOL isGold;
 
 }
 
@@ -44,6 +45,7 @@
 @property (nonatomic, readonly) int glyph;
 @property (nonatomic, assign) BOOL isMeta;
 @property (nonatomic, assign) int amount;
+@property (nonatomic, assign) BOOL isGold;
 
 - (id) initWithId:(const anything *)i title:(const char *)t glyph:(int)g isMeta:(BOOL)m preselected:(BOOL)p;
 - (id) initWithId:(const anything *)i title:(const char *)t glyph:(int)g preselected:(BOOL)p;

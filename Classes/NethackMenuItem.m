@@ -24,7 +24,7 @@
 
 @implementation NethackMenuItem
 
-@synthesize identifier, title, isTitle, children, isSelected, glyph, isMeta, amount;
+@synthesize identifier, title, isTitle, children, isSelected, glyph, isMeta, amount, isGold;
 
 - (id) initWithId:(const anything *)i title:(const char *)t glyph:(int)g isMeta:(BOOL)m preselected:(BOOL)p {
 	if (self = [super init]) {

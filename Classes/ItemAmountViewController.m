@@ -61,11 +61,7 @@ extern short glyph2tile[];
 	UISlider *slider = (UISlider *) sender;
 	int v = round(slider.value);
 	amountTextLabel.text = [NSString stringWithFormat:@"%d", v];
-	if (v > 0) {
-		menuWindow.nethackMenuItem.amount = v;
-	} else {
-		menuWindow.nethackMenuItem.amount = -1;
-	}
+	menuWindow.nethackMenuItem.amount = v;
 }
 
 - (void) finishPickOne:(id)sender {
