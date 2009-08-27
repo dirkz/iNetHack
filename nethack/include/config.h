@@ -177,6 +177,15 @@
 /* #define COMPRESS_EXTENSION ".gz" */		/* normal gzip extension */
 #endif
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
+#if TARGET_OS_IPHONE
+#undef COMPRESS
+#undef COMPRESS_EXTENSION
+#endif
+
 #ifndef COMPRESS
 # define INTERNAL_COMP	/* control use of NetHack's compression routines */
 #endif
@@ -194,10 +203,6 @@
  *	of the last level change, after running a utility program.
  */
 #define INSURANCE	/* allow crashed game recovery */
-
-#ifdef __APPLE__
-#include "TargetConditionals.h"
-#endif
 
 #if TARGET_OS_IPHONE
 	 #define SELF_RECOVER		/* Allow the game itself to recover from an aborted game */
