@@ -43,6 +43,7 @@
 
 #define kOptionDoubleTapSensitivity (@"doubleTapSensitivity")
 #define kConstThingsThatAreHereTitle (@"Things that are here:")
+#define kConstThingsThatYouFeelHereTitle (@"Things that you feel here:")
 
 extern volatile boolean winiphone_clickable_tiles;
 
@@ -613,10 +614,12 @@ static MainViewController *_instance;
 
 - (void) displayMessage:(Window *)w {
 	UIAlertView *alert = nil;
-	if ([w.text containsString:kConstThingsThatAreHereTitle]) {
-		NSString *toReplaced = [NSString stringWithFormat:@"%@\n", kConstThingsThatAreHereTitle];
+	if ([w.text containsString:kConstThingsThatAreHereTitle] || [w.text containsString:kConstThingsThatYouFeelHereTitle]) {
+		NSRange r = [w.text rangeOfString:@"\n"];
+		NSString *title = [w.text substringToIndex:r.location];
+		NSString *toReplaced = [NSString stringWithFormat:@"%@\n", title];
 		NSString *text = [w.text stringByReplacingOccurrencesOfString:toReplaced withString:@""];
-		alert = [[UIAlertView alloc] initWithTitle:kConstThingsThatAreHereTitle message:text
+		alert = [[UIAlertView alloc] initWithTitle:title message:text
 										  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Pickup", nil];
 	} else {
 		alert = [[UIAlertView alloc] initWithTitle:@"Message" message:w.text
