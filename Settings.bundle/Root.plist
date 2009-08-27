@@ -105,6 +105,7 @@
 				<string>Abigaba Chozo</string>
 				<string>Abigaba Chozo B</string>
 				<string>Original (16x16)</string>
+				<string>Tiles32</string>
 				<string>ASCII</string>
 			</array>
 			<key>Values</key>
@@ -113,6 +114,7 @@
 				<string>chozo40</string>
 				<string>chozo40b</string>
 				<string>nhtiles</string>
+				<string>tiles32</string>
 				<string>ascii</string>
 			</array>
 		</dict>

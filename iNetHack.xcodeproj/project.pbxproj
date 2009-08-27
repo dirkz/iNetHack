@@ -31,6 +31,7 @@
 		439F0F77100245080050AED4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 439F0F76100245080050AED4 /* Icon.png */; };
 		43A1879D100C9129001BDB88 /* Shortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A1879C100C9129001BDB88 /* Shortcut.m */; };
 		43A187A8100C92DC001BDB88 /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A187A7100C92DC001BDB88 /* ShortcutView.m */; };
+		43A29145104670920063F29D /* tiles32.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43A29144104670920063F29D /* tiles32.bmp */; };
 		43A7B06A10302D880083CE1B /* DMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A7B06910302D880083CE1B /* DMath.m */; };
 		43A7B1CA103046EA0083CE1B /* petmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A7B1C9103046EA0083CE1B /* petmark.png */; };
 		43ACB5D30FFF4A47005DB589 /* DirectionInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43ACB5D20FFF4A47005DB589 /* DirectionInputView.m */; };
@@ -366,6 +367,7 @@
 		43A1879C100C9129001BDB88 /* Shortcut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shortcut.m; sourceTree = "<group>"; };
 		43A187A6100C92DC001BDB88 /* ShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortcutView.h; sourceTree = "<group>"; };
 		43A187A7100C92DC001BDB88 /* ShortcutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShortcutView.m; sourceTree = "<group>"; };
+		43A29144104670920063F29D /* tiles32.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tiles32.bmp; sourceTree = "<group>"; };
 		43A7B06810302D880083CE1B /* DMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMath.h; sourceTree = "<group>"; };
 		43A7B06910302D880083CE1B /* DMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMath.m; sourceTree = "<group>"; };
 		43A7B1C9103046EA0083CE1B /* petmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = petmark.png; path = ../petmark.png; sourceTree = "<group>"; };
@@ -926,6 +928,7 @@
 		4394EB9510394C5F0053C8C2 /* Tilesets */ = {
 			isa = PBXGroup;
 			children = (
+				43A29144104670920063F29D /* tiles32.bmp */,
 				439AB8881041067B00D3F533 /* nhtiles.bmp */,
 				43A7B1C9103046EA0083CE1B /* petmark.png */,
 				4394EBA110394CCC0053C8C2 /* absurd40.bmp */,
@@ -1569,6 +1572,7 @@
 				4394EBA210394CCC0053C8C2 /* absurd40.bmp in Resources */,
 				43AFFC22103FE53500DCC8C1 /* ItemAmountView.xib in Resources */,
 				439AB8891041067B00D3F533 /* nhtiles.bmp in Resources */,
+				43A29145104670920063F29D /* tiles32.bmp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
