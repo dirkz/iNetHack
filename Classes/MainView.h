@@ -40,16 +40,13 @@
 
 	BOOL tiled;
 	TileSet *tileSet;
+	TileSet *tileSets[2];
 	
 	CGPoint offset;
 	ShortcutView *shortcutView;
 	
 	UIImage *petMark;
 	
-	NSMutableArray *messageLabels;
-	
-	BOOL dirty;
-
 }
 
 @property (nonatomic, readonly) CGPoint start;

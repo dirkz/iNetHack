@@ -85,14 +85,12 @@
 		NSString *imgName = [NSString stringWithFormat:@"%@.bmp", tilesetName];
 		tileSet = [[TileSet alloc] initWithImage:[UIImage imageNamed:imgName] tileSize:tilesetTileSize];
 	}
+	tileSets[0] = tileSet;
 	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
 
 	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
 	[self addSubview:shortcutView];
 	
-	messageLabels = [[NSMutableArray alloc] init];
-
-	dirty = YES;
 }
 
 - (BOOL)canBecomeFirstResponder { return YES; }
@@ -110,7 +108,7 @@
 	
 	// subviews like direction input
 	for (UIView *v in self.subviews) {
-		if (v != shortcutView && ![messageLabels containsObject:v]) {
+		if (v != shortcutView) {
 			v.frame = self.frame;
 		}
 	}
@@ -211,11 +209,6 @@
 		[self drawTiledMap:map clipRect:rect];
 	}
 	
-	for (UILabel *l in messageLabels) {
-		[l removeFromSuperview];
-	}
-	[messageLabels removeAllObjects];
-	
 	CGSize statusSize;
 	CGPoint p = CGPointMake(0,0);
 	if (status) {
@@ -292,18 +285,15 @@
 }
 
 - (void) moveAlongVector:(CGPoint)d {
-	dirty = YES;
 	offset.x += d.x;
 	offset.y += d.y;
 }
 
 - (void) resetOffset {
-	dirty = YES;
 	offset = CGPointMake(0,0);
 }
 
 - (void) zoom:(CGFloat)d {
-	dirty = YES;
 	d /= 5;
 	CGSize originalSize = tileSize;
 	tileSize.width += d;
@@ -328,10 +318,10 @@
 }
 
 - (void)dealloc {
-	[tileSet release];
+	[tileSets[0] release];
+	[tileSets[1] release];
 	[shortcutView release];
 	[petMark release];
-	[messageLabels release];
     [super dealloc];
 }
 
