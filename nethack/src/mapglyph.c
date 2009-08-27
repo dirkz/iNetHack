@@ -57,6 +57,15 @@ int explcolors[] = {
 # endif
 #endif
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
+#if TARGET_OS_IPHONE
+#define ROGUE_COLOR
+#define HAS_ROGUE_IBM_GRAPHICS (Is_rogue_level(&u.uz))
+#endif
+
 /*ARGSUSED*/
 void
 mapglyph(glyph, ochar, ocolor, ospecial, x, y)
@@ -216,12 +225,14 @@ unsigned *ospecial;
 	}
     }
 
+#if !defined(TARGET_OS_IPHONE) // leave color in on iphone
 #ifdef TEXTCOLOR
     /* Turn off color if no color defined, or rogue level w/o PC graphics. */
 # ifdef REINCARNATION
 #  ifdef ASCIIGRAPH
     if (!has_color(color) || (Is_rogue_level(&u.uz) && !HAS_ROGUE_IBM_GRAPHICS))
 #  else
+		//printf("has_color(color) %d Is_rogue_level(&u.uz) %d\n", has_color(color), Is_rogue_level(&u.uz));
     if (!has_color(color) || Is_rogue_level(&u.uz))
 #  endif
 # else
@@ -229,6 +240,7 @@ unsigned *ospecial;
 # endif
 	color = NO_COLOR;
 #endif
+#endif // TARGET_OS_IPHONE
 
     *ochar = (int)ch;
     *ospecial = special;

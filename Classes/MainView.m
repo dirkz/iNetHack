@@ -65,8 +65,9 @@
 	if (!tilesetName) {
 		tilesetName = @"chozo40b";
 	}
-	CGSize tilesetTileSize = CGSizeMake(40,40);
+	tilesetTileSize = CGSizeMake(40,40);
 	if ([tilesetName isEqualToString:@"ascii"]) {
+		asciiTileset = YES;
 		tileSet = [[AsciiTileSet alloc] initWithTileSize:tilesetTileSize];
 	} else {
 		if ([tilesetName isEqualToString:@"nhtiles"]) {
@@ -178,6 +179,14 @@
 	}
 }
 
+- (void) checkForRogueLevel {
+	if (Is_rogue_level(&u.uz)) {
+		tileSet = tileSets[1] = [[AsciiTileSet alloc] initWithTileSize:tilesetTileSize];
+	} else {
+		tileSet = tileSets[0];
+	}
+}
+
 - (CGSize) drawStrings:(NSArray *)strings withSize:(CGSize)size atPoint:(CGPoint)p {
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	
@@ -206,6 +215,7 @@
 	Window *message = mainViewController.messageWindow;
 	
 	if (map) {
+		[self checkForRogueLevel];
 		[self drawTiledMap:map clipRect:rect];
 	}
 	

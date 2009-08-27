@@ -47,6 +47,9 @@
 	
 	UIImage *petMark;
 	
+	CGSize tilesetTileSize;
+	BOOL asciiTileset;
+	
 }
 
 @property (nonatomic, readonly) CGPoint start;
@@ -56,6 +59,7 @@
 @property (nonatomic, readonly) TileSet *tileSet;
 
 - (void) drawTiledMap:(Window *)map clipRect:(CGRect)clipRect;
+- (void) checkForRogueLevel;
 - (UIFont *) fontAndSize:(CGSize *)size forStrings:(NSArray *)strings withFont:(UIFont *)font;
 - (UIFont *) fontAndSize:(CGSize *)size forString:(NSString *)s withFont:(UIFont *)font;
 - (TilePosition *) tilePositionFromPoint:(CGPoint)p;
