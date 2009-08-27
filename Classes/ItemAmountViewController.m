@@ -75,12 +75,6 @@ extern short glyph2tile[];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	/*
-	UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Drop" style:UIBarButtonItemStylePlain
-														  target:self action:@selector(finishPickOne:)];
-	self.navigationItem.rightBarButtonItem = bi;
-	 [bi release];
-	*/
 	if (menuWindow.nethackMenuItem.glyph != NO_GLYPH && menuWindow.nethackMenuItem.glyph != kNoGlyph) {
 		UIImage *uiImg = [UIImage imageWithCGImage:[[TileSet instance] imageForGlyph:menuWindow.nethackMenuItem.glyph]];
 		imageView.image = uiImg;
