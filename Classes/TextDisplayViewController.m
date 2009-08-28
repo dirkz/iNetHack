@@ -37,8 +37,10 @@
 - (void)updateText {
 	if (textView) {
 		textView.text = self.text;
-		NSRange r = NSMakeRange(self.text.length, 0);
-		[textView scrollRangeToVisible:r];
+		if (self.text && self.text.length > 0) {
+			NSRange r = NSMakeRange(self.text.length-1, 1);
+			[textView scrollRangeToVisible:r];
+		}
 	} else if (webView) {
 		[webView loadHTMLString:self.text baseURL:nil];
 	}
