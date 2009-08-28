@@ -24,6 +24,7 @@
 #import "MainViewController.h"
 
 @implementation TextDisplayViewController
+
 @synthesize text, condition, isHTML;
 
 - (void)dealloc
@@ -36,6 +37,8 @@
 - (void)updateText {
 	if (textView) {
 		textView.text = self.text;
+		NSRange r = NSMakeRange(self.text.length, 0);
+		[textView scrollRangeToVisible:r];
 	} else if (webView) {
 		[webView loadHTMLString:self.text baseURL:nil];
 	}
@@ -74,6 +77,7 @@
 		[webView release];
 	} else {
 		textView = [[UITextView alloc] initWithFrame:self.view.frame];
+		textView.editable = NO;
 		self.view = textView;
 		[textView release];
 	}

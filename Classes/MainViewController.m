@@ -197,7 +197,7 @@ static MainViewController *_instance;
 }
 
 - (void) displayText:(NSString *)text withCondition:(NSCondition *)condition {
-	TextDisplayViewController* viewController = [TextDisplayViewController new];
+	TextDisplayViewController *viewController = [TextDisplayViewController new];
 	viewController.text = text;
 	viewController.condition = condition;
 	[self performSelectorOnMainThread:@selector(pushViewControllerOnMainThread:) withObject:viewController waitUntilDone:YES];
@@ -227,7 +227,7 @@ static MainViewController *_instance;
 
 - (void) showManual:(id)obj {
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"manual" ofType:@"html"];
-	TextDisplayViewController* viewController = [TextDisplayViewController new];
+	TextDisplayViewController *viewController = [TextDisplayViewController new];
 	viewController.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
 	viewController.isHTML = YES;
 	[self.navigationController pushViewController:viewController animated:YES];
@@ -236,7 +236,7 @@ static MainViewController *_instance;
 
 - (void) showCredits:(id)obj {
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"credits" ofType:@"html"];
-	TextDisplayViewController* viewController = [TextDisplayViewController new];
+	TextDisplayViewController *viewController = [TextDisplayViewController new];
 	viewController.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
 	viewController.isHTML = YES;
 	[self.navigationController pushViewController:viewController animated:YES];
