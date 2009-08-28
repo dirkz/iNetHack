@@ -261,6 +261,7 @@ int iphone_select_menu(winid wid, int how, menu_item **selected) {
 	[[MainViewController instance] displayMenuWindow:w];
 	*selected = w.menuList;
 	//NSLog(@"iphone_select_menu -> %d", w.menuResult);
+	w.menuPrompt = nil;
 	return w.menuResult;
 }
 
