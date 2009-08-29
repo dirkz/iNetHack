@@ -25,7 +25,7 @@
 
 @implementation TextDisplayViewController
 
-@synthesize text, condition, isHTML;
+@synthesize text, condition, isHTML, isLog;
 
 - (void)dealloc
 {
@@ -37,7 +37,7 @@
 - (void)updateText {
 	if (textView) {
 		textView.text = self.text;
-		if (self.text && self.text.length > 0) {
+		if (isLog && self.text && self.text.length > 0) {
 			NSRange r = NSMakeRange(self.text.length-1, 1);
 			[textView scrollRangeToVisible:r];
 		}

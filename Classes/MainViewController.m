@@ -196,12 +196,17 @@ static MainViewController *_instance;
 	[self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (void) displayText:(NSString *)text withCondition:(NSCondition *)condition {
+- (void) displayText:(NSString *)text withCondition:(NSCondition *)condition isLog:(BOOL)l {
 	TextDisplayViewController *viewController = [TextDisplayViewController new];
+	viewController.isLog = l;
 	viewController.text = text;
 	viewController.condition = condition;
 	[self performSelectorOnMainThread:@selector(pushViewControllerOnMainThread:) withObject:viewController waitUntilDone:YES];
 	[viewController release];
+}
+
+- (void) displayText:(NSString *)text withCondition:(NSCondition *)condition {
+	[self displayText:text withCondition:condition isLog:NO];
 }
 
 - (void) nethackShowLog:(id)i {
@@ -216,7 +221,7 @@ static MainViewController *_instance;
 		text = [NSString stringWithFormat:@"%@%@", text, s];
 	}
 	[self.messageWindow clearMessages];
-	[self displayText:text withCondition:nil];
+	[self displayText:text withCondition:nil isLog:YES];
 }
 
 - (void) nethackShowLicense:(id)i {
