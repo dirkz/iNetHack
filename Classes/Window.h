@@ -28,7 +28,7 @@
 
 @class NethackMenuItem;
 
-@interface Window : NSObject {
+@interface Window : NSObject <NSLocking> {
 	
 	int type;
 	int curx;
@@ -58,6 +58,8 @@
 	
 	// used for determining amounts on PICK_ONE
 	NethackMenuItem *nethackMenuItem;
+	
+	NSCondition *messageCondition;
 }
 
 @property (nonatomic, readonly) int type;

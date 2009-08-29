@@ -64,6 +64,7 @@
 		strings = [[NSMutableArray alloc] init];
 		maxLogEntries = 50;
 		log = [[NSMutableArray alloc] init];
+		messageCondition = [NSCondition new];
 	}
 	return self;
 }
@@ -86,6 +87,7 @@
 }
 
 - (void) putString:(const char *)s {
+	[self lock];
 	NSString *str = [NSString stringWithCString:s];
 	if (type == NHW_STATUS && strings.count == 2) {
 		[strings removeAllObjects];
@@ -95,6 +97,7 @@
 	}
 	[strings addObject:str];
 	[self addLogString:str];
+	[self unlock];
 }
 
 - (NSString *) text {
@@ -144,7 +147,16 @@
 }
 
 - (void) clearMessages {
+	// no need to lock here, always called from same thread
 	[strings removeAllObjects];
+}
+
+- (void) lock {
+	[messageCondition lock];
+}
+
+- (void) unlock {
+	[messageCondition unlock];
 }
 
 - (void) dealloc {
@@ -152,6 +164,7 @@
 	[strings release];
 	[log release];
 	[menuItems release];
+	[messageCondition release];
 	[super dealloc];
 }
 

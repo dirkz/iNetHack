@@ -222,15 +222,23 @@
 	CGSize statusSize;
 	CGPoint p = CGPointMake(0,0);
 	if (status) {
-		if (status.strings.count > 0) {
-			statusSize = [self drawStrings:[status.strings copy] withSize:CGSizeMake(self.bounds.size.width, 18)
+		NSArray *strings;
+		[status lock];
+		strings = [status.strings copy];
+		[status unlock];
+		if (strings.count > 0) {
+			statusSize = [self drawStrings:[strings copy] withSize:CGSizeMake(self.bounds.size.width, 18)
 								   atPoint:p];
 		}
 	}
 	if (message) {
 		p.y = statusSize.height;
-		if (status.strings.count > 0) {
-			statusSize = [self drawStrings:[message.strings copy] withSize:CGSizeMake(self.bounds.size.width, 18)
+		NSArray *strings;
+		[status lock];
+		strings = [message.strings copy];
+		[status unlock];
+		if (strings.count > 0) {
+			statusSize = [self drawStrings:[strings copy] withSize:CGSizeMake(self.bounds.size.width, 18)
 								   atPoint:p];
 		}
 	}
