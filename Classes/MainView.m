@@ -222,7 +222,7 @@
 	CGSize statusSize;
 	CGPoint p = CGPointMake(0,0);
 	if (status) {
-		NSArray *strings;
+		NSArray *strings = nil;
 		[status lock];
 		strings = [status.strings copy];
 		[status unlock];
@@ -233,7 +233,7 @@
 	}
 	if (message) {
 		p.y = statusSize.height;
-		NSArray *strings;
+		NSArray *strings = nil;
 		[status lock];
 		strings = [message.strings copy];
 		[status unlock];
