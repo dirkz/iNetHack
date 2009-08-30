@@ -32,7 +32,7 @@
 			<key>Key</key>
 			<string>autopickup</string>
 			<key>DefaultValue</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -72,7 +72,7 @@
 			<key>Key</key>
 			<string>time</string>
 			<key>DefaultValue</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -82,7 +82,7 @@
 			<key>Key</key>
 			<string>showexp</string>
 			<key>DefaultValue</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -146,7 +146,7 @@
 			<key>MaximumValue</key>
 			<integer>1</integer>
 			<key>DefaultValue</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 	</array>
 </dict>
