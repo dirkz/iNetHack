@@ -529,14 +529,12 @@ getlock(void)
 	const char* fq_lock = fqname(lock, LEVELPREFIX, 1);
 	if ((fd = open(lock, O_RDWR | O_EXCL | O_CREAT, 0644)) == -1) {
 		if(iflags.window_inited) {
-			char c = yn("There are files from a game in progress under your name. Recover?");
+			char c = yn("There are files from a game in progress. Recover?");
 			if (c != 'y' && c != 'Y') {
 				int fail = unlink(lock);
 				if (!fail) {
 					fd = open(lock, O_RDWR | O_EXCL | O_CREAT, 0644);
-					// remove old save file
-					set_savefile_name();
-					fail = unlink(SAVEF);
+					delete_savefile();
 				}
 			} else {
 				// Try to recover
