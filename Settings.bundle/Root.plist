@@ -48,6 +48,16 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>Auto Dig</string>
+			<key>Key</key>
+			<string>autodig</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>Wizard</string>
 			<key>Key</key>
 			<string>wizard</string>

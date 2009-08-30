@@ -43,6 +43,7 @@
 #define kOptionAutokick (@"autokick")
 #define kOptionTime (@"time")
 #define kOptionShowExp (@"showexp")
+#define kOptionAutoDig (@"autodig")
 
 #undef DEFAULT_WINDOW_SYS
 #define DEFAULT_WINDOW_SYS "iphone"
@@ -507,6 +508,7 @@ void iphone_init_options() {
 	winiphone_autokick = [defaults boolForKey:kOptionAutokick];
 	flags.showexp = [defaults boolForKey:kOptionShowExp];
 	flags.time = [defaults boolForKey:kOptionTime];
+	flags.autodig = [defaults boolForKey:kOptionAutoDig];
 }
 
 void iphone_override_options() {
