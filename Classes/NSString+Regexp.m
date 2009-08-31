@@ -63,9 +63,13 @@
 	if (r2.location == NSNotFound) {
 		return nil;
 	}
-	NSRange r = NSMakeRange(r1.location+1, r2.location-r1.location-1);
-	NSString *sub = [self substringWithRange:r];
-	return sub;
+	if (r2.location > r1.location) {
+		NSRange r = NSMakeRange(r1.location+1, r2.location-r1.location-1);
+		NSString *sub = [self substringWithRange:r];
+		return sub;
+	} else {
+		return nil;
+	}
 }
 
 - (NSString *) stringWithTrimmedWhitespaces {
