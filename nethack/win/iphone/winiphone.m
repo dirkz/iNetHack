@@ -36,6 +36,10 @@
 #include "dlb.h"
 #include "hack.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 #define kOptionUsername (@"username")
 #define kOptionAutopickup (@"autopickup")
 #define kOptionPickupTypes (@"pickupTypes")
@@ -504,7 +508,9 @@ void iphone_init_options() {
 		}
 		[tmp getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
 	}
-	wizard = [defaults boolForKey:kOptionWizard];
+#if TARGET_IPHONE_SIMULATOR
+	wizard = YES;
+#endif
 	winiphone_autokick = [defaults boolForKey:kOptionAutokick];
 	flags.showexp = [defaults boolForKey:kOptionShowExp];
 	flags.time = [defaults boolForKey:kOptionTime];

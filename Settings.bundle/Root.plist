@@ -58,16 +58,6 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Wizard</string>
-			<key>Key</key>
-			<string>wizard</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
 			<string>Auto-Kick Doors</string>
 			<key>Key</key>
 			<string>autokick</string>
