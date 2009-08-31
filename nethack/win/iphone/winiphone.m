@@ -374,8 +374,6 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 			return [[MainViewController instance] getDirectionInput];
 		} else {
 			NSString *q = [NSString stringWithCString:question];
-			// todo this is buggy, doesn't work for something like
-			// Adjust letter to what [be-zA-Z]?
 			NSString *preLets = [q substringBetweenDelimiters:@"[]"];
 			if (preLets && preLets.length > 0) {
 				Window *inventoryWindow = [[MainViewController instance] windowWithId:WIN_INVEN];
