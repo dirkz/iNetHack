@@ -605,15 +605,22 @@ static MainViewController *_instance;
 
 - (void) displayWindowId:(winid)wid blocking:(BOOL)blocking {
 	Window *w = [self windowWithId:wid];
-	if (w.type == NHW_MENU || w.type == NHW_TEXT && blocking) {
-		if ((w.type == NHW_TEXT || w.type == NHW_MENU) && w.strings.count > 0) {
-			[uiCondition lock];
-			[self performSelectorOnMainThread:@selector(displayMessage:) withObject:w waitUntilDone:YES];
-			[uiCondition wait];
-			[uiCondition unlock];
-		}
-	} else if (w.type == NHW_MAP || w.type == NHW_MESSAGE) {
-		[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+	switch (w.type) {
+		case NHW_MENU:
+		case NHW_TEXT:
+			if (w.strings.count > 0) {
+				[uiCondition lock];
+				[self performSelectorOnMainThread:@selector(displayMessage:) withObject:w waitUntilDone:YES];
+				[uiCondition wait];
+				[uiCondition unlock];
+			}
+			break;
+		case NHW_MAP:
+		case NHW_MESSAGE:
+			[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+			break;
+		default:
+			break;
 	}
 }
 
