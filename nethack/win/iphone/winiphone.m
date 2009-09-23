@@ -406,6 +406,9 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 						}
 					}
 				}
+				if (!terminateLoop) {
+					index++;
+				}
 				NSRange r = NSMakeRange(start, index-start);
 				NSString *lets = [preLets substringWithRange:r];
 				r = [preLets rangeOfString:@"or "];
