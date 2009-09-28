@@ -562,7 +562,7 @@ getlock(void)
 	}
 
 	if (write (fd, (char *)&pid, sizeof (pid)) != sizeof (pid))  {
-		raw_printf ("Could not lock the game %s.", lock);
+		raw_printf("Could not lock the game %s.", lock);
 		panic("Disk locked?");
 	}
 	close (fd);
@@ -628,7 +628,7 @@ void iphone_main() {
 	vision_init();
 	display_gamewindows();		   /* create & display the game windows */
 
-	Sprintf (lock, "%d%s", getuid (), [NSUserName() cStringUsingEncoding:NSASCIIStringEncoding]);
+	Sprintf(lock, "%d%s", getuid(), [NSUserName() cStringUsingEncoding:NSASCIIStringEncoding]);
 	getlock();
 
 	register int fd;

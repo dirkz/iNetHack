@@ -22,8 +22,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class MainViewController;
-
 @interface iNethackAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 	IBOutlet UINavigationController *mainNavigationController;
