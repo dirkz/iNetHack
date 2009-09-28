@@ -161,6 +161,8 @@
 		43D113CF1007491700082C8D /* TextDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D113CE1007491700082C8D /* TextDisplayViewController.m */; };
 		43D1142B10074E9F00082C8D /* news in Resources */ = {isa = PBXBuildFile; fileRef = 43D1142A10074E9F00082C8D /* news */; };
 		43D1149410075A0A00082C8D /* TilePosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D1149310075A0A00082C8D /* TilePosition.m */; };
+		43DC336A1070CD1C00FBCE71 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DC33681070CD1C00FBCE71 /* MainMenuViewController.m */; };
+		43DC336B1070CD1C00FBCE71 /* MainMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43DC33691070CD1C00FBCE71 /* MainMenuView.xib */; };
 		43DD07060FF4BC3900580249 /* winiphone.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DD07050FF4BC3900580249 /* winiphone.m */; };
 		43DD076E0FF4C3E900580249 /* monstr.c in Sources */ = {isa = PBXBuildFile; fileRef = 43DD076D0FF4C3E900580249 /* monstr.c */; };
 		43DD07AB0FF4C60400580249 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DD07AA0FF4C60400580249 /* MainViewController.m */; };
@@ -605,6 +607,9 @@
 		43D1142A10074E9F00082C8D /* news */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = news; sourceTree = "<group>"; };
 		43D1149210075A0A00082C8D /* TilePosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TilePosition.h; sourceTree = "<group>"; };
 		43D1149310075A0A00082C8D /* TilePosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TilePosition.m; sourceTree = "<group>"; };
+		43DC33671070CD1C00FBCE71 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewController.h; sourceTree = "<group>"; };
+		43DC33681070CD1C00FBCE71 /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
+		43DC33691070CD1C00FBCE71 /* MainMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainMenuView.xib; path = Classes/MainMenuView.xib; sourceTree = "<group>"; };
 		43DD05D70FF4BAD900580249 /* date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = date.h; sourceTree = "<group>"; };
 		43DD07040FF4BC3900580249 /* winiphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = winiphone.h; sourceTree = "<group>"; };
 		43DD07050FF4BC3900580249 /* winiphone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = winiphone.m; sourceTree = "<group>"; };
@@ -802,6 +807,8 @@
 			children = (
 				1D3623240D0F684500981E51 /* iNethackAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iNethackAppDelegate.m */,
+				43DC33671070CD1C00FBCE71 /* MainMenuViewController.h */,
+				43DC33681070CD1C00FBCE71 /* MainMenuViewController.m */,
 				43DD07A90FF4C60400580249 /* MainViewController.h */,
 				43DD07AA0FF4C60400580249 /* MainViewController.m */,
 				43DD07AC0FF4C60E00580249 /* MainView.h */,
@@ -898,6 +905,7 @@
 				4325C35B1035FC3F00653E8A /* Entitlements.plist */,
 				439F0F76100245080050AED4 /* Icon.png */,
 				43DD0A210FF4E0F700580249 /* dat */,
+				43DC33691070CD1C00FBCE71 /* MainMenuView.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				43DD07B10FF4C64100580249 /* MainView.xib */,
@@ -1573,6 +1581,7 @@
 				43AFFC22103FE53500DCC8C1 /* ItemAmountView.xib in Resources */,
 				439AB8891041067B00D3F533 /* nhtiles.bmp in Resources */,
 				43A29145104670920063F29D /* tiles32.bmp in Resources */,
+				43DC336B1070CD1C00FBCE71 /* MainMenuView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1721,6 +1730,7 @@
 				43AFFBE0103FDF4B00DCC8C1 /* NSString+NetHack.m in Sources */,
 				43AFFC21103FE53500DCC8C1 /* ItemAmountViewController.m in Sources */,
 				43753C96104307DB0021BFC5 /* AsciiTileSet.m in Sources */,
+				43DC336A1070CD1C00FBCE71 /* MainMenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

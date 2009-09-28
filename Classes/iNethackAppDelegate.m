@@ -24,6 +24,7 @@
 #import "MainViewController.h"
 #import "NethackEventQueue.h"
 #import "MainView.h"
+#import "MainMenuViewController.h"
 
 #include "hack.h"
 
@@ -31,11 +32,12 @@
 
 @synthesize window;
 
-
-- (void)applicationDidFinishLaunching:(UIApplication *)application {    
-
-    // Override point for customization after application launch
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
+	// use mainNavigationController.view to skip main menu
 	[window addSubview:mainNavigationController.view];
+	
+	//[window addSubview:mainMenuViewController.view];
+
     [window makeKeyAndVisible];
 }
 

@@ -22,9 +22,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class MainMenuViewController;
+
 @interface iNethackAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 	IBOutlet UINavigationController *mainNavigationController;
+	IBOutlet MainMenuViewController *mainMenuViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
