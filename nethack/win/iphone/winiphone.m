@@ -680,6 +680,8 @@ void iphone_main() {
 	}
 	
 	iphone_override_options();
+	[[MainViewController instance] setGameInProgress:YES];
 	moveloop();
+	[[MainViewController instance] setGameInProgress:NO];
 	exit(EXIT_SUCCESS);
 }

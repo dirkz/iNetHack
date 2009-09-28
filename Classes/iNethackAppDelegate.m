@@ -44,7 +44,7 @@
 											 forKey:kKeyTileSize];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	
-	if (![[MainViewController instance] roleSelectionInProgress]) {
+	if ([[MainViewController instance] gameInProgress]) {
 		dosave();
 	} else {
 		int fail = unlink(lock);

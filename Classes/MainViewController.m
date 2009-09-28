@@ -52,7 +52,7 @@ static MainViewController *_instance;
 @implementation MainViewController
 
 @synthesize windows, clip, nethackEventQueue;
-@synthesize roleSelectionInProgress;
+@synthesize gameInProgress;
 
 + (id) instance {
 	return _instance;
@@ -739,14 +739,12 @@ static MainViewController *_instance;
 	NSAssert(flags.initrace  != -1, @"Race was not set");
 	NSAssert(flags.initgend  != -1, @"Gender was not set");
 	NSAssert(flags.initrole  != -1, @"Role was not set");
-	self.roleSelectionInProgress = NO;
 	[self broadcastUIEvent];
 }
 
 - (void) doPlayerSelectionOnUIThread:(id)obj {
 	RoleSelectionController* roleSelector = [RoleSelectionController roleSelectorWithNavigationController:self.navigationController];
 	roleSelector.delegate = self;
-	roleSelectionInProgress = YES;
 	[roleSelector start];
 }
 

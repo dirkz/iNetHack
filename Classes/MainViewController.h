@@ -68,7 +68,7 @@
 	
 	DMath *dmath;
 	
-	BOOL roleSelectionInProgress;
+	BOOL gameInProgress;
 	BOOL keyboardReturnShouldQueueEscape;
 	
 	NSTimeInterval doubleTapSensitivity;
@@ -80,7 +80,7 @@
 @property (nonatomic, readonly) Window *messageWindow;
 @property (nonatomic, readonly) Window *statusWindow;
 @property (nonatomic, retain) NethackEventQueue *nethackEventQueue;
-@property (nonatomic, assign) BOOL roleSelectionInProgress;
+@property (assign) BOOL gameInProgress;
 
 + (id) instance;
 + (void) message:(NSString *)format, ...;
