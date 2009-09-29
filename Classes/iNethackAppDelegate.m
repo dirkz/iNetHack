@@ -33,7 +33,7 @@
 @synthesize window;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	//[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
+	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	
 	// use mainNavigationController.view to skip main menu
 	[window addSubview:mainNavigationController.view];
