@@ -98,6 +98,8 @@ static MainViewController *_instance;
 	clip = [[TilePosition alloc] init];
 	dmath = [[DMath alloc] init];
 
+	maxMessageCount = 10;
+	
 	// read options
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	doubleTapSensitivity = [defaults floatForKey:kOptionDoubleTapSensitivity];
@@ -638,6 +640,17 @@ static MainViewController *_instance;
 										  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	}
 	[alert show];
+}
+
+- (void) displayPendingMessages {
+	if (self.messageWindow.strings.count > maxMessageCount) {
+		[uiCondition lock];
+		[self performSelectorOnMainThread:@selector(displayMessage:) withObject:self.messageWindow waitUntilDone:YES];
+		[uiCondition wait];
+		[uiCondition unlock];
+		[self.messageWindow clearMessages];
+		[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+	}
 }
 
 - (void) displayMenuWindow:(Window *)w {

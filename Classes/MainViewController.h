@@ -72,6 +72,9 @@
 	BOOL keyboardReturnShouldQueueEscape;
 	
 	NSTimeInterval doubleTapSensitivity;
+	
+	// number of messages in excess of this are shown as message box
+	int maxMessageCount;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
@@ -91,6 +94,7 @@
 - (Window *) windowWithId:(winid)wid;
 - (void) displayWindowId:(winid)wid blocking:(BOOL)blocking;
 - (void) displayMessage:(Window *)w;
+- (void) displayPendingMessages;
 
 - (void) displayMenuWindow:(Window *)w;
 - (void) displayMenuWindowOnUIThread:(Window *)w;

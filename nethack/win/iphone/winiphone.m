@@ -326,8 +326,8 @@ int iphone_nhgetch() {
 
 int iphone_nh_poskey(int *x, int *y, int *mod) {
 	//NSLog(@"iphone_nh_poskey");
-	MainViewController *v = [MainViewController instance];
-	NethackEvent *e = [v.nethackEventQueue waitForNextEvent];
+	[[MainViewController instance] displayPendingMessages];
+	NethackEvent *e = [[[MainViewController instance] nethackEventQueue] waitForNextEvent];
 	*x = e.x;
 	*y = e.y;
 	*mod = CLICK_1;
