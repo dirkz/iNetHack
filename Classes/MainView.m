@@ -234,9 +234,9 @@
 	if (message) {
 		p.y = statusSize.height;
 		NSArray *strings = nil;
-		[status lock];
+		[message lock];
 		strings = [message.strings copy];
-		[status unlock];
+		[message unlock];
 		if (strings.count > 0) {
 			statusSize = [self drawStrings:[strings copy] withSize:CGSizeMake(self.bounds.size.width, 18)
 								   atPoint:p];
