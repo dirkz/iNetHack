@@ -31,7 +31,7 @@
 @synthesize acceptBareHanded, acceptMore, acceptMoney;
 @synthesize nethackMenuItem;
 
-- (id) initWithType:(winid)t {
+- (id) initWithType:(int)t {
 	if (self = [super init]) {
 		type = t;
 		maxWidth = COLNO;
