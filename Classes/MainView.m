@@ -238,8 +238,17 @@
 		strings = [message.strings copy];
 		[message unlock];
 		if (strings.count > 0) {
-			statusSize = [self drawStrings:[strings copy] withSize:CGSizeMake(self.bounds.size.width, 18)
-								   atPoint:p];
+			CGSize bounds = self.bounds.size;
+			for (NSString *s in strings) {
+				CGSize size = [s sizeWithFont:statusFont];
+				if (p.x + size.width < bounds.width) {
+					size = [s drawAtPoint:p withFont:statusFont];
+					p.x += size.width + 2;
+				} else {
+					p.y += size.height + 2;
+					p.x = 0;
+				}
+			}
 		}
 	}
 }
