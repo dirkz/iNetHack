@@ -33,6 +33,11 @@ extern short glyph2tile[];
 
 @synthesize menuWindow;
 
+- (void) awakeFromNib {
+	[super awakeFromNib];
+	self.title = @"Set Amount";
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
 }
@@ -47,14 +52,6 @@ extern short glyph2tile[];
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	self.title = @"Set Amount";
-	amountSlider.continuous = YES;
-	[amountSlider addTarget:self action:@selector(sliderValueHasChanged:) forControlEvents:UIControlEventValueChanged];
-	[dropButton addTarget:self action:@selector(finishPickOne:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void) sliderValueHasChanged:(id)sender {
@@ -75,6 +72,15 @@ extern short glyph2tile[];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	amountSlider.continuous = YES;
+	if (!targetsSet) {
+		// things like this should be in awakeFromNib
+		// but when called the outlets don't seem to be initialized
+		// so we have to do that here
+		[amountSlider addTarget:self action:@selector(sliderValueHasChanged:) forControlEvents:UIControlEventValueChanged];
+		[dropButton addTarget:self action:@selector(finishPickOne:) forControlEvents:UIControlEventTouchUpInside];
+		targetsSet = YES;
+	}
 	if (menuWindow.nethackMenuItem.glyph != NO_GLYPH && menuWindow.nethackMenuItem.glyph != kNoGlyph) {
 		UIImage *uiImg = [UIImage imageWithCGImage:[[TileSet instance] imageForGlyph:menuWindow.nethackMenuItem.glyph]];
 		imageView.image = uiImg;

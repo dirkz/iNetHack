@@ -67,25 +67,8 @@ static MainViewController *_instance;
 	[msg release];
 }
 
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void) awakeFromNib {
+	[super awakeFromNib];
 	touchInfoStore = [[TouchInfoStore alloc] init];
 	self.title = @"Dungeon";
 	windows = [[NSMutableArray alloc] init];
@@ -97,15 +80,20 @@ static MainViewController *_instance;
 	lastSingleTapDelta = [[TilePosition alloc] init];
 	clip = [[TilePosition alloc] init];
 	dmath = [[DMath alloc] init];
-
+	
 	maxMessageCount = 10;
 	
 	// read options
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	doubleTapSensitivity = [defaults floatForKey:kOptionDoubleTapSensitivity];
-	
-	NSThread *nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackLoop:) object:nil];
-	[nethackThread start];
+	doubleTapSensitivity = [[NSUserDefaults standardUserDefaults] floatForKey:kOptionDoubleTapSensitivity];
+}
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+    [super viewDidLoad];
+	if (!nethackThread) {
+		nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackLoop:) object:nil];
+		[nethackThread start];
+	}
 }
 
 // Override to allow orientations other than the default portrait orientation.

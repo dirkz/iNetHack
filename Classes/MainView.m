@@ -50,6 +50,7 @@
 }
 
 - (void) awakeFromNib {
+	[super awakeFromNib];
 	statusFont = [UIFont systemFontOfSize:16];
 	
 	// tileSize

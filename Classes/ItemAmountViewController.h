@@ -34,6 +34,7 @@
 	IBOutlet UIButton *dropButton;
 	
 	Window *menuWindow;
+	BOOL targetsSet;
 	
 }
 
