@@ -612,10 +612,10 @@ void iphone_main() {
 	
 	choose_windows(DEFAULT_WINDOW_SYS); /* choose a default window system */
 	initoptions();			   /* read the resource file */
-	
 	init_nhwindows(&argc, argv);		   /* initialize the window system */
 	process_options(argc, argv);	   /* process command line options or equiv */
-
+	iphone_init_options();
+	
 	NSString* logFilePath = [[NSString alloc] initWithCString:LOGFILE];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:logFilePath]) {
 		[[NSFileManager defaultManager] createFileAtPath:logFilePath contents:nil attributes:nil];
