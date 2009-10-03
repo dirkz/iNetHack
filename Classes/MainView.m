@@ -246,8 +246,13 @@
 					size = [s drawAtPoint:p withFont:statusFont];
 					p.x += size.width + 2;
 				} else {
-					p.y += size.height + 2;
+					if (p.x != 0) {
+						p.y += size.height + 2;
+					}
 					p.x = 0;
+					UIFont *font = [self fontAndSize:&size forString:s withFont:statusFont];
+					size = [s drawAtPoint:p withFont:font];
+					p.y += size.height + 2;
 				}
 			}
 		}
