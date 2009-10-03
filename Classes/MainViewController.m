@@ -120,7 +120,6 @@ static MainViewController *_instance;
 }
 
 - (void) mainNethackLoop:(id)arg {
-	NSLog(@"starting nethack thread");
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	iphone_main();
 	[pool release];
