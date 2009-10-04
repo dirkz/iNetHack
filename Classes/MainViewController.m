@@ -81,7 +81,7 @@ static MainViewController *_instance;
 	clip = [[TilePosition alloc] init];
 	dmath = [[DMath alloc] init];
 	
-	maxMessageCount = 10;
+	maxMessageCount = 8;
 	
 	// read options
 	doubleTapSensitivity = [[NSUserDefaults standardUserDefaults] floatForKey:kOptionDoubleTapSensitivity];
