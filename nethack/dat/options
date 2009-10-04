@@ -14,5 +14,6 @@ Options compiled into this edition:
 
 Supported windowing systems:
 
+    traditional tty-based graphics,
     with a default of tty.
 

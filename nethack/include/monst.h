@@ -145,6 +145,9 @@ struct monst {
 	   be (or follow) a long int */
 	int meating;		/* monster is eating timeout */
 	long mextra[1]; /* monster dependent info */
+#ifdef __APPLE__
+	int _iphone_magic; /* change footprint for hearse, both for target and build platform (for makedefs) */
+#endif
 };
 
 /*
