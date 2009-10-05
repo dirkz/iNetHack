@@ -30,6 +30,7 @@
 @synthesize isShallowMenu, menuHow, menuList, menuResult, log;
 @synthesize acceptBareHanded, acceptMore, acceptMoney;
 @synthesize nethackMenuItem;
+@synthesize shouldDisplay;
 
 - (id) initWithType:(int)t {
 	if (self = [super init]) {

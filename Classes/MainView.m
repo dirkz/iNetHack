@@ -34,6 +34,7 @@
 @implementation MainView
 
 @synthesize start, tileSize, dummyTextField, tileSet;
+@synthesize status, map, message;
 
 + (void) initialize {
 	NSAutoreleasePool* pool = [NSAutoreleasePool new];
@@ -120,7 +121,7 @@
 
 #pragma mark drawing
 
-- (void) drawTiledMap:(Window *)map clipRect:(CGRect)clipRect {
+- (void) drawTiledMap:(Window *)m clipRect:(CGRect)clipRect {
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	CGPoint center = CGPointMake(self.bounds.size.width/2-tileSize.width/2, self.bounds.size.height/2-tileSize.height/2);
 	
@@ -128,7 +129,7 @@
 						-mainViewController.clip.y*tileSize.height + center.y + offset.y);
 
 	// draw border
-	CGRect borderRect = CGRectMake(start.x, start.y, map.width*tileSize.width, map.height*tileSize.height);
+	CGRect borderRect = CGRectMake(start.x, start.y, m.width*tileSize.width, m.height*tileSize.height);
 	float w = 2.0f;
 	borderRect.origin.x -= w;
 	borderRect.origin.y -= w;
@@ -138,9 +139,9 @@
 	CGContextSetStrokeColor(ctx, borderColor);
 	CGContextStrokeRect(ctx, borderRect);
 
-	for (int j = 0; j < map.height; ++j) {
-		for (int i = 0; i < map.width; ++i) {
-			int glyph = [map glyphAtX:i y:j];
+	for (int j = 0; j < m.height; ++j) {
+		for (int i = 0; i < m.width; ++i) {
+			int glyph = [m glyphAtX:i y:j];
 			if (glyph != kNoGlyph) {
 				/*
 				 // might be handy for debugging ...
@@ -211,9 +212,11 @@
 
 - (void)drawRect:(CGRect)rect {
 	mainViewController = [MainViewController instance];
-	Window *map = mainViewController.mapWindow;
-	Window *status = mainViewController.statusWindow;
-	Window *message = mainViewController.messageWindow;
+	
+	// retain needed windows to avoid crash on exit
+	self.map = mainViewController.mapWindow;
+	self.status = mainViewController.statusWindow;
+	self.message = mainViewController.messageWindow;
 	
 	if (map) {
 		[self checkForRogueLevel];
@@ -241,6 +244,10 @@
 		if (strings.count > 0) {
 			CGSize bounds = self.bounds.size;
 			for (NSString *s in strings) {
+				if (p.y > self.bounds.size.height/3) {
+					message.shouldDisplay = YES;
+					break;
+				}
 				CGSize size = [s sizeWithFont:statusFont];
 				if (p.x + size.width < bounds.width) {
 					size = [s drawAtPoint:p withFont:statusFont];

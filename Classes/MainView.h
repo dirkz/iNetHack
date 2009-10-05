@@ -50,6 +50,9 @@
 	CGSize tilesetTileSize;
 	BOOL asciiTileset;
 	
+	Window *map;
+	Window *status;
+	Window *message;
 }
 
 @property (nonatomic, readonly) CGPoint start;
@@ -57,8 +60,11 @@
 @property (nonatomic, readonly) IBOutlet UITextField *dummyTextField;
 @property (nonatomic, readonly) BOOL isMoved;
 @property (nonatomic, readonly) TileSet *tileSet;
+@property (nonatomic, retain) Window *map;
+@property (nonatomic, retain) Window *status;
+@property (nonatomic, retain) Window *message;
 
-- (void) drawTiledMap:(Window *)map clipRect:(CGRect)clipRect;
+- (void) drawTiledMap:(Window *)m clipRect:(CGRect)clipRect;
 - (void) checkForRogueLevel;
 - (UIFont *) fontAndSize:(CGSize *)size forStrings:(NSArray *)strings withFont:(UIFont *)font;
 - (UIFont *) fontAndSize:(CGSize *)size forString:(NSString *)s withFont:(UIFont *)font;

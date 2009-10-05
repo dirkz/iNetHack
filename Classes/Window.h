@@ -60,6 +60,9 @@
 	NethackMenuItem *nethackMenuItem;
 	
 	NSCondition *messageCondition;
+	
+	// used when there are too many messages to fit on screen
+	BOOL shouldDisplay;
 }
 
 @property (nonatomic, readonly) int type;
@@ -81,6 +84,8 @@
 @property (nonatomic, assign) BOOL acceptBareHanded;
 @property (nonatomic, assign) BOOL acceptMore;
 @property (nonatomic, assign) BOOL acceptMoney;
+
+@property (assign) BOOL shouldDisplay;
 
 - (id) initWithType:(int)t;
 - (int) glyphAtX:(int)x y:(int)y;

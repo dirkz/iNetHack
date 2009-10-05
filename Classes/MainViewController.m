@@ -81,8 +81,6 @@ static MainViewController *_instance;
 	clip = [[TilePosition alloc] init];
 	dmath = [[DMath alloc] init];
 	
-	maxMessageCount = 8;
-	
 	// read options
 	doubleTapSensitivity = [[NSUserDefaults standardUserDefaults] floatForKey:kOptionDoubleTapSensitivity];
 }
@@ -630,13 +628,16 @@ static MainViewController *_instance;
 }
 
 - (void) displayPendingMessages {
-	if (self.messageWindow.strings.count > maxMessageCount) {
-		[uiCondition lock];
-		[self performSelectorOnMainThread:@selector(displayMessage:) withObject:self.messageWindow waitUntilDone:YES];
-		[uiCondition wait];
-		[uiCondition unlock];
-		[self.messageWindow clearMessages];
-		[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+	if (self.messageWindow.shouldDisplay) {
+		self.messageWindow.shouldDisplay = NO;
+		if (self.messageWindow.strings.count > 0) {
+			[uiCondition lock];
+			[self performSelectorOnMainThread:@selector(displayMessage:) withObject:self.messageWindow waitUntilDone:YES];
+			[uiCondition wait];
+			[uiCondition unlock];
+			[self.messageWindow clearMessages];
+			[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+		}
 	}
 }
 

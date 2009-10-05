@@ -73,9 +73,6 @@
 	
 	NSTimeInterval doubleTapSensitivity;
 	
-	// number of messages in excess of this are shown as message box
-	int maxMessageCount;
-	
 	NSThread *nethackThread;
 }
 
