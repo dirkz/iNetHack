@@ -55,11 +55,11 @@
 	statusFont = [UIFont systemFontOfSize:16];
 	
 	// tileSize
-	maxTileSize = CGSizeMake(32,32);
-	float ts = [[NSUserDefaults standardUserDefaults] floatForKey:kKeyTileSize];
-	tileSize = CGSizeMake(ts,ts);
+	maxTileSize = tilesetTileSize = CGSizeMake(32,32);
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
+	float ts = [[NSUserDefaults standardUserDefaults] floatForKey:kKeyTileSize];
+	tileSize = CGSizeMake(ts,ts);
 	if (tileSize.width > maxTileSize.width) {
 		tileSize = maxTileSize;
 	} else if (tileSize.width < minTileSize.width) {
@@ -71,7 +71,6 @@
 	if (!tilesetName) {
 		tilesetName = @"chozo32b";
 	}
-	tilesetTileSize = CGSizeMake(32,32);
 	if ([tilesetName isEqualToString:@"ascii"]) {
 		asciiTileset = YES;
 		tileSet = [[AsciiTileSet alloc] initWithTileSize:tilesetTileSize];
