@@ -55,19 +55,23 @@
 	statusFont = [UIFont systemFontOfSize:16];
 	
 	// tileSize
-	maxTileSize = CGSizeMake(40,40);
+	maxTileSize = CGSizeMake(32,32);
 	float ts = [[NSUserDefaults standardUserDefaults] floatForKey:kKeyTileSize];
 	tileSize = CGSizeMake(ts,ts);
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
+	if (tileSize.width > maxTileSize.width) {
+		tileSize = maxTileSize;
+	} else if (tileSize.width < minTileSize.width) {
+		tileSize = minTileSize;
+	}
 	
 	// load tileset
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *tilesetName = [defaults objectForKey:kKeyTileset];
+	NSString *tilesetName = [[NSUserDefaults standardUserDefaults] objectForKey:kKeyTileset];
 	if (!tilesetName) {
-		tilesetName = @"chozo40b";
+		tilesetName = @"chozo32b";
 	}
-	tilesetTileSize = CGSizeMake(40,40);
+	tilesetTileSize = CGSizeMake(32,32);
 	if ([tilesetName isEqualToString:@"ascii"]) {
 		asciiTileset = YES;
 		tileSet = [[AsciiTileSet alloc] initWithTileSize:tilesetTileSize];
@@ -86,7 +90,15 @@
 			}
 		}
 		NSString *imgName = [NSString stringWithFormat:@"%@.bmp", tilesetName];
-		tileSet = [[TileSet alloc] initWithImage:[UIImage imageNamed:imgName] tileSize:tilesetTileSize];
+		UIImage *tilesetImage = [UIImage imageNamed:imgName];
+		if (!tilesetImage) {
+			tilesetImage = [UIImage imageNamed:@"chozo32b.bmp"];
+			tilesetTileSize = CGSizeMake(32,32);
+			maxTileSize = tilesetTileSize;
+			[[NSUserDefaults standardUserDefaults] setObject:@"chozo32b" forKey:kKeyTileset];
+			[[NSUserDefaults standardUserDefaults] synchronize];
+		}
+		tileSet = [[TileSet alloc] initWithImage:tilesetImage tileSize:tilesetTileSize];
 	}
 	tileSets[0] = tileSet;
 	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
@@ -235,7 +247,7 @@
 								   atPoint:p];
 		}
 	}
-	if (message) {
+	if (message && !message.shouldDisplay) {
 		p.y = statusSize.height;
 		NSArray *strings = nil;
 		[message lock];

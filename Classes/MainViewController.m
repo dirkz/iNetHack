@@ -629,7 +629,6 @@ static MainViewController *_instance;
 
 - (void) displayPendingMessages {
 	if (self.messageWindow.shouldDisplay) {
-		self.messageWindow.shouldDisplay = NO;
 		if (self.messageWindow.strings.count > 0) {
 			[uiCondition lock];
 			[self performSelectorOnMainThread:@selector(displayMessage:) withObject:self.messageWindow waitUntilDone:YES];
@@ -638,6 +637,7 @@ static MainViewController *_instance;
 			[self.messageWindow clearMessages];
 			[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
 		}
+		self.messageWindow.shouldDisplay = NO;
 	}
 }
 

@@ -19,9 +19,6 @@
 		4325C35C1035FC3F00653E8A /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4325C35B1035FC3F00653E8A /* Entitlements.plist */; };
 		435C0D7A10342A490007613E /* manual.html in Resources */ = {isa = PBXBuildFile; fileRef = 435C0D7910342A490007613E /* manual.html */; };
 		43753C96104307DB0021BFC5 /* AsciiTileSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 43753C95104307DB0021BFC5 /* AsciiTileSet.m */; };
-		4394EB9810394C5F0053C8C2 /* chozo40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EB9610394C5F0053C8C2 /* chozo40.bmp */; };
-		4394EB9910394C5F0053C8C2 /* chozo40b.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EB9710394C5F0053C8C2 /* chozo40b.bmp */; };
-		4394EBA210394CCC0053C8C2 /* absurd40.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4394EBA110394CCC0053C8C2 /* absurd40.bmp */; };
 		439AB8891041067B00D3F533 /* nhtiles.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 439AB8881041067B00D3F533 /* nhtiles.bmp */; };
 		439D6BB00FFE4B9600F60623 /* NethackEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BAF0FFE4B9600F60623 /* NethackEvent.m */; };
 		439D6BE10FFE4DC000F60623 /* NethackEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BE00FFE4DC000F60623 /* NethackEventQueue.m */; };
@@ -45,6 +42,9 @@
 		43AFFC21103FE53500DCC8C1 /* ItemAmountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFC1F103FE53500DCC8C1 /* ItemAmountViewController.m */; };
 		43AFFC22103FE53500DCC8C1 /* ItemAmountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43AFFC20103FE53500DCC8C1 /* ItemAmountView.xib */; };
 		43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0812A102ABE0B00D08BED /* TouchInfo.m */; };
+		43B1F6AF107B342B0013F60B /* chozo32b.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43B1F6AE107B342B0013F60B /* chozo32b.bmp */; };
+		43B1F6B4107B34F90013F60B /* absurd32.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43B1F6B2107B34F90013F60B /* absurd32.bmp */; };
+		43B1F6B5107B34F90013F60B /* chozo32.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43B1F6B3107B34F90013F60B /* chozo32.bmp */; };
 		43C0DD6C0FE79DFE00B63ED3 /* allmain.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD020FE79DFE00B63ED3 /* allmain.c */; };
 		43C0DD6D0FE79DFE00B63ED3 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD030FE79DFE00B63ED3 /* alloc.c */; };
 		43C0DD6E0FE79DFE00B63ED3 /* apply.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD040FE79DFE00B63ED3 /* apply.c */; };
@@ -331,9 +331,6 @@
 		435C0D7910342A490007613E /* manual.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = manual.html; sourceTree = "<group>"; };
 		43753C94104307DB0021BFC5 /* AsciiTileSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsciiTileSet.h; sourceTree = "<group>"; };
 		43753C95104307DB0021BFC5 /* AsciiTileSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsciiTileSet.m; sourceTree = "<group>"; };
-		4394EB9610394C5F0053C8C2 /* chozo40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40.bmp; sourceTree = "<group>"; };
-		4394EB9710394C5F0053C8C2 /* chozo40b.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo40b.bmp; sourceTree = "<group>"; };
-		4394EBA110394CCC0053C8C2 /* absurd40.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = absurd40.bmp; sourceTree = "<group>"; };
 		439AB8881041067B00D3F533 /* nhtiles.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = nhtiles.bmp; sourceTree = "<group>"; };
 		439D6BAE0FFE4B9600F60623 /* NethackEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NethackEvent.h; sourceTree = "<group>"; };
 		439D6BAF0FFE4B9600F60623 /* NethackEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NethackEvent.m; sourceTree = "<group>"; };
@@ -370,6 +367,9 @@
 		43AFFC20103FE53500DCC8C1 /* ItemAmountView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ItemAmountView.xib; path = Classes/ItemAmountView.xib; sourceTree = "<group>"; };
 		43B08129102ABE0B00D08BED /* TouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchInfo.h; sourceTree = "<group>"; };
 		43B0812A102ABE0B00D08BED /* TouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchInfo.m; sourceTree = "<group>"; };
+		43B1F6AE107B342B0013F60B /* chozo32b.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo32b.bmp; sourceTree = "<group>"; };
+		43B1F6B2107B34F90013F60B /* absurd32.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = absurd32.bmp; sourceTree = "<group>"; };
+		43B1F6B3107B34F90013F60B /* chozo32.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo32.bmp; sourceTree = "<group>"; };
 		43C0DD020FE79DFE00B63ED3 /* allmain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = allmain.c; path = nethack/src/allmain.c; sourceTree = "<group>"; };
 		43C0DD030FE79DFE00B63ED3 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = nethack/src/alloc.c; sourceTree = "<group>"; };
 		43C0DD040FE79DFE00B63ED3 /* apply.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = apply.c; path = nethack/src/apply.c; sourceTree = "<group>"; };
@@ -894,12 +894,12 @@
 		4394EB9510394C5F0053C8C2 /* Tilesets */ = {
 			isa = PBXGroup;
 			children = (
+				43B1F6B2107B34F90013F60B /* absurd32.bmp */,
+				43B1F6B3107B34F90013F60B /* chozo32.bmp */,
+				43B1F6AE107B342B0013F60B /* chozo32b.bmp */,
 				43A29144104670920063F29D /* tiles32.bmp */,
 				439AB8881041067B00D3F533 /* nhtiles.bmp */,
 				43A7B1C9103046EA0083CE1B /* petmark.png */,
-				4394EBA110394CCC0053C8C2 /* absurd40.bmp */,
-				4394EB9610394C5F0053C8C2 /* chozo40.bmp */,
-				4394EB9710394C5F0053C8C2 /* chozo40b.bmp */,
 			);
 			path = Tilesets;
 			sourceTree = "<group>";
@@ -1491,13 +1491,13 @@
 				43A7B1CA103046EA0083CE1B /* petmark.png in Resources */,
 				435C0D7A10342A490007613E /* manual.html in Resources */,
 				4325C35C1035FC3F00653E8A /* Entitlements.plist in Resources */,
-				4394EB9810394C5F0053C8C2 /* chozo40.bmp in Resources */,
-				4394EB9910394C5F0053C8C2 /* chozo40b.bmp in Resources */,
-				4394EBA210394CCC0053C8C2 /* absurd40.bmp in Resources */,
 				43AFFC22103FE53500DCC8C1 /* ItemAmountView.xib in Resources */,
 				439AB8891041067B00D3F533 /* nhtiles.bmp in Resources */,
 				43A29145104670920063F29D /* tiles32.bmp in Resources */,
 				43DC336B1070CD1C00FBCE71 /* MainMenuView.xib in Resources */,
+				43B1F6AF107B342B0013F60B /* chozo32b.bmp in Resources */,
+				43B1F6B4107B34F90013F60B /* absurd32.bmp in Resources */,
+				43B1F6B5107B34F90013F60B /* chozo32.bmp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
