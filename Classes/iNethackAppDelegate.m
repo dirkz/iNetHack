@@ -25,6 +25,7 @@
 #import "NethackEventQueue.h"
 #import "MainView.h"
 #import "MainMenuViewController.h"
+#import "Hearse.h"
 
 #include "hack.h"
 
@@ -41,6 +42,8 @@
 
     [window makeKeyAndVisible];
 	[application setStatusBarHidden:YES animated:YES];
+	
+	[Hearse start];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

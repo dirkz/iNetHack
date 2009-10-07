@@ -1,8 +1,8 @@
 //
-//  TileSet.h
+//  Hearse.h
 //  iNetHack
 //
-//  Created by dirk on 7/12/09.
+//  Created by dirk on 10/7/09.
 //  Copyright 2009 Dirk Zimmermann. All rights reserved.
 //
 
@@ -22,20 +22,24 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TileSet : NSObject {
+#define kKeyHearse (@"hearse")
+#define kKeyHearseUsername (@"hearseUsername")
+#define kKeyHearseEmail (@"hearseEmail")
+#define kKeyHearseId (@"hearseId")
+
+@interface Hearse : NSObject {
 	
-	CGSize tileSize;
-	CGImageRef *images;
-	int numImages;
+	NSString *username;
+	NSString *email;
+	NSString *hearseId;
+	NSThread *thread;
 
 }
 
-+ (TileSet *) instance;
-+ (int) glyphToTileIndex:(int)g;
++ (Hearse *) instance;
++ (BOOL) start;
++ (void) stop;
 
-- (id) initWithImage:(UIImage *)image tileSize:(CGSize)ts;
-- (CGImageRef) imageAt:(int)i;
-- (CGImageRef) imageForGlyph:(int)g atX:(int)x y:(int)y;
-- (CGImageRef) imageForGlyph:(int)g;
+- (void) mainHearseLoop:(id)arg;
 
 @end

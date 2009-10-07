@@ -86,7 +86,7 @@
 @property (nonatomic, retain) NethackEventQueue *nethackEventQueue;
 @property (assign) BOOL gameInProgress;
 
-+ (id) instance;
++ (MainViewController *) instance;
 + (void) message:(NSString *)format, ...;
 
 - (void) mainNethackLoop:(id)arg;
@@ -121,6 +121,7 @@
 
 - (void) doPlayerSelection;
 
+- (void) nethackShowLog:(id)i;
 - (void) displayFile:(NSString *)filename mustExist:(BOOL)e;
 
 - (void) updateScreen;

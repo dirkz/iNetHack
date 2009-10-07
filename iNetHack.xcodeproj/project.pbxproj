@@ -20,6 +20,7 @@
 		435C0D7A10342A490007613E /* manual.html in Resources */ = {isa = PBXBuildFile; fileRef = 435C0D7910342A490007613E /* manual.html */; };
 		43753C96104307DB0021BFC5 /* AsciiTileSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 43753C95104307DB0021BFC5 /* AsciiTileSet.m */; };
 		439AB8891041067B00D3F533 /* nhtiles.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 439AB8881041067B00D3F533 /* nhtiles.bmp */; };
+		439C072F107CE8D3008D1C0E /* Hearse.m in Sources */ = {isa = PBXBuildFile; fileRef = 439C072E107CE8D3008D1C0E /* Hearse.m */; };
 		439D6BB00FFE4B9600F60623 /* NethackEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BAF0FFE4B9600F60623 /* NethackEvent.m */; };
 		439D6BE10FFE4DC000F60623 /* NethackEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BE00FFE4DC000F60623 /* NethackEventQueue.m */; };
 		439F0DD51001FECB0050AED4 /* MenuViewLeaf.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439F0DD41001FECB0050AED4 /* MenuViewLeaf.xib */; };
@@ -332,6 +333,8 @@
 		43753C94104307DB0021BFC5 /* AsciiTileSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsciiTileSet.h; sourceTree = "<group>"; };
 		43753C95104307DB0021BFC5 /* AsciiTileSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsciiTileSet.m; sourceTree = "<group>"; };
 		439AB8881041067B00D3F533 /* nhtiles.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = nhtiles.bmp; sourceTree = "<group>"; };
+		439C072D107CE8D3008D1C0E /* Hearse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hearse.h; sourceTree = "<group>"; };
+		439C072E107CE8D3008D1C0E /* Hearse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hearse.m; sourceTree = "<group>"; };
 		439D6BAE0FFE4B9600F60623 /* NethackEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NethackEvent.h; sourceTree = "<group>"; };
 		439D6BAF0FFE4B9600F60623 /* NethackEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NethackEvent.m; sourceTree = "<group>"; };
 		439D6BDF0FFE4DC000F60623 /* NethackEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NethackEventQueue.h; sourceTree = "<group>"; };
@@ -821,6 +824,8 @@
 				43A7B06910302D880083CE1B /* DMath.m */,
 				43AFFBDE103FDF4B00DCC8C1 /* NSString+NetHack.h */,
 				43AFFBDF103FDF4B00DCC8C1 /* NSString+NetHack.m */,
+				439C072D107CE8D3008D1C0E /* Hearse.h */,
+				439C072E107CE8D3008D1C0E /* Hearse.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1647,6 +1652,7 @@
 				43AFFC21103FE53500DCC8C1 /* ItemAmountViewController.m in Sources */,
 				43753C96104307DB0021BFC5 /* AsciiTileSet.m in Sources */,
 				43DC336A1070CD1C00FBCE71 /* MainMenuViewController.m in Sources */,
+				439C072F107CE8D3008D1C0E /* Hearse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

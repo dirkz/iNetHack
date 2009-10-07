@@ -28,7 +28,7 @@ static TileSet *_instance = nil;
 
 @implementation TileSet
 
-+ (id) instance {
++ (TileSet *) instance {
 	return _instance;
 }
 
