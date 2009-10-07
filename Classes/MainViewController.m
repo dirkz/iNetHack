@@ -527,8 +527,9 @@ static MainViewController *_instance;
 					[(MainView *) self.view resetOffset];
 					//[self.view setNeedsDisplay];
 				} else {
-					CGRect middleSquare = CGRectMake(self.view.bounds.size.width/2-kCenterTapWidth/2,
-													 self.view.bounds.size.height/2-kCenterTapWidth/2,
+					CGPoint viewCenter = [(MainView *) self.view subViewedCenter];
+					CGRect middleSquare = CGRectMake(viewCenter.x-kCenterTapWidth/2,
+													 viewCenter.y-kCenterTapWidth/2,
 													 kCenterTapWidth, kCenterTapWidth);
 					if (CGRectContainsPoint(middleSquare, p)) {
 						// tap on player (center) tile
@@ -544,7 +545,7 @@ static MainViewController *_instance;
 						//[self.view setNeedsDisplay];
 					} else {
 						// direction based movement
-						CGPoint center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);
+						CGPoint center = [(MainView *) self.view subViewedCenter];
 						CGPoint pointDelta = CGPointMake(p.x-center.x, p.y-center.y);
 						pointDelta.y *= -1;
 						pointDelta = [DMath normalizedPoint:pointDelta];

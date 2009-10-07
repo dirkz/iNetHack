@@ -107,7 +107,7 @@
 	
 }
 
-- (CGPoint) center {
+- (CGPoint) subViewedCenter {
 	return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height-shortcutView.bounds.size.height)/2);
 }
 
@@ -138,7 +138,7 @@
 
 - (void) drawTiledMap:(Window *)m clipRect:(CGRect)clipRect {
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
-	CGPoint center = self.center;
+	CGPoint center = self.subViewedCenter;
 	center.x -= tileSize.width/2;
 	center.y -= tileSize.height/2;
 	
@@ -244,7 +244,7 @@
 			CGContextSetFillColor(ctx, white);
 			NSString *m = @"Single tap to continue ...";
 			CGSize size = [m sizeWithFont:statusFont];
-			CGPoint center = self.center;
+			CGPoint center = self.subViewedCenter;
 			center.x -= size.width/2;
 			center.y -= size.height/2;
 			[m drawAtPoint:center withFont:statusFont];

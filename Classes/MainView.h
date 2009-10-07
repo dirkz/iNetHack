@@ -63,7 +63,7 @@
 @property (nonatomic, retain) Window *map;
 @property (nonatomic, retain) Window *status;
 @property (nonatomic, retain) Window *message;
-@property (nonatomic, readonly) CGPoint center;
+@property (nonatomic, readonly) CGPoint subViewedCenter;
 
 - (void) drawTiledMap:(Window *)m clipRect:(CGRect)clipRect;
 - (void) checkForRogueLevel;
