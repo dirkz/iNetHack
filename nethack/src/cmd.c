@@ -2313,8 +2313,14 @@ click_to_cmd(x, y, mod)
                 /* slight assistance to the player: choose kick/open for them */
 #if TARGET_OS_IPHONE
                 if (levl[u.ux+x][u.uy+y].doormask & D_LOCKED && winiphone_autokick) {
-					cmd[0] = C('d');
-					return cmd;
+					int r = yn_function("Door is closed. Kick?", "yn", 'y');
+					if (r == 'y') {
+						cmd[0] = C('d');
+						return cmd;
+					} else if (r == 'n') {
+						cmd[0] = 0;
+						return cmd;
+					}
                 }
                 if ((levl[u.ux+x][u.uy+y].doormask & D_CLOSED) ||
 					(levl[u.ux+x][u.uy+y].doormask & D_LOCKED && !winiphone_autokick)) {
