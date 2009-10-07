@@ -627,17 +627,20 @@ static MainViewController *_instance;
 	[alert show];
 }
 
+- (void) displayPendingMessagesOnUIThread:(Window *)w {
+	[self displayMessage:w];
+	[w clearMessages];
+	w.shouldDisplay = NO;
+}
+
 - (void) displayPendingMessages {
-	if (self.messageWindow.shouldDisplay) {
-		if (self.messageWindow.strings.count > 0) {
-			[uiCondition lock];
-			[self performSelectorOnMainThread:@selector(displayMessage:) withObject:self.messageWindow waitUntilDone:YES];
-			[uiCondition wait];
-			[uiCondition unlock];
-			[self.messageWindow clearMessages];
-			[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
-		}
-		self.messageWindow.shouldDisplay = NO;
+	if (self.messageWindow.shouldDisplay && self.messageWindow.strings.count > 0) {
+		[uiCondition lock];
+		[self performSelectorOnMainThread:@selector(displayPendingMessagesOnUIThread:)
+							   withObject:self.messageWindow waitUntilDone:YES];
+		[uiCondition wait];
+		[uiCondition unlock];
+		[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
 	}
 }
 
