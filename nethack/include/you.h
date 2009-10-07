@@ -361,7 +361,7 @@ struct you {
 	struct skills weapon_skills[P_NUM_SKILLS];
 	boolean twoweap;		/* KMH -- Using two-weapon combat */
 #ifdef __APPLE__
-	int _iphone_magic; /* change footprint for hearse, both for target and build platform (for makedefs) */
+	int _winiphone_magic; /* change footprint for hearse, both for target and build platform (for makedefs) */
 #endif
 };	/* end of `struct you' */
 
