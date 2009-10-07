@@ -107,6 +107,10 @@
 	
 }
 
+- (CGPoint) center {
+	return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height-shortcutView.bounds.size.height)/2);
+}
+
 - (BOOL)canBecomeFirstResponder { return YES; }
 
 - (void)layoutSubviews {
@@ -134,7 +138,9 @@
 
 - (void) drawTiledMap:(Window *)m clipRect:(CGRect)clipRect {
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
-	CGPoint center = CGPointMake(self.bounds.size.width/2-tileSize.width/2, self.bounds.size.height/2-tileSize.height/2);
+	CGPoint center = self.center;
+	center.x -= tileSize.width/2;
+	center.y -= tileSize.height/2;
 	
 	start = CGPointMake(-mainViewController.clip.x*tileSize.width + center.x + offset.x,
 						-mainViewController.clip.y*tileSize.height + center.y + offset.y);
@@ -232,9 +238,20 @@
 	if (map) {
 		[self checkForRogueLevel];
 		[self drawTiledMap:map clipRect:rect];
+		if (map.blocking) {
+			CGContextRef ctx = UIGraphicsGetCurrentContext();
+			float white[] = {1,1,1,1};
+			CGContextSetFillColor(ctx, white);
+			NSString *m = @"Single tap to continue ...";
+			CGSize size = [m sizeWithFont:statusFont];
+			CGPoint center = self.center;
+			center.x -= size.width/2;
+			center.y -= size.height/2;
+			[m drawAtPoint:center withFont:statusFont];
+		}
 	}
 	
-	CGSize statusSize;
+	CGSize statusSize = CGSizeMake(0,0);
 	CGPoint p = CGPointMake(0,0);
 	if (status) {
 		NSArray *strings = nil;

@@ -74,6 +74,8 @@
 	NSTimeInterval doubleTapSensitivity;
 	
 	NSThread *nethackThread;
+	
+	Window *blockingMap;
 }
 
 @property (nonatomic, readonly) NSArray *windows;
@@ -104,6 +106,7 @@
 - (void) getLine:(char *)line prompt:(const char *)prompt;
 - (void) getLineOnUIThread:(NSString *)s;
 
+- (void) waitForUser;
 - (void) broadcastUIEvent;
 - (void) broadcastCondition:(NSCondition *)condition;
 - (void) waitForCondition:(NSCondition *)condition;

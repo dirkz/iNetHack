@@ -63,6 +63,9 @@
 	
 	// used when there are too many messages to fit on screen
 	BOOL shouldDisplay;
+	
+	// used for blocking map display (e.g. spell of detect monsters)
+	BOOL blocking;
 }
 
 @property (nonatomic, readonly) int type;
@@ -86,6 +89,7 @@
 @property (nonatomic, assign) BOOL acceptMoney;
 
 @property (assign) BOOL shouldDisplay;
+@property (assign) BOOL blocking;
 
 - (id) initWithType:(int)t;
 - (int) glyphAtX:(int)x y:(int)y;

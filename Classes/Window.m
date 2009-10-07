@@ -31,6 +31,7 @@
 @synthesize acceptBareHanded, acceptMore, acceptMoney;
 @synthesize nethackMenuItem;
 @synthesize shouldDisplay;
+@synthesize blocking;
 
 - (id) initWithType:(int)t {
 	if (self = [super init]) {
