@@ -279,7 +279,7 @@
 				CGSize size = [s sizeWithFont:statusFont];
 				if (p.x + size.width < bounds.width) {
 					size = [s drawAtPoint:p withFont:statusFont];
-					p.x += size.width + 2;
+					p.x += size.width + 4;
 				} else {
 					if (p.x != 0) {
 						p.y += size.height + 2;
@@ -287,7 +287,7 @@
 					p.x = 0;
 					UIFont *font = [self fontAndSize:&size forString:s withFont:statusFont];
 					size = [s drawAtPoint:p withFont:font];
-					p.y += size.height + 2;
+					p.x += size.width;
 				}
 			}
 		}

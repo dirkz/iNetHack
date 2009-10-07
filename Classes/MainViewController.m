@@ -90,6 +90,7 @@ static MainViewController *_instance;
     [super viewDidLoad];
 	if (!nethackThread) {
 		nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackLoop:) object:nil];
+		//nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackTestLoop:) object:nil];
 		[nethackThread start];
 	}
 }
@@ -120,6 +121,12 @@ static MainViewController *_instance;
 - (void) mainNethackLoop:(id)arg {
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	iphone_main();
+	[pool release];
+}
+
+- (void) mainNethackTestLoop:(id)arg {
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	iphone_test_main();
 	[pool release];
 }
 

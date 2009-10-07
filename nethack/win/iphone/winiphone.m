@@ -568,6 +568,30 @@ getlock(void)
 	close (fd);
 }
 
+void iphone_test_main() {
+	winid message = iphone_create_nhwindow(NHW_MESSAGE);
+	winid map = iphone_create_nhwindow(NHW_MAP);
+	winid status = iphone_create_nhwindow(NHW_STATUS);
+	for (int j = 0; j < 23; ++j) {
+		for (int i = 0; i < 80; ++i) {
+			iphone_print_glyph(map, i, j, random() % 100);
+		}
+	}
+	iphone_cliparound(40, 12);
+	iphone_putstr(status, 0, "Status");
+	iphone_display_nhwindow(map, 0);
+	for (int count = 0; count < 800; ++count) {
+		char messageBuffer[255];
+		sprintf(messageBuffer, "Message #%d", count);
+		iphone_putstr(message, 0, messageBuffer);
+		iphone_display_nhwindow(map, FALSE);
+		iphone_putstr(status, 0, messageBuffer);
+		iphone_putstr(status, 0, "");
+		iphone_display_nhwindow(map, FALSE);
+		[[MainViewController instance] displayPendingMessages];
+	}
+}
+
 void iphone_main() {
 	int argc = 0;
 	char **argv = NULL;

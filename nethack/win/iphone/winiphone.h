@@ -64,5 +64,6 @@ void iphone_start_screen();
 void iphone_end_screen();
 void iphone_outrip(winid wid, int how);
 
+void iphone_test_main();
 void iphone_main();
 
