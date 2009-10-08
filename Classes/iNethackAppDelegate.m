@@ -34,6 +34,8 @@
 @synthesize window;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+	[self createNetHackDirectories];
+	
 	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	
 	// use mainNavigationController.view to skip main menu
@@ -57,6 +59,35 @@
 		int fail = unlink(lock);
 		NSCAssert1(!fail, @"Failed to unlink lock %s", lock);
 	}
+}
+
+- (void) createNetHackDirectories {
+	// create save directory
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *saveDirectory = [paths lastObject];
+	saveDirectory = [saveDirectory stringByAppendingPathComponent:@"nethack"];
+	NSString *currentDirectory = [NSString stringWithString:saveDirectory];
+	saveDirectory = [saveDirectory stringByAppendingPathComponent:@"save"];
+	NSLog(@"saveDirectory %@", saveDirectory);
+	if (![[NSFileManager defaultManager] fileExistsAtPath:saveDirectory]) {
+		BOOL succ = [[NSFileManager defaultManager] createDirectoryAtPath:saveDirectory withIntermediateDirectories:YES
+															   attributes:nil error:nil];
+		if (!succ) {
+			NSLog(@"saveDirectory could not be created!");
+		}
+	}
+	[[NSFileManager defaultManager] changeCurrentDirectoryPath:currentDirectory];
+	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:saveDirectory];
+	NSLog(@"files in save directory");
+	for (NSString *filename in filelist) {
+		NSLog(@"file %@", filename);
+	}
+	filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
+	NSLog(@"files in current directory %@", currentDirectory);
+	for (NSString *filename in filelist) {
+		NSLog(@"file %@", filename);
+	}
+	
 }
 
 - (void)dealloc {

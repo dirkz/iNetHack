@@ -33,6 +33,7 @@
 	NSString *email;
 	NSString *hearseId;
 	NSThread *thread;
+	NSString *crc;
 
 }
 
@@ -41,5 +42,8 @@
 + (void) stop;
 
 - (void) mainHearseLoop:(id)arg;
+- (NSString *) md5HexForString:(NSString *)s;
+- (NSString *) md5HexForFile:(NSString *)filename;
+- (NSString *) md5HexForDigest:(const unsigned char *)digest;
 
 @end

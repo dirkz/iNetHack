@@ -32,5 +32,7 @@
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
+- (void) createNetHackDirectories;
+
 @end
 
