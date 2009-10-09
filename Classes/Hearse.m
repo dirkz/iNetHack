@@ -28,6 +28,7 @@
 #include <unistd.h>
 #import "Hearse.h"
 
+//static NSString *clientId = @"iNetHack Hearse";
 static NSString *version = @"iNetHack Hearse 1.3";
 static Hearse *_instance = nil;
 
@@ -55,9 +56,7 @@ static Hearse *_instance = nil;
 		email = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseEmail] copy];
 		hearseId = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseId] copy];
 		thread = [[NSThread alloc] initWithTarget:self selector:@selector(mainHearseLoop:) object:nil];
-		crc = [self md5HexForString:version];
-		NSString *md5 = [self md5HexForFile:@"bonD0.1"];
-		NSLog(@"md5 %@", md5);
+		crc = [[self md5HexForString:version] copy];
 		[thread start];
 	}
 	return self;

@@ -235,6 +235,8 @@
 	self.status = mainViewController.statusWindow;
 	self.message = mainViewController.messageWindow;
 	
+	CGPoint center = self.subViewedCenter;
+
 	if (map) {
 		[self checkForRogueLevel];
 		[self drawTiledMap:map clipRect:rect];
@@ -244,7 +246,6 @@
 			CGContextSetFillColor(ctx, white);
 			NSString *m = @"Single tap to continue ...";
 			CGSize size = [m sizeWithFont:statusFont];
-			CGPoint center = self.subViewedCenter;
 			center.x -= size.width/2;
 			center.y -= size.height/2;
 			[m drawAtPoint:center withFont:statusFont];
@@ -263,7 +264,9 @@
 								   atPoint:p];
 		}
 	}
-	if (message && !message.shouldDisplay) {
+	if (message) {
+		CGSize avgLineSize = [@"O" sizeWithFont:statusFont];
+		float maxY = center.y - avgLineSize.height*2;
 		p.y = statusSize.height;
 		NSArray *strings = nil;
 		[message lock];
@@ -272,7 +275,7 @@
 		if (strings.count > 0) {
 			CGSize bounds = self.bounds.size;
 			for (NSString *s in strings) {
-				if (p.y > self.bounds.size.height/3) {
+				if (p.y > maxY) {
 					message.shouldDisplay = YES;
 					break;
 				}

@@ -149,7 +149,6 @@
 }
 
 - (void) clearMessages {
-	// no need to lock here, always called from same thread
 	[strings removeAllObjects];
 }
 

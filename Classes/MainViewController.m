@@ -636,16 +636,20 @@ static MainViewController *_instance;
 }
 
 - (void) displayMessage:(Window *)w {
+	[w lock];
+	NSString *message = [w.text copy];
+	[w clearMessages];
+	[w unlock];
 	UIAlertView *alert = nil;
-	if ([w.text containsString:kConstThingsThatAreHereTitle] || [w.text containsString:kConstThingsThatYouFeelHereTitle]) {
-		NSRange r = [w.text rangeOfString:@"\n"];
-		NSString *title = [w.text substringToIndex:r.location];
+	if ([message containsString:kConstThingsThatAreHereTitle] || [message containsString:kConstThingsThatYouFeelHereTitle]) {
+		NSRange r = [message rangeOfString:@"\n"];
+		NSString *title = [message substringToIndex:r.location];
 		NSString *toReplaced = [NSString stringWithFormat:@"%@\n", title];
-		NSString *text = [w.text stringByReplacingOccurrencesOfString:toReplaced withString:@""];
+		NSString *text = [message stringByReplacingOccurrencesOfString:toReplaced withString:@""];
 		alert = [[UIAlertView alloc] initWithTitle:title message:text
 										  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Pickup", nil];
 	} else {
-		alert = [[UIAlertView alloc] initWithTitle:@"Message" message:w.text
+		alert = [[UIAlertView alloc] initWithTitle:@"Message" message:message
 										  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	}
 	[alert show];
@@ -653,18 +657,14 @@ static MainViewController *_instance;
 
 - (void) displayPendingMessagesOnUIThread:(Window *)w {
 	[self displayMessage:w];
-	[w clearMessages];
 	w.shouldDisplay = NO;
+	[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
 }
 
 - (void) displayPendingMessages {
 	if (self.messageWindow.shouldDisplay && self.messageWindow.strings.count > 0) {
-		[uiCondition lock];
 		[self performSelectorOnMainThread:@selector(displayPendingMessagesOnUIThread:)
 							   withObject:self.messageWindow waitUntilDone:YES];
-		[uiCondition wait];
-		[uiCondition unlock];
-		[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
 	}
 }
 
