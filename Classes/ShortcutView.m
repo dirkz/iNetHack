@@ -40,7 +40,8 @@ static Shortcut *ShortcutForIdentifier (NSString *identifier) {
 		title    = @"abc";
 		selector = @selector(nethackKeyboard:);
 	}
-	return [[[Shortcut alloc] initWithTitle:title keys:(selector ? nil : identifier) selector:selector target:nil] autorelease];
+	return [[[Shortcut alloc] initWithTitle:title keys:(selector ? nil : identifier) selector:selector target:nil]
+			autorelease];
 }
 
 static const CGSize ShortcutTileSize  = { 40, 40 };
@@ -126,7 +127,9 @@ static NSArray *DefaultShortcuts () {
 
 + (void)load {
 	NSAutoreleasePool* pool = [NSAutoreleasePool new];
-	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:DefaultShortcuts() forKey:ShortcutPrefencesIdentifier]];
+	[[NSUserDefaults standardUserDefaults]
+	 registerDefaults:[NSDictionary dictionaryWithObject:DefaultShortcuts()
+												  forKey:ShortcutPrefencesIdentifier]];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"resetShortcutsOnNextLaunch"]) {
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:ShortcutPrefencesIdentifier];
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"resetShortcutsOnNextLaunch"];
@@ -139,7 +142,9 @@ static NSArray *DefaultShortcuts () {
 		shortcutLayers      = [NSMutableArray new];
 		self.pagingEnabled  = YES;
 		self.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-		[[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:ShortcutPrefencesIdentifier options:NSKeyValueObservingOptionInitial context:NULL];
+		[[NSUserDefaults standardUserDefaults]
+		 addObserver:self
+		 forKeyPath:ShortcutPrefencesIdentifier options:NSKeyValueObservingOptionInitial context:NULL];
     }
     return self;
 }
@@ -179,7 +184,8 @@ static NSArray *DefaultShortcuts () {
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
-	NSAssert([keyPath isEqualToString:ShortcutPrefencesIdentifier] && object == [NSUserDefaults standardUserDefaults], @"Unknown observed object/keypath");
+	NSAssert([keyPath isEqualToString:ShortcutPrefencesIdentifier] &&
+			 object == [NSUserDefaults standardUserDefaults], @"Unknown observed object/keypath");
 	NSArray* identifiers = [[NSUserDefaults standardUserDefaults] arrayForKey:ShortcutPrefencesIdentifier];
 	NSMutableArray *newShortcuts = [NSMutableArray arrayWithCapacity:identifiers.count];
 	for (NSString *identifier in identifiers) {
