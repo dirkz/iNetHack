@@ -26,16 +26,34 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
-#import "Hearse.h"
 
-//static NSString *clientId = @"iNetHack Hearse";
-static NSString *version = @"iNetHack Hearse 1.3";
+#import "Hearse.h"
+#import "NSString+Regexp.h"
+
 static Hearse *_instance = nil;
+static NSString *const hearsePrefencesLastTimestamp = @"Hearse Timestamp";
+static NSString *const hearseKeyTimestamp = @"timestamp";
+static NSString *const clientId = @"iNetHack Hearse";
+static NSString *const version = @"iNetHack Hearse 1.3";
+
+static NSString *const hearseBaseUrl = @"http://hearse.krollmark.com/bones.dll?act=";
+
+// used URLs
+static NSString *const hearseCommandNewUser = @"newuser";
 
 @implementation Hearse
 
 + (Hearse *) instance {
 	return _instance;
+}
+
++ (void)load {
+	/*
+	NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	NSDictionary *d = [NSDictionary dictionaryWithObject:[NSNull null] forKey:hearseKeyTimestamp];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:d];
+	[pool drain];
+	 */
 }
 
 + (BOOL) start {
@@ -55,12 +73,14 @@ static Hearse *_instance = nil;
 		username = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseUsername] copy];
 		email = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseEmail] copy];
 		hearseId = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseId] copy];
-		thread = [[NSThread alloc] initWithTarget:self selector:@selector(mainHearseLoop:) object:nil];
 		crc = [[self md5HexForString:version] copy];
+		thread = [[NSThread alloc] initWithTarget:self selector:@selector(mainHearseLoop:) object:nil];
 		[thread start];
 	}
 	return self;
 }
+
+#pragma mark md5 handling
 
 - (NSString *) md5HexForString:(NSString *)s {
 	unsigned char digest[CC_MD5_DIGEST_LENGTH];
@@ -105,13 +125,96 @@ static Hearse *_instance = nil;
 }
 
 - (void) mainHearseLoop:(id)arg {
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 #if TARGET_IPHONE_SIMULATOR // sim only for now
 	if (!hearseId || hearseId.length == 0) {
 		if (email && email.length > 0) {
+			[self createNewUser];
 		}
 	}
+	if (hearseId && hearseId.length > 0) {
+		[self uploadBones];
+	}
 #endif
+    [pool release];
 }
+
+- (NSString *) urlForCommand:(NSString *)cmd {
+	return [NSString stringWithFormat:@"%@%@", hearseBaseUrl, cmd];
+}
+
+- (NSMutableURLRequest *) requestForCommand:(NSString *)cmd {
+	NSMutableURLRequest *theRequest=[NSMutableURLRequest
+									 requestWithURL:[NSURL URLWithString:[self urlForCommand:hearseCommandNewUser]]
+									 cachePolicy:NSURLRequestReloadIgnoringCacheData
+									 timeoutInterval:60.0];
+	[theRequest addValue:crc forHTTPHeaderField:@"X_HEARSECRC"];
+	[theRequest addValue:clientId forHTTPHeaderField:@"X_CLIENTID"];
+	return theRequest;
+}
+
+#pragma mark hearse command implementation
+
+- (void) createNewUser {
+	NSMutableURLRequest *req = [self requestForCommand:hearseCommandNewUser];
+	[req addValue:email forHTTPHeaderField:@"X_USERTOKEN"];
+	if (username && username.length > 0) {
+		[req addValue:username forHTTPHeaderField:@"X_USERNICK"];
+	}
+	NSURLResponse *response;
+	NSError *error;
+	NSData *received = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
+	if (!received) {
+		NSLog(@"Connection failed! Error - %@ %@",
+			  [error localizedDescription],
+			  [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+	} else {
+		NSDictionary *headers = [(NSHTTPURLResponse *) response allHeaderFields];
+		for (NSString *key in [headers keyEnumerator]) {
+			if ([key caseInsensitiveCompare:@"X_USERTOKEN"] == NSOrderedSame) {
+				hearseId = [[headers objectForKey:key] copy];
+			}
+		}
+		if (hearseId && hearseId.length > 0) {
+			[[NSUserDefaults standardUserDefaults] setObject:hearseId forKey:kKeyHearseId];
+			[[NSUserDefaults standardUserDefaults] synchronize];
+		}
+	}
+}
+
+- (void) uploadBones {
+	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
+	for (NSString *filename in filelist) {
+		if ([filename startsWithString:@"bon"]) {
+			NSLog(@"bones %@", filename);
+		}
+	}
+}
+
+#pragma mark connection handling
+/*
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    [receivedData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [receivedData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [connection release];
+    [receivedData release];
+    NSLog(@"Connection failed! Error - %@ %@",
+          [error localizedDescription],
+          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSLog(@"Succeeded! Received %d bytes of data", [receivedData length]);
+    [connection release];
+    [receivedData release];
+}
+ */
 
 - (void) dealloc {
 	[username release];

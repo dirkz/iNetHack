@@ -38,9 +38,11 @@
 	
 	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	
+#ifndef HEARSE_ONLY_DEBUG
 	// use mainNavigationController.view to skip main menu
 	[window addSubview:mainNavigationController.view];
 	//[window addSubview:mainMenuViewController.view];
+#endif
 
     [window makeKeyAndVisible];
 	[application setStatusBarHidden:YES animated:YES];
@@ -87,7 +89,6 @@
 	for (NSString *filename in filelist) {
 		NSLog(@"file %@", filename);
 	}
-	
 }
 
 - (void)dealloc {

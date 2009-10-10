@@ -32,6 +32,11 @@
 	return NO;
 }
 
+- (BOOL) startsWithString:(NSString *)s {
+	NSRange r = [self rangeOfString:s];
+	return r.location == 0;
+}
+
 - (BOOL) containsChar:(char)c {
 	for (int i = 0; i < self.length; ++i) {
 		char ct = [self characterAtIndex:i];

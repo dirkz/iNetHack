@@ -22,6 +22,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define HEARSE_ONLY_DEBUG
+
 #define kKeyHearse (@"hearse")
 #define kKeyHearseUsername (@"hearseUsername")
 #define kKeyHearseEmail (@"hearseEmail")
@@ -34,7 +36,14 @@
 	NSString *hearseId;
 	NSThread *thread;
 	NSString *crc;
-
+	
+/*
+	NSMutableData *receivedData;
+	enum enumHearseState {
+		none, newUser
+	} hearseState;
+ */
+	
 }
 
 + (Hearse *) instance;
@@ -45,5 +54,9 @@
 - (NSString *) md5HexForString:(NSString *)s;
 - (NSString *) md5HexForFile:(NSString *)filename;
 - (NSString *) md5HexForDigest:(const unsigned char *)digest;
+- (NSString *) urlForCommand:(NSString *)cmd;
+- (NSMutableURLRequest *) requestForCommand:(NSString *)cmd;
+- (void) createNewUser;
+- (void) uploadBones;
 
 @end

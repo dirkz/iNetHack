@@ -26,6 +26,7 @@
 @interface NSString (Regexp)
 
 - (BOOL) containsString:(NSString *)s;
+- (BOOL) startsWithString:(NSString *)s;
 - (BOOL) containsChar:(char)c;
 - (BOOL) endsWithString:(NSString *)s;
 - (NSString *) substringBetweenDelimiters:(NSString *)del;
