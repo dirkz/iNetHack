@@ -34,8 +34,12 @@
 	NSString *username;
 	NSString *email;
 	NSString *hearseId;
+	NSString *userInfoCrc;
 	NSThread *thread;
-	NSString *crc;
+	NSString *clientVersionCrc;
+	NSDate *lastUpload;
+	NSString *netHackVersion;
+	NSString *netHackVersionCrc;
 	
 /*
 	NSMutableData *receivedData;
@@ -56,7 +60,11 @@
 - (NSString *) md5HexForDigest:(const unsigned char *)digest;
 - (NSString *) urlForCommand:(NSString *)cmd;
 - (NSMutableURLRequest *) requestForCommand:(NSString *)cmd;
+- (NSHTTPURLResponse *) makeHttpRequestWithoutData:(NSURLRequest *)req;
+- (NSString *) buildUserInfoCrc;
 - (void) createNewUser;
+- (void) changeUser;
 - (void) uploadBones;
+- (void) uploadBonesFile:(NSString *)file;
 
 @end

@@ -51,6 +51,8 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
+	[Hearse stop];
+	
 	[[NSUserDefaults standardUserDefaults] setFloat:[(MainView *) [[MainViewController instance] view] tileSize].width
 											 forKey:kKeyTileSize];
 	[[NSUserDefaults standardUserDefaults] synchronize];

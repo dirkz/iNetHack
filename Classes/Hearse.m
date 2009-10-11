@@ -27,19 +27,23 @@
 #include <sys/uio.h>
 #include <unistd.h>
 
+#include "patchlevel.h"
+
 #import "Hearse.h"
 #import "NSString+Regexp.h"
 
 static Hearse *_instance = nil;
-static NSString *const hearsePrefencesLastTimestamp = @"Hearse Timestamp";
-static NSString *const hearseKeyTimestamp = @"timestamp";
+static NSString *const hearseKeyUserInfoCrc = @"userInfoCrc";
+static NSString *const hearseKeyLastUpload = @"lastUpload";
 static NSString *const clientId = @"iNetHack Hearse";
-static NSString *const version = @"iNetHack Hearse 1.3";
+static NSString *const clientVersion = @"iNetHack Hearse 1.3";
 
 static NSString *const hearseBaseUrl = @"http://hearse.krollmark.com/bones.dll?act=";
 
 // used URLs
 static NSString *const hearseCommandNewUser = @"newuser";
+static NSString *const hearseCommandChangeUserInfo = @"changeuserinfo";
+static NSString *const hearseCommandUpload = @"upload";
 
 @implementation Hearse
 
@@ -48,12 +52,13 @@ static NSString *const hearseCommandNewUser = @"newuser";
 }
 
 + (void)load {
-	/*
 	NSAutoreleasePool* pool = [NSAutoreleasePool new];
-	NSDictionary *d = [NSDictionary dictionaryWithObject:[NSNull null] forKey:hearseKeyTimestamp];
+	NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
+					   hearseKeyLastUpload, [NSDate distantPast],
+					   hearseKeyUserInfoCrc, @"",
+					   nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:d];
 	[pool drain];
-	 */
 }
 
 + (BOOL) start {
@@ -73,8 +78,13 @@ static NSString *const hearseCommandNewUser = @"newuser";
 		username = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseUsername] copy];
 		email = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseEmail] copy];
 		hearseId = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseId] copy];
-		crc = [[self md5HexForString:version] copy];
+		lastUpload = [[[NSUserDefaults standardUserDefaults] objectForKey:hearseKeyLastUpload] copy];
+		userInfoCrc = [[[NSUserDefaults standardUserDefaults] objectForKey:hearseKeyUserInfoCrc] copy];
+		clientVersionCrc = [[self md5HexForString:clientVersion] copy];
 		thread = [[NSThread alloc] initWithTarget:self selector:@selector(mainHearseLoop:) object:nil];
+		netHackVersion = [[NSString stringWithFormat:@"%d,%d,%d,%d",
+						  VERSION_MAJOR, VERSION_MINOR, PATCHLEVEL, EDITLEVEL] copy];
+		netHackVersionCrc = [[self md5HexForString:netHackVersion] copy];
 		[thread start];
 	}
 	return self;
@@ -131,6 +141,11 @@ static NSString *const hearseCommandNewUser = @"newuser";
 		if (email && email.length > 0) {
 			[self createNewUser];
 		}
+	} else {
+		NSString *changedUserInfoCrc = [[self buildUserInfoCrc] copy];
+		if (![changedUserInfoCrc isEqual:userInfoCrc]) {
+			[self changeUser];
+		}
 	}
 	if (hearseId && hearseId.length > 0) {
 		[self uploadBones];
@@ -139,28 +154,23 @@ static NSString *const hearseCommandNewUser = @"newuser";
     [pool release];
 }
 
+#pragma mark URL and connection handling
+
 - (NSString *) urlForCommand:(NSString *)cmd {
 	return [NSString stringWithFormat:@"%@%@", hearseBaseUrl, cmd];
 }
 
 - (NSMutableURLRequest *) requestForCommand:(NSString *)cmd {
 	NSMutableURLRequest *theRequest=[NSMutableURLRequest
-									 requestWithURL:[NSURL URLWithString:[self urlForCommand:hearseCommandNewUser]]
+									 requestWithURL:[NSURL URLWithString:[self urlForCommand:cmd]]
 									 cachePolicy:NSURLRequestReloadIgnoringCacheData
 									 timeoutInterval:60.0];
-	[theRequest addValue:crc forHTTPHeaderField:@"X_HEARSECRC"];
+	[theRequest addValue:clientVersionCrc forHTTPHeaderField:@"X_HEARSECRC"];
 	[theRequest addValue:clientId forHTTPHeaderField:@"X_CLIENTID"];
 	return theRequest;
 }
 
-#pragma mark hearse command implementation
-
-- (void) createNewUser {
-	NSMutableURLRequest *req = [self requestForCommand:hearseCommandNewUser];
-	[req addValue:email forHTTPHeaderField:@"X_USERTOKEN"];
-	if (username && username.length > 0) {
-		[req addValue:username forHTTPHeaderField:@"X_USERNICK"];
-	}
+- (NSHTTPURLResponse *) makeHttpRequestWithoutData:(NSURLRequest *)req {
 	NSURLResponse *response;
 	NSError *error;
 	NSData *received = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
@@ -168,7 +178,25 @@ static NSString *const hearseCommandNewUser = @"newuser";
 		NSLog(@"Connection failed! Error - %@ %@",
 			  [error localizedDescription],
 			  [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
-	} else {
+		return nil;
+	}
+	return (NSHTTPURLResponse *) response;
+}
+
+#pragma mark hearse command implementation
+
+- (NSString *) buildUserInfoCrc {
+	return [self md5HexForString:[NSString stringWithFormat:@"%@ %@", username, email]];
+}
+
+- (void) createNewUser {
+	NSMutableURLRequest *req = [self requestForCommand:hearseCommandNewUser];
+	[req addValue:email forHTTPHeaderField:@"X_USERTOKEN"];
+	if (username && username.length > 0) {
+		[req addValue:username forHTTPHeaderField:@"X_USERNICK"];
+	}
+	NSHTTPURLResponse *response = [self makeHttpRequestWithoutData:req];
+	if (response) {
 		NSDictionary *headers = [(NSHTTPURLResponse *) response allHeaderFields];
 		for (NSString *key in [headers keyEnumerator]) {
 			if ([key caseInsensitiveCompare:@"X_USERTOKEN"] == NSOrderedSame) {
@@ -176,52 +204,56 @@ static NSString *const hearseCommandNewUser = @"newuser";
 			}
 		}
 		if (hearseId && hearseId.length > 0) {
+			userInfoCrc = [[self buildUserInfoCrc] copy];
 			[[NSUserDefaults standardUserDefaults] setObject:hearseId forKey:kKeyHearseId];
+			[[NSUserDefaults standardUserDefaults] setObject:userInfoCrc forKey:hearseKeyUserInfoCrc];
 			[[NSUserDefaults standardUserDefaults] synchronize];
 		}
 	}
 }
 
+- (void) changeUser {
+	NSMutableURLRequest *req = [self requestForCommand:hearseCommandChangeUserInfo];
+	[req addValue:hearseId forHTTPHeaderField:@"X_USERTOKEN"];
+	[req addValue:email forHTTPHeaderField:@"X_USEREMAIL"];
+	[req addValue:username forHTTPHeaderField:@"X_USERNICK"];
+	NSHTTPURLResponse *response = [self makeHttpRequestWithoutData:req];
+	if (response) {
+		userInfoCrc = [[self buildUserInfoCrc] copy];
+		[[NSUserDefaults standardUserDefaults] setObject:userInfoCrc forKey:hearseKeyUserInfoCrc];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+	}
+}
+
 - (void) uploadBones {
-	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
+	NSFileManager *filemanager = [NSFileManager defaultManager];
+	NSArray *filelist = [filemanager directoryContentsAtPath:@"."];
 	for (NSString *filename in filelist) {
 		if ([filename startsWithString:@"bon"]) {
-			NSLog(@"bones %@", filename);
+			NSDictionary *fileAttributes = [filemanager fileAttributesAtPath:filename traverseLink:NO];
+			NSDate *fileModDate = [fileAttributes objectForKey:NSFileModificationDate];
+			if (fileModDate) {
+				NSLog(@"bones %@ modification %@ last upload %@\n", filename, fileModDate, lastUpload);
+				NSComparisonResult cmp = [fileModDate compare:lastUpload];
+				if (cmp == NSOrderedDescending) {
+					[self uploadBonesFile:filename];
+				}
+			}
 		}
 	}
 }
 
-#pragma mark connection handling
-/*
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    [receivedData setLength:0];
+- (void) uploadBonesFile:(NSString *)file {
+	NSMutableURLRequest *req = [self requestForCommand:hearseCommandUpload];
+	[req addValue:netHackVersionCrc forHTTPHeaderField:@"X_VERSIONCRC"];
 }
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [receivedData appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    [connection release];
-    [receivedData release];
-    NSLog(@"Connection failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSLog(@"Succeeded! Received %d bytes of data", [receivedData length]);
-    [connection release];
-    [receivedData release];
-}
- */
 
 - (void) dealloc {
 	[username release];
 	[email release];
 	[hearseId release];
 	[thread release];
-	[crc release];
+	[clientVersionCrc release];
 	[super dealloc];
 }
 
