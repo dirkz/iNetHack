@@ -29,7 +29,7 @@
 #define kKeyHearseEmail (@"hearseEmail")
 #define kKeyHearseId (@"hearseId")
 
-@interface Hearse : NSObject {
+@interface Hearse : NSObject <UIAlertViewDelegate> {
 	
 	NSString *username;
 	NSString *email;
@@ -40,13 +40,10 @@
 	NSDate *lastUpload;
 	NSString *netHackVersion;
 	NSString *netHackVersionCrc;
+	NSString *hearseInternalVersion;
 	
-/*
-	NSMutableData *receivedData;
-	enum enumHearseState {
-		none, newUser
-	} hearseState;
- */
+	BOOL haveUploadedBones;
+	NSString *hearseMessageOfTheDay;
 	
 }
 
@@ -54,17 +51,26 @@
 + (BOOL) start;
 + (void) stop;
 
+- (void) start;
 - (void) mainHearseLoop:(id)arg;
 - (NSString *) md5HexForString:(NSString *)s;
 - (NSString *) md5HexForFile:(NSString *)filename;
+- (NSString *) md5HexForData:(NSData *)data;
 - (NSString *) md5HexForDigest:(const unsigned char *)digest;
 - (NSString *) urlForCommand:(NSString *)cmd;
 - (NSMutableURLRequest *) requestForCommand:(NSString *)cmd;
-- (NSHTTPURLResponse *) makeHttpRequestWithoutData:(NSURLRequest *)req;
+- (NSHTTPURLResponse *) httpGetRequestWithoutData:(NSURLRequest *)req;
+- (NSHTTPURLResponse *) httpPostRequestWithoutData:(NSMutableURLRequest *)req;
+
+// header name is case insensitive!
+- (NSString *) getHeader:(NSString *)header fromResponse:(NSHTTPURLResponse *)response;
+
+- (void) dumpResponse:(NSHTTPURLResponse *)response;
 - (NSString *) buildUserInfoCrc;
 - (void) createNewUser;
 - (void) changeUser;
 - (void) uploadBones;
 - (void) uploadBonesFile:(NSString *)file;
+- (void) alertUser:(NSString *)message;
 
 @end

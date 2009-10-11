@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainMenuViewController : UIViewController {
+@interface MainMenuViewController : UIViewController <UIAlertViewDelegate> {
 
 	IBOutlet UINavigationController *mainNavigationController;
 
