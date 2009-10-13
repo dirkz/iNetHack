@@ -38,7 +38,7 @@
 	
 	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	
-#ifndef HEARSE_ONLY_DEBUG
+#ifndef HEARSE_DEBUG
 	// use mainNavigationController.view to skip main menu
 	[window addSubview:mainNavigationController.view];
 	//[window addSubview:mainMenuViewController.view];
@@ -47,7 +47,9 @@
     [window makeKeyAndVisible];
 	[application setStatusBarHidden:YES animated:YES];
 	
+#ifdef HEARSE_DEBUG
 	[Hearse start];
+#endif
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

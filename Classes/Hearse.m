@@ -34,7 +34,12 @@
 
 static Hearse *_instance = nil;
 static NSString *const hearseKeyUserInfoCrc = @"userInfoCrc";
-static NSString *const hearseKeyLastUpload = @"lastUpload";
+
+// upload info
+static NSString *const hearseKeyUploads = @"uploads";
+static NSString *const hearseKeyUploadsLastUpload = @"uploadsLastUpload";
+static NSString *const hearseKeyUploadsMd5 = @"uploadsMd5";
+
 static NSString *const clientId = @"iNetHack Hearse";
 static NSString *const clientVersion = @"iNetHack Hearse 1.3";
 
@@ -54,8 +59,8 @@ static NSString *const hearseCommandUpload = @"upload";
 + (void)load {
 	NSAutoreleasePool* pool = [NSAutoreleasePool new];
 	NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-					   hearseKeyLastUpload, [NSDate distantPast],
-					   hearseKeyUserInfoCrc, @"",
+					   [NSMutableDictionary dictionary], hearseKeyUploads,
+					   @"", hearseKeyUserInfoCrc,
 					   nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:d];
 	[pool drain];
@@ -79,11 +84,8 @@ static NSString *const hearseCommandUpload = @"upload";
 		username = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseUsername] copy];
 		email = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseEmail] copy];
 		hearseId = [[[NSUserDefaults standardUserDefaults] stringForKey:kKeyHearseId] copy];
-		NSLog(@"hearse %@ %@ %@", username, email, hearseId);
-		lastUpload = [[[NSUserDefaults standardUserDefaults] objectForKey:hearseKeyLastUpload] copy];
-		if (!lastUpload) {
-			lastUpload = [[NSDate distantPast] copy];
-		}
+		uploads = [[NSMutableDictionary alloc] initWithDictionary:
+				   [[NSUserDefaults standardUserDefaults] objectForKey:hearseKeyUploads]];
 		userInfoCrc = [[[NSUserDefaults standardUserDefaults] objectForKey:hearseKeyUserInfoCrc] copy];
 		clientVersionCrc = [[self md5HexForString:clientVersion] copy];
 		netHackVersion = [[NSString stringWithFormat:@"%d,%d,%d,%d",
@@ -108,7 +110,8 @@ static NSString *const hearseCommandUpload = @"upload";
 	} else {
 		NSString *changedUserInfoCrc = [[self buildUserInfoCrc] copy];
 		if (![changedUserInfoCrc isEqual:userInfoCrc]) {
-			[self changeUser];
+			// should work, but is not supported
+			//[self changeUser];
 		}
 	}
 	if (hearseId && hearseId.length > 0) {
@@ -116,6 +119,12 @@ static NSString *const hearseCommandUpload = @"upload";
 	}
 #endif
     [pool release];
+}
+
+- (void) dumpDictionary:(NSDictionary *)dictionary {
+	for (NSString *key in [dictionary keyEnumerator]) {
+		NSLog(@"%@ -> %@", key, [dictionary objectForKey:key]);
+	}
 }
 
 #pragma mark md5 handling
@@ -189,9 +198,9 @@ static NSString *const hearseCommandUpload = @"upload";
 	NSError *error;
 	NSData *received = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
 	if (!received) {
-		[self alertUser:[NSString stringWithFormat:@"Connection failed! Error - %@ %@",
-						 [error localizedDescription],
-						 [[error userInfo] objectForKey:NSErrorFailingURLStringKey]]];
+		[self alertUserWithMessage:[NSString stringWithFormat:@"Connection failed! Error - %@ %@",
+									[error localizedDescription],
+									[[error userInfo] objectForKey:NSErrorFailingURLStringKey]]];
 		return nil;
 	}
 	return (NSHTTPURLResponse *) response;
@@ -267,15 +276,21 @@ static NSString *const hearseCommandUpload = @"upload";
 			NSDictionary *fileAttributes = [filemanager fileAttributesAtPath:filename traverseLink:NO];
 			NSDate *fileModDate = [fileAttributes objectForKey:NSFileModificationDate];
 			if (fileModDate) {
-				NSComparisonResult cmp = [fileModDate compare:lastUpload];
-				if (cmp == NSOrderedDescending) {
+				NSDictionary *uploadInfo = [uploads objectForKey:filename];
+				BOOL shouldUpload = YES;
+				if (uploadInfo) {
+					NSDate *cmpDate = [uploadInfo objectForKey:hearseKeyUploadsLastUpload];
+					NSComparisonResult cmp = [fileModDate compare:cmpDate];
+					if (cmp == NSOrderedAscending || cmp == NSOrderedSame) {
+						shouldUpload = NO;
+					}
+				}
+				if (shouldUpload) {
 					[self uploadBonesFile:filename];
 				}
 			}
 		}
 	}
-	//lastUpload = [[NSDate date] copy];
-	//[[NSUserDefaults standardUserDefaults] setObject:lastUpload forKey:hearseKeyLastUpload];
 }
 
 - (void) uploadBonesFile:(NSString *)file {
@@ -291,14 +306,25 @@ static NSString *const hearseCommandUpload = @"upload";
 	[req addValue:[self md5HexForData:data] forHTTPHeaderField:@"X_BONESCRC"];
 	NSHTTPURLResponse *response = [self httpPostRequestWithoutData:req];
 	if (response) {
-		[self dumpResponse:response];
 		hearseMessageOfTheDay = [[self getHeader:@"X_MOTD" fromResponse:response] copy];
 		hearseInternalVersion = [[self getHeader:@"X_NETHACKVER" fromResponse:response] copy];
 		if (hearseMessageOfTheDay) {
-			[self alertUser:hearseMessageOfTheDay];
+			[self alertUserWithMessage:hearseMessageOfTheDay];
 		}
+		NSDictionary *uploadInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+									[NSDate date], hearseKeyUploadsLastUpload,
+									[self md5HexForData:data], hearseKeyUploadsMd5,
+									nil];
+		[uploads setObject:uploadInfo forKey:file];
+		[[NSUserDefaults standardUserDefaults] setObject:uploads forKey:hearseKeyUploads];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		NSError *error = nil;
+		[[NSFileManager defaultManager] removeItemAtPath:file error:&error];
+		if (error) {
+			[self alertUserWithError:error];
+		}
+		haveUploadedBones = YES;
 	}
-	//haveUploadedBones = YES;
 }
 
 #pragma mark UI
@@ -306,15 +332,19 @@ static NSString *const hearseCommandUpload = @"upload";
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 }
 
-- (void) alertUserOnUIThread:(NSString *)message {
+- (void) alertUserOnUIThreadWithMessage:(NSString *)message {
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hearse" message:message
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alert show];
 }
 
-- (void) alertUser:(NSString *)message {
-	//[self performSelectorOnMainThread:@selector(alertUserOnUIThread:) withObject:message waitUntilDone:YES];
+- (void) alertUserWithMessage:(NSString *)message {
+	//[self performSelectorOnMainThread:@selector(alertUserOnUIThreadWithMessage:) withObject:message waitUntilDone:YES];
 	NSLog(message);
+}
+
+- (void) alertUserWithError:(NSError *)error {
+	[self alertUserWithMessage:[NSString stringWithFormat:@"Error - %@", [error localizedDescription]]];
 }
 
 - (void) dealloc {
@@ -323,6 +353,7 @@ static NSString *const hearseCommandUpload = @"upload";
 	[hearseId release];
 	[thread release];
 	[clientVersionCrc release];
+	[uploads release];
 	[super dealloc];
 }
 

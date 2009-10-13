@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define HEARSE_ONLY_DEBUG
+#define HEARSE_DEBUG (1)
 
 #define kKeyHearse (@"hearse")
 #define kKeyHearseUsername (@"hearseUsername")
@@ -37,7 +37,7 @@
 	NSString *userInfoCrc;
 	NSThread *thread;
 	NSString *clientVersionCrc;
-	NSDate *lastUpload;
+	NSMutableDictionary *uploads;
 	NSString *netHackVersion;
 	NSString *netHackVersionCrc;
 	NSString *hearseInternalVersion;
@@ -53,6 +53,7 @@
 
 - (void) start;
 - (void) mainHearseLoop:(id)arg;
+- (void) dumpDictionary:(NSDictionary *)dictionary;
 - (NSString *) md5HexForString:(NSString *)s;
 - (NSString *) md5HexForFile:(NSString *)filename;
 - (NSString *) md5HexForData:(NSData *)data;
@@ -71,6 +72,7 @@
 - (void) changeUser;
 - (void) uploadBones;
 - (void) uploadBonesFile:(NSString *)file;
-- (void) alertUser:(NSString *)message;
+- (void) alertUserWithMessage:(NSString *)message;
+- (void) alertUserWithError:(NSError *)error;
 
 @end
