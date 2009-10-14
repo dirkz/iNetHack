@@ -43,7 +43,7 @@
 	NSString *hearseInternalVersion;
 	
 	BOOL haveUploadedBones;
-	NSString *hearseMessageOfTheDay;
+	BOOL deleteUploadedBones;
 	
 }
 
@@ -62,16 +62,21 @@
 - (NSMutableURLRequest *) requestForCommand:(NSString *)cmd;
 - (NSHTTPURLResponse *) httpGetRequestWithoutData:(NSURLRequest *)req;
 - (NSHTTPURLResponse *) httpPostRequestWithoutData:(NSMutableURLRequest *)req;
+- (NSHTTPURLResponse *) httpGetRequest:(NSURLRequest *)req withData:(NSData **)data;
 
 // header name is case insensitive!
 - (NSString *) getHeader:(NSString *)header fromResponse:(NSHTTPURLResponse *)response;
 
 - (void) dumpResponse:(NSHTTPURLResponse *)response;
+- (void) dumpData:(NSData *)data;
 - (NSString *) buildUserInfoCrc;
 - (void) createNewUser;
 - (void) changeUser;
 - (void) uploadBones;
 - (void) uploadBonesFile:(NSString *)file;
+- (void) downloadBones;
+- (BOOL) downloadSingleBonesFileForceDownload:(BOOL)forceDownload wantsInfo:(NSString **)wantsInfo;
+- (NSArray *) existingBonesFiles;
 - (void) alertUserWithMessage:(NSString *)message;
 - (void) alertUserWithError:(NSError *)error;
 

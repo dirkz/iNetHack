@@ -42,6 +42,7 @@ static NSString *const hearseKeyUploadsMd5 = @"uploadsMd5";
 
 static NSString *const clientId = @"iNetHack Hearse";
 static NSString *const clientVersion = @"iNetHack Hearse 1.3";
+static NSString *const hearseInternalNethackVersion = @"43"; // the hearse version id for these bones
 
 static NSString *const hearseBaseUrl = @"http://hearse.krollmark.com/bones.dll?act=";
 
@@ -49,6 +50,7 @@ static NSString *const hearseBaseUrl = @"http://hearse.krollmark.com/bones.dll?a
 static NSString *const hearseCommandNewUser = @"newuser";
 static NSString *const hearseCommandChangeUserInfo = @"changeuserinfo";
 static NSString *const hearseCommandUpload = @"upload";
+static NSString *const hearseCommandDownload = @"download";
 
 @implementation Hearse
 
@@ -91,6 +93,7 @@ static NSString *const hearseCommandUpload = @"upload";
 		netHackVersion = [[NSString stringWithFormat:@"%d,%d,%d,%d",
 						  VERSION_MAJOR, VERSION_MINOR, PATCHLEVEL, EDITLEVEL] copy];
 		netHackVersionCrc = [[self md5HexForString:netHackVersion] copy];
+		deleteUploadedBones = YES;
 	}
 	return self;
 }
@@ -108,7 +111,7 @@ static NSString *const hearseCommandUpload = @"upload";
 			[self createNewUser];
 		}
 	} else {
-		NSString *changedUserInfoCrc = [[self buildUserInfoCrc] copy];
+		NSString *changedUserInfoCrc = [self buildUserInfoCrc];
 		if (![changedUserInfoCrc isEqual:userInfoCrc]) {
 			// should work, but is not supported
 			//[self changeUser];
@@ -116,6 +119,7 @@ static NSString *const hearseCommandUpload = @"upload";
 	}
 	if (hearseId && hearseId.length > 0) {
 		[self uploadBones];
+		[self downloadBones];
 	}
 #endif
     [pool release];
@@ -194,9 +198,21 @@ static NSString *const hearseCommandUpload = @"upload";
 }
 
 - (NSHTTPURLResponse *) httpGetRequestWithoutData:(NSURLRequest *)req {
+	return [self httpGetRequest:req withData:nil];
+}
+
+- (NSHTTPURLResponse *) httpPostRequestWithoutData:(NSMutableURLRequest *)req {
+	[req setHTTPMethod: @"POST"];
+	return [self httpGetRequestWithoutData:req];
+}
+
+- (NSHTTPURLResponse *) httpGetRequest:(NSURLRequest *)req withData:(NSData **)data {
 	NSURLResponse *response;
 	NSError *error;
 	NSData *received = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
+	if (data) {
+		*data = received;
+	}
 	if (!received) {
 		[self alertUserWithMessage:[NSString stringWithFormat:@"Connection failed! Error - %@ %@",
 									[error localizedDescription],
@@ -204,11 +220,6 @@ static NSString *const hearseCommandUpload = @"upload";
 		return nil;
 	}
 	return (NSHTTPURLResponse *) response;
-}
-
-- (NSHTTPURLResponse *) httpPostRequestWithoutData:(NSMutableURLRequest *)req {
-	[req setHTTPMethod: @"POST"];
-	return [self httpGetRequestWithoutData:req];
 }
 
 - (NSString *) getHeader:(NSString *)header fromResponse:(NSHTTPURLResponse *)response {
@@ -228,6 +239,12 @@ static NSString *const hearseCommandUpload = @"upload";
 	}
 }
 
+- (void) dumpData:(NSData *)data {
+	NSString *s = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+	NSLog(@"%@", s);
+	[s release];
+}
+
 #pragma mark hearse command implementation
 
 - (NSString *) buildUserInfoCrc {
@@ -244,9 +261,11 @@ static NSString *const hearseCommandUpload = @"upload";
 	if (response) {
 		NSString *headerHearseId = [self getHeader:@"X_USERTOKEN" fromResponse:response];
 		if (headerHearseId) {
+			[hearseId release];
 			hearseId = [headerHearseId copy];
 		}
 		if (hearseId && hearseId.length > 0) {
+			[userInfoCrc release];
 			userInfoCrc = [[self buildUserInfoCrc] copy];
 			[[NSUserDefaults standardUserDefaults] setObject:hearseId forKey:kKeyHearseId];
 			[[NSUserDefaults standardUserDefaults] setObject:userInfoCrc forKey:hearseKeyUserInfoCrc];
@@ -262,6 +281,7 @@ static NSString *const hearseCommandUpload = @"upload";
 	[req addValue:username forHTTPHeaderField:@"X_USERNICK"];
 	NSHTTPURLResponse *response = [self httpGetRequestWithoutData:req];
 	if (response) {
+		[userInfoCrc release];
 		userInfoCrc = [[self buildUserInfoCrc] copy];
 		[[NSUserDefaults standardUserDefaults] setObject:userInfoCrc forKey:hearseKeyUserInfoCrc];
 		[[NSUserDefaults standardUserDefaults] synchronize];
@@ -306,7 +326,8 @@ static NSString *const hearseCommandUpload = @"upload";
 	[req addValue:[self md5HexForData:data] forHTTPHeaderField:@"X_BONESCRC"];
 	NSHTTPURLResponse *response = [self httpPostRequestWithoutData:req];
 	if (response) {
-		hearseMessageOfTheDay = [[self getHeader:@"X_MOTD" fromResponse:response] copy];
+		NSString *hearseMessageOfTheDay = [self getHeader:@"X_MOTD" fromResponse:response];
+		[hearseInternalVersion release];
 		hearseInternalVersion = [[self getHeader:@"X_NETHACKVER" fromResponse:response] copy];
 		if (hearseMessageOfTheDay) {
 			[self alertUserWithMessage:hearseMessageOfTheDay];
@@ -318,13 +339,94 @@ static NSString *const hearseCommandUpload = @"upload";
 		[uploads setObject:uploadInfo forKey:file];
 		[[NSUserDefaults standardUserDefaults] setObject:uploads forKey:hearseKeyUploads];
 		[[NSUserDefaults standardUserDefaults] synchronize];
-		NSError *error = nil;
-		[[NSFileManager defaultManager] removeItemAtPath:file error:&error];
-		if (error) {
-			[self alertUserWithError:error];
+		if (deleteUploadedBones) {
+			NSError *error = nil;
+			[[NSFileManager defaultManager] removeItemAtPath:file error:&error];
+			if (error) {
+				[self alertUserWithError:error];
+			}
 		}
 		haveUploadedBones = YES;
 	}
+}
+
+- (void) downloadBones {
+	BOOL forceDownload = NO;
+	int downloadedBones = 0;
+	while (!forceDownload) {
+		forceDownload = [self downloadSingleBonesFileForceDownload:NO wantsInfo:NULL];
+		if (!forceDownload) {
+			downloadedBones++;
+		}
+	}
+	NSString *message = nil;
+	if (forceDownload && downloadedBones < 1) {
+		[self downloadSingleBonesFileForceDownload:YES wantsInfo:&message];
+	} else {
+		[self downloadSingleBonesFileForceDownload:NO wantsInfo:&message];
+	}
+	if (message) {
+		[self alertUserWithMessage:message];
+	}
+}
+
+- (BOOL) downloadSingleBonesFileForceDownload:(BOOL)forceDownload wantsInfo:(NSString **)wantsInfo {
+	NSString *forceDownloadResponse = nil;
+	NSString *existingBonesFiles = [[self existingBonesFiles] componentsJoinedByString:@","];
+	NSMutableURLRequest *req = [self requestForCommand:hearseCommandDownload];
+	[req addValue:hearseId forHTTPHeaderField:@"X_USERTOKEN"];
+	[req addValue:existingBonesFiles forHTTPHeaderField:@"X_USERLEVELS"];
+	if (forceDownload) {
+		[req addValue:@"Y" forHTTPHeaderField:@"X_FORCEDOWNLOAD"];
+		[req addValue:hearseInternalNethackVersion forHTTPHeaderField:@"X_NETHACKVER"];
+	}
+	if (wantsInfo) {
+		[req addValue:@"Y" forHTTPHeaderField:@"X_WANTSINFO"];
+	}
+	BOOL returnForceDownload = NO;
+	NSData *data = nil;
+	NSHTTPURLResponse *response = [self httpGetRequest:req withData:&data];
+	if (response) {
+		[self dumpResponse:response];
+		[self dumpData:data];
+		NSString *fatal = [self getHeader:@"FATAL" fromResponse:response];
+		if (fatal) {
+			[self alertUserWithMessage:fatal];
+		}
+		forceDownloadResponse = [self getHeader:@"X_FORCEDOWNLOAD" fromResponse:response];
+		returnForceDownload = forceDownloadResponse && ([forceDownloadResponse isEqual:@"Y"] ||
+														[forceDownloadResponse isEqual:@"Y"]);
+		NSString *filename = [self getHeader:@"X_FILENAME" fromResponse:response];
+		NSString *md5 = [self getHeader:@"X_BONESCRC" fromResponse:response];
+		int length = [[self getHeader:@"Content-Length" fromResponse:response] intValue];
+		if (length != data.length && filename) {
+			[self alertUserWithMessage:[NSString stringWithFormat:@"Incorrect size for downloaded file %@", filename]];
+		} else if (filename) {
+			NSString *myMd5 = [self md5HexForData:data];
+			if (![md5 isEqual:myMd5]) {
+				[self alertUserWithMessage:[NSString stringWithFormat:@"Mismatched md5 for downloaded file %@", filename]];
+			} else {
+				[data writeToFile:filename atomically:YES];
+			}
+		} else if (wantsInfo && data.length > 0 && data.length != length) {
+			*wantsInfo = [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
+		} else if (data.length > 0) {
+			[self alertUserWithMessage:[[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease]];
+		}
+	}
+	return returnForceDownload;
+}
+
+- (NSArray *) existingBonesFiles {
+	NSMutableArray *bones = [NSMutableArray array];
+	NSFileManager *filemanager = [NSFileManager defaultManager];
+	NSArray *filelist = [filemanager directoryContentsAtPath:@"."];
+	for (NSString *filename in filelist) {
+		if ([filename startsWithString:@"bon"]) {
+			[bones addObject:filename];
+		}
+	}
+	return bones;
 }
 
 #pragma mark UI
@@ -351,9 +453,13 @@ static NSString *const hearseCommandUpload = @"upload";
 	[username release];
 	[email release];
 	[hearseId release];
-	[thread release];
+	[userInfoCrc release];
 	[clientVersionCrc release];
+	[netHackVersion release];
+	[netHackVersionCrc release];
+	[thread release];
 	[uploads release];
+	[hearseInternalVersion release];
 	[super dealloc];
 }
 
