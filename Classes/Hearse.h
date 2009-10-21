@@ -34,10 +34,8 @@
 	NSString *username;
 	NSString *email;
 	NSString *hearseId;
-	NSString *userInfoCrc;
 	NSThread *thread;
 	NSString *clientVersionCrc;
-	NSMutableDictionary *uploads;
 	NSString *netHackVersion;
 	NSString *netHackVersionCrc;
 	NSString *hearseInternalVersion;
@@ -69,13 +67,14 @@
 
 - (void) dumpResponse:(NSHTTPURLResponse *)response;
 - (void) dumpData:(NSData *)data;
+- (NSString *) extractHearseErrorMessageFromResponse:(NSHTTPURLResponse *)response data:(NSData *)data;
 - (NSString *) buildUserInfoCrc;
 - (void) createNewUser;
-- (void) changeUser;
 - (void) uploadBones;
 - (void) uploadBonesFile:(NSString *)file;
 - (void) downloadBones;
-- (BOOL) downloadSingleBonesFileForceDownload:(BOOL)forceDownload wantsInfo:(NSString **)wantsInfo;
+- (NSString *) downloadSingleBonesFile;
+- (NSString *) leechSingleBonesFile;
 - (NSArray *) existingBonesFiles;
 - (void) alertUserWithMessage:(NSString *)message;
 - (void) alertUserWithError:(NSError *)error;
