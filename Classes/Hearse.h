@@ -49,13 +49,17 @@
 + (BOOL) start;
 + (void) stop;
 
++ (NSString *) md5HexForString:(NSString *)s;
++ (NSString *) md5HexForFile:(NSString *)filename;
++ (NSString *) md5HexForData:(NSData *)data;
++ (NSString *) md5HexForDigest:(const unsigned char *)digest;
+
++ (void) dumpDictionary:(NSDictionary *)dictionary;
++ (void) dumpResponse:(NSHTTPURLResponse *)response;
++ (void) dumpData:(NSData *)data;
+
 - (void) start;
 - (void) mainHearseLoop:(id)arg;
-- (void) dumpDictionary:(NSDictionary *)dictionary;
-- (NSString *) md5HexForString:(NSString *)s;
-- (NSString *) md5HexForFile:(NSString *)filename;
-- (NSString *) md5HexForData:(NSData *)data;
-- (NSString *) md5HexForDigest:(const unsigned char *)digest;
 - (NSString *) urlForCommand:(NSString *)cmd;
 - (NSMutableURLRequest *) requestForCommand:(NSString *)cmd;
 - (NSHTTPURLResponse *) httpGetRequestWithoutData:(NSURLRequest *)req;
@@ -65,16 +69,13 @@
 // header name is case insensitive!
 - (NSString *) getHeader:(NSString *)header fromResponse:(NSHTTPURLResponse *)response;
 
-- (void) dumpResponse:(NSHTTPURLResponse *)response;
-- (void) dumpData:(NSData *)data;
 - (NSString *) extractHearseErrorMessageFromResponse:(NSHTTPURLResponse *)response data:(NSData *)data;
 - (NSString *) buildUserInfoCrc;
 - (void) createNewUser;
 - (void) uploadBones;
 - (void) uploadBonesFile:(NSString *)file;
 - (void) downloadBones;
-- (NSString *) downloadSingleBonesFile;
-- (NSString *) leechSingleBonesFile;
+- (NSString *) downloadSingleBonesFileWithForce:(BOOL)force wasForced:(BOOL *)pForcedDownload;
 - (NSArray *) existingBonesFiles;
 - (void) alertUserWithMessage:(NSString *)message;
 - (void) alertUserWithError:(NSError *)error;
