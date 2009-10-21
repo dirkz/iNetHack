@@ -324,15 +324,8 @@ static NSString *const hearseCommandDownload = @"download";
 			downloadedBones++;
 		}
 	}
-	if (forceDownload) {
-		message = [self downloadSingleBonesFileWithForce:YES wasForced:NULL];
-		if (message) {
-			[self alertUserWithMessage:message];
-		}
-	} else {
-		if (message) {
-			[self alertUserWithMessage:message];
-		}
+	if (message) {
+		[self alertUserWithMessage:message];
 	}
 }
 
