@@ -168,6 +168,7 @@ static NSString *const hearseCommandDownload = @"download";
 		}
 	}
 	if (hearseId && hearseId.length > 0) {
+		NSLog(@"hearse user token %@", hearseId);
 		[self uploadBones];
 		[self downloadBones];
 	}
