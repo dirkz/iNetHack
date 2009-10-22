@@ -208,7 +208,6 @@ extern short glyph2tile[];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	tf = tableView;
 	if (menuWindow.isShallowMenu) {
 		if (section != 0) {
 			NSLog(@"error in %s: section number in shallow menu!", __FUNCTION__);

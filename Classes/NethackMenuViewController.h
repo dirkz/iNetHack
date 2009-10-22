@@ -29,10 +29,10 @@
 @interface NethackMenuViewController : UITableViewController {
 	
 	IBOutlet ItemAmountViewController *itemAmountViewController;
+	IBOutlet UITableView *tf;
 	
 	Window *menuWindow;
 	BOOL selectAll;
-	UITableView *tf;
 
 }
 
