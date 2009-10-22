@@ -123,6 +123,12 @@ extern short glyph2tile[];
 	}
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	tv = (UITableView *) self.view;
+	tv.backgroundColor = [UIColor blackColor];
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 	if (self.navigationController.topViewController != itemAmountViewController) {
@@ -229,6 +235,7 @@ extern short glyph2tile[];
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId] autorelease];
+		cell.textLabel.textColor = [UIColor whiteColor];
 	}
 
 	NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];

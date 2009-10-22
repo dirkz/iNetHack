@@ -33,6 +33,12 @@
 	return YES;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	tv = (UITableView *) self.view;
+	tv.backgroundColor = [UIColor blackColor];
+}
+
 #pragma mark UITableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -67,6 +73,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+		cell.textLabel.textColor = [UIColor whiteColor];
 	}
 	int row = [indexPath row];
 	MenuItem *menuItem = [menuItems objectAtIndex:row];
