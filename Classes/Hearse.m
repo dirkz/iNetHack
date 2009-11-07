@@ -41,7 +41,7 @@ static NSString *const hearseInternalNethackVersion = @"43"; // the hearse versi
 
 static NSString *const hearseBaseUrl = @"http://hearse.krollmark.com/bones.dll?act=";
 
-// used URLs
+// hearse commands
 static NSString *const hearseCommandNewUser = @"newuser";
 static NSString *const hearseCommandChangeUserInfo = @"changeuserinfo";
 static NSString *const hearseCommandUpload = @"upload";
@@ -161,7 +161,6 @@ static NSString *const hearseCommandDownload = @"download";
 
 - (void) mainHearseLoop:(id)arg {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-#if TARGET_IPHONE_SIMULATOR // sim only for now
 	if (!hearseId || hearseId.length == 0) {
 		if (email && email.length > 0) {
 			[self createNewUser];
@@ -172,7 +171,6 @@ static NSString *const hearseCommandDownload = @"download";
 		[self uploadBones];
 		[self downloadBones];
 	}
-#endif
     [pool release];
 }
 
