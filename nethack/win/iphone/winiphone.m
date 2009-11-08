@@ -511,9 +511,9 @@ void iphone_init_options() {
 		}
 		[tmp getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
 	}
-#if TARGET_IPHONE_SIMULATOR
+//#if TARGET_IPHONE_SIMULATOR
 	wizard = YES;
-#endif
+//#endif
 	winiphone_autokick = [defaults boolForKey:kOptionAutokick];
 	flags.showexp = [defaults boolForKey:kOptionShowExp];
 	flags.time = [defaults boolForKey:kOptionTime];
@@ -590,6 +590,24 @@ void iphone_test_main() {
 		iphone_display_nhwindow(map, FALSE);
 		[[MainViewController instance] displayPendingMessages];
 	}
+}
+
+void iphone_test_endianness() {
+	NSString *filename = @"endianness";
+	const char *cFilename = [filename cStringUsingEncoding:NSASCIIStringEncoding];
+	int someInt = 42;
+	[[NSFileManager defaultManager] removeItemAtPath:filename error:NULL];
+	int fd = open(cFilename, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+	write(fd, &someInt, sizeof(someInt));
+	close(fd);
+	NSLog(@"wrote %d", someInt);
+
+	char buffer[4];
+	fd = open(cFilename, O_RDONLY);
+	read(fd, buffer, sizeof(buffer));
+	close(fd);
+	NSLog(@"read %d %d %d %d", buffer[0], buffer[1], buffer[2], buffer[3]);
+	[[NSFileManager defaultManager] removeItemAtPath:filename error:NULL];
 }
 
 void iphone_main() {
