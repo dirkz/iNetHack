@@ -100,6 +100,7 @@
 		tileSet = [[TileSet alloc] initWithImage:tilesetImage tileSize:tilesetTileSize];
 	}
 	tileSets[0] = tileSet;
+	tileSets[1] = nil;
 	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
 
 	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
@@ -200,9 +201,15 @@
 
 - (void) checkForRogueLevel {
 	if (u.uz.dlevel && Is_rogue_level(&u.uz)) {
-		tileSet = tileSets[1] = [[AsciiTileSet alloc] initWithTileSize:tilesetTileSize];
+		if (!tileSets[1]) {
+			tileSet = tileSets[1] = [[AsciiTileSet alloc] initWithTileSize:tilesetTileSize];
+		} else {
+			tileSet = tileSets[1];
+		}
 	} else {
 		tileSet = tileSets[0];
+		[tileSets[1] release];
+		tileSets[1] = nil;
 	}
 }
 
