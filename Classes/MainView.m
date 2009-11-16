@@ -89,9 +89,12 @@
 			}
 		}
 		NSString *imgName = [NSString stringWithFormat:@"%@.bmp", tilesetName];
-		UIImage *tilesetImage = [UIImage imageNamed:imgName];
+		NSString *bundlePath = [[NSBundle mainBundle] resourcePath];
+		NSString *imgFilename = [bundlePath stringByAppendingPathComponent:imgName];
+		UIImage *tilesetImage = [UIImage imageWithContentsOfFile:imgFilename];
 		if (!tilesetImage) {
-			tilesetImage = [UIImage imageNamed:@"chozo32b.bmp"];
+			imgFilename = [bundlePath stringByAppendingPathComponent:@"chozo32b.bmp"];
+			tilesetImage = [UIImage imageWithContentsOfFile:imgFilename];
 			tilesetTileSize = CGSizeMake(32,32);
 			maxTileSize = tilesetTileSize;
 			[[NSUserDefaults standardUserDefaults] setObject:@"chozo32b" forKey:kKeyTileset];
@@ -101,7 +104,8 @@
 	}
 	tileSets[0] = tileSet;
 	tileSets[1] = nil;
-	petMark = [[UIImage imageNamed:@"petmark.png"] retain];
+	NSString *bundlePath = [[NSBundle mainBundle] resourcePath];
+	petMark = [[UIImage alloc] initWithContentsOfFile:[bundlePath stringByAppendingPathComponent:@"petmark.png"]];
 
 	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
 	[self addSubview:shortcutView];
