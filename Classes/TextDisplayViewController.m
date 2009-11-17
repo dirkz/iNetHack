@@ -74,11 +74,14 @@
 	[super viewWillAppear:animated];
 	if (self.isHTML) {
 		webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+		webView.backgroundColor = [UIColor blackColor];
 		webView.delegate = self;
 		self.view = webView;
 		[webView release];
 	} else {
 		textView = [[UITextView alloc] initWithFrame:self.view.frame];
+		textView.backgroundColor = [UIColor blackColor];
+		textView.textColor = [UIColor whiteColor];
 		textView.editable = NO;
 		self.view = textView;
 		[textView release];

@@ -51,6 +51,8 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	result = -1;
+	UITableView *tv = (UITableView *) self.view;
+	tv.backgroundColor = [UIColor blackColor];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -88,6 +90,8 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+		cell.backgroundColor = [UIColor blackColor];
+		cell.textLabel.textColor = [UIColor whiteColor];
 	}
 	int row = [indexPath row];
 	cell.textLabel.text = [[NSString stringWithCString:extcmdlist[row].ef_txt] capitalizedString];
