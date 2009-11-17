@@ -114,10 +114,6 @@ static MainViewController *_instance;
 	[self.view setNeedsDisplay];
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	[self.view setNeedsLayout];
-}
-
 - (void) mainNethackLoop:(id)arg {
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	iphone_main();
