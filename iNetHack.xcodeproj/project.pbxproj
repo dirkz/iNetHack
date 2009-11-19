@@ -19,7 +19,6 @@
 		4325C35C1035FC3F00653E8A /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4325C35B1035FC3F00653E8A /* Entitlements.plist */; };
 		435C0D7A10342A490007613E /* manual.html in Resources */ = {isa = PBXBuildFile; fileRef = 435C0D7910342A490007613E /* manual.html */; };
 		43753C96104307DB0021BFC5 /* AsciiTileSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 43753C95104307DB0021BFC5 /* AsciiTileSet.m */; };
-		439AB8891041067B00D3F533 /* nhtiles.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 439AB8881041067B00D3F533 /* nhtiles.bmp */; };
 		439C072F107CE8D3008D1C0E /* Hearse.m in Sources */ = {isa = PBXBuildFile; fileRef = 439C072E107CE8D3008D1C0E /* Hearse.m */; };
 		439D6BB00FFE4B9600F60623 /* NethackEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BAF0FFE4B9600F60623 /* NethackEvent.m */; };
 		439D6BE10FFE4DC000F60623 /* NethackEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 439D6BE00FFE4DC000F60623 /* NethackEventQueue.m */; };
@@ -27,9 +26,13 @@
 		439F0ED2100210690050AED4 /* ExtendedCommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F0ED1100210690050AED4 /* ExtendedCommandViewController.m */; };
 		439F0ED4100210770050AED4 /* ExtendedCommandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439F0ED3100210770050AED4 /* ExtendedCommandView.xib */; };
 		439F0F77100245080050AED4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 439F0F76100245080050AED4 /* Icon.png */; };
+		43A103A810B5706E006DD634 /* absurd32.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A103A310B5706E006DD634 /* absurd32.png */; };
+		43A103A910B5706E006DD634 /* chozo32.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A103A410B5706E006DD634 /* chozo32.png */; };
+		43A103AA10B5706E006DD634 /* chozo32b.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A103A510B5706E006DD634 /* chozo32b.png */; };
+		43A103AB10B5706E006DD634 /* nhtiles.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A103A610B5706E006DD634 /* nhtiles.png */; };
+		43A103AC10B5706E006DD634 /* tiles32.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A103A710B5706E006DD634 /* tiles32.png */; };
 		43A1879D100C9129001BDB88 /* Shortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A1879C100C9129001BDB88 /* Shortcut.m */; };
 		43A187A8100C92DC001BDB88 /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A187A7100C92DC001BDB88 /* ShortcutView.m */; };
-		43A29145104670920063F29D /* tiles32.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43A29144104670920063F29D /* tiles32.bmp */; };
 		43A7B06A10302D880083CE1B /* DMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A7B06910302D880083CE1B /* DMath.m */; };
 		43A7B1CA103046EA0083CE1B /* petmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A7B1C9103046EA0083CE1B /* petmark.png */; };
 		43ACB5D30FFF4A47005DB589 /* DirectionInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43ACB5D20FFF4A47005DB589 /* DirectionInputView.m */; };
@@ -43,9 +46,6 @@
 		43AFFC21103FE53500DCC8C1 /* ItemAmountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AFFC1F103FE53500DCC8C1 /* ItemAmountViewController.m */; };
 		43AFFC22103FE53500DCC8C1 /* ItemAmountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43AFFC20103FE53500DCC8C1 /* ItemAmountView.xib */; };
 		43B0812B102ABE0B00D08BED /* TouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0812A102ABE0B00D08BED /* TouchInfo.m */; };
-		43B1F6AF107B342B0013F60B /* chozo32b.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43B1F6AE107B342B0013F60B /* chozo32b.bmp */; };
-		43B1F6B4107B34F90013F60B /* absurd32.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43B1F6B2107B34F90013F60B /* absurd32.bmp */; };
-		43B1F6B5107B34F90013F60B /* chozo32.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 43B1F6B3107B34F90013F60B /* chozo32.bmp */; };
 		43C0DD6C0FE79DFE00B63ED3 /* allmain.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD020FE79DFE00B63ED3 /* allmain.c */; };
 		43C0DD6D0FE79DFE00B63ED3 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD030FE79DFE00B63ED3 /* alloc.c */; };
 		43C0DD6E0FE79DFE00B63ED3 /* apply.c in Sources */ = {isa = PBXBuildFile; fileRef = 43C0DD040FE79DFE00B63ED3 /* apply.c */; };
@@ -333,7 +333,6 @@
 		435C0D7910342A490007613E /* manual.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = manual.html; sourceTree = "<group>"; };
 		43753C94104307DB0021BFC5 /* AsciiTileSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsciiTileSet.h; sourceTree = "<group>"; };
 		43753C95104307DB0021BFC5 /* AsciiTileSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsciiTileSet.m; sourceTree = "<group>"; };
-		439AB8881041067B00D3F533 /* nhtiles.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = nhtiles.bmp; sourceTree = "<group>"; };
 		439C072D107CE8D3008D1C0E /* Hearse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hearse.h; sourceTree = "<group>"; };
 		439C072E107CE8D3008D1C0E /* Hearse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hearse.m; sourceTree = "<group>"; };
 		439D6BAE0FFE4B9600F60623 /* NethackEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NethackEvent.h; sourceTree = "<group>"; };
@@ -345,11 +344,15 @@
 		439F0ED1100210690050AED4 /* ExtendedCommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtendedCommandViewController.m; sourceTree = "<group>"; };
 		439F0ED3100210770050AED4 /* ExtendedCommandView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExtendedCommandView.xib; sourceTree = "<group>"; };
 		439F0F76100245080050AED4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		43A103A310B5706E006DD634 /* absurd32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = absurd32.png; sourceTree = "<group>"; };
+		43A103A410B5706E006DD634 /* chozo32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chozo32.png; sourceTree = "<group>"; };
+		43A103A510B5706E006DD634 /* chozo32b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chozo32b.png; sourceTree = "<group>"; };
+		43A103A610B5706E006DD634 /* nhtiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nhtiles.png; sourceTree = "<group>"; };
+		43A103A710B5706E006DD634 /* tiles32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tiles32.png; sourceTree = "<group>"; };
 		43A1879B100C9129001BDB88 /* Shortcut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shortcut.h; sourceTree = "<group>"; };
 		43A1879C100C9129001BDB88 /* Shortcut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shortcut.m; sourceTree = "<group>"; };
 		43A187A6100C92DC001BDB88 /* ShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortcutView.h; sourceTree = "<group>"; };
 		43A187A7100C92DC001BDB88 /* ShortcutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShortcutView.m; sourceTree = "<group>"; };
-		43A29144104670920063F29D /* tiles32.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tiles32.bmp; sourceTree = "<group>"; };
 		43A7B06810302D880083CE1B /* DMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMath.h; sourceTree = "<group>"; };
 		43A7B06910302D880083CE1B /* DMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMath.m; sourceTree = "<group>"; };
 		43A7B1C9103046EA0083CE1B /* petmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = petmark.png; path = ../petmark.png; sourceTree = "<group>"; };
@@ -371,9 +374,6 @@
 		43AFFC20103FE53500DCC8C1 /* ItemAmountView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ItemAmountView.xib; path = Classes/ItemAmountView.xib; sourceTree = "<group>"; };
 		43B08129102ABE0B00D08BED /* TouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchInfo.h; sourceTree = "<group>"; };
 		43B0812A102ABE0B00D08BED /* TouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchInfo.m; sourceTree = "<group>"; };
-		43B1F6AE107B342B0013F60B /* chozo32b.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo32b.bmp; sourceTree = "<group>"; };
-		43B1F6B2107B34F90013F60B /* absurd32.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = absurd32.bmp; sourceTree = "<group>"; };
-		43B1F6B3107B34F90013F60B /* chozo32.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = chozo32.bmp; sourceTree = "<group>"; };
 		43C0DD020FE79DFE00B63ED3 /* allmain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = allmain.c; path = nethack/src/allmain.c; sourceTree = "<group>"; };
 		43C0DD030FE79DFE00B63ED3 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = nethack/src/alloc.c; sourceTree = "<group>"; };
 		43C0DD040FE79DFE00B63ED3 /* apply.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = apply.c; path = nethack/src/apply.c; sourceTree = "<group>"; };
@@ -904,11 +904,11 @@
 		4394EB9510394C5F0053C8C2 /* Tilesets */ = {
 			isa = PBXGroup;
 			children = (
-				43B1F6B2107B34F90013F60B /* absurd32.bmp */,
-				43B1F6B3107B34F90013F60B /* chozo32.bmp */,
-				43B1F6AE107B342B0013F60B /* chozo32b.bmp */,
-				43A29144104670920063F29D /* tiles32.bmp */,
-				439AB8881041067B00D3F533 /* nhtiles.bmp */,
+				43A103A310B5706E006DD634 /* absurd32.png */,
+				43A103A410B5706E006DD634 /* chozo32.png */,
+				43A103A510B5706E006DD634 /* chozo32b.png */,
+				43A103A610B5706E006DD634 /* nhtiles.png */,
+				43A103A710B5706E006DD634 /* tiles32.png */,
 				43A7B1C9103046EA0083CE1B /* petmark.png */,
 			);
 			path = Tilesets;
@@ -1502,12 +1502,12 @@
 				435C0D7A10342A490007613E /* manual.html in Resources */,
 				4325C35C1035FC3F00653E8A /* Entitlements.plist in Resources */,
 				43AFFC22103FE53500DCC8C1 /* ItemAmountView.xib in Resources */,
-				439AB8891041067B00D3F533 /* nhtiles.bmp in Resources */,
-				43A29145104670920063F29D /* tiles32.bmp in Resources */,
 				43DC336B1070CD1C00FBCE71 /* MainMenuView.xib in Resources */,
-				43B1F6AF107B342B0013F60B /* chozo32b.bmp in Resources */,
-				43B1F6B4107B34F90013F60B /* absurd32.bmp in Resources */,
-				43B1F6B5107B34F90013F60B /* chozo32.bmp in Resources */,
+				43A103A810B5706E006DD634 /* absurd32.png in Resources */,
+				43A103A910B5706E006DD634 /* chozo32.png in Resources */,
+				43A103AA10B5706E006DD634 /* chozo32b.png in Resources */,
+				43A103AB10B5706E006DD634 /* nhtiles.png in Resources */,
+				43A103AC10B5706E006DD634 /* tiles32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
