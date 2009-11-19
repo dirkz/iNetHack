@@ -109,7 +109,6 @@
 
 	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
 	[self addSubview:shortcutView];
-	
 }
 
 - (CGPoint) subViewedCenter {
