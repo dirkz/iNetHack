@@ -22,7 +22,8 @@
 
 #import <Foundation/Foundation.h>
 
-#define HEARSE_DEBUG (1)
+//#define HEARSE_ONLY  // run hearse without NetHack
+//#define HEARSE_DISABLE // dont't run hearse at all
 
 #define kKeyHearse (@"hearse")
 #define kKeyHearseUsername (@"hearseUsername")

@@ -435,7 +435,7 @@ static NSString *const hearseCommandDownload = @"download";
 }
 
 - (void) alertUserWithMessage:(NSString *)message {
-#ifndef HEARSE_DEBUG
+#ifndef HEARSE_ONLY
 	[self performSelectorOnMainThread:@selector(alertUserOnUIThreadWithMessage:) withObject:message waitUntilDone:YES];
 #else
 	NSLog(message);

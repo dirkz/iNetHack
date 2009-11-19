@@ -38,7 +38,7 @@
 	
 	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	
-#ifndef HEARSE_DEBUG
+#ifndef HEARSE_ONLY
 	// use mainNavigationController.view to skip main menu
 	[window addSubview:mainNavigationController.view];
 	//[window addSubview:mainMenuViewController.view];
@@ -47,7 +47,8 @@
     [window makeKeyAndVisible];
 	[application setStatusBarHidden:YES animated:YES];
 	
-#ifdef HEARSE_DEBUG
+	// don't use hearse in the sim, bones are incompatible!
+#if !TARGET_IPHONE_SIMULATOR && !defined(HEARSE_DISABLE)
 	[Hearse start];
 #endif
 }
@@ -99,6 +100,5 @@
     [window release];
     [super dealloc];
 }
-
 
 @end

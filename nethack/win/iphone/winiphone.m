@@ -511,9 +511,9 @@ void iphone_init_options() {
 		}
 		[tmp getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
 	}
-//#if TARGET_IPHONE_SIMULATOR
+#if TARGET_IPHONE_SIMULATOR
 	wizard = YES;
-//#endif
+#endif
 	winiphone_autokick = [defaults boolForKey:kOptionAutokick];
 	flags.showexp = [defaults boolForKey:kOptionShowExp];
 	flags.time = [defaults boolForKey:kOptionTime];

@@ -88,12 +88,12 @@
 				tileSize = CGSizeMake(32,32);
 			}
 		}
-		NSString *imgName = [NSString stringWithFormat:@"%@.bmp", tilesetName];
+		NSString *imgName = [NSString stringWithFormat:@"%@.png", tilesetName];
 		NSString *bundlePath = [[NSBundle mainBundle] resourcePath];
 		NSString *imgFilename = [bundlePath stringByAppendingPathComponent:imgName];
 		UIImage *tilesetImage = [UIImage imageWithContentsOfFile:imgFilename];
 		if (!tilesetImage) {
-			imgFilename = [bundlePath stringByAppendingPathComponent:@"chozo32b.bmp"];
+			imgFilename = [bundlePath stringByAppendingPathComponent:@"chozo32b.png"];
 			tilesetImage = [UIImage imageWithContentsOfFile:imgFilename];
 			tilesetTileSize = CGSizeMake(32,32);
 			maxTileSize = tilesetTileSize;
@@ -405,6 +405,5 @@
 	[petMark release];
     [super dealloc];
 }
-
 
 @end
