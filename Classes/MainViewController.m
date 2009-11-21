@@ -102,6 +102,12 @@ static MainViewController *_instance;
 	return YES;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	// the first time you rotate layoutSubivews doesn't get called :(
+	// so make sure
+	[self.view setNeedsLayout];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
