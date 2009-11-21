@@ -48,7 +48,7 @@ static TileSet *_instance = nil;
 			int index = 0;
 			for (int j = 0; j < y; ++j) {
 				for (int i = 0; i < x; ++i) {
-					CGRect r = CGRectMake(i * tileSize.width, j * tileSize.height, tileSize.width, tileSize.height);
+					CGRect r = CGRectMake(i*tileSize.width, j*tileSize.height, tileSize.width, tileSize.height);
 					images[index++] = CGImageRetain(CGImageCreateWithImageInRect(base, r));
 				}
 			}
