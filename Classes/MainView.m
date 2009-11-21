@@ -89,12 +89,9 @@
 			}
 		}
 		NSString *imgName = [NSString stringWithFormat:@"%@.png", tilesetName];
-		NSString *bundlePath = [[NSBundle mainBundle] resourcePath];
-		NSString *imgFilename = [bundlePath stringByAppendingPathComponent:imgName];
-		UIImage *tilesetImage = [UIImage imageWithContentsOfFile:imgFilename];
+		UIImage *tilesetImage = [UIImage imageNamed:imgName];
 		if (!tilesetImage) {
-			imgFilename = [bundlePath stringByAppendingPathComponent:@"chozo32b.png"];
-			tilesetImage = [UIImage imageWithContentsOfFile:imgFilename];
+			tilesetImage = [UIImage imageNamed:@"chozo32b.png"];
 			tilesetTileSize = CGSizeMake(32,32);
 			maxTileSize = tilesetTileSize;
 			[[NSUserDefaults standardUserDefaults] setObject:@"chozo32b" forKey:kKeyTileset];
