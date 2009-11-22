@@ -90,7 +90,7 @@
 
 - (void) putString:(const char *)s {
 	[self lock];
-	NSString *str = [NSString stringWithCString:s];
+	NSString *str = [NSString stringWithCString:s encoding:NSASCIIStringEncoding];
 	if (type == NHW_STATUS && strings.count == 2) {
 		[strings removeAllObjects];
 	}
