@@ -114,7 +114,8 @@ genl_preference_update,
 };
 
 FILE *iphone_fopen(const char *filename, const char *mode) {
-	NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithCString:filename] ofType:@""];
+	NSString *path = [[NSBundle mainBundle]
+					  pathForResource:[NSString stringWithCString:filename encoding:NSASCIIStringEncoding] ofType:@""];
 	const char *pathc = [path cStringUsingEncoding:NSStringEncodingConversionAllowLossy];
 	FILE *file = fopen(pathc, mode);
 	return file;
@@ -232,7 +233,8 @@ void iphone_putstr(winid wid, int attr, const char *text) {
 
 void iphone_display_file(const char *filename, BOOLEAN_P must_exist) {
 	//NSLog(@"iphone_display_file %s", filename);
-	[[MainViewController instance] displayFile:[NSString stringWithCString:filename] mustExist:must_exist?YES:NO];
+	[[MainViewController instance] displayFile:[NSString stringWithCString:filename encoding:NSASCIIStringEncoding]
+									 mustExist:must_exist ? YES : NO];
 }
 
 void iphone_start_menu(winid wid) {
@@ -255,7 +257,7 @@ void iphone_end_menu(winid wid, const char *prompt) {
 	//NSLog(@"iphone_end_menu %d, %s", wid, prompt);
 	if (prompt) {
 		Window *w = [[MainViewController instance] windowWithId:wid];
-		w.menuPrompt = [NSString stringWithCString:prompt];
+		w.menuPrompt = [NSString stringWithCString:prompt encoding:NSASCIIStringEncoding];
 	}
 }
 
@@ -368,11 +370,11 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 	NSLog(@"iphone_yn_function %s", question);
 	[[MainViewController instance] updateScreen];
 	if (!choices) {
-		NSString *s = [NSString stringWithCString:question];
+		NSString *s = [NSString stringWithCString:question encoding:NSASCIIStringEncoding];
 		if ([s containsString:@"direction"]) {
 			return [[MainViewController instance] getDirectionInput];
 		} else {
-			NSString *q = [NSString stringWithCString:question];
+			NSString *q = [NSString stringWithCString:question encoding:NSASCIIStringEncoding];
 			NSString *preLets = [q substringBetweenDelimiters:@"[]"];
 			if (preLets && preLets.length > 0) {
 				Window *inventoryWindow = [[MainViewController instance] windowWithId:WIN_INVEN];
@@ -450,7 +452,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 			}
 		}
 	} else {
-		NSString *s = [NSString stringWithCString:question];
+		NSString *s = [NSString stringWithCString:question encoding:NSASCIIStringEncoding];
 		if ([s isEqualToString:@"Really save?"] || [s isEqualToString:@"Overwrite the old file?"]) {
 			return 'y';
 		} 

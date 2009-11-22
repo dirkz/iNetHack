@@ -222,7 +222,7 @@ static MainViewController *_instance;
 
 - (void) nethackShowLicense:(id)i {
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"license" ofType:@""];
-	NSString *text = [NSString stringWithContentsOfFile:path];
+	NSString *text = [NSString stringWithContentsOfFile:path encoding:NSASCIIStringEncoding error:NULL];
 	[self displayText:text withCondition:nil];
 }
 
@@ -697,21 +697,22 @@ static MainViewController *_instance;
 
 - (void) displayYnQuestionOnUIThread:(NethackYnFunction *)yn {
 	currentYnFunction = yn;
-	UIActionSheet *menu = [[UIActionSheet alloc] initWithTitle:[NSString stringWithCString:yn.question]
+	UIActionSheet *menu = [[UIActionSheet alloc] initWithTitle:[NSString stringWithCString:yn.question
+																				  encoding:NSASCIIStringEncoding]
 													  delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil
 											 otherButtonTitles:nil];
 	const char *p = yn.choices;
 	char c;
 	while (c = *p++) {
 		char str[] = {c,0};
-		[menu addButtonWithTitle:[NSString stringWithCString:str]];
+		[menu addButtonWithTitle:[NSString stringWithCString:str encoding:NSASCIIStringEncoding]];
 		//NSLog(@"added button %d %s", i, str);
 	}
 	[menu showInView:self.view];
 }
 
 - (void) getLine:(char *)line prompt:(const char *)p {
-	NSString *s = [NSString stringWithCString:p];
+	NSString *s = [NSString stringWithCString:p encoding:NSASCIIStringEncoding];
 	[self performSelectorOnMainThread:@selector(getLineOnUIThread:) withObject:s waitUntilDone:YES];
 	[self waitForCondition:textInputCondition];
 	s = textInputViewController.text;
@@ -775,7 +776,7 @@ static MainViewController *_instance;
 		NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:@""];
 		if (path) {
 			NSCondition *textDisplayCondition = [[NSCondition alloc] init];
-			NSString *t = [NSString stringWithContentsOfFile:path];
+			NSString *t = [NSString stringWithContentsOfFile:path encoding:NSASCIIStringEncoding error:NULL];
 			[self displayText:t withCondition:textDisplayCondition];
 			[self waitForCondition:textDisplayCondition];
 			[textDisplayCondition release];

@@ -75,7 +75,7 @@ static void reset_choices (int type)
 	for (int i = 0; i < ROLE_ALIGNS; i++) {
 		if (validalign(flags.initrole, flags.initrace, i)) {
 			MenuItem *item = [MenuItem new];
-			item.title     = [[NSString stringWithCString:aligns[i].adj] capitalizedString];
+			item.title     = [[NSString stringWithCString:aligns[i].adj encoding:NSASCIIStringEncoding] capitalizedString];
 			item.target    = self;
 			item.action    = @selector(didSelectAlignment:);
 			item.tag       = i;
@@ -104,7 +104,7 @@ static void reset_choices (int type)
 	for (int i = 0; i < ROLE_GENDERS; i++) {
 		if (validgend(flags.initrole, flags.initrace, i)) {
 			MenuItem *item = [MenuItem new];
-			item.title     = [[NSString stringWithCString:genders[i].adj] capitalizedString];
+			item.title     = [[NSString stringWithCString:genders[i].adj encoding:NSASCIIStringEncoding] capitalizedString];
 			item.target    = self;
 			item.action    = @selector(didSelectGender:);
 			item.tag       = i;
@@ -134,7 +134,7 @@ static void reset_choices (int type)
 	for (int i = 0; races[i].noun; i++) {
 		if (validrace(flags.initrole, i)) {
 			MenuItem *item = [MenuItem new];
-			item.title     = [[NSString stringWithCString:races[i].noun] capitalizedString];
+			item.title     = [[NSString stringWithCString:races[i].noun encoding:NSASCIIStringEncoding] capitalizedString];
 			item.target    = self;
 			item.action    = @selector(didSelectRace:);
 			item.tag       = i;
@@ -163,7 +163,7 @@ static void reset_choices (int type)
 	NSMutableArray *items = [NSMutableArray new];
 	for (int i = 0; roles[i].name.m; ++i) {
 		MenuItem *item = [MenuItem new];
-		item.title     = [NSString stringWithCString:roles[i].name.m];
+		item.title     = [NSString stringWithCString:roles[i].name.m encoding:NSASCIIStringEncoding];
 		item.target    = self;
 		item.action    = @selector(didSelectRole:);
 		item.tag       = i;

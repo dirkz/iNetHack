@@ -94,7 +94,7 @@
 		cell.textLabel.textColor = [UIColor whiteColor];
 	}
 	int row = [indexPath row];
-	cell.textLabel.text = [[NSString stringWithCString:extcmdlist[row].ef_txt] capitalizedString];
+	cell.textLabel.text = [[NSString stringWithCString:extcmdlist[row].ef_txt encoding:NSASCIIStringEncoding] capitalizedString];
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	return cell;
 }

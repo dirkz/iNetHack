@@ -113,7 +113,7 @@ static NSString *const hearseCommandDownload = @"download";
 		sprintf(pMd5, "%02x", digest[i]);
 		pMd5 += 2;
 	}
-	return [NSString stringWithCString:md5];
+	return [NSString stringWithCString:md5 encoding:NSASCIIStringEncoding];
 }
 
 #pragma mark other static helpers
