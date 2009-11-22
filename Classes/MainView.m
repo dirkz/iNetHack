@@ -146,17 +146,15 @@
 	start = CGPointMake(-mainViewController.clip.x*tileSize.width + center.x + offset.x,
 						-mainViewController.clip.y*tileSize.height + center.y + offset.y);
 
-	// draw border
+	// indicate level boundaries
+	float bgColor[] = {0.1f,0.1f,0.f,1.0f};
+	float levelBgColor[] = {0.0f,0.0f,0.0f,1.0f};
+	CGContextSetFillColor(ctx, bgColor);
+	CGContextFillRect(ctx, clipRect);
 	CGRect borderRect = CGRectMake(start.x, start.y, m.width*tileSize.width, m.height*tileSize.height);
-	float w = 2.0f;
-	borderRect.origin.x -= w;
-	borderRect.origin.y -= w;
-	borderRect.size.width += 2*w;
-	borderRect.size.height += 2*w;
-	float borderColor[] = {1,1,1,1};
-	CGContextSetStrokeColor(ctx, borderColor);
-	CGContextStrokeRect(ctx, borderRect);
-
+	CGContextSetFillColor(ctx, levelBgColor);
+	CGContextFillRect(ctx, borderRect);
+	
 	for (int j = 0; j < m.height; ++j) {
 		for (int i = 0; i < m.width; ++i) {
 			int glyph = [m glyphAtX:i y:j];
