@@ -53,6 +53,9 @@
 	Window *map;
 	Window *status;
 	Window *message;
+	
+	UIButton *moreButton;
+	
 }
 
 @property (nonatomic, readonly) CGPoint start;

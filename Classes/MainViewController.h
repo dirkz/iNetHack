@@ -96,7 +96,6 @@
 - (Window *) windowWithId:(winid)wid;
 - (void) displayWindowId:(winid)wid blocking:(BOOL)blocking;
 - (void) displayMessage:(Window *)w;
-- (void) displayPendingMessages;
 
 - (void) displayMenuWindow:(Window *)w;
 - (void) displayMenuWindowOnUIThread:(Window *)w;

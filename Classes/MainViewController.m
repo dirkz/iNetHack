@@ -657,19 +657,6 @@ static MainViewController *_instance;
 	[alert show];
 }
 
-- (void) displayPendingMessagesOnUIThread:(Window *)w {
-	[self displayMessage:w];
-	w.shouldDisplay = NO;
-	[self.view performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
-}
-
-- (void) displayPendingMessages {
-	if (self.messageWindow.shouldDisplay && self.messageWindow.strings.count > 0) {
-		[self performSelectorOnMainThread:@selector(displayPendingMessagesOnUIThread:)
-							   withObject:self.messageWindow waitUntilDone:YES];
-	}
-}
-
 - (void) displayMenuWindow:(Window *)w {
 	[uiCondition lock];
 	[self performSelectorOnMainThread:@selector(displayMenuWindowOnUIThread:) withObject:w waitUntilDone:YES];

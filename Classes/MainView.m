@@ -106,6 +106,9 @@
 
 	shortcutView = [[ShortcutView alloc] initWithFrame:CGRectZero];
 	[self addSubview:shortcutView];
+
+	// reuse the more button
+	moreButton = [[UIButton buttonWithType:UIButtonTypeDetailDisclosure] retain];
 }
 
 - (CGPoint) subViewedCenter {
@@ -127,7 +130,7 @@
 	
 	// subviews like direction input
 	for (UIView *v in self.subviews) {
-		if (v != shortcutView) {
+		if (v != shortcutView && v != moreButton) {
 			v.frame = self.frame;
 		}
 	}
@@ -270,6 +273,7 @@
 		}
 	}
 	if (message) {
+		[moreButton removeFromSuperview];
 		CGSize avgLineSize = [@"O" sizeWithFont:statusFont];
 		float maxY = center.y - avgLineSize.height*2;
 		p.y = statusSize.height;
@@ -280,11 +284,18 @@
 		if (strings.count > 0) {
 			CGSize bounds = self.bounds.size;
 			for (NSString *s in strings) {
+				CGSize size = [s sizeWithFont:statusFont];
 				if (p.y > maxY) {
-					message.shouldDisplay = YES;
+					p.x = 0;
+					p.y += size.height + 2;
+					CGRect frame = moreButton.frame;
+					frame.origin = p;
+					moreButton.frame = frame;
+					[moreButton addTarget:[MainViewController instance] action:@selector(nethackShowLog:)
+						 forControlEvents:UIControlEventTouchUpInside];
+					[self addSubview:moreButton];
 					break;
 				}
-				CGSize size = [s sizeWithFont:statusFont];
 				if (p.x + size.width < bounds.width) {
 					size = [s drawAtPoint:p withFont:statusFont];
 					p.x += size.width + 4;
