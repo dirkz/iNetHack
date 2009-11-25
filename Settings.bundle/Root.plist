@@ -136,6 +136,12 @@
 		</dict>
 		<dict>
 			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>(slider represents 1s, 0 and 1 mean off)</string>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSSliderSpecifier</string>
 			<key>Title</key>
 			<string>Double Tap Sensitivity</string>
@@ -153,6 +159,12 @@
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Hearse</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>(for new users a valid email is all you need, with an optional username. Use the ID field if you want to reuse an existing hearse account)</string>
 		</dict>
 		<dict>
 			<key>Type</key>
