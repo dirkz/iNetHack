@@ -136,12 +136,6 @@
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>(slider represents 1s, 0 and 1 mean off)</string>
-		</dict>
-		<dict>
-			<key>Type</key>
 			<string>PSSliderSpecifier</string>
 			<key>Title</key>
 			<string>Double Tap Sensitivity</string>
@@ -158,13 +152,7 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>Hearse</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>(for new users a valid email is all you need, with an optional username. Use the ID field if you want to reuse an existing hearse account)</string>
+			<string>Hearse (Bones sharing)</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -180,18 +168,6 @@
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
-			<string>Username</string>
-			<key>Key</key>
-			<string>hearseUsername</string>
-			<key>AutocapitalizationType</key>
-			<string>Words</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
 			<string>Email</string>
 			<key>Key</key>
 			<string>hearseEmail</string>
@@ -202,15 +178,11 @@
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
+			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
-			<string>ID</string>
-			<key>Key</key>
-			<string>hearseId</string>
-			<key>AutocapitalizationType</key>
-			<string>Words</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
+			<string>Advanced</string>
+			<key>File</key>
+			<string>hearse</string>
 		</dict>
 	</array>
 </dict>
