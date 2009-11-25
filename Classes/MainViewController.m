@@ -47,7 +47,7 @@
 
 extern volatile boolean winiphone_clickable_tiles;
 
-static MainViewController *_instance;
+static MainViewController *instance;
 
 @implementation MainViewController
 
@@ -55,7 +55,7 @@ static MainViewController *_instance;
 @synthesize gameInProgress;
 
 + (MainViewController *) instance {
-	return _instance;
+	return instance;
 }
 
 + (void) message:(NSString *)format, ... {
@@ -76,7 +76,7 @@ static MainViewController *_instance;
 	uiCondition = [[NSCondition alloc] init];
 	textInputCondition = [[NSCondition alloc] init];
 	tapRect = CGRectMake(-25, -25, 50, 50);
-	_instance = self;
+	instance = self;
 	lastSingleTapDelta = [[TilePosition alloc] init];
 	clip = [[TilePosition alloc] init];
 	dmath = [[DMath alloc] init];

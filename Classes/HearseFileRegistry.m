@@ -27,7 +27,7 @@ static NSString *const hearseFileRegistryKey = @"hearseFileRegistryKey";
 static NSString *const hearseFileRegistryKeyUploads = @"hearseFileRegistryKeyUploads";
 static NSString *const hearseFileRegistryKeyDownloads = @"hearseFileRegistryKeyDownloads";
 
-static HearseFileRegistry *_instance;
+static HearseFileRegistry *instance;
 
 @implementation HearseFileRegistry
 
@@ -45,7 +45,7 @@ static HearseFileRegistry *_instance;
 }
 
 + (HearseFileRegistry *) instance {
-	return _instance;
+	return instance;
 }
 
 - (id) init {
@@ -55,7 +55,7 @@ static HearseFileRegistry *_instance;
 		downloads = [[NSMutableDictionary alloc] initWithDictionary:[registry objectForKey:hearseFileRegistryKeyDownloads]];
 	}
 	[Hearse dumpDictionary:downloads];
-	_instance = self;
+	instance = self;
 	return self;
 }
 

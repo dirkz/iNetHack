@@ -24,12 +24,12 @@
 
 extern short glyph2tile[];
 
-static TileSet *_instance = nil;
+static TileSet *instance = nil;
 
 @implementation TileSet
 
 + (TileSet *) instance {
-	return _instance;
+	return instance;
 }
 
 + (int) glyphToTileIndex:(int)g {
@@ -53,8 +53,8 @@ static TileSet *_instance = nil;
 				}
 			}
 		}
-		if (!_instance) {
-			_instance = self;
+		if (!instance) {
+			instance = self;
 		}
 	}
 	return self;

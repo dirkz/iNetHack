@@ -34,7 +34,7 @@
 #import "NSString+Regexp.h"
 #import "HearseFileRegistry.h"
 
-static Hearse *_instance = nil;
+static Hearse *instance = nil;
 
 static NSString *const clientId = @"iNetHack Hearse";
 static NSString *const clientVersion = @"iNetHack Hearse 1.3";
@@ -52,20 +52,20 @@ static NSString *const hearseCommandDownload = @"download";
 @implementation Hearse
 
 + (Hearse *) instance {
-	return _instance;
+	return instance;
 }
 
 + (BOOL) start {
 	BOOL enableHearse = [[NSUserDefaults standardUserDefaults] boolForKey:kKeyHearse];
 	if (enableHearse) {
-		_instance = [[self alloc] init];
-		[_instance start];
+		instance = [[self alloc] init];
+		[instance start];
 	}
 	return enableHearse;
 }
 
 + (void) stop {
-	[_instance release];
+	[instance release];
 }
 
 #pragma mark md5 handling
