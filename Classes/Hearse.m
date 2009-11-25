@@ -21,6 +21,7 @@
 //  along with iNetHack.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <CommonCrypto/CommonDigest.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 #include <fcntl.h>
 #include <sys/types.h>
@@ -39,6 +40,7 @@ static NSString *const clientId = @"iNetHack Hearse";
 static NSString *const clientVersion = @"iNetHack Hearse 1.3";
 static NSString *const hearseInternalNethackVersion = @"43"; // the hearse version id for these bones
 
+static NSString *const hearseHost = @"hearse.krollmark.com";
 static NSString *const hearseBaseUrl = @"http://hearse.krollmark.com/bones.dll?act=";
 
 // hearse commands
@@ -154,24 +156,40 @@ static NSString *const hearseCommandDownload = @"download";
 	return self;
 }
 
+- (BOOL) isHearseReachable {
+	SCNetworkReachabilityRef reachabilityRef = SCNetworkReachabilityCreateWithName(NULL, [hearseHost UTF8String]);
+	if (reachabilityRef != NULL) {
+		SCNetworkReachabilityFlags flags;
+		Boolean valid = SCNetworkReachabilityGetFlags(reachabilityRef, &flags);
+		CFRelease(reachabilityRef);
+		if (!valid) {
+			return NO;
+		}
+		return flags & kSCNetworkReachabilityFlagsReachable;
+	}
+	return NO;
+}
+
 - (void) start {
 	thread = [[NSThread alloc] initWithTarget:self selector:@selector(mainHearseLoop:) object:nil];
 	[thread start];
 }
 
 - (void) mainHearseLoop:(id)arg {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	if (!hearseId || hearseId.length == 0) {
-		if (email && email.length > 0) {
-			[self createNewUser];
+	if ([self isHearseReachable]) {
+		NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+		if (!hearseId || hearseId.length == 0) {
+			if (email && email.length > 0) {
+				[self createNewUser];
+			}
 		}
+		if (hearseId && hearseId.length > 0) {
+			NSLog(@"hearse user token %@", hearseId);
+			[self uploadBones];
+			[self downloadBones];
+		}
+		[pool release];
 	}
-	if (hearseId && hearseId.length > 0) {
-		NSLog(@"hearse user token %@", hearseId);
-		[self uploadBones];
-		[self downloadBones];
-	}
-    [pool release];
 }
 
 #pragma mark URL and connection handling

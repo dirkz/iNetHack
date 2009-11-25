@@ -59,6 +59,7 @@
 + (void) dumpResponse:(NSHTTPURLResponse *)response;
 + (void) dumpData:(NSData *)data;
 
+- (BOOL) isHearseReachable;
 - (void) start;
 - (void) mainHearseLoop:(id)arg;
 - (NSString *) urlForCommand:(NSString *)cmd;
