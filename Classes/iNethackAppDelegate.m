@@ -27,14 +27,15 @@
 #import "MainMenuViewController.h"
 #import "Hearse.h"
 
-#include "hack.h"
+#define kBonesFilename (@"filename")
+#define kBonesMd5 (@"md5")
 
 @implementation iNethackAppDelegate
 
 @synthesize window;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	[self createNetHackDirectories];
+	[self checkNetHackDirectories];
 	
 	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	
@@ -68,7 +69,12 @@
 	}
 }
 
-- (void) createNetHackDirectories {
+- (void) checkNetHackDirectories {
+	static NSString *const suffix = @".bad";
+	static const int suffixLength = 4;
+	badBones = [[NSMutableArray alloc] init];
+	NSError *error = nil;
+	
 	// create save directory
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *saveDirectory = [paths lastObject];
@@ -91,9 +97,53 @@
 	}
 	filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
 	NSLog(@"files in current directory %@", currentDirectory);
-	for (NSString *filename in filelist) {
-		NSLog(@"file %@", filename);
+	for (NSString *file in filelist) {
+		NSLog(@"file %@", file);
+		NSRange r = [file rangeOfString:suffix];
+		if (r.location != NSNotFound && r.location == file.length-suffixLength) {
+			NSString *bones = [file stringByReplacingCharactersInRange:r withString:@""];
+			if ([[NSFileManager defaultManager] fileExistsAtPath:bones]) {
+				NSString *md5Bad = [NSString stringWithContentsOfFile:file encoding:NSASCIIStringEncoding error:NULL];
+				NSString *md5Bones = [Hearse md5HexForFile:bones];
+				if ([md5Bad isEqual:md5Bones]) {
+					NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:bones, kBonesFilename,
+									   md5Bad, kBonesMd5, nil];
+					[badBones addObject:d];
+					[[NSFileManager defaultManager] removeItemAtPath:bones error:&error];
+					[[NSFileManager defaultManager] removeItemAtPath:file error:&error];
+				}
+			}
+		}
 	}
+	if (badBones.count > 0) {
+		NSString *message = @"There have been bad bones detected and removed.";
+		message = [message stringByAppendingString:@"Please mail them to the Hearse team now."];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bad Bones" message:message
+													   delegate:self cancelButtonTitle:@"Mail"
+											  otherButtonTitles:@"Play", nil];
+		[alert show];
+	}
+}
+
+- (void) mailBadBones {
+	NSString *recipients = @"mailto:nethackhearse@gmail.com?cc=me@dirkz.com&subject=Bad bones files";
+	NSString *body = @"&body=\n";
+	for (NSDictionary *d in badBones) {
+		body = [body stringByAppendingFormat:@"%@ %@\n",
+				[d objectForKey:kBonesFilename], [d objectForKey:kBonesMd5]];
+	}
+	
+	NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
+	email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 0) {
+		[self mailBadBones];
+	}
+	[badBones release];
 }
 
 - (void)dealloc {

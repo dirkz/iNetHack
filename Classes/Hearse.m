@@ -176,8 +176,8 @@ static NSString *const hearseCommandDownload = @"download";
 }
 
 - (void) mainHearseLoop:(id)arg {
+	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	if ([self isHearseReachable]) {
-		NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 		if (!hearseId || hearseId.length == 0) {
 			if (email && email.length > 0) {
 				[self createNewUser];
@@ -188,8 +188,8 @@ static NSString *const hearseCommandDownload = @"download";
 			[self uploadBones];
 			[self downloadBones];
 		}
-		[pool release];
 	}
+	[pool release];
 }
 
 #pragma mark URL and connection handling
@@ -225,7 +225,7 @@ static NSString *const hearseCommandDownload = @"download";
 		*data = received;
 	}
 	if (!received) {
-		[self alertUserWithMessage:[NSString stringWithFormat:@"Connection failed! Error - %@ %@",
+		[self logMessage:[NSString stringWithFormat:@"Connection failed! Error - %@ %@",
 									[error localizedDescription],
 									[[error userInfo] objectForKey:NSErrorFailingURLStringKey]]];
 		return nil;
@@ -273,7 +273,7 @@ static NSString *const hearseCommandDownload = @"download";
 	if (response) {
 		NSString *errorMessage = [self extractHearseErrorMessageFromResponse:response data:data];
 		if (errorMessage) {
-			[self alertUserWithMessage:errorMessage];
+			[self logMessage:errorMessage];
 		} else {
 			NSString *headerHearseId = [self getHeader:@"X_USERTOKEN" fromResponse:response];
 			if (headerHearseId) {
@@ -317,7 +317,7 @@ static NSString *const hearseCommandDownload = @"download";
 		[hearseInternalVersion release];
 		hearseInternalVersion = [[self getHeader:@"X_NETHACKVER" fromResponse:response] copy];
 		if (hearseMessageOfTheDay) {
-			[self alertUserWithMessage:hearseMessageOfTheDay];
+			[self logMessage:hearseMessageOfTheDay];
 		}
 		if (deleteUploadedBones) {
 			NSError *error = nil;
@@ -341,7 +341,7 @@ static NSString *const hearseCommandDownload = @"download";
 		}
 	}
 	if (message) {
-		[self alertUserWithMessage:message];
+		[self logMessage:message];
 	}
 }
 
@@ -452,16 +452,14 @@ static NSString *const hearseCommandDownload = @"download";
 	[alert show];
 }
 
-- (void) alertUserWithMessage:(NSString *)message {
-#ifndef HEARSE_ONLY
+- (void) logMessage:(NSString *)message {
+	NSLogv(message, NULL);
 	[self performSelectorOnMainThread:@selector(alertUserOnUIThreadWithMessage:) withObject:message waitUntilDone:YES];
-#else
-	NSLog(message);
-#endif
 }
 
 - (void) alertUserWithError:(NSError *)error {
-	[self alertUserWithMessage:[NSString stringWithFormat:@"Error - %@", [error localizedDescription]]];
+	NSString *message = [NSString stringWithFormat:@"Error - %@", [error localizedDescription]];
+	[self performSelectorOnMainThread:@selector(alertUserOnUIThreadWithMessage:) withObject:message waitUntilDone:YES];
 }
 
 - (void) dealloc {

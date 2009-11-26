@@ -310,6 +310,7 @@
 		43DD0B600FF4E0FC00580249 /* wizhelp in Resources */ = {isa = PBXBuildFile; fileRef = 43DD0AC00FF4E0F700580249 /* wizhelp */; };
 		43DD0C430FF4ECEB00580249 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DD0C420FF4ECEB00580249 /* Window.m */; };
 		43F3397910BD4C6F0054E1A9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F3397810BD4C6F0054E1A9 /* SystemConfiguration.framework */; };
+		43F33A1610BD59390054E1A9 /* FileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F33A1510BD59390054E1A9 /* FileLogger.m */; };
 		916CE038102C57E8000535FC /* credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 916CE037102C57E8000535FC /* credits.html */; };
 		9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9194B22B1032CADB009BDE61 /* RoleSelectionController.m */; };
 		9194B2AE1032E48A009BDE61 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9194B2AD1032E48A009BDE61 /* QuartzCore.framework */; };
@@ -746,6 +747,8 @@
 		43DD0C410FF4ECEB00580249 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
 		43DD0C420FF4ECEB00580249 /* Window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Window.m; sourceTree = "<group>"; };
 		43F3397810BD4C6F0054E1A9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		43F33A1410BD59390054E1A9 /* FileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileLogger.h; sourceTree = "<group>"; };
+		43F33A1510BD59390054E1A9 /* FileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileLogger.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		916CE037102C57E8000535FC /* credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		9194B22A1032CADB009BDE61 /* RoleSelectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleSelectionController.h; sourceTree = "<group>"; };
@@ -774,10 +777,10 @@
 			children = (
 				1D3623240D0F684500981E51 /* iNethackAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iNethackAppDelegate.m */,
-				43DC33671070CD1C00FBCE71 /* MainMenuViewController.h */,
-				43DC33681070CD1C00FBCE71 /* MainMenuViewController.m */,
 				43DD07A90FF4C60400580249 /* MainViewController.h */,
 				43DD07AA0FF4C60400580249 /* MainViewController.m */,
+				43DC33671070CD1C00FBCE71 /* MainMenuViewController.h */,
+				43DC33681070CD1C00FBCE71 /* MainMenuViewController.m */,
 				43DD07AC0FF4C60E00580249 /* MainView.h */,
 				43DD07AD0FF4C60E00580249 /* MainView.m */,
 				43A187A6100C92DC001BDB88 /* ShortcutView.h */,
@@ -834,6 +837,8 @@
 				43CA7F72108F0B67006D377A /* HearseFileRegistry.m */,
 				439C072D107CE8D3008D1C0E /* Hearse.h */,
 				439C072E107CE8D3008D1C0E /* Hearse.m */,
+				43F33A1410BD59390054E1A9 /* FileLogger.h */,
+				43F33A1510BD59390054E1A9 /* FileLogger.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1663,6 +1668,7 @@
 				43DC336A1070CD1C00FBCE71 /* MainMenuViewController.m in Sources */,
 				439C072F107CE8D3008D1C0E /* Hearse.m in Sources */,
 				43CA7F73108F0B67006D377A /* HearseFileRegistry.m in Sources */,
+				43F33A1610BD59390054E1A9 /* FileLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

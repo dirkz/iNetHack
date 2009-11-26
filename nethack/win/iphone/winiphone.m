@@ -31,6 +31,11 @@
 #import "NSString+Regexp.h"
 #import "TilePosition.h"
 
+// for md5 methods
+#import "Hearse.h"
+
+#import "NSString+Regexp.h"
+
 #include <stdio.h>
 #include <fcntl.h>
 #include "dlb.h"
@@ -589,6 +594,22 @@ void iphone_test_endianness() {
 	close(fd);
 	NSLog(@"read %d %d %d %d", buffer[0], buffer[1], buffer[2], buffer[3]);
 	[[NSFileManager defaultManager] removeItemAtPath:filename error:NULL];
+}
+
+void iphone_will_load_bones(const char *bonesid) {
+	//NSLog(@"load bones %s", bonesid);
+	NSString *src = [NSString stringWithFormat:@"bon%s", bonesid];
+	NSString *dest = [NSString stringWithFormat:@"bon%s.bad", bonesid];
+	NSString *md5 = [Hearse md5HexForFile:src];
+	NSError *error = nil;
+	[md5 writeToFile:dest atomically:YES encoding:NSASCIIStringEncoding error:&error];
+}
+
+void iphone_finished_bones(const char *bonesid) {
+	//NSLog(@"finished bones %s", bonesid);
+	NSString *dest = [NSString stringWithFormat:@"bon%s.bad", bonesid];
+	NSError *error = nil;
+	[[NSFileManager defaultManager] removeItemAtPath:dest error:&error];
 }
 
 void iphone_main() {

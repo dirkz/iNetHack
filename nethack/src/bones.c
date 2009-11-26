@@ -5,6 +5,14 @@
 #include "hack.h"
 #include "lev.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
+#if TARGET_OS_IPHONE
+#include "../win/iphone/winiphone.h"
+#endif
+
 extern char bones[];	/* from files.c */
 #ifdef MFLOPPY
 extern long bytes_counted;
@@ -176,12 +184,13 @@ can_make_bones()
 		if (ttmp->ttyp == MAGIC_PORTAL) return FALSE;
 	}
 
-	if(depth(&u.uz) <= 0 ||		/* bulletproofing for endgame */
-	   (!rn2(1 + (depth(&u.uz)>>2))	/* fewer ghosts on low levels */
+	if(depth(&u.uz) <= 0// ||		/* bulletproofing for endgame */
+	   //(!rn2(1 + (depth(&u.uz)>>2))	/* fewer ghosts on low levels */
+	   && depth(&u.uz) > 3
 #ifdef WIZARD
 		&& !wizard
 #endif
-		)) return FALSE;
+		) return FALSE;
 	/* don't let multiple restarts generate multiple copies of objects
 	 * in bones files */
 	if (discover) return FALSE;
@@ -391,6 +400,10 @@ getbones()
 	fd = open_bonesfile(&u.uz, &bonesid);
 	if (fd < 0) return(0);
 
+#if TARGET_OS_IPHONE
+	iphone_will_load_bones(bonesid);
+#endif
+	
 	if ((ok = uptodate(fd, bones)) == 0) {
 #ifdef WIZARD
 	    if (!wizard)
@@ -402,6 +415,9 @@ getbones()
 			if(yn("Get bones?") == 'n') {
 				(void) close(fd);
 				compress_bonesfile();
+#if TARGET_OS_IPHONE
+				iphone_finished_bones(bonesid);
+#endif
 				return(0);
 			}
 		}
@@ -449,6 +465,10 @@ getbones()
 		}
 	}
 	(void) close(fd);
+
+#if TARGET_OS_IPHONE
+	iphone_finished_bones(bonesid);
+#endif
 
 #ifdef WIZARD
 	if(wizard) {

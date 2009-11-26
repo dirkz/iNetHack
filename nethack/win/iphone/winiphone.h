@@ -64,6 +64,11 @@ void iphone_start_screen();
 void iphone_end_screen();
 void iphone_outrip(winid wid, int how);
 
+// bones will be loaded
+void iphone_will_load_bones(const char *bonesid);
+// bones were loaded 
+void iphone_finished_bones(const char *bonesid);
+
 void iphone_test_main();
 void iphone_main();
 

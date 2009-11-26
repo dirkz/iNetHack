@@ -79,7 +79,7 @@
 - (void) downloadBones;
 - (NSString *) downloadSingleBonesFileWithForce:(BOOL)force wasForced:(BOOL *)pForcedDownload;
 - (NSArray *) existingBonesFiles;
-- (void) alertUserWithMessage:(NSString *)message;
+- (void) logMessage:(NSString *)message;
 - (void) alertUserWithError:(NSError *)error;
 
 @end

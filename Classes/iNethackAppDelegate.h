@@ -28,11 +28,12 @@
     UIWindow *window;
 	IBOutlet UINavigationController *mainNavigationController;
 	IBOutlet MainMenuViewController *mainMenuViewController;
+	NSMutableArray *badBones;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
-- (void) createNetHackDirectories;
+- (void) checkNetHackDirectories;
 
 @end
 
