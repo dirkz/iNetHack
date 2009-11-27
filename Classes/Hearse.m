@@ -330,6 +330,10 @@ static NSString *const hearseCommandDownload = @"download";
 	}
 }
 
+- (BOOL) isIgnoredMessage:(NSString *)msg {
+	return [msg containsString:@"Bones file could not be downloaded: an unhandled error occurred"];
+}
+
 - (void) downloadBones {
 	NSString *message = nil;
 	int downloadedBones = 0;
@@ -340,8 +344,10 @@ static NSString *const hearseCommandDownload = @"download";
 			downloadedBones++;
 		}
 	}
-	if (message) {
+	if (message && ![self isIgnoredMessage:message]) {
 		[self logMessage:message];
+	} else {
+		// force downloads
 	}
 }
 
@@ -376,7 +382,7 @@ static NSString *const hearseCommandDownload = @"download";
 						return [NSString stringWithFormat:@"Mismatched md5 for downloaded file %@", filename];
 					} else {
 						[data writeToFile:filename atomically:YES];
-						[[HearseFileRegistry instance] registerDownloadedFile:filename];
+						[[HearseFileRegistry instance] registerDownloadedFile:filename withMd5:myMd5];
 					}
 				} else {
 					return @"Missing filename from hearse";

@@ -535,6 +535,8 @@ void iphone_override_options() {
 void process_options(int argc, char *argv[]) {
 }
 
+#pragma mark main
+
 void
 getlock(void)
 {

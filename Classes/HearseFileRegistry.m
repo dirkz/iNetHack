@@ -68,8 +68,7 @@ static HearseFileRegistry *instance;
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void) registerDownloadedFile:(NSString *)filename {
-	NSString *md5 = [Hearse md5HexForFile:filename];
+- (void) registerDownloadedFile:(NSString *)filename withMd5:(NSString *)md5 {
 	NSString *file = [filename lastPathComponent];
 	[downloads setObject:md5 forKey:file];
 	[self synchronize];

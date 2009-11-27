@@ -32,7 +32,7 @@
 + (HearseFileRegistry *) instance;
 
 - (void) synchronize;
-- (void) registerDownloadedFile:(NSString *)filename;
+- (void) registerDownloadedFile:(NSString *)filename withMd5:(NSString *)md5;
 - (BOOL) haveDownloadedFile:(NSString *)filename;
 
 @end

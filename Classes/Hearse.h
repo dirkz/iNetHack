@@ -76,6 +76,7 @@
 - (void) createNewUser;
 - (void) uploadBones;
 - (void) uploadBonesFile:(NSString *)file;
+- (BOOL) isIgnoredMessage:(NSString *)msg;
 - (void) downloadBones;
 - (NSString *) downloadSingleBonesFileWithForce:(BOOL)force wasForced:(BOOL *)pForcedDownload;
 - (NSArray *) existingBonesFiles;

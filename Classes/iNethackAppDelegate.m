@@ -39,11 +39,9 @@
 	
 	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	
-#ifndef HEARSE_ONLY
 	// use mainNavigationController.view to skip main menu
 	[window addSubview:mainNavigationController.view];
 	//[window addSubview:mainMenuViewController.view];
-#endif
 
     [window makeKeyAndVisible];
 	[application setStatusBarHidden:YES animated:YES];
@@ -73,7 +71,10 @@
 }
 
 - (void) launchNetHack {
-	[[MainViewController instance] launchNetHack];
+#ifndef HEARSE_ONLY
+	[[MainViewController instance] performSelectorOnMainThread:@selector(launchNetHack)
+													withObject:nil waitUntilDone:NO];
+#endif
 }
 
 - (void) launchHearse {

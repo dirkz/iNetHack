@@ -85,11 +85,6 @@ static MainViewController *instance;
 	doubleTapSensitivity = [[NSUserDefaults standardUserDefaults] floatForKey:kOptionDoubleTapSensitivity];
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
@@ -112,13 +107,12 @@ static MainViewController *instance;
 	[super viewDidAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
 	[self.view becomeFirstResponder];
-	[self.view setNeedsDisplay];
+	[self.view setNeedsDisplay]; // seems necessary for shortcutview
 }
 
 - (void) launchNetHack {
 	if (!nethackThread) {
 		nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackLoop:) object:nil];
-		//nethackThread = [[NSThread alloc] initWithTarget:self selector:@selector(mainNethackTestLoop:) object:nil];
 		[nethackThread start];
 	}
 }
