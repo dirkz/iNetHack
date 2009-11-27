@@ -35,7 +35,7 @@
 @synthesize window;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	[self checkNetHackDirectories];
+	BOOL badBonesSeen = [self checkNetHackDirectories];
 	
 	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	
@@ -48,10 +48,10 @@
     [window makeKeyAndVisible];
 	[application setStatusBarHidden:YES animated:YES];
 	
-	// don't use hearse in the sim, bones are incompatible!
-#if !TARGET_IPHONE_SIMULATOR && !defined(HEARSE_DISABLE)
-	[Hearse start];
-#endif
+	if (!badBonesSeen) {
+		[self launchNetHack];
+		[self launchHearse];
+	}
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -64,12 +64,34 @@
 	if ([[MainViewController instance] gameInProgress]) {
 		dosave();
 	} else {
-		int fail = unlink(lock);
-		NSCAssert1(!fail, @"Failed to unlink lock %s", lock);
+		NSString *lockFile = [NSString stringWithCString:lock encoding:NSASCIIStringEncoding];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:lockFile]) {
+			int fail = unlink(lock);
+			NSCAssert1(!fail, @"Failed to unlink lock %s", lock);
+		}
 	}
 }
 
-- (void) checkNetHackDirectories {
+- (void) launchNetHack {
+	[[MainViewController instance] launchNetHack];
+}
+
+- (void) launchHearse {
+	// don't use hearse in the sim, bones are incompatible!
+#if !TARGET_IPHONE_SIMULATOR && !defined(HEARSE_DISABLE)
+	[Hearse start];
+#endif
+}
+
+- (void) createTestBadBonesFile {
+	NSString *bones = @"bonD0.1";
+	[@"contents of bad bones file" writeToFile:bones atomically:NO encoding:NSASCIIStringEncoding error:NULL];
+	NSString *md5Bones = [Hearse md5HexForFile:bones];
+	[md5Bones writeToFile:@"bonD0.1.bad" atomically:NO encoding:NSASCIIStringEncoding error:NULL];
+}
+
+- (BOOL) checkNetHackDirectories {
+	BOOL badBonesSeen = NO;
 	static NSString *const suffix = @".bad";
 	static const int suffixLength = 4;
 	badBones = [[NSMutableArray alloc] init];
@@ -95,6 +117,10 @@
 	for (NSString *filename in filelist) {
 		NSLog(@"file %@", filename);
 	}
+
+	// simple test case for UI interaction with bad bones
+	//[self createTestBadBonesFile];
+	
 	filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
 	NSLog(@"files in current directory %@", currentDirectory);
 	for (NSString *file in filelist) {
@@ -116,6 +142,7 @@
 		}
 	}
 	if (badBones.count > 0) {
+		badBonesSeen = YES;
 		NSString *message = @"There have been bad bones detected and removed.";
 		message = [message stringByAppendingString:@"Please mail them to the Hearse team now."];
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bad Bones" message:message
@@ -123,13 +150,14 @@
 											  otherButtonTitles:@"Play", nil];
 		[alert show];
 	}
+	return badBonesSeen;
 }
 
 - (void) mailBadBones {
 	NSString *recipients = @"mailto:nethackhearse@gmail.com?cc=me@dirkz.com&subject=Bad bones files";
 	NSString *body = @"&body=\n";
 	for (NSDictionary *d in badBones) {
-		body = [body stringByAppendingFormat:@"%@ %@\n",
+		body = [body stringByAppendingFormat:@"File: %@ md5: %@\n",
 				[d objectForKey:kBonesFilename], [d objectForKey:kBonesMd5]];
 	}
 	
@@ -142,6 +170,9 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == 0) {
 		[self mailBadBones];
+	} else {
+		[self launchNetHack];
+		[self launchHearse];
 	}
 	[badBones release];
 }

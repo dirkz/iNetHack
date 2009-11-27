@@ -33,7 +33,9 @@
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
-- (void) checkNetHackDirectories;
+- (BOOL) checkNetHackDirectories;
+- (void) launchNetHack;
+- (void) launchHearse;
 
 @end
 

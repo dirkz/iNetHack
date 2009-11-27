@@ -89,6 +89,7 @@
 + (MainViewController *) instance;
 + (void) message:(NSString *)format, ...;
 
+- (void) launchNetHack;
 - (void) mainNethackLoop:(id)arg;
 - (void) mainNethackTestLoop:(id)arg;
 - (winid) createWindow:(int)type;
