@@ -184,13 +184,12 @@ can_make_bones()
 		if (ttmp->ttyp == MAGIC_PORTAL) return FALSE;
 	}
 
-	if(depth(&u.uz) <= 0// ||		/* bulletproofing for endgame */
-	   //(!rn2(1 + (depth(&u.uz)>>2))	/* fewer ghosts on low levels */
-	   && depth(&u.uz) > 3
+	if(depth(&u.uz) <= 0 ||		/* bulletproofing for endgame */
+	   (!rn2(1 + (depth(&u.uz)>>2))	/* fewer ghosts on low levels */
 #ifdef WIZARD
 		&& !wizard
 #endif
-		) return FALSE;
+		)) return FALSE;
 	/* don't let multiple restarts generate multiple copies of objects
 	 * in bones files */
 	if (discover) return FALSE;
