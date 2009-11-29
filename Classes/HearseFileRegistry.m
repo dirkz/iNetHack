@@ -52,7 +52,8 @@ static HearseFileRegistry *instance;
 	if (self = [super init]) {
 		NSDictionary *registry = [[NSUserDefaults standardUserDefaults] objectForKey:hearseFileRegistryKey];
 		uploads = [[NSMutableDictionary alloc] initWithDictionary:[registry objectForKey:hearseFileRegistryKeyUploads]];
-		downloads = [[NSMutableDictionary alloc] initWithDictionary:[registry objectForKey:hearseFileRegistryKeyDownloads]];
+		downloads = [[NSMutableDictionary alloc] initWithDictionary:
+					 [registry objectForKey:hearseFileRegistryKeyDownloads]];
 	}
 	[Hearse dumpDictionary:downloads];
 	instance = self;
@@ -85,6 +86,14 @@ static HearseFileRegistry *instance;
 	}
 }
 		
+- (void) clear {
+	[uploads release];
+	[downloads release];
+	uploads = [[NSMutableDictionary alloc] init];
+	downloads = [[NSMutableDictionary alloc] init];
+	[self synchronize];
+}
+
 - (void) dealloc {
 	[uploads release];
 	[downloads release];

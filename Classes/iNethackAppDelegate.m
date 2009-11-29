@@ -26,6 +26,7 @@
 #import "MainView.h"
 #import "MainMenuViewController.h"
 #import "Hearse.h"
+#import "FileLogger.h"
 
 #define kBonesFilename (@"filename")
 #define kBonesMd5 (@"md5")
@@ -34,7 +35,23 @@
 
 @synthesize window;
 
+- (void) loggingTest {
+	NSString *tmpFile = [FileLogger tmpFileName];
+	NSLog(@"tmpFile %@", tmpFile);
+	for (int i = 0; i < 500; ++i) {
+		FileLogger *logger = [[FileLogger alloc] initWithFile:tmpFile maxSize:250];
+		for (int j = 0; j < 1000; ++j) {
+			[logger logString:[NSString stringWithFormat:@"This is some logged line #%04d", j]];
+		}
+		[logger release];
+	}
+	[[NSFileManager defaultManager] removeItemAtPath:tmpFile error:NULL];
+}
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+//	[self loggingTest];
+//	return;
+
 	BOOL badBonesSeen = [self checkNetHackDirectories];
 	
 	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
@@ -78,8 +95,7 @@
 }
 
 - (void) launchHearse {
-	// don't use hearse in the sim, bones are incompatible!
-#if !TARGET_IPHONE_SIMULATOR && !defined(HEARSE_DISABLE)
+#if !defined(HEARSE_DISABLE)
 	[Hearse start];
 #endif
 }

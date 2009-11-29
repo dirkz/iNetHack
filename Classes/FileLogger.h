@@ -1,8 +1,8 @@
 //
-//  HearseFileRegistry.h
+//  FileLogger.h
 //  iNetHack
 //
-//  Created by dirk on 10/21/09.
+//  Created by dirk on 11/25/09.
 //  Copyright 2009 Dirk Zimmermann. All rights reserved.
 //
 
@@ -22,18 +22,21 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HearseFileRegistry : NSObject {
+#include <stdio.h>
+
+@interface FileLogger : NSObject {
 	
-	NSMutableDictionary *uploads;
-	NSMutableDictionary *downloads;
+	NSString *filename;
+	int maxSize;
+	FILE *fd;
 
 }
 
-+ (HearseFileRegistry *) instance;
++ (int) openTmpFile;
++ (NSString *) tmpFileName;
 
-- (void) synchronize;
-- (void) registerDownloadedFile:(NSString *)filename withMd5:(NSString *)md5;
-- (BOOL) haveDownloadedFile:(NSString *)filename;
-- (void) clear;
+- (id) initWithFile:(NSString *)path maxSize:(int)ms;
+- (id) initWithFile:(NSString *)path;
+- (void) logString:(NSString *)message;
 
 @end

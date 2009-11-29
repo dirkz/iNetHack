@@ -22,8 +22,8 @@
 
 #import <Foundation/Foundation.h>
 
-//#define HEARSE_ONLY  // run hearse without NetHack
-//#define HEARSE_DISABLE // dont't run hearse at all
+#define HEARSE_ONLY  // run hearse without NetHack
+#define HEARSE_DISABLE // dont't run hearse at all
 
 #define kKeyHearse (@"hearse")
 #define kKeyHearseUsername (@"hearseUsername")
@@ -43,6 +43,8 @@
 	
 	BOOL haveUploadedBones;
 	BOOL deleteUploadedBones;
+	
+	int optimumNumberOfBones;
 	
 }
 
@@ -76,7 +78,6 @@
 - (void) createNewUser;
 - (void) uploadBones;
 - (void) uploadBonesFile:(NSString *)file;
-- (BOOL) isIgnoredMessage:(NSString *)msg;
 - (void) downloadBones;
 - (NSString *) downloadSingleBonesFileWithForce:(BOOL)force wasForced:(BOOL *)pForcedDownload;
 - (NSArray *) existingBonesFiles;

@@ -120,13 +120,13 @@ static MainViewController *instance;
 - (void) mainNethackLoop:(id)arg {
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	iphone_main();
-	[pool release];
+	[pool drain];
 }
 
 - (void) mainNethackTestLoop:(id)arg {
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	iphone_test_main();
-	[pool release];
+	[pool drain];
 }
 
 #pragma mark window properties

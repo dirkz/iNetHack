@@ -38,16 +38,15 @@ static Hearse *instance = nil;
 
 static NSString *const clientId = @"iNetHack Hearse";
 static NSString *const clientVersion = @"iNetHack Hearse 1.3";
-static NSString *const hearseInternalNethackVersion = @"43"; // the hearse version id for these bones
 
 static NSString *const hearseHost = @"hearse.krollmark.com";
 static NSString *const hearseBaseUrl = @"http://hearse.krollmark.com/bones.dll?act=";
 
 // hearse commands
 static NSString *const hearseCommandNewUser = @"newuser";
-static NSString *const hearseCommandChangeUserInfo = @"changeuserinfo";
 static NSString *const hearseCommandUpload = @"upload";
 static NSString *const hearseCommandDownload = @"download";
+static NSString *const hearseCommandBonesCheck = @"bonescheck";
 
 @implementation Hearse
 
@@ -152,6 +151,8 @@ static NSString *const hearseCommandDownload = @"download";
 						  VERSION_MAJOR, VERSION_MINOR, PATCHLEVEL, EDITLEVEL] copy];
 		netHackVersionCrc = [[Hearse md5HexForString:netHackVersion] copy];
 		deleteUploadedBones = YES;
+		hearseInternalVersion = [@"43" copy]; // will be changed in uploadBonesFile:
+		optimumNumberOfBones = 2; // always want to download 2 bones
 	}
 	return self;
 }
@@ -189,7 +190,7 @@ static NSString *const hearseCommandDownload = @"download";
 			[self downloadBones];
 		}
 	}
-	[pool release];
+	[pool drain];
 }
 
 #pragma mark URL and connection handling
@@ -289,6 +290,8 @@ static NSString *const hearseCommandDownload = @"download";
 }
 
 - (void) uploadBones {
+	// never ever upload bones from the simulator!
+#if !TARGET_IPHONE_SIMULATOR
 	NSFileManager *filemanager = [NSFileManager defaultManager];
 	NSArray *filelist = [filemanager directoryContentsAtPath:@"."];
 	for (NSString *filename in filelist) {
@@ -298,6 +301,7 @@ static NSString *const hearseCommandDownload = @"download";
 			}
 		}
 	}
+#endif
 }
 
 - (void) uploadBonesFile:(NSString *)file {
@@ -314,8 +318,11 @@ static NSString *const hearseCommandDownload = @"download";
 	NSHTTPURLResponse *response = [self httpPostRequestWithoutData:req];
 	if (response) {
 		NSString *hearseMessageOfTheDay = [self getHeader:@"X_MOTD" fromResponse:response];
-		[hearseInternalVersion release];
-		hearseInternalVersion = [[self getHeader:@"X_NETHACKVER" fromResponse:response] copy];
+		NSString *version = [self getHeader:@"X_NETHACKVER" fromResponse:response];
+		if (version && ![version isEqual:hearseInternalVersion]) {
+			[hearseInternalVersion release];
+			hearseInternalVersion = [version copy];
+		}
 		if (hearseMessageOfTheDay) {
 			[self logMessage:hearseMessageOfTheDay];
 		}
@@ -330,24 +337,30 @@ static NSString *const hearseCommandDownload = @"download";
 	}
 }
 
-- (BOOL) isIgnoredMessage:(NSString *)msg {
-	return [msg containsString:@"Bones file could not be downloaded: an unhandled error occurred"];
-}
-
 - (void) downloadBones {
 	NSString *message = nil;
 	int downloadedBones = 0;
-	BOOL forceDownload;
+	BOOL forcedDownload = NO;
 	while (!message) {
-		message = [self downloadSingleBonesFileWithForce:NO wasForced:&forceDownload];
+		message = [self downloadSingleBonesFileWithForce:NO wasForced:&forcedDownload];
 		if (!message) {
 			downloadedBones++;
 		}
 	}
-	if (message && ![self isIgnoredMessage:message]) {
-		[self logMessage:message];
-	} else {
+	[self logMessage:message];
+	if (downloadedBones < optimumNumberOfBones) {
 		// force downloads
+		message = nil;
+		forcedDownload = NO;
+		while (!message && downloadedBones < optimumNumberOfBones) {
+			message = [self downloadSingleBonesFileWithForce:YES wasForced:&forcedDownload];
+			if (!message) {
+				downloadedBones++;
+			}
+		}
+		if (message) {
+			[self logMessage:message];
+		}
 	}
 }
 
@@ -356,7 +369,7 @@ static NSString *const hearseCommandDownload = @"download";
 	NSMutableURLRequest *req = [self requestForCommand:hearseCommandDownload];
 	[req addValue:hearseId forHTTPHeaderField:@"X_USERTOKEN"];
 	[req addValue:existingBonesFiles forHTTPHeaderField:@"X_USERLEVELS"];
-	[req addValue:hearseInternalNethackVersion forHTTPHeaderField:@"X_NETHACKVER"];
+	[req addValue:hearseInternalVersion forHTTPHeaderField:@"X_NETHACKVER"];
 	if (force) {
 		[req addValue:@"Y" forHTTPHeaderField:@"X_FORCEDOWNLOAD"];
 	}
@@ -397,44 +410,6 @@ static NSString *const hearseCommandDownload = @"download";
 	return nil;
 }
 
-- (NSString *) leechSingleBonesFile {
-	NSString *existingBonesFiles = [[self existingBonesFiles] componentsJoinedByString:@","];
-	NSMutableURLRequest *req = [self requestForCommand:hearseCommandDownload];
-	[req addValue:hearseId forHTTPHeaderField:@"X_USERTOKEN"];
-	[req addValue:existingBonesFiles forHTTPHeaderField:@"X_USERLEVELS"];
-	[req addValue:hearseInternalNethackVersion forHTTPHeaderField:@"X_NETHACKVER"];
-	NSData *data = nil;
-	NSHTTPURLResponse *response = [self httpGetRequest:req withData:&data];
-	if (response) {
-		NSString *errorMessage = [self extractHearseErrorMessageFromResponse:response data:data];
-		if (errorMessage) {
-			return errorMessage;
-		} else {
-			NSString *forceDownloadResponse = [self getHeader:@"X_FORCEDOWNLOAD" fromResponse:response];
-			NSString *filename = [self getHeader:@"X_FILENAME" fromResponse:response];
-			NSString *md5 = [self getHeader:@"X_BONESCRC" fromResponse:response];
-			if (!forceDownloadResponse && ([forceDownloadResponse isEqual:@"Y"] ||
-										   [forceDownloadResponse isEqual:@"Y"])) {
-				if (filename) {
-					NSString *myMd5 = [Hearse md5HexForData:data];
-					if (![md5 isEqual:myMd5]) {
-						return [NSString stringWithFormat:@"Mismatched md5 for downloaded file %@", filename];
-					} else {
-						[data writeToFile:filename atomically:YES];
-					}
-				} else {
-					return @"Missing filename from hearse";
-				}
-			} else {
-				return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
-			}
-		}
-	} else {
-		return @"No response from hearse server";
-	}
-	return nil;
-}
-
 - (NSArray *) existingBonesFiles {
 	NSMutableArray *bones = [NSMutableArray array];
 	NSFileManager *filemanager = [NSFileManager defaultManager];
@@ -459,8 +434,9 @@ static NSString *const hearseCommandDownload = @"download";
 }
 
 - (void) logMessage:(NSString *)message {
-	NSLogv(message, NULL);
-	[self performSelectorOnMainThread:@selector(alertUserOnUIThreadWithMessage:) withObject:message waitUntilDone:YES];
+	if (message) {
+		NSLogv(message, NULL);
+	}
 }
 
 - (void) alertUserWithError:(NSError *)error {
