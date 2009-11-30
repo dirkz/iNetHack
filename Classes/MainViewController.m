@@ -243,7 +243,7 @@ static MainViewController *instance;
 
 - (void) hearseShowLog:(id)i {
 	NSString *text = [NSString stringWithContentsOfFile:@"hearse.log" encoding:NSASCIIStringEncoding error:NULL];
-	[self displayText:text withCondition:nil];
+	[self displayText:text withCondition:nil isLog:YES];
 }
 
 - (void) showMainMenu:(id)obj {
