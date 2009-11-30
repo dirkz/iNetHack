@@ -241,6 +241,11 @@ static MainViewController *instance;
 	[viewController release];
 }
 
+- (void) hearseShowLog:(id)i {
+	NSString *text = [NSString stringWithContentsOfFile:@"hearse.log" encoding:NSASCIIStringEncoding error:NULL];
+	[self displayText:text withCondition:nil];
+}
+
 - (void) showMainMenu:(id)obj {
 	NSMutableArray *menuItems = [NSMutableArray array];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Gear"
@@ -321,6 +326,12 @@ static MainViewController *instance;
 														  nil]]];
 	}
 #endif
+	[menuItems addObject:[MenuItem menuItemWithTitle:@"Hearse"
+											children:[NSArray arrayWithObjects:
+													  [MenuItem menuItemWithTitle:@"View Log" target:self
+																		   action:@selector(hearseShowLog:)
+																		accessory:YES],
+													  nil]]];
 	MenuViewController* menuViewController = [MenuViewController new];
 	menuViewController.menuItems = menuItems;
 	[self.navigationController setNavigationBarHidden:NO animated:YES];

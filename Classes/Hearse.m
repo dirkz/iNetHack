@@ -33,6 +33,7 @@
 #import "Hearse.h"
 #import "NSString+Regexp.h"
 #import "HearseFileRegistry.h"
+#import "FileLogger.h"
 
 static Hearse *instance = nil;
 
@@ -152,7 +153,9 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 		netHackVersionCrc = [[Hearse md5HexForString:netHackVersion] copy];
 		deleteUploadedBones = YES;
 		hearseInternalVersion = [@"43" copy]; // will be changed in uploadBonesFile:
-		optimumNumberOfBones = 2; // always want to download 2 bones
+		optimumNumberOfBonesDownloads = 2; // always want to download 2 bones
+		
+		logger = [[FileLogger alloc] initWithFile:@"hearse.log" maxSize:4096];
 	}
 	return self;
 }
@@ -183,9 +186,11 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 			if (email && email.length > 0) {
 				[self createNewUser];
 			}
+		} else {
+			[self logFormat:@"using existing token %@", hearseId];
 		}
+
 		if (hearseId && hearseId.length > 0) {
-			NSLog(@"hearse user token %@", hearseId);
 			[self uploadBones];
 			[self downloadBones];
 		}
@@ -284,6 +289,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 			if (hearseId && hearseId.length > 0) {
 				[[NSUserDefaults standardUserDefaults] setObject:hearseId forKey:kKeyHearseId];
 				[[NSUserDefaults standardUserDefaults] synchronize];
+				[self logFormat:@"created user %@ with token %@", email, hearseId];
 			}
 		}
 	}
@@ -309,7 +315,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 	[req addValue:netHackVersionCrc forHTTPHeaderField:@"X_VERSIONCRC"];
 	[req addValue:hearseId forHTTPHeaderField:@"X_USERTOKEN"];
 	[req addValue:[file lastPathComponent] forHTTPHeaderField:@"X_FILENAME"];
-	if (!haveUploadedBones) {
+	if (!self.haveUploadedBones) {
 		[req addValue:@"Y" forHTTPHeaderField:@"X_WANTSINFO"];
 	}
 	NSData *data = [NSData dataWithContentsOfFile:file];
@@ -333,33 +339,37 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 				[self alertUserWithError:error];
 			}
 		}
-		haveUploadedBones = YES;
+		numberOfUploadedBones++;
+		[self logFormat:@"uploaded file %@", file];
 	}
+}
+
+- (BOOL) haveUploadedBones {
+	return numberOfUploadedBones > 0;
 }
 
 - (void) downloadBones {
 	NSString *message = nil;
-	int downloadedBones = 0;
 	BOOL forcedDownload = NO;
 	while (!message) {
 		message = [self downloadSingleBonesFileWithForce:NO wasForced:&forcedDownload];
 		if (!message) {
-			downloadedBones++;
+			numberOfDownloadedBones++;
 		}
 	}
-	[self logMessage:message];
-	if (downloadedBones < optimumNumberOfBones) {
+	[self logHearseMessage:message];
+	if (numberOfDownloadedBones < optimumNumberOfBonesDownloads) {
 		// force downloads
 		message = nil;
 		forcedDownload = NO;
-		while (!message && downloadedBones < optimumNumberOfBones) {
+		while (!message && numberOfDownloadedBones < optimumNumberOfBonesDownloads) {
 			message = [self downloadSingleBonesFileWithForce:YES wasForced:&forcedDownload];
 			if (!message) {
-				downloadedBones++;
+				numberOfDownloadedBones++;
 			}
 		}
 		if (message) {
-			[self logMessage:message];
+			[self logHearseMessage:message];
 		}
 	}
 }
@@ -396,6 +406,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 					} else {
 						[data writeToFile:filename atomically:YES];
 						[[HearseFileRegistry instance] registerDownloadedFile:filename withMd5:myMd5];
+						[self logFormat:@"downloaded file %@", filename];
 					}
 				} else {
 					return @"Missing filename from hearse";
@@ -433,15 +444,28 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 	[alert show];
 }
 
-- (void) logMessage:(NSString *)message {
-	if (message) {
-		NSLogv(message, NULL);
-	}
-}
-
 - (void) alertUserWithError:(NSError *)error {
 	NSString *message = [NSString stringWithFormat:@"Error - %@", [error localizedDescription]];
 	[self performSelectorOnMainThread:@selector(alertUserOnUIThreadWithMessage:) withObject:message waitUntilDone:YES];
+}
+
+- (void) logHearseMessage:(NSString *)message {
+	// do nothing atm
+}
+
+- (void) logMessage:(NSString *)message {
+	if (message) {
+		NSLogv(message, NULL);
+		[logger logString:message];
+	}
+}
+
+- (void) logFormat:(NSString *)message, ... {
+	va_list vlist;
+	va_start(vlist, message);
+	NSString *s = [[NSString alloc] initWithFormat:message arguments:vlist];
+	[self logMessage:s];
+	[s release];
 }
 
 - (void) dealloc {
@@ -454,6 +478,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 	[thread release];
 	[hearseInternalVersion release];
 	[[HearseFileRegistry instance] release];
+	[logger release];
 	[super dealloc];
 }
 

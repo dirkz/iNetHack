@@ -22,13 +22,15 @@
 
 #import <Foundation/Foundation.h>
 
-#define HEARSE_ONLY  // run hearse without NetHack
-#define HEARSE_DISABLE // dont't run hearse at all
+//#define HEARSE_ONLY  // run hearse without NetHack
+//#define HEARSE_DISABLE // dont't run hearse at all
 
 #define kKeyHearse (@"hearse")
 #define kKeyHearseUsername (@"hearseUsername")
 #define kKeyHearseEmail (@"hearseEmail")
 #define kKeyHearseId (@"hearseId")
+
+@class FileLogger;
 
 @interface Hearse : NSObject <UIAlertViewDelegate> {
 	
@@ -41,12 +43,18 @@
 	NSString *netHackVersionCrc;
 	NSString *hearseInternalVersion;
 	
-	BOOL haveUploadedBones;
 	BOOL deleteUploadedBones;
 	
-	int optimumNumberOfBones;
+	int optimumNumberOfBonesDownloads;
+	
+	FileLogger *logger;
+	
+	int numberOfUploadedBones;
+	int numberOfDownloadedBones;
 	
 }
+
+@property (nonatomic, readonly) BOOL haveUploadedBones;
 
 + (Hearse *) instance;
 + (BOOL) start;
@@ -81,7 +89,9 @@
 - (void) downloadBones;
 - (NSString *) downloadSingleBonesFileWithForce:(BOOL)force wasForced:(BOOL *)pForcedDownload;
 - (NSArray *) existingBonesFiles;
-- (void) logMessage:(NSString *)message;
 - (void) alertUserWithError:(NSError *)error;
+- (void) logHearseMessage:(NSString *)message;
+- (void) logMessage:(NSString *)message;
+- (void) logFormat:(NSString *)message, ...;
 
 @end

@@ -82,11 +82,20 @@
 }
 
 - (void) logString:(NSString *)message {
-	int n = message.length + 2;
-	char msg[n];
-	[message getCString:msg maxLength:n encoding:NSASCIIStringEncoding];
-	msg[n-2] = '\n';
-	msg[n-1] = 0;
+	NSDate *date = [[NSDate alloc] init];
+	NSString *ts = [date description];
+	[date release];
+	int size = ts.length + 2;
+	char dateBuffer[size];
+	[ts getCString:dateBuffer maxLength:size encoding:NSASCIIStringEncoding];
+	dateBuffer[size-2] = ' ';
+	dateBuffer[size-1] = 0;
+	fputs(dateBuffer, fd);
+	size = message.length + 2;
+	char msg[size];
+	[message getCString:msg maxLength:size encoding:NSASCIIStringEncoding];
+	msg[size-2] = '\n';
+	msg[size-1] = 0;
 	fputs(msg, fd);
 }
 
