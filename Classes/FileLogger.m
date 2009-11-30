@@ -55,14 +55,15 @@
 			const char *bytes = [sub bytes];
 			const char *pBytes = bytes;
 			int offset = 0;
-			while (*pBytes++ != '\n') {
+			while (*pBytes++ != '\n' && offset < halfSize) {
 				offset++;
 			}
 			offset++;
+			offset = offset >= halfSize ? halfSize:offset;
 			NSData *newData = [sub subdataWithRange:NSMakeRange(offset, sub.length - offset)];
-			[sub release];
+			//[sub release];
 			[newData writeToFile:filename atomically:NO];
-			[newData release];
+			//[newData release];
 		}
 	}
 }

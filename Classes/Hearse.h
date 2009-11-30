@@ -25,6 +25,8 @@
 //#define HEARSE_ONLY  // run hearse without NetHack
 //#define HEARSE_DISABLE // dont't run hearse at all
 
+#define cHearseLogSize (4096)
+
 #define kKeyHearse (@"hearse")
 #define kKeyHearseUsername (@"hearseUsername")
 #define kKeyHearseEmail (@"hearseEmail")

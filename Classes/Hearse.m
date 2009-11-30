@@ -155,7 +155,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 		hearseInternalVersion = [@"43" copy]; // will be changed in uploadBonesFile:
 		optimumNumberOfBonesDownloads = 2; // always want to download 2 bones
 		
-		logger = [[FileLogger alloc] initWithFile:@"hearse.log" maxSize:4096];
+		logger = [[FileLogger alloc] initWithFile:@"hearse.log" maxSize:cHearseLogSize];
 	}
 	return self;
 }
