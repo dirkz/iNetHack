@@ -368,9 +368,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 				numberOfDownloadedBones++;
 			}
 		}
-		if (message) {
-			[self logHearseMessage:message];
-		}
+		[self logHearseMessage:message];
 	}
 }
 
@@ -450,7 +448,14 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 }
 
 - (void) logHearseMessage:(NSString *)message {
-	// do nothing atm
+	NSString *msg = message;
+	if (message) {
+		NSRange newLineRange = [message rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]];
+		if (newLineRange.location != NSNotFound) {
+			msg = [message substringToIndex:newLineRange.location];
+		}
+	}
+	[self logMessage:msg];
 }
 
 - (void) logMessage:(NSString *)message {
