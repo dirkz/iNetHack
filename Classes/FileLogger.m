@@ -61,9 +61,7 @@
 			offset++;
 			offset = offset >= halfSize ? halfSize:offset;
 			NSData *newData = [sub subdataWithRange:NSMakeRange(offset, sub.length - offset)];
-			//[sub release];
 			[newData writeToFile:filename atomically:NO];
-			//[newData release];
 		}
 	}
 }
