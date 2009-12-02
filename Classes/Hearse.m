@@ -195,6 +195,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 			[self downloadBones];
 		}
 	}
+	[logger flush];
 	[pool drain];
 }
 

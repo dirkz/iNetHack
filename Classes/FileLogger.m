@@ -98,6 +98,11 @@
 	fputs(msg, fd);
 }
 
+- (void) flush {
+	fclose(fd);
+	fd = fopen([filename cStringUsingEncoding:NSASCIIStringEncoding], "a");
+}
+
 - (void) dealloc {
 	fclose(fd);
 	[filename release];

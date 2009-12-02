@@ -38,5 +38,6 @@
 - (id) initWithFile:(NSString *)path maxSize:(int)ms;
 - (id) initWithFile:(NSString *)path;
 - (void) logString:(NSString *)message;
+- (void) flush;
 
 @end
