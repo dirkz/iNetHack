@@ -519,6 +519,8 @@ void iphone_init_options() {
 	}
 #if TARGET_IPHONE_SIMULATOR
 	wizard = YES;
+#else
+	wizard = [defaults boolForKey:kOptionWizard];
 #endif
 	winiphone_autokick = [defaults boolForKey:kOptionAutokick];
 	flags.showexp = [defaults boolForKey:kOptionShowExp];
