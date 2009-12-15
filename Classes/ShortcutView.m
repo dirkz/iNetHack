@@ -112,17 +112,18 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 
 static NSArray *DefaultShortcuts () {
 	return [NSArray arrayWithObjects:
-		@".",          @"20s",      @":",        @"99.",
-		@";",          @"#",
-		ShortcutMainMenuIdentifier,   ShortcutKeyboardIdentifier,
-		@"i",          @"e",        @"t",        @"f",
-		@"z",          @"Z",        @"a",        @"o",
-		@"^a",         @"^d",       @"r",        @"q",
-		@"E",          @"Q",        @"d",        @"D",
-		@"w",          @"W",        @"x",        @"P",
-		@"T",          @"A",        @"R",        @"p",
-		@"^x",
-	nil];
+			@".",          @"20s",      @":",        @"99.",
+			@",",          @"#",
+			ShortcutMainMenuIdentifier,   ShortcutKeyboardIdentifier,
+			@";",
+			@"i",          @"e",        @"t",        @"f",
+			@"z",          @"Z",        @"a",        @"o",
+			@"^a",         @"^d",       @"r",        @"q",
+			@"E",          @"Q",        @"d",        @"D",
+			@"w",          @"W",        @"x",        @"P",
+			@"T",          @"A",        @"R",        @"p",
+			@"^x",
+			nil];
 }
 
 + (void)load {
