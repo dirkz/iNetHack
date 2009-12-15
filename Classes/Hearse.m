@@ -296,13 +296,19 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 	}
 }
 
+- (BOOL) isValidBonesFileName:(NSString *)bonesFileName {
+	return !([bonesFileName containsString:@"D0.1"] ||
+			 [bonesFileName containsString:@"D0.2"] ||
+			 [bonesFileName containsString:@"D0.3"]);
+}
+
 - (void) uploadBones {
 	// never ever upload bones from the simulator!
 #if !TARGET_IPHONE_SIMULATOR
 	NSFileManager *filemanager = [NSFileManager defaultManager];
 	NSArray *filelist = [filemanager directoryContentsAtPath:@"."];
 	for (NSString *filename in filelist) {
-		if ([filename startsWithString:@"bon"]) {
+		if ([filename startsWithString:@"bon"] && [self isValidBonesFileName:filename]) {
 			if (![[HearseFileRegistry instance] haveDownloadedFile:filename]) {
 				[self uploadBonesFile:filename];
 			}

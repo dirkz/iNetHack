@@ -86,6 +86,7 @@
 - (NSString *) extractHearseErrorMessageFromResponse:(NSHTTPURLResponse *)response data:(NSData *)data;
 - (NSString *) buildUserInfoCrc;
 - (void) createNewUser;
+- (BOOL) isValidBonesFileName:(NSString *)bonesFileName;
 - (void) uploadBones;
 - (void) uploadBonesFile:(NSString *)file;
 - (void) downloadBones;
