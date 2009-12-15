@@ -152,9 +152,9 @@
 			<key>MinimumValue</key>
 			<real>0</real>
 			<key>MaximumValue</key>
-			<integer>1</integer>
+			<real>1.0</real>
 			<key>DefaultValue</key>
-			<integer>0</integer>
+			<real>0.0</real>
 		</dict>
 		<dict>
 			<key>Type</key>
