@@ -52,6 +52,9 @@
 
 - (void) awakeFromNib {
 	[super awakeFromNib];
+	
+	bundleVersionString = [[NSString alloc] initWithFormat:@"%@",
+						   [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
 	statusFont = [UIFont systemFontOfSize:16];
 	
 	// tileSize
@@ -158,6 +161,15 @@
 	CGContextSetFillColor(ctx, levelBgColor);
 	CGContextFillRect(ctx, borderRect);
 	
+	// draw version info
+	CGPoint versionLocation = borderRect.origin;
+	CGSize size = [bundleVersionString sizeWithFont:statusFont];
+	versionLocation.x += borderRect.size.width - size.width;
+	versionLocation.y += borderRect.size.height;
+	float versionStringColor[] = {0.8f,0.8f,0.8f,1.0f};
+	CGContextSetFillColor(ctx, versionStringColor);
+	[bundleVersionString drawAtPoint:versionLocation withFont:statusFont];
+	
 	for (int j = 0; j < m.height; ++j) {
 		for (int i = 0; i < m.width; ++i) {
 			int glyph = [m glyphAtX:i y:j];
@@ -250,7 +262,7 @@
 		[self drawTiledMap:map clipRect:rect];
 		if (map.blocking) {
 			CGContextRef ctx = UIGraphicsGetCurrentContext();
-			float white[] = {1,1,1,1};
+			float white[] = {1.0f,1.0f,1.0f,1.0f};
 			CGContextSetFillColor(ctx, white);
 			NSString *m = @"Single tap to continue ...";
 			CGSize size = [m sizeWithFont:statusFont];
@@ -409,6 +421,7 @@
 	[tileSets[1] release];
 	[shortcutView release];
 	[petMark release];
+	[bundleVersionString release];
     [super dealloc];
 }
 

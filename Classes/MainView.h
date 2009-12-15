@@ -56,6 +56,8 @@
 	
 	UIButton *moreButton;
 	
+	NSString *bundleVersionString;
+	
 }
 
 @property (nonatomic, readonly) CGPoint start;
