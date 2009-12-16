@@ -171,20 +171,24 @@ void iphone_player_selection() {
 }
 
 void iphone_askname() {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *name = [defaults objectForKey:kOptionUsername];
-	if (!name || name.length == 0) {
-		name = [NSFullUserName() capitalizedString];
-		[defaults setObject:name forKey:kOptionUsername];
+	if (!wizard) {
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		NSString *name = [defaults objectForKey:kOptionUsername];
+		if (!name || name.length == 0) {
+			name = [NSFullUserName() capitalizedString];
+			[defaults setObject:name forKey:kOptionUsername];
+		}
+		// issue 33 patch provided by ciawal
+		if(![name getCString:plname maxLength:PL_NSIZ encoding:NSASCIIStringEncoding]) {
+			// If the conversion fails attempt to perform a lossy conversion instead
+			NSData* lossyName = [name dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+			[lossyName getBytes:plname length:PL_NSIZ-1];
+			plname[lossyName.length] = 0;
+		}
+		NSCAssert1(plname[0], @"Failed to init plname from name '%@'", name);
+	} else {
+		strcpy(plname, "wizard");
 	}
-	// issue 33 patch provided by ciawal
-	if(![name getCString:plname maxLength:PL_NSIZ encoding:NSASCIIStringEncoding]) {
-		// If the conversion fails attempt to perform a lossy conversion instead
-		NSData* lossyName = [name dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-		[lossyName getBytes:plname length:PL_NSIZ-1];
-		plname[lossyName.length] = 0;
-	}
-	NSCAssert1(plname[0], @"Failed to init plname from name '%@'", name);
 }
 
 void iphone_get_nh_event() {
