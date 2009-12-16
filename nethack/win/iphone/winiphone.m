@@ -118,6 +118,32 @@ iphone_outrip,
 genl_preference_update,
 };
 
+@interface WinIPhone : NSObject {}
+
++ (void) triggerInitialize;
+
+@end
+
+@implementation WinIPhone
+
++ (void) triggerInitialize {
+	// do nothing
+}
+
++ (void) initialize {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+								@"YES", kOptionAutopickup,
+								@"$\"=/!?+", kOptionPickupTypes,
+								@"YES", kOptionAutokick,
+								@"YES", kOptionShowExp,
+								@"YES", kOptionTime,
+								@"YES", kOptionAutoDig,
+								nil]];
+}
+
+@end
+
 FILE *iphone_fopen(const char *filename, const char *mode) {
 	NSString *path = [[NSBundle mainBundle]
 					  pathForResource:[NSString stringWithCString:filename encoding:NSASCIIStringEncoding] ofType:@""];
@@ -504,6 +530,7 @@ void iphone_outrip(winid wid, int how) {
 #pragma mark options
 
 void iphone_init_options() {
+	[WinIPhone triggerInitialize];
 	iflags.use_color = TRUE;
 	iflags.runmode = RUN_STEP;
 	flags.verbose = TRUE;

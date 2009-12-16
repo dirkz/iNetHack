@@ -32,7 +32,7 @@
 			<key>Key</key>
 			<string>autopickup</string>
 			<key>DefaultValue</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -52,7 +52,7 @@
 			<key>Key</key>
 			<string>autodig</string>
 			<key>DefaultValue</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -62,7 +62,7 @@
 			<key>Key</key>
 			<string>autokick</string>
 			<key>DefaultValue</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -72,7 +72,7 @@
 			<key>Key</key>
 			<string>time</string>
 			<key>DefaultValue</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -82,7 +82,7 @@
 			<key>Key</key>
 			<string>showexp</string>
 			<key>DefaultValue</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Type</key>
