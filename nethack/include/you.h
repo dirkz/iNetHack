@@ -362,6 +362,7 @@ struct you {
 	boolean twoweap;		/* KMH -- Using two-weapon combat */
 #ifdef __APPLE__
 	int _winiphone_magic; /* change footprint for hearse, both for target and build platform (for makedefs) */
+	int _winiphone_magic_1_3; /* iNetHack 1.3 */
 #endif
 };	/* end of `struct you' */
 
