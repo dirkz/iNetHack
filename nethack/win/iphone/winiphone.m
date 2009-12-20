@@ -570,39 +570,55 @@ void process_options(int argc, char *argv[]) {
 
 #pragma mark main
 
+void iphone_remove_stale_files() {
+	NSString *pattern = [NSString stringWithFormat:@"%d%s", getuid(),
+						 [NSUserName() cStringUsingEncoding:NSASCIIStringEncoding]];
+	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
+	for (NSString *filename in filelist) {
+		if ([filename startsWithString:pattern]) {
+			NSLog(@"remove %@", filename);
+			int fail = unlink([filename cStringUsingEncoding:NSASCIIStringEncoding]);
+			if (!fail) {
+				panic("Failed to unlink %s", lock);
+			}
+		}
+	}
+}
+
 void
 getlock(void)
 {
 	int fd;
 	int pid = getpid(); /* Process ID */
 
-	set_levelfile_name (lock, 0);
+	set_levelfile_name(lock, 0);
 
 	const char* fq_lock = fqname(lock, LEVELPREFIX, 1);
 	if ((fd = open(lock, O_RDWR | O_EXCL | O_CREAT, 0644)) == -1) {
-		if(iflags.window_inited) {
-			char c = yn("There are files from a game in progress. Recover?");
-			if (c != 'y' && c != 'Y') {
-				int fail = unlink(lock);
-				if (!fail) {
-					fd = open(lock, O_RDWR | O_EXCL | O_CREAT, 0644);
-					delete_savefile();
-				}
+		char c = yn("There are files from a game in progress. Recover?");
+		if (c != 'y' && c != 'Y') {
+			int fail = unlink(lock);
+			if (!fail) {
+				iphone_remove_stale_files();
+				fd = open(lock, O_RDWR | O_EXCL | O_CREAT, 0644);
+				delete_savefile();
 			} else {
-				// Try to recover
-				if(!recover_savefile()) {
-					int fail = unlink(lock);
-					NSCAssert1(!fail, @"Failed to unlink lock %s", lock);
-					panic("Couldn't recover old game.");
-				} else {
-					set_levelfile_name (lock, 0);
-					fd = open (fq_lock, O_RDWR | O_EXCL | O_CREAT, 0644);
-				}
+				panic("Failed to unlink %s", lock);
+			}
+		} else {
+			// Try to recover
+			if(!recover_savefile()) {
+				int fail = unlink(lock);
+				NSCAssert1(!fail, @"Failed to unlink lock %s", lock);
+				panic("Couldn't recover old game.");
+			} else {
+				set_levelfile_name(lock, 0);
+				fd = open(fq_lock, O_RDWR | O_EXCL | O_CREAT, 0644);
 			}
 		}
 	}
-
-	if (write (fd, (char *)&pid, sizeof (pid)) != sizeof (pid))  {
+	
+	if (write(fd, (char *)&pid, sizeof (pid)) != sizeof (pid))  {
 		raw_printf("Could not lock the game %s.", lock);
 		panic("Disk locked?");
 	}
