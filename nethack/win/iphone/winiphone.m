@@ -576,10 +576,11 @@ void iphone_remove_stale_files() {
 	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
 	for (NSString *filename in filelist) {
 		if ([filename startsWithString:pattern]) {
-			NSLog(@"remove %@", filename);
 			int fail = unlink([filename cStringUsingEncoding:NSASCIIStringEncoding]);
 			if (!fail) {
-				panic("Failed to unlink %s", lock);
+				NSLog(@"removed %@", filename);
+			} else {
+				NSLog(@"failure to remove %@", filename);
 			}
 		}
 	}
