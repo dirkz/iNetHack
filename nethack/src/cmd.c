@@ -2256,7 +2256,7 @@ click_to_cmd(x, y, mod)
             } else if((u.ux == xupstair && u.uy == yupstair)
                       || (u.ux == sstairs.sx && u.uy == sstairs.sy && sstairs.up)
                       || (u.ux == xupladder && u.uy == yupladder)) {
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE
 				if (OBJ_AT(u.ux, u.uy)) {
 					int r = yn_function("There are objects here. Still climb?", "yq,", 'y');
 					if (r == 'y') {
@@ -2277,7 +2277,7 @@ click_to_cmd(x, y, mod)
             } else if((u.ux == xdnstair && u.uy == ydnstair)
                       || (u.ux == sstairs.sx && u.uy == sstairs.sy && !sstairs.up)
                       || (u.ux == xdnladder && u.uy == ydnladder)) {
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE
 				if (OBJ_AT(u.ux, u.uy)) {
 					int r = yn_function("There are objects here. Still climb?", "yq,", 'y');
 					if (r == 'y') {

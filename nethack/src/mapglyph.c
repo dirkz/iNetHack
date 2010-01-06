@@ -225,7 +225,7 @@ unsigned *ospecial;
 	}
     }
 
-#if !defined(TARGET_OS_IPHONE) // leave color in on iphone
+#if TARGET_OS_IPHONE // leave color in on iphone
 #ifdef TEXTCOLOR
     /* Turn off color if no color defined, or rogue level w/o PC graphics. */
 # ifdef REINCARNATION
