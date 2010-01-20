@@ -112,7 +112,7 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 
 static NSArray *DefaultShortcuts () {
 	return [NSArray arrayWithObjects:
-			@".",          @"6s",      @":",        @"9.",
+			@".",          @"9s",      @":",        @"9.",
 			@",",          @"#",
 			ShortcutMainMenuIdentifier,   ShortcutKeyboardIdentifier,
 			@";",
