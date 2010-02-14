@@ -2248,15 +2248,42 @@ click_to_cmd(x, y, mod)
         if(x == 0 && y == 0) {
             /* here */
             if(IS_FOUNTAIN(levl[u.ux][u.uy].typ) || IS_SINK(levl[u.ux][u.uy].typ)) {
-                cmd[0]=mod == CLICK_1 ? 'q' : M('d');
+/*** Begin mdescalzo's modifications  */
+#if TARGET_OS_IPHONE
+				if (OBJ_AT(u.ux, u.uy)) {
+					int r = yn_function("There are objects here.  Pick them up?", "yn", 'y');
+					if (r == 'y') {
+						return ",";
+					}
+					
+					cmd[0]=mod == CLICK_1 ? 'q' : M('d');
+					return cmd;
+				}
+
+#else
+				cmd[0]=mod == CLICK_1 ? 'q' : M('d');
                 return cmd;
+#endif
             } else if(IS_THRONE(levl[u.ux][u.uy].typ)) {
+#if TARGET_OS_IPHONE
+				if (OBJ_AT(u.ux, u.uy)) {
+					int r = yn_function("There are objects here.  Pick them up?", "yn", 'y');
+					if (r == 'y') {
+						return ",";
+					}
+
+					cmd[0]=M('s');
+					return cmd;
+				}
+#else
                 cmd[0]=M('s');
                 return cmd;
+#endif
+/**** End mdescalzo's Modifications  */
             } else if((u.ux == xupstair && u.uy == yupstair)
                       || (u.ux == sstairs.sx && u.uy == sstairs.sy && sstairs.up)
                       || (u.ux == xupladder && u.uy == yupladder)) {
-#if TARGET_OS_IPHONE
+#ifdef TARGET_OS_IPHONE
 				if (OBJ_AT(u.ux, u.uy)) {
 					int r = yn_function("There are objects here. Still climb?", "yq,", 'y');
 					if (r == 'y') {
@@ -2277,7 +2304,7 @@ click_to_cmd(x, y, mod)
             } else if((u.ux == xdnstair && u.uy == ydnstair)
                       || (u.ux == sstairs.sx && u.uy == sstairs.sy && !sstairs.up)
                       || (u.ux == xdnladder && u.uy == ydnladder)) {
-#if TARGET_OS_IPHONE
+#ifdef TARGET_OS_IPHONE
 				if (OBJ_AT(u.ux, u.uy)) {
 					int r = yn_function("There are objects here. Still climb?", "yq,", 'y');
 					if (r == 'y') {
