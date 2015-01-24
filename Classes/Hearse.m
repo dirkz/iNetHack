@@ -47,7 +47,8 @@ static NSString *const hearseBaseUrl = @"http://hearse.krollmark.com/bones.dll?a
 static NSString *const hearseCommandNewUser = @"newuser";
 static NSString *const hearseCommandUpload = @"upload";
 static NSString *const hearseCommandDownload = @"download";
-static NSString *const hearseCommandBonesCheck = @"bonescheck";
+//--iNethack2 removed below, wasnt used so compiler complained
+//static NSString *const hearseCommandBonesCheck = @"bonescheck";
 
 @implementation Hearse
 
@@ -73,7 +74,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 + (NSString *) md5HexForString:(NSString *)s {
 	unsigned char digest[CC_MD5_DIGEST_LENGTH];
 	const char *data = [s cStringUsingEncoding:NSASCIIStringEncoding];
-	CC_MD5(data, strlen(data), digest);
+	CC_MD5(data, (unsigned int) strlen(data), digest);
 	return [self md5HexForDigest:digest];
 }
 
@@ -85,9 +86,9 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 	if (fh != -1) {
 		const int bufferSize = 1024;
 		char buffer[bufferSize];
-		int bytesRead;
+		long bytesRead;
 		while ((bytesRead = read(fh, buffer, bufferSize))) {
-			CC_MD5_Update(c, buffer, bytesRead);
+			CC_MD5_Update(c, buffer, (unsigned int) bytesRead);
 		}
 		close(fh);
 		unsigned char digest[CC_MD5_DIGEST_LENGTH];
@@ -104,7 +105,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 
 + (NSString *) md5HexForData:(NSData *)data {
 	unsigned char digest[CC_MD5_DIGEST_LENGTH];
-	CC_MD5([data bytes], data.length, digest);
+	CC_MD5([data bytes], (unsigned int) data.length, digest);
 	return [self md5HexForDigest:digest];
 }
 
@@ -234,7 +235,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 	if (!received) {
 		[self logMessage:[NSString stringWithFormat:@"Connection failed! Error - %@ %@",
 									[error localizedDescription],
-									[[error userInfo] objectForKey:NSErrorFailingURLStringKey]]];
+									[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]]];
 		return nil;
 	}
 	return (NSHTTPURLResponse *) response;
@@ -306,7 +307,9 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 	// never ever upload bones from the simulator!
 #if !TARGET_IPHONE_SIMULATOR
 	NSFileManager *filemanager = [NSFileManager defaultManager];
-	NSArray *filelist = [filemanager directoryContentsAtPath:@"."];
+
+    NSArray *filelist= [filemanager contentsOfDirectoryAtPath:@"." error:nil];
+
 	for (NSString *filename in filelist) {
 		if ([filename startsWithString:@"bon"] && [self isValidBonesFileName:filename]) {
 			if (![[HearseFileRegistry instance] haveDownloadedFile:filename]) {
@@ -402,6 +405,7 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 			return errorMessage;
 		} else {
 			NSString *filename = [self getHeader:@"X_FILENAME" fromResponse:response];
+            filename = [NSString stringWithFormat:@"./%@",filename]; //iNethack2 -- fix for path changes in ios8
 			NSString *md5 = [self getHeader:@"X_BONESCRC" fromResponse:response];
 			if (!forceDownload) {
 				if (filename) {
@@ -429,7 +433,8 @@ static NSString *const hearseCommandBonesCheck = @"bonescheck";
 - (NSArray *) existingBonesFiles {
 	NSMutableArray *bones = [NSMutableArray array];
 	NSFileManager *filemanager = [NSFileManager defaultManager];
-	NSArray *filelist = [filemanager directoryContentsAtPath:@"."];
+    NSArray *filelist= [filemanager contentsOfDirectoryAtPath:@"." error:nil];
+    
 	for (NSString *filename in filelist) {
 		if ([filename startsWithString:@"bon"]) {
 			[bones addObject:filename];

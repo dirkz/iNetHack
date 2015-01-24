@@ -77,7 +77,7 @@ boolean complain;
 #else
 	    version_data->incarnation != VERSION_NUMBER
 #endif
-	  ) {
+        ) {
 	    if (complain)
 		pline("Version mismatch for file \"%s\".", filename);
 	    return FALSE;

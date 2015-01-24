@@ -47,6 +47,7 @@ static void reset_choices (int type)
 		MenuViewController* controller = [MenuViewController new];
 		controller.title     = title;
 		controller.menuItems = items;
+
 		[self.navigationController pushViewController:controller animated:self.navigationController.viewControllers.count > 1];
 		[controller release];
 	} else {
@@ -64,7 +65,7 @@ static void reset_choices (int type)
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
 
 	reset_choices(RESET_ALIGNMENT);
-	flags.initalign = [sender tag];
+	flags.initalign = (int) [sender tag];
 
 	[self moveToNextStep:nil];
 }
@@ -93,7 +94,7 @@ static void reset_choices (int type)
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
 
 	reset_choices(RESET_GENDER);
-	flags.initgend = [sender tag];
+	flags.initgend = (int) [sender tag];
 
 	[self moveToNextStep:nil];
 }
@@ -123,7 +124,7 @@ static void reset_choices (int type)
 
 	reset_choices(RESET_RACE);
 	pl_race = [sender tag];
-	flags.initrace = [sender tag];
+	flags.initrace = (int) [sender tag];
 
 	[self moveToNextStep:nil];
 }
@@ -152,7 +153,7 @@ static void reset_choices (int type)
 	NSAssert([sender respondsToSelector:@selector(tag)], @"sender has no tag");
 
 	reset_choices(RESET_ROLE);
-	flags.initrole = [sender tag];
+	flags.initrole = (int) [sender tag];
 	strcpy(pl_character, roles[flags.initrole].filecode);
 
 	[self moveToNextStep:nil];

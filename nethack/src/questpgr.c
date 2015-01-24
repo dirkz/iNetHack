@@ -14,7 +14,7 @@
 /* #define DEBUG */	/* uncomment for debugging */
 
 static void FDECL(Fread, (genericptr_t,int,int,dlb *));
-STATIC_DCL struct qtmsg * FDECL(construct_qtlist, (long));
+STATIC_DCL struct qtmsg * FDECL(construct_qtlist, (uint32_t)); //iNethack2 uint32_t
 STATIC_DCL const char * NDECL(intermed);
 STATIC_DCL const char * NDECL(neminame);
 STATIC_DCL const char * NDECL(guardname);
@@ -38,7 +38,7 @@ static void
 dump_qtlist()	/* dump the character msg list to check appearance */
 {
 	struct	qtmsg	*msg;
-	long	size;
+	uint32_t	size; //iNethack2 changed long to uint32_t
 
 	for (msg = qt_list.chrole; msg->msgnum > 0; msg++) {
 		pline("msgnum %d: delivery %c",
@@ -67,7 +67,7 @@ dlb	*stream;
 
 STATIC_OVL struct qtmsg *
 construct_qtlist(hdr_offset)
-long	hdr_offset;
+uint32_t	hdr_offset; //iNethack2 long to uint32_t
 {
 	struct qtmsg *msg_list;
 	int	n_msgs;
@@ -92,7 +92,7 @@ load_qtlist()
 
 	int	n_classes, i;
 	char	qt_classes[N_HDR][LEN_HDR];
-	long	qt_offsets[N_HDR];
+	uint32_t	qt_offsets[N_HDR];  //iNethack2, changed long to uint32_t
 
 	msg_file = dlb_fopen(QTEXT_FILE, RDBMODE);
 	if (!msg_file)
@@ -105,7 +105,7 @@ load_qtlist()
 
 	Fread(&n_classes, sizeof(int), 1, msg_file);
 	Fread(&qt_classes[0][0], sizeof(char)*LEN_HDR, n_classes, msg_file);
-	Fread(qt_offsets, sizeof(long), n_classes, msg_file);
+	Fread(qt_offsets, sizeof(uint32_t), n_classes, msg_file); //iNethack2, changed long to uint32_t
 
 	/*
 	 * Now construct the message lists for quick reference later
@@ -359,9 +359,9 @@ STATIC_OVL void
 deliver_by_pline(qt_msg)
 struct qtmsg *qt_msg;
 {
-	long	size;
+	uint32_t	size; //iNethack2 changed long to uint32_t
 
-	for (size = 0; size < qt_msg->size; size += (long)strlen(in_line)) {
+	for (size = 0; size < qt_msg->size; size += (uint32_t)strlen(in_line)) { //iNethack2 uint32_t
 	    (void) dlb_fgets(in_line, 80, msg_file);
 	    convert_line();
 	    pline(out_line);
@@ -374,10 +374,10 @@ deliver_by_window(qt_msg, how)
 struct qtmsg *qt_msg;
 int how;
 {
-	long	size;
+	uint32_t	size; //iNethack2 uint32_t
 	winid datawin = create_nhwindow(how);
 
-	for (size = 0; size < qt_msg->size; size += (long)strlen(in_line)) {
+	for (size = 0; size < qt_msg->size; size += (uint32_t)strlen(in_line)) { //iNethack2 uint32_t
 	    (void) dlb_fgets(in_line, 80, msg_file);
 	    convert_line();
 	    putstr(datawin, 0, out_line);

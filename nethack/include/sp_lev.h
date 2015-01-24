@@ -35,6 +35,37 @@ typedef union str_or_len {
 	char *str;
 	int   len;
 } Str_or_Len;
+/*
+ iNethack2: problem - pointers in 64bit are 8bytes, not 4...thus this ends up being double the size.
+ Solution: make second _mem struct which is what we use to actually load from disk. Then safely copy to original struct.
+ */
+typedef struct {
+    int name, appear_as;
+    short id;
+    aligntyp align;
+    xchar x, y, chance, class, appear;
+    schar peaceful, asleep;
+} monster_mem;
+typedef struct {
+    int name;
+    int   corpsenm;
+    short id, spe;
+    xchar x, y, chance, class, containment;
+    schar curse_state;
+} object_mem;
+typedef struct {
+    struct { xchar x1, y1, x2, y2; } inarea;
+    struct { xchar x1, y1, x2, y2; } delarea;
+    boolean in_islev, del_islev;
+    xchar rtype, padding;
+    int rname;
+} lev_region_mem;
+typedef struct {
+    xchar x, y;
+    int engr;
+    xchar etype;
+} engraving_mem;
+//--end iNethack2 _mem structs---
 
 typedef struct {
 	boolean init_present, padding;
@@ -180,7 +211,8 @@ typedef struct {
 } mazepart;
 
 typedef struct {
-	long flags;
+	//long flags;
+    int32_t flags; //iNethack2
 	lev_init init_lev;
 	schar filling;
 	char numpart;
@@ -231,7 +263,8 @@ typedef struct {
 
 /* used only by lev_comp */
 typedef struct {
-	long flags;
+	//long flags;
+    int32_t flags; //iNethack2
 	lev_init init_lev;
 	char nrobjects;
 	char *robjects;

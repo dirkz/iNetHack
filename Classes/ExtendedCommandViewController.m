@@ -29,6 +29,7 @@
 
 @synthesize result;
 
+
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
@@ -53,6 +54,9 @@
 	result = -1;
 	UITableView *tv = (UITableView *) self.view;
 	tv.backgroundColor = [UIColor blackColor];
+    long bottom;
+    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [UIScreen mainScreen].bounds.size.height;
+    [tv setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -64,7 +68,7 @@
 #pragma mark UITableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	int row = [indexPath row];
+	int row = (int) [indexPath row];
 	result = row;
 	[[MainViewController instance] broadcastUIEvent];
 	[self.navigationController popToRootViewControllerAnimated:NO];
@@ -89,11 +93,11 @@
 	static NSString *cellId = @"extendedCommandViewControllerCellId";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero] autorelease];
 		cell.backgroundColor = [UIColor blackColor];
 		cell.textLabel.textColor = [UIColor whiteColor];
 	}
-	int row = [indexPath row];
+	int row = (int) [indexPath row];
 	cell.textLabel.text = [[NSString stringWithCString:extcmdlist[row].ef_txt encoding:NSASCIIStringEncoding] capitalizedString];
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	return cell;

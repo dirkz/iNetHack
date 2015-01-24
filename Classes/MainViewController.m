@@ -71,7 +71,9 @@ static MainViewController *instance;
 	[super awakeFromNib];
 	touchInfoStore = [[TouchInfoStore alloc] init];
 	self.title = @"Dungeon";
-	windows = [[NSMutableArray alloc] init];
+	//windows = [[NSMutableArray alloc] init];
+    windows = [[NSMutableDictionary alloc] init]; //iNethack2 making this a dict
+    windowIdCounter=1;
 	nethackEventQueue = [[NethackEventQueue alloc] init];
 	uiCondition = [[NSCondition alloc] init];
 	textInputCondition = [[NSCondition alloc] init];
@@ -132,8 +134,10 @@ static MainViewController *instance;
 #pragma mark window properties
 
 - (Window *) mapWindow {
-	for (Window *w in windows) {
-		if (w.type == NHW_MAP) {
+	//for (Window *w in windows) {
+    for (NSString* key in windows) {    //iNethack2 now a dict
+        Window *w = [windows objectForKey:key];
+        if (w.type == NHW_MAP) {
 			return w;
 		}
 	}
@@ -141,8 +145,10 @@ static MainViewController *instance;
 }
 
 - (Window *) statusWindow {
-	for (Window *w in windows) {
-		if (w.type == NHW_STATUS) {
+//	for (Window *w in windows) {
+    for (NSString* key in windows) {    //iNethack2 now a dict
+        Window *w = [windows objectForKey:key];
+        if (w.type == NHW_STATUS) {
 			return w;
 		}
 	}
@@ -150,8 +156,10 @@ static MainViewController *instance;
 }
 
 - (Window *) messageWindow {
-	for (Window *w in windows) {
-		if (w.type == NHW_MESSAGE) {
+//	for (Window *w in windows) {
+    for (NSString* key in windows) {    //iNethack2 now a dict
+        Window *w = [windows objectForKey:key];
+        if (w.type == NHW_MESSAGE) {
 			return w;
 		}
 	}
@@ -174,6 +182,7 @@ static MainViewController *instance;
 	textInputViewController.action = @selector(nethackSearchCountEntered:);
 	textInputViewController.prompt = @"Enter search count";
 	textInputViewController.text = @"20";
+    self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
 	[self.navigationController pushViewController:textInputViewController animated:YES];
 }
 
@@ -186,7 +195,8 @@ static MainViewController *instance;
 - (void) pushViewControllerOnMainThread:(UIViewController *)viewController
 {
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self.navigationController pushViewController:viewController animated:YES];
+    self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void) displayText:(NSString *)text withCondition:(NSCondition *)condition isLog:(BOOL)l {
@@ -194,7 +204,8 @@ static MainViewController *instance;
 	viewController.isLog = l;
 	viewController.text = text;
 	viewController.condition = condition;
-	[self performSelectorOnMainThread:@selector(pushViewControllerOnMainThread:) withObject:viewController waitUntilDone:YES];
+    self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
+    [self performSelectorOnMainThread:@selector(pushViewControllerOnMainThread:) withObject:viewController waitUntilDone:YES];
 	[viewController release];
 }
 
@@ -228,7 +239,8 @@ static MainViewController *instance;
 	TextDisplayViewController *viewController = [TextDisplayViewController new];
 	viewController.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
 	viewController.isHTML = YES;
-	[self.navigationController pushViewController:viewController animated:YES];
+    self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
+    [self.navigationController pushViewController:viewController animated:YES];
 	[viewController release];
 }
 
@@ -237,7 +249,8 @@ static MainViewController *instance;
 	TextDisplayViewController *viewController = [TextDisplayViewController new];
 	viewController.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
 	viewController.isHTML = YES;
-	[self.navigationController pushViewController:viewController animated:YES];
+    self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
+    [self.navigationController pushViewController:viewController animated:YES];
 	[viewController release];
 }
 
@@ -335,7 +348,8 @@ static MainViewController *instance;
 	MenuViewController* menuViewController = [MenuViewController new];
 	menuViewController.menuItems = menuItems;
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self.navigationController pushViewController:menuViewController animated:YES];
+    self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
+    [self.navigationController pushViewController:menuViewController animated:YES];
 	[menuViewController release];
 }
 
@@ -584,7 +598,7 @@ static MainViewController *instance;
 			}
 		} else if (!ti.pinched && !ti.moved && ti.doubleTap) {
 			TilePosition *delta = lastSingleTapDelta;
-			if ((abs(delta.x) == 0 || abs(delta.x) == 1) && (abs(delta.y) == 0) || abs(delta.y) == 1) {
+			if (((abs(delta.x) == 0 || abs(delta.x) == 1) && (abs(delta.y) == 0)) || abs(delta.y) == 1) {
 				char direction = [self directionFromTilePositionDelta:delta];
 				if (direction) {
 					[nethackEventQueue addKeyEvent:'g'];
@@ -601,18 +615,24 @@ static MainViewController *instance;
 
 - (winid) createWindow:(int)type {
 	Window *w = [[Window alloc] initWithType:type];
-	[windows addObject:w];
+	//[windows addObject:w];    //iNethack2 changing to a dict
+    [windows setValue:w forKey:[NSString stringWithFormat:@"%d", windowIdCounter]];
+    windowIdCounter++;
 	[w release];
-	return (winid) w;
+    return (winid) (windowIdCounter-1); //iNethack2
+	//return (winid) w;
 }
 
 - (void) destroyWindow:(winid)wid {
-	Window *w = (Window *) wid;
-	[windows removeObject:w];
+	//Window *w = (Window *) wid;
+    [windows removeObjectForKey:[NSString stringWithFormat:@"%d",wid]];
 }
 
 - (Window *) windowWithId:(winid)wid {
-	return (Window *) wid;
+//    NSLog(@"%@",windows);
+//	return (Window *) wid;
+//    return [windows objectAtIndex:wid]; //iNethack2
+    return [windows objectForKey:[NSString stringWithFormat:@"%d",wid]]; //iNethack2
 }
 
 - (void) displayWindowId:(winid)wid blocking:(BOOL)blocking {
@@ -651,18 +671,46 @@ static MainViewController *instance;
 	[w clearMessages];
 	[w unlock];
 	UIAlertView *alert = nil;
-	if ([message containsString:kConstThingsThatAreHereTitle] || [message containsString:kConstThingsThatYouFeelHereTitle]) {
+
+    if ([message containsString:kConstThingsThatAreHereTitle] || [message containsString:kConstThingsThatYouFeelHereTitle]) {
 		NSRange r = [message rangeOfString:@"\n"];
 		NSString *title = [message substringToIndex:r.location];
 		NSString *toReplaced = [NSString stringWithFormat:@"%@\n", title];
 		NSString *text = [message stringByReplacingOccurrencesOfString:toReplaced withString:@""];
-		alert = [[UIAlertView alloc] initWithTitle:title message:text
-										  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Pickup", nil];
+        alert = [[UIAlertView alloc] initWithTitle:title message:text delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Pickup", nil];
+        [alert show];
 	} else {
-		alert = [[UIAlertView alloc] initWithTitle:@"Message" message:message
-										  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        if (![UIAlertController class]) {
+           UIAlertView *alert2 = [[UIAlertView alloc] initWithTitle:@"Message" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert2 show];
+            return;
+        
+        } else {
+            UIAlertController *alert2 = [UIAlertController alertControllerWithTitle:@"Message" message:message
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+
+            [alert2.view setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+            alert2.view.frame = CGRectMake([[UIScreen mainScreen] applicationFrame].origin.x,
+                                           [[UIScreen mainScreen] applicationFrame].origin.y,
+                                           [[UIScreen mainScreen] applicationFrame].size.width+1,
+                                           [[UIScreen mainScreen] applicationFrame].size.height+1);// iNethack2 - fix for no scrolling on initial story text popup (ios8 bug?)
+            UIAlertAction* ok = [UIAlertAction
+                                 actionWithTitle:@"OK"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [alert2 dismissViewControllerAnimated:YES completion:nil];
+                                     [self broadcastUIEvent];
+                                     
+                                 }];
+            [alert2 addAction:ok];
+
+            [self presentViewController:alert2 animated:YES completion:nil];
+            return;
+        }
 	}
-	[alert show];
 }
 
 - (void) displayMenuWindow:(Window *)w {
@@ -675,25 +723,28 @@ static MainViewController *instance;
 - (void) displayMenuWindowOnUIThread:(Window *)w {
 	nethackMenuViewController.menuWindow = w;
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self.navigationController pushViewController:nethackMenuViewController animated:YES];
+    self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
+    [self.navigationController pushViewController:nethackMenuViewController animated:YES];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	//NSLog(@"alert finished");
-	if (alertView.numberOfButtons == 2) {
-		if (buttonIndex == 1) {
-			[nethackEventQueue addKeyEvent:','];
-		}
-	}
-	[alertView release];
-	[self broadcastUIEvent];
+//iNethack2 -- trying this function instead of clickedButtonAtIndex as clickedButtonAtIndex was occasionally hanging
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    //NSLog(@"alert finished");
+    if (alertView.numberOfButtons == 2) {
+        if (buttonIndex == 1) {
+            [nethackEventQueue addKeyEvent:','];
+        }
+    }
+    [alertView release];
+    [self broadcastUIEvent];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	currentYnFunction.chosen = buttonIndex;
-	[self broadcastUIEvent];
-	[actionSheet release];
-	currentYnFunction = nil;
+//iNethack2 -- trying this function instead of clickedButtonAtIndex as clickedButtonAtIndex was occasionally hanging
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    currentYnFunction.chosen = (int) buttonIndex;
+    [self broadcastUIEvent];
+    [actionSheet release];
+    currentYnFunction = nil;
 }
 
 - (void) displayYnQuestion:(NethackYnFunction *)yn {
@@ -711,7 +762,8 @@ static MainViewController *instance;
 											 otherButtonTitles:nil];
 	const char *p = yn.choices;
 	char c;
-	while (c = *p++) {
+
+    while ((c = *p++)) {
 		char str[] = {c,0};
 		[menu addButtonWithTitle:[NSString stringWithCString:str encoding:NSASCIIStringEncoding]];
 		//NSLog(@"added button %d %s", i, str);
@@ -733,6 +785,7 @@ static MainViewController *instance;
 	textInputViewController.prompt = s;
 	textInputViewController.text = @"Elbereth";
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
 	[self.navigationController pushViewController:textInputViewController animated:YES];
 }
 
@@ -751,7 +804,8 @@ static MainViewController *instance;
 - (void) showExtendedCommandMenu:(id)obj {
 	extendedCommandViewController.title = @"Extended Command";
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self.navigationController pushViewController:extendedCommandViewController animated:YES];
+    self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
+    [self.navigationController pushViewController:extendedCommandViewController animated:YES];
 }
 
 - (int) getExtendedCommand {

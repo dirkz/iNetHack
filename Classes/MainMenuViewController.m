@@ -23,7 +23,6 @@
 #import "MainMenuViewController.h"
 
 @implementation MainMenuViewController
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return YES;

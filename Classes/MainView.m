@@ -59,6 +59,7 @@
 	
 	// tileSize
 	maxTileSize = tilesetTileSize = CGSizeMake(32,32);
+    maxTileSize = CGSizeMake(48,48);    //iNethack2 increasing max zoom-in a little bit.
 	minTileSize = CGSizeMake(8,8);
 	offset = CGPointMake(0,0);
 	float ts = [[NSUserDefaults standardUserDefaults] floatForKey:kKeyTileSize];
@@ -68,7 +69,7 @@
 	} else if (tileSize.width < minTileSize.width) {
 		tileSize = minTileSize;
 	}
-	
+    
 	// load tileset
 	NSString *tilesetName = [[NSUserDefaults standardUserDefaults] objectForKey:kKeyTileset];
 	if (!tilesetName) {
@@ -115,21 +116,30 @@
 }
 
 - (CGPoint) subViewedCenter {
-	return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height-shortcutView.bounds.size.height)/2);
+    //iNethack2 fix for screensize
+    return CGPointMake([UIScreen mainScreen].bounds.size.width/2, ([UIScreen mainScreen].bounds.size.height-shortcutView.bounds.size.height)/2);
+    //	return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height-shortcutView.bounds.size.height)/2);
 }
 
 - (BOOL)canBecomeFirstResponder { return YES; }
 
 - (void)layoutSubviews {
-	CGSize s = self.bounds.size;
-	CGRect frame;
-	
-	s = [shortcutView sizeThatFits:s];
+    CGSize s = [UIScreen mainScreen].bounds.size;// self.bounds.size; //iNethack2: fix for size
+
+    CGRect frame;
+
+    s = [shortcutView sizeThatFits:s];
+    //iNethack2 replacing these 2 lines
+    /*
 	frame.origin.x = (self.bounds.size.width-s.width)/2;
 	frame.origin.y = self.bounds.size.height-s.height;
-	frame.size.width = s.width;
+    */
+    frame.origin.x = ([UIScreen mainScreen].bounds.size.width-s.width)/2;
+    frame.origin.y = [UIScreen mainScreen].bounds.size.height-s.height;
+
+    frame.size.width = s.width;
 	frame.size.height = s.height;
-	shortcutView.frame = frame;
+    shortcutView.frame = frame;
 	
 	// subviews like direction input
 	for (UIView *v in self.subviews) {
@@ -155,22 +165,42 @@
 	// indicate level boundaries
 	float bgColor[] = {0.1f,0.1f,0.f,1.0f};
 	float levelBgColor[] = {0.0f,0.0f,0.0f,1.0f};
-	CGContextSetFillColor(ctx, bgColor);
+    CGColorRef   bgColorRef = [[UIColor colorWithRed:bgColor[0] green:bgColor[1] blue:bgColor[2] alpha:bgColor[3]] CGColor];
+    CGColorRef   levelBgColorRef = [[UIColor colorWithRed:levelBgColor[0] green:levelBgColor[1] blue:levelBgColor[2] alpha:levelBgColor[3]] CGColor];
+    //CGContextSetStrokeColor(ctx, playerRectColor);
+    CGContextSetFillColorWithColor(ctx, bgColorRef);
+    
 	CGContextFillRect(ctx, clipRect);
 	CGRect borderRect = CGRectMake(start.x, start.y, m.width*tileSize.width, m.height*tileSize.height);
-	CGContextSetFillColor(ctx, levelBgColor);
+    CGContextSetFillColorWithColor(ctx, levelBgColorRef);
+
 	CGContextFillRect(ctx, borderRect);
 	
 	// draw version info
 	CGPoint versionLocation = borderRect.origin;
-	CGSize size = [bundleVersionString sizeWithFont:statusFont];
-	versionLocation.x += borderRect.size.width - size.width;
+
+    NSAttributedString *attributedText =
+    [[NSAttributedString alloc]
+     initWithString:bundleVersionString
+     attributes:@
+     {
+     NSFontAttributeName: statusFont,
+
+     }];
+    CGFloat width = 16;
+    CGRect rect = [attributedText boundingRectWithSize:(CGSize){width, CGFLOAT_MAX}
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                               context:nil];
+    CGSize size = rect.size;
+
+    versionLocation.x += borderRect.size.width - size.width;
 	versionLocation.y += borderRect.size.height;
 	float versionStringColor[] = {0.8f,0.8f,0.8f,1.0f};
-	CGContextSetFillColor(ctx, versionStringColor);
-	[bundleVersionString drawAtPoint:versionLocation withFont:statusFont];
-	
-	for (int j = 0; j < m.height; ++j) {
+    UIColor *versionStringColorCol = [UIColor colorWithRed:versionStringColor[0] green:versionStringColor[1] blue:versionStringColor[2] alpha:versionStringColor[3]];
+
+    [bundleVersionString drawAtPoint:versionLocation withAttributes:@ { NSFontAttributeName: statusFont, NSForegroundColorAttributeName: versionStringColorCol}];
+
+    for (int j = 0; j < m.height; ++j) {
 		for (int i = 0; i < m.width; ++i) {
 			int glyph = [m glyphAtX:i y:j];
 			if (glyph != kNoGlyph) {
@@ -184,6 +214,7 @@
 				if (CGRectIntersectsRect(clipRect, r)) {
 					UIImage *img = [UIImage imageWithCGImage:[tileSet imageForGlyph:glyph atX:i y:j]];
 					[img drawInRect:r];
+                    
 					if (u.ux == i && u.uy == j) {
 						// hp100 calculation from qt_win.cpp
 						int hp100;
@@ -201,7 +232,10 @@
 							playerRectColor[2] = 0;
 							playerRectColor[0] = playerRectColor[1] = colorValue;
 						}
-						CGContextSetStrokeColor(ctx, playerRectColor);
+                        //iNethack2 fix for stroke color.
+                        CGColorRef   playerRectColorRef = [[UIColor colorWithRed:playerRectColor[0] green:playerRectColor[1] blue:playerRectColor[2] alpha:playerRectColor[3]] CGColor];
+                        //CGContextSetStrokeColor(ctx, playerRectColor);
+                        CGContextSetStrokeColorWithColor(ctx, playerRectColorRef);
 						CGContextStrokeRect(ctx, r);
 					} else if (glyph_is_pet(glyph)) {
 						[petMark drawInRect:r];
@@ -210,6 +244,9 @@
 			}
 		}
 	}
+
+    [self.layer needsDisplay];
+
 }
 
 - (void) checkForRogueLevel {
@@ -229,18 +266,17 @@
 - (CGSize) drawStrings:(NSArray *)strings withSize:(CGSize)size atPoint:(CGPoint)p {
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	
-	float white[] = {1,1,1,1};
-	float transparentBackground[] = {0,0,0,0.6f};
-	
 	CGSize total = CGSizeMake(size.width, 0);
 	CGRect backgroundRect = CGRectMake(p.x, p.y, size.width, size.height);
 	for (NSString *s in strings) {
+        
 		UIFont *font = [self fontAndSize:&backgroundRect.size forString:s withFont:statusFont];
-		CGContextSetFillColor(ctx, transparentBackground);
-		CGRect backgroundRect = CGRectMake(p.x, p.y, backgroundRect.size.width, backgroundRect.size.height);
+
+        CGRect backgroundRect = CGRectMake(p.x, p.y, backgroundRect.size.width, backgroundRect.size.height);
 		CGContextFillRect(ctx, backgroundRect);
-		CGContextSetFillColor(ctx, white);
-		CGSize tmp = [s drawAtPoint:p withFont:font];
+        CGSize tmp = [s sizeWithAttributes:@{NSFontAttributeName:font}];
+        [s drawAtPoint:p withAttributes: @ {NSFontAttributeName:font, NSForegroundColorAttributeName: [UIColor whiteColor]}]; //iNethack2: fix for drawAtPoint
+        
 		p.y += tmp.height;
 		total.height += tmp.height;
 	}
@@ -262,14 +298,14 @@
 		[self drawTiledMap:map clipRect:rect];
 		if (map.blocking) {
 			CGContextRef ctx = UIGraphicsGetCurrentContext();
-			float white[] = {1.0f,1.0f,1.0f,1.0f};
-			CGContextSetFillColor(ctx, white);
+            CGColorRef   whiteColorRef = [[UIColor colorWithRed:1 green:1 blue:1 alpha:1] CGColor];
+            CGContextSetFillColorWithColor(ctx, whiteColorRef);
 			NSString *m = @"Single tap to continue ...";
-			CGSize size = [m sizeWithFont:statusFont];
+            CGSize size = [m sizeWithAttributes:@{NSFontAttributeName:statusFont}];
 			center.x -= size.width/2;
 			center.y -= size.height/2;
-			[m drawAtPoint:center withFont:statusFont];
-		}
+            [m drawAtPoint:center withAttributes:@{NSFontAttributeName:statusFont, NSForegroundColorAttributeName: [UIColor whiteColor]}];
+        }
 	}
 	
 	CGSize statusSize = CGSizeMake(0,0);
@@ -280,13 +316,12 @@
 		strings = [status.strings copy];
 		[status unlock];
 		if (strings.count > 0) {
-			statusSize = [self drawStrings:[strings copy] withSize:CGSizeMake(self.bounds.size.width, 18)
-								   atPoint:p];
+            statusSize = [self drawStrings:[strings copy] withSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, 18) atPoint:p];
 		}
 	}
 	if (message) {
 		[moreButton removeFromSuperview];
-		CGSize avgLineSize = [@"O" sizeWithFont:statusFont];
+        CGSize avgLineSize = [@"O" sizeWithAttributes: @{ NSFontAttributeName: statusFont} ];
 		float maxY = center.y - avgLineSize.height*2;
 		p.y = statusSize.height;
 		NSArray *strings = nil;
@@ -294,9 +329,9 @@
 		strings = [message.strings copy];
 		[message unlock];
 		if (strings.count > 0) {
-			CGSize bounds = self.bounds.size;
+            CGSize bounds = [UIScreen mainScreen].bounds.size;//self.bounds.size; //iNethack2 fix for size
 			for (NSString *s in strings) {
-				CGSize size = [s sizeWithFont:statusFont];
+                CGSize size = [s sizeWithAttributes: @ { NSFontAttributeName: statusFont}];
 				if (p.y > maxY) {
 					p.x = 0;
 					p.y += size.height + 2;
@@ -309,7 +344,8 @@
 					break;
 				}
 				if (p.x + size.width < bounds.width) {
-					size = [s drawAtPoint:p withFont:statusFont];
+                    size = [s sizeWithAttributes: @ { NSFontAttributeName: statusFont}];
+                    [s drawAtPoint:p withAttributes:@{ NSFontAttributeName:statusFont, NSForegroundColorAttributeName: [UIColor whiteColor]}];
 					p.x += size.width + 4;
 				} else {
 					if (p.x != 0) {
@@ -317,7 +353,8 @@
 					}
 					p.x = 0;
 					UIFont *font = [self fontAndSize:&size forString:s withFont:statusFont];
-					size = [s drawAtPoint:p withFont:font];
+                    size = [s sizeWithAttributes: @ { NSFontAttributeName: font}];
+                    [s drawAtPoint:p withAttributes:@{ NSFontAttributeName:font, NSForegroundColorAttributeName: [UIColor whiteColor]}];
 					p.x += size.width;
 				}
 			}
@@ -338,12 +375,12 @@
 		size = &dummySize;
 	}
 	*size = CGSizeMake(0,0);
-	CGFloat maxWidth = self.bounds.size.width;
+    CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width;//self.bounds.size.width; //iNethack2 fix for size
 	for (NSString *s in strings) {
-		CGSize tmpSize = [s sizeWithFont:font];
+        CGSize tmpSize = [s sizeWithAttributes:@ { NSFontAttributeName:font}];
 		while (tmpSize.width > maxWidth) {
 			font = [font fontWithSize:font.pointSize-1];
-			tmpSize = [s sizeWithFont:font];
+            tmpSize = [s sizeWithAttributes:@ { NSFontAttributeName:font}];
 		}
 		size->width = tmpSize.width > size->width ? tmpSize.width:size->width;
 		size->height += tmpSize.height;
@@ -357,27 +394,27 @@
 		size = &dummySize;
 	}
 	*size = CGSizeMake(0,0);
-	CGFloat maxWidth = self.bounds.size.width;
-	CGSize tmpSize = [s sizeWithFont:font];
+    CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width; //self.bounds.size.width; //iNethack2 fix for size
+    CGSize tmpSize = [s sizeWithAttributes:@ { NSFontAttributeName:font}];
 	while (tmpSize.width > maxWidth) {
 		font = [font fontWithSize:font.pointSize-1];
-		tmpSize = [s sizeWithFont:font];
+        tmpSize = [s sizeWithAttributes:@ { NSFontAttributeName:font}];
 	}
-	size->width = tmpSize.width > size->width ? tmpSize.width:size->width;
+    size->width = tmpSize.width > size->width ? tmpSize.width:size->width;
 	size->height += tmpSize.height;
 	return font;
 }
 
 - (void) drawStrings:(NSArray *)strings atPosition:(CGPoint)p {
 	UIFont *f = statusFont;
-	CGFloat width = self.bounds.size.width;
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;//self.bounds.size.width; //iNethack2 fix for size
 	CGFloat height = 0;
 	for (NSString *s in strings) {
-		CGSize size = [s sizeWithFont:f];
+        CGSize size = [s sizeWithAttributes:@ { NSFontAttributeName:f}];
 		while (size.width > width) {
 			CGFloat pointSize = f.pointSize-1;
 			statusFont = [UIFont systemFontOfSize:pointSize];
-			size = [s sizeWithFont:f];
+            size = [s sizeWithAttributes:@ { NSFontAttributeName:f}];
 		}
 		height = size.height > height ? size.height:height;
 	}
@@ -398,7 +435,7 @@
 	tileSize.width += d;
 	tileSize.width = round(tileSize.width);
 	tileSize.height = tileSize.width;
-	if (tileSize.width > maxTileSize.width) {
+	if (tileSize.width> maxTileSize.width) {
 		tileSize = maxTileSize;
 	} else if (tileSize.width < minTileSize.width) {
 		tileSize = minTileSize;

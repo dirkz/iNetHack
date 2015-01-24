@@ -21,7 +21,6 @@
 //  along with iNetHack.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
-
 #include "hack.h"
 
 // ctrl-macro
@@ -40,14 +39,17 @@
 @class TilePosition;
 @class DMath;
 
-@interface MainViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate> {
+@interface MainViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate , UIAlertViewDelegate> {
 	
 	IBOutlet NethackMenuViewController *nethackMenuViewController;
 	IBOutlet TextInputViewController *textInputViewController;
 	IBOutlet DirectionInputViewController *directionInputViewController;
 	IBOutlet ExtendedCommandViewController *extendedCommandViewController;
 	
-	NSMutableArray *windows;
+	//NSMutableArray *windows;
+    NSMutableDictionary *windows; //iNethack2 making this a dict
+    int windowIdCounter; //iNethack2 for dict
+    
 	TilePosition *clip;
 	
 	NethackEventQueue *nethackEventQueue;
@@ -78,7 +80,8 @@
 	Window *blockingMap;
 }
 
-@property (nonatomic, readonly) NSArray *windows;
+//@property (nonatomic, readonly) NSArray *windows;
+@property (nonatomic, readonly) NSDictionary *windows; //iNethack2: making this a dict
 @property (nonatomic, readonly) TilePosition *clip;
 @property (nonatomic, readonly) Window *mapWindow;
 @property (nonatomic, readonly) Window *messageWindow;
