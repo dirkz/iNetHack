@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>6FDB3E53-6FEF-4244-87E7-5A6B4AAE5EB5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>iNetHack</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>56915648EC21194979F9C58FC18F41188251E8B0</key>
+		<string>github-akolade:akolade/iNethack.git</string>
+		<key>5aa2a760-743d-11de-9207-fb4211ab666b++505</key>
+		<string>http://inethack.googlecode.com/svn/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>iNetHack.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>56915648EC21194979F9C58FC18F41188251E8B0</key>
+		<string>../..</string>
+		<key>5aa2a760-743d-11de-9207-fb4211ab666b++505</key>
+		<string>../../../inethack-newest</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>5aa2a760-743d-11de-9207-fb4211ab666b++505</key>
+		<string>http://inethack.googlecode.com/svn</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github-akolade:akolade/iNethack.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>56915648EC21194979F9C58FC18F41188251E8B0</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>56915648EC21194979F9C58FC18F41188251E8B0</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iNetHack</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5aa2a760-743d-11de-9207-fb4211ab666b++505</string>
+			<key>IDESourceControlWCCName</key>
+			<string>inethack-newest</string>
+		</dict>
+	</array>
+</dict>
+</plist>

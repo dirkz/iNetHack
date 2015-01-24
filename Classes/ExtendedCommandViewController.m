@@ -29,6 +29,7 @@
 
 @synthesize result;
 
+
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
@@ -53,6 +54,9 @@
 	result = -1;
 	UITableView *tv = (UITableView *) self.view;
 	tv.backgroundColor = [UIColor blackColor];
+    long bottom;
+    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [UIScreen mainScreen].bounds.size.height;
+    [tv setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -89,7 +93,7 @@
 	static NSString *cellId = @"extendedCommandViewControllerCellId";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero] autorelease];
 		cell.backgroundColor = [UIColor blackColor];
 		cell.textLabel.textColor = [UIColor whiteColor];
 	}

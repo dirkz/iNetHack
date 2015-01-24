@@ -47,6 +47,7 @@ static void reset_choices (int type)
 		MenuViewController* controller = [MenuViewController new];
 		controller.title     = title;
 		controller.menuItems = items;
+
 		[self.navigationController pushViewController:controller animated:self.navigationController.viewControllers.count > 1];
 		[controller release];
 	} else {

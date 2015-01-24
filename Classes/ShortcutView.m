@@ -56,7 +56,7 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 	BOOL isHighlighted;
 }
 @property (retain) NSString *title;
-@property (assign) BOOL isHighlighted;
+@property (nonatomic, assign) BOOL isHighlighted;
 @end
 
 @implementation ShortcutLayer
@@ -68,7 +68,7 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 		self.opacity       = 1.0f;
 		self.isHighlighted = NO;
 		self.borderColor   = UIColor.whiteColor.CGColor;
-		self.borderWidth   = 0.5;
+        self.borderWidth   = 0.5;
 		self.cornerRadius  = 5;
 		self.bounds        = (CGRect){CGPointZero, ShortcutTileSize};
 		self.anchorPoint   = CGPointZero;
@@ -89,18 +89,18 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 		UIFont* const font = [UIFont boldSystemFontOfSize:12];
 		UIGraphicsPushContext(context);
 		CGContextSetFillColorWithColor(context, TextColor);
-		CGSize stringSize = [self.title sizeWithFont:font];
+        CGSize stringSize = [self.title sizeWithAttributes: @{NSFontAttributeName: font}];
 		CGPoint p;
-		p.x = (self.bounds.size.width - stringSize.width) / 2;
+        p.x = (self.bounds.size.width - stringSize.width) / 2;
 		p.y = (self.bounds.size.height - stringSize.height) / 2;
-		[self.title drawAtPoint:p withFont:font];
+        [self.title drawAtPoint:p withAttributes:@ { NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor whiteColor]  }];
 		UIGraphicsPopContext();
 	}
 }
 @end
 
 @interface ShortcutView ()
-@property (assign) NSInteger highlightedIndex;
+@property (nonatomic, assign) NSInteger highlightedIndex;
 @property (nonatomic, retain) NSArray* shortcuts;
 @property (nonatomic, retain) NSTimer* editTimer;
 @end
@@ -227,7 +227,7 @@ static NSArray *DefaultShortcuts () {
 // ===========
 
 - (void)layoutSubviews {
-	CGFloat tilesOnScreen = self.bounds.size.width / ShortcutTileSize.width;
+    CGFloat tilesOnScreen = self.bounds.size.width / ShortcutTileSize.width;
 	CGFloat pages = ceil(self.shortcuts.count / tilesOnScreen);
 	self.contentSize = CGSizeMake((pages * tilesOnScreen) * ShortcutTileSize.width, ShortcutTileSize.height);
 }

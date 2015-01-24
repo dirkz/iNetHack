@@ -98,7 +98,7 @@ static float _colorTable[][4] = {
 		mapglyph(g, &ochar, &ocolor, &special, x, y);
 		//NSLog(@"glyph %d, tile %d %c", g, tile, ochar);
 		NSString *s = [NSString stringWithFormat:@"%c", ochar];
-		CGSize size = [s sizeWithFont:font];
+        CGSize size = [s sizeWithAttributes:@{NSFontAttributeName:font}];
 		CGPoint p = CGPointMake((tileSize.width-size.width)/2, (tileSize.height-size.height)/2);
 		UIGraphicsBeginImageContext(tileSize);
 		CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -108,7 +108,7 @@ static float _colorTable[][4] = {
 		r.size = tileSize;
 		CGContextFillRect(ctx, r);
 		CGContextSetFillColorWithColor(ctx, color.CGColor);
-		[s drawAtPoint:p withFont:font];
+        [s drawAtPoint:p withAttributes:@ { NSFontAttributeName: font, NSForegroundColorAttributeName: color }];
 		UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
 		images[tile] = CGImageRetain(img.CGImage);
 		UIGraphicsEndImageContext();

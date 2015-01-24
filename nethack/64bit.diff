@@ -1,0 +1,114 @@
+diff --git a/include/extern.h b/include/extern.h
+index 4e2314d..e7dfcd9 100644
+--- a/include/extern.h
++++ b/include/extern.h
+@@ -1676,7 +1676,7 @@ E NhRegion *FDECL(visible_region_at, (XCHAR_P,XCHAR_P));
+ E void FDECL(show_region, (NhRegion*, XCHAR_P, XCHAR_P));
+ E void FDECL(save_regions, (int,int));
+ E void FDECL(rest_regions, (int,BOOLEAN_P));
+-E NhRegion* FDECL(create_gas_cloud, (XCHAR_P, XCHAR_P, int, int));
++E NhRegion* FDECL(create_gas_cloud, (XCHAR_P, XCHAR_P, int, size_t));
+ 
+ /* ### restore.c ### */
+ 
+diff --git a/include/monst.h b/include/monst.h
+index af2bb78..d04c318 100644
+--- a/include/monst.h
++++ b/include/monst.h
+@@ -40,7 +40,7 @@
+ struct monst {
+ 	struct monst *nmon;
+ 	struct permonst *data;
+-	unsigned m_id;
++	size_t m_id;
+ 	short mnum;		/* permanent monster index number */
+ 	short movement;		/* movement points (derived from permonst definition and added effects */
+ 	uchar m_lev;		/* adjusted difficulty level of monster */
+diff --git a/include/obj.h b/include/obj.h
+index 516fc35..1f569d9 100644
+--- a/include/obj.h
++++ b/include/obj.h
+@@ -22,7 +22,7 @@ struct obj {
+ #define ocarry		v.v_ocarry
+ 
+ 	struct obj *cobj;	/* contents list for containers */
+-	unsigned o_id;
++	size_t o_id;
+ 	xchar ox,oy;
+ 	short otyp;		/* object class number */
+ 	unsigned owt;
+diff --git a/src/light.c b/src/light.c
+index d0029e7..9fc6da5 100644
+--- a/src/light.c
++++ b/src/light.c
+@@ -308,10 +308,10 @@ relink_light_sources(ghostly)
+ 	if (ls->flags & LSF_NEEDS_FIXUP) {
+ 	    if (ls->type == LS_OBJECT || ls->type == LS_MONSTER) {
+ 		if (ghostly) {
+-		    if (!lookup_id_mapping((unsigned)ls->id, &nid))
++		    if (!lookup_id_mapping((size_t)ls->id, &nid))
+ 			impossible("relink_light_sources: no id mapping");
+ 		} else
+-		    nid = (unsigned) ls->id;
++		    nid = (size_t) ls->id;
+ 		if (ls->type == LS_OBJECT) {
+ 		    which = 'o';
+ 		    ls->id = (genericptr_t) find_oid(nid);
+diff --git a/src/region.c b/src/region.c
+index e4d12af..0bda6c0 100644
+--- a/src/region.c
++++ b/src/region.c
+@@ -1,4 +1,4 @@
+-/*	SCCS Id: @(#)region.c	3.4	2002/10/15	*/
++/*	SCCS Id: @(#)region.c	5.4	2002/10/15	*/
+ /* Copyright (c) 1996 by Jean-Christophe Collet	 */
+ /* NetHack may be freely redistributed.  See license for details. */
+ 
+@@ -878,10 +878,10 @@ genericptr_t p1;
+ genericptr_t p2;
+ {
+     NhRegion *reg;
+-    int damage;
++    size_t damage;
+ 
+     reg = (NhRegion *) p1;
+-    damage = (int) reg->arg;
++    damage = (size_t) reg->arg;
+ 
+     /* If it was a thick cloud, it dissipates a little first */
+     if (damage >= 5) {
+@@ -903,7 +903,7 @@ genericptr_t p2;
+     int dam;
+ 
+     reg = (NhRegion *) p1;
+-    dam = (int) reg->arg;
++    dam = (size_t) reg->arg;
+     if (p2 == NULL) {		/* This means *YOU* Bozo! */
+ 	if (nonliving(youmonst.data) || Breathless)
+ 	    return FALSE;
+@@ -951,7 +951,7 @@ NhRegion *
+ create_gas_cloud(x, y, radius, damage)
+ xchar x, y;
+ int radius;
+-int damage;
++size_t damage;
+ {
+     NhRegion *cloud;
+     int i, nrect;
+diff --git a/src/timeout.c b/src/timeout.c
+index 6a336d6..01ee21d 100644
+--- a/src/timeout.c
++++ b/src/timeout.c
+@@ -1836,10 +1836,10 @@ relink_timers(ghostly)
+ 	if (curr->needs_fixup) {
+ 	    if (curr->kind == TIMER_OBJECT) {
+ 		if (ghostly) {
+-		    if (!lookup_id_mapping((unsigned)curr->arg, &nid))
++		    if (!lookup_id_mapping((size_t)curr->arg, &nid))
+ 			panic("relink_timers 1");
+ 		} else
+-		    nid = (unsigned) curr->arg;
++		    nid = (size_t) curr->arg;
+ 		curr->arg = (genericptr_t) find_oid(nid);
+ 		if (!curr->arg) panic("cant find o_id %d", nid);
+ 		curr->needs_fixup = 0;

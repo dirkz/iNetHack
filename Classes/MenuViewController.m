@@ -37,12 +37,17 @@
 	[super viewWillAppear:animated];
 	tv = (UITableView *) self.view;
 	tv.backgroundColor = [UIColor blackColor];
+
+    //iNethack2: fix for not scrolling all the way to bottom for iphone5+
+    long bottom;
+    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [UIScreen mainScreen].bounds.size.height;
+    [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
 }
 
 #pragma mark UITableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	int row = [indexPath row];
+	int row = (int) [indexPath row];
 	MenuItem *menuItem = [menuItems objectAtIndex:row];
 	if (menuItem.children) {
 		MenuViewController* submenuController = [MenuViewController new];
@@ -72,12 +77,14 @@
 	static NSString *cellId = @"menuViewControllerCellId";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
 	if (!cell) {
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellId] autorelease];
+        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero] autorelease];
 		cell.textLabel.textColor = [UIColor whiteColor];
 	}
-	int row = [indexPath row];
+	int row = (int) [indexPath row];
 	MenuItem *menuItem = [menuItems objectAtIndex:row];
 	cell.textLabel.text = menuItem.title;
+    cell.backgroundColor = [UIColor clearColor];
+
 	if (menuItem.accessory) {
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	} else {
