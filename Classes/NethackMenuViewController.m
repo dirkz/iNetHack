@@ -39,6 +39,9 @@ extern short glyph2tile[];
 	return YES;
 }
 
+
+
+
 - (void) selectAllItems:(NSArray *)items select:(BOOL)s {
 	for (NethackMenuItem *i in items) {
 		if (i.isTitle) {
@@ -89,7 +92,8 @@ extern short glyph2tile[];
 		}
 		if (menuWindow.acceptMoney) {
 			any.a_int = '$';
-			NSString *title = [NSString stringWithFormat:@"%d %s ($)", u.ugold, currency(u.ugold)];
+            //--iNethack2 : casted gold to an int to prevent warning
+			NSString *title = [NSString stringWithFormat:@"%d %s ($)", (int) u.ugold, currency(u.ugold)];
 			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:[title cStringUsingEncoding:NSASCIIStringEncoding]
 																glyph:kNoGlyph isMeta:YES preselected:NO];
 			mi.isGold = YES;
@@ -107,7 +111,6 @@ extern short glyph2tile[];
 	} else {
 		self.navigationItem.rightBarButtonItem = nil;
 	}
-
 	[self.tableView reloadData];
 }
 
@@ -123,10 +126,27 @@ extern short glyph2tile[];
 	}
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	tv = (UITableView *) self.view;
 	tv.backgroundColor = [UIColor blackColor];
+
+    //iNethack2 - fix for uitableview not scrolling down far enough on iphone5+
+    long bottom;
+    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [UIScreen mainScreen].bounds.size.height;
+    [tv setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
+}
+
+//--iNethack2 added to set the background color of headers in inventory
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    // Background color
+    view.tintColor = [UIColor lightGrayColor];
+    
+    // Text Color
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor whiteColor]];
+    [header.textLabel setShadowColor:[UIColor darkGrayColor]];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -150,8 +170,8 @@ extern short glyph2tile[];
 #pragma mark UITableView delegate
 
 - (NethackMenuItem *) nethackMenuItemAtIndexPath:(NSIndexPath *)indexPath {
-	int row = [indexPath row];
-	int section = [indexPath section];
+	int row = (int) [indexPath row];
+	int section = (int) [indexPath section];
 	NethackMenuItem *i = nil;
 	if (menuWindow.isShallowMenu) {
 		if (section != 0) {
@@ -237,6 +257,7 @@ extern short glyph2tile[];
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId] autorelease];
 		cell.textLabel.textColor = [UIColor whiteColor];
 	}
+    cell.backgroundColor = [UIColor clearColor];
 
 	NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
 
@@ -251,6 +272,7 @@ extern short glyph2tile[];
 	cell.textLabel.text = [strings objectAtIndex:0];
 	if (strings.count == 2) {
 		cell.detailTextLabel.text = [strings objectAtIndex:1];
+        cell.detailTextLabel.textColor = [UIColor grayColor];
 	} else {
 		cell.detailTextLabel.text = nil;
 	}
@@ -258,7 +280,7 @@ extern short glyph2tile[];
 	cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	
 	cell.editing = YES;
-	
+
 	return cell;
 }
 

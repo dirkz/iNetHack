@@ -372,7 +372,7 @@ int iphone_nh_poskey(int *x, int *y, int *mod) {
 
 void iphone_nhbell() {}
 
-// messag log is accessible from the menu, so we don't really need it here
+// message log is accessible from the menu, so we don't really need it here
 int iphone_doprev_message() {
 	//NSLog(@"iphone_doprev_message");
 	return 0;
@@ -573,7 +573,9 @@ void process_options(int argc, char *argv[]) {
 void iphone_remove_stale_files() {
 	NSString *pattern = [NSString stringWithFormat:@"%d%s", getuid(),
 						 [NSUserName() cStringUsingEncoding:NSASCIIStringEncoding]];
-	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
+
+    NSArray *filelist= [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"." error:nil];
+    
 	for (NSString *filename in filelist) {
 		if ([filename startsWithString:pattern]) {
 			int fail = unlink([filename cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -650,8 +652,8 @@ void iphone_test_endianness() {
 
 void iphone_will_load_bones(const char *bonesid) {
 	//NSLog(@"load bones %s", bonesid);
-	NSString *src = [NSString stringWithFormat:@"bon%s", bonesid];
-	NSString *dest = [NSString stringWithFormat:@"bon%s.bad", bonesid];
+	NSString *src = [NSString stringWithFormat:@"./bon%s", bonesid]; //iNethack2 prepending with ./
+	NSString *dest = [NSString stringWithFormat:@"./bon%s.bad", bonesid]; //iNethack2 prepending with ./
 	NSString *md5 = [Hearse md5HexForFile:src];
 	NSError *error = nil;
 	[md5 writeToFile:dest atomically:YES encoding:NSASCIIStringEncoding error:&error];
@@ -685,9 +687,12 @@ void iphone_main() {
 	init_nhwindows(&argc, argv);		   /* initialize the window system */
 	process_options(argc, argv);	   /* process command line options or equiv */
 	iphone_init_options();
-	
-	NSString* logFilePath = [[NSString alloc] initWithCString:LOGFILE];
-	if (![[NSFileManager defaultManager] fileExistsAtPath:logFilePath]) {
+
+    NSString* logFilePath =	[[NSString alloc] initWithCString:LOGFILE encoding:NSASCIIStringEncoding];
+
+    logFilePath = [NSString stringWithFormat:@"./%@", logFilePath]; //iNethack2 -- fix for iOS8.. needs full path
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:logFilePath]) {
 		[[NSFileManager defaultManager] createFileAtPath:logFilePath contents:nil attributes:nil];
 	}
 	[logFilePath release];

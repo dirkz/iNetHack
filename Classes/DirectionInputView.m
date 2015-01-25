@@ -74,20 +74,20 @@
 
 - (void)drawRect:(CGRect)rect {
 	UIFont *font = [UIFont systemFontOfSize:24];
-	float white[] = {1,1,1,1};
-	float *color = white;
 	[self createRects];
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
-	CGContextSetFillColor(ctx, color);
-	CGContextSetStrokeColor(ctx, color);
+    CGColorRef strokeColor = [[UIColor colorWithRed:1 green:1 blue:1 alpha:1] CGColor];
+    CGContextSetStrokeColorWithColor(ctx, strokeColor);
+    CGContextSetFillColorWithColor(ctx, strokeColor);
+    
 	for (int i = 0; i < kNumRects; ++i) {
 		CGContextStrokeRect(ctx, rects[i]);
 		Shortcut *sh = shortcuts[i];
 		if (sh) {
-			CGSize size = [sh.title sizeWithFont:font];
+            CGSize size = [sh.title sizeWithAttributes: @{NSFontAttributeName: font} ];
 			CGPoint p = CGPointMake(rects[i].origin.x + (tileSize.width-size.width)/2,
 									rects[i].origin.y + (tileSize.height-size.height)/2);
-			[sh.title drawAtPoint:p withFont:font];
+            [sh.title drawAtPoint:p withAttributes:@ { NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor whiteColor]  }];
 		}
 	}
 }

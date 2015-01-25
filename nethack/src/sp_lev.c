@@ -1707,7 +1707,7 @@ dlb *fd;
 int typ;
 {
 	uchar	n;
-	long	lev_flags;
+    uint32_t	lev_flags; //iNethack2 changed long to  uint32_t
 	int	i;
 
       {
@@ -1755,8 +1755,35 @@ dlb *fd;
 monster *m;
 {
 	int size;
-
-	Fread((genericptr_t) m, 1, sizeof *m, fd);
+    //iNethack2: First load into 64bit safe _mem struct, then copy values to the original struct.
+    monster_mem m2; //iNethack2
+	//Fread((genericptr_t) m, 1, sizeof *m, fd);
+    Fread((genericptr_t) &m2, 1, sizeof m2, fd); //iNethack2
+    //iNethack2: copy values over
+    m->id=m2.id;
+    m->align=m2.align;
+    m->x=m2.x;
+    m->y=m2.y;
+    m->chance=m2.chance;
+    m->class=m2.class;
+    m->appear=m2.appear;
+    m->peaceful=m2.peaceful;
+    m->asleep=m2.asleep;
+    
+    if ((size = m2.name) != 0) {
+        m->name.str = (char *) alloc((unsigned)size + 1);
+        Fread((genericptr_t) m->name.str, 1, size, fd);
+        m->name.str[size] = '\0';
+    } else
+        m->name.str = (char *) 0;
+        if ((size = m2.appear_as) != 0) {
+            m->appear_as.str = (char *) alloc((unsigned)size + 1);
+            Fread((genericptr_t) m->appear_as.str, 1, size, fd);
+            m->appear_as.str[size] = '\0';
+        } else
+            m->appear_as.str = (char *) 0;
+    //iNethack2: old code
+    /*
 	if ((size = m->name.len) != 0) {
 	    m->name.str = (char *) alloc((unsigned)size + 1);
 	    Fread((genericptr_t) m->name.str, 1, size, fd);
@@ -1769,6 +1796,7 @@ monster *m;
 	    m->appear_as.str[size] = '\0';
 	} else
 	    m->appear_as.str = (char *) 0;
+     */
 }
 
 STATIC_OVL void
@@ -1777,14 +1805,36 @@ dlb *fd;
 object *o;
 {
 	int size;
-
-	Fread((genericptr_t) o, 1, sizeof *o, fd);
+    //iNethack2: First load into 64bit safe _mem struct, then copy values to the original struct.
+    object_mem o2;
+    //iNethack2: copy values over
+    Fread((genericptr_t) &o2, 1, sizeof o2, fd);
+    o->chance=o2.chance;
+    o->class=o2.class;
+    o->containment=o2.containment;
+    o->corpsenm=o2.corpsenm;
+    o->curse_state=o2.curse_state;
+    o->id=o2.id;
+    o->spe=o2.spe;
+    o->x=o2.x;
+    o->y=o2.y;
+    
+    if ((size = o2.name) != 0) {
+        o->name.str = (char *) alloc((unsigned)size + 1);
+        Fread((genericptr_t) o->name.str, 1, size, fd);
+        o->name.str[size] = '\0';
+    } else
+        o->name.str = (char *) 0;
+    //iNethack2: old code
+    /*
+    Fread((genericptr_t) o, 1, sizeof *o, fd);
 	if ((size = o->name.len) != 0) {
 	    o->name.str = (char *) alloc((unsigned)size + 1);
 	    Fread((genericptr_t) o->name.str, 1, size, fd);
 	    o->name.str[size] = '\0';
 	} else
 	    o->name.str = (char *) 0;
+ */
 }
 
 STATIC_OVL void
@@ -1793,12 +1843,26 @@ dlb *fd;
 engraving *e;
 {
 	int size;
-
+    //iNethack2: First load into 64bit safe _mem struct, then copy values to the original struct.
+    engraving_mem e2;
+    Fread((genericptr_t) &e2, 1, sizeof e2, fd);
+    //iNethack2: copy over
+    e->x = e2.x;
+    e->y = e2.y;
+    e->etype = e2.etype;
+    
+    size = e2.engr;
+    e->engr.str = (char *) alloc((unsigned)size+1);
+    Fread((genericptr_t) e->engr.str, 1, size, fd);
+    e->engr.str[size] = '\0';
+    //iNethack2: old code
+    /*
 	Fread((genericptr_t) e, 1, sizeof *e, fd);
 	size = e->engr.len;
 	e->engr.str = (char *) alloc((unsigned)size+1);
 	Fread((genericptr_t) e->engr.str, 1, size, fd);
 	e->engr.str[size] = '\0';
+     */
 }
 
 STATIC_OVL boolean
@@ -2228,6 +2292,44 @@ dlb *fd;
 	}
 
 	while(n--) {
+        //iNethack2: First load into 64bit safe _mem struct, then copy values to the original struct.
+        lev_region_mem tmplregion2;
+        Fread((genericptr_t) &tmplregion2, sizeof(tmplregion2), 1, fd);
+        //iNethack2: copy over
+        tmplregion.inarea.x1 = tmplregion2.inarea.x1;
+        tmplregion.inarea.y1 = tmplregion2.inarea.y1;
+        tmplregion.inarea.x2 = tmplregion2.inarea.x2;
+        tmplregion.inarea.y2 = tmplregion2.inarea.y2;
+        tmplregion.delarea.x1 = tmplregion2.delarea.x1;
+        tmplregion.delarea.y1 = tmplregion2.delarea.y1;
+        tmplregion.delarea.x2 = tmplregion2.delarea.x2;
+        tmplregion.delarea.y2 = tmplregion2.delarea.y2;
+        tmplregion.in_islev = tmplregion2.in_islev;
+        tmplregion.del_islev = tmplregion2.del_islev;
+        tmplregion.rtype = tmplregion2.rtype;
+        tmplregion.padding = tmplregion2.padding;
+        
+        if ((size = tmplregion2.rname) != 0) {
+            tmplregion.rname.str = (char *) alloc((unsigned)size + 1);
+            Fread((genericptr_t) tmplregion.rname.str, size, 1, fd);
+            tmplregion.rname.str[size] = '\0';
+        } else
+            tmplregion.rname.str = (char *) 0;
+        if(!tmplregion.in_islev) {
+            get_location(&tmplregion.inarea.x1, &tmplregion.inarea.y1,
+                         DRY|WET);
+            get_location(&tmplregion.inarea.x2, &tmplregion.inarea.y2,
+                         DRY|WET);
+        }
+        if(!tmplregion.del_islev) {
+            get_location(&tmplregion.delarea.x1, &tmplregion.delarea.y1,
+                         DRY|WET);
+            get_location(&tmplregion.delarea.x2, &tmplregion.delarea.y2,
+                         DRY|WET);
+        }
+        lregions[(int)n] = tmplregion;
+        //iNethack2: old code
+        /*
 	    Fread((genericptr_t) &tmplregion, sizeof(tmplregion), 1, fd);
 	    if ((size = tmplregion.rname.len) != 0) {
 		tmplregion.rname.str = (char *) alloc((unsigned)size + 1);
@@ -2248,6 +2350,7 @@ dlb *fd;
 								DRY|WET);
 	    }
 	    lregions[(int)n] = tmplregion;
+         */
 	}
 
 	Fread((genericptr_t) &n, 1, sizeof(n), fd);

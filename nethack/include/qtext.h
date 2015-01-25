@@ -12,8 +12,12 @@
 struct qtmsg {
 	int	msgnum;
 	char	delivery;
+    uint32_t	offset,  //iNethack2 changing the long to uint32_2 to work with 64bit
+    size;
+    /*
 	long	offset,
 		size;
+     */
 };
 
 #ifdef MAKEDEFS_C	/***** MAKEDEFS *****/

@@ -43,14 +43,14 @@ static long final_fpos;
 struct toptenentry {
 	struct toptenentry *tt_next;
 #ifdef UPDATE_RECORD_IN_PLACE
-	long fpos;
+    uint32_t fpos; // long fpos; //iNethack2
 #endif
-	long points;
+    uint32_t points; //long points; //iNethack2
 	int deathdnum, deathlev;
 	int maxlvl, hp, maxhp, deaths;
 	int ver_major, ver_minor, patchlevel;
 	long deathdate, birthdate;
-	int uid;
+    uint32_t uid; //int uid; //iNethack2
 	char plrole[ROLESZ+1];
 	char plrace[ROLESZ+1];
 	char plgend[ROLESZ+1];
@@ -196,7 +196,7 @@ struct toptenentry *tt;
 	                   /* Version_ Pts DgnLevs_ Hp___ Died__Born id */
 	(void) fprintf(rfile,"%d %d %d %ld %d %d %d %d %d %d %ld %ld %d ",
 #else
-	(void) fprintf(rfile,"%d.%d.%d %ld %d %d %d %d %d %d %ld %ld %d ",
+	(void) fprintf(rfile,"%d.%d.%d %u %d %d %d %d %d %d %ld %ld %d ", //iNethack2 %ld to %d (4th one)
 #endif
 		tt->ver_major, tt->ver_minor, tt->patchlevel,
 		tt->points, tt->deathdnum, tt->deathlev,
@@ -296,7 +296,7 @@ int how;
 	t0->ver_major = VERSION_MAJOR;
 	t0->ver_minor = VERSION_MINOR;
 	t0->patchlevel = PATCHLEVEL;
-	t0->points = u.urexp;
+	t0->points = (uint32_t) u.urexp; //iNethack2 - added cast
 	t0->deathdnum = u.uz.dnum;
 	t0->deathlev = observable_depth(&u.uz);
 	t0->maxlvl = deepest_lev_reached(TRUE);
@@ -418,7 +418,7 @@ int how;
 			HUP {
 			    char pbuf[BUFSZ];
 			    Sprintf(pbuf,
-			  "You didn't beat your previous score of %ld points.",
+			  "You didn't beat your previous score of %d points.", //iNethack2 %ld to %d
 				    t1->points);
 			    topten_print(pbuf);
 			    topten_print("");
@@ -566,7 +566,7 @@ boolean so;
 	if (rank) Sprintf(eos(linebuf), "%3d", rank);
 	else Strcat(linebuf, "   ");
 
-	Sprintf(eos(linebuf), " %10ld  %.10s", t1->points, t1->name);
+	Sprintf(eos(linebuf), " %10d  %.10s", t1->points, t1->name); //iNethack2 - %10ld to %10d
 	Sprintf(eos(linebuf), "-%s", t1->plrole);
 	if (t1->plrace[0] != '?')
 		Sprintf(eos(linebuf), "-%s", t1->plrace);
@@ -668,7 +668,7 @@ boolean so;
 	    } else
 		topten_print(linebuf);
 	    Sprintf(linebuf, "%15s %s", "", linebuf3);
-	    lngr = strlen(linebuf);
+	    lngr = (int)strlen(linebuf); //iNethack2 added cast
 	}
 	/* beginning of hp column not including padding */
 	hppos = COLNO - 7 - (int)strlen(hpbuf);

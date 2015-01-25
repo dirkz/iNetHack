@@ -53,20 +53,34 @@
 //	return;
 
 	BOOL badBonesSeen = [self checkNetHackDirectories];
-	
-	[application setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
-	
-	// use mainNavigationController.view to skip main menu
-	[window addSubview:mainNavigationController.view];
-	//[window addSubview:mainMenuViewController.view];
 
+    [application setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO]; // prevent start orientation bug
+    [application setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+
+    // use mainNavigationController.view to skip main menu
+
+    //iNethack2 commented out below, added line after, to get rid of "Application windows are expected to have a root view controller at the end of application launch" message
+    //	[window addSubview:mainNavigationController.view];
+    [self.window setRootViewController:mainNavigationController];
+
+    //[window addSubview:mainMenuViewController.view];
     [window makeKeyAndVisible];
-	[application setStatusBarHidden:YES animated:YES];
+    self.window.frame = [UIScreen mainScreen].bounds; //iNethack2
+
+    [application setStatusBarHidden:YES];
 	
 	if (!badBonesSeen) {
 		[self launchNetHack];
 		[self launchHearse];
 	}
+}
+
+/*
+//--iNethack2: Since applicationWillTerminate rarely (if ever) is called, we check for app in background to initiate saving your game
+    Only downside is it exits the game, but don't see a real way around it.
+ */
+- (void) applicationDidEnterBackground:(UIApplication *)application {
+    return [self applicationWillTerminate:application];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -101,10 +115,10 @@
 }
 
 - (void) createTestBadBonesFile {
-	NSString *bones = @"bonD0.1";
+	NSString *bones = @"./bonD0.1"; //iNethack2 -- added "./" to path
 	[@"contents of bad bones file" writeToFile:bones atomically:NO encoding:NSASCIIStringEncoding error:NULL];
 	NSString *md5Bones = [Hearse md5HexForFile:bones];
-	[md5Bones writeToFile:@"bonD0.1.bad" atomically:NO encoding:NSASCIIStringEncoding error:NULL];
+	[md5Bones writeToFile:@"./bonD0.1.bad" atomically:NO encoding:NSASCIIStringEncoding error:NULL]; //iNethack2 -- added "./"
 }
 
 - (BOOL) checkNetHackDirectories {
@@ -129,7 +143,9 @@
 		}
 	}
 	[[NSFileManager defaultManager] changeCurrentDirectoryPath:currentDirectory];
-	NSArray *filelist = [[NSFileManager defaultManager] directoryContentsAtPath:saveDirectory];
+
+    NSArray *filelist= [[NSFileManager defaultManager]  contentsOfDirectoryAtPath:saveDirectory error:nil];
+    
 	NSLog(@"files in save directory");
 	for (NSString *filename in filelist) {
 		NSLog(@"file %@", filename);
@@ -138,7 +154,8 @@
 	// simple test case for UI interaction with bad bones
 	//[self createTestBadBonesFile];
 	
-	filelist = [[NSFileManager defaultManager] directoryContentsAtPath:@"."];
+    filelist= [[NSFileManager defaultManager]  contentsOfDirectoryAtPath:@"." error:nil];
+    
 	NSLog(@"files in current directory %@", currentDirectory);
 	for (NSString *file in filelist) {
 		NSLog(@"file %@", file);

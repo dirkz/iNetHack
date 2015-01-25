@@ -39,7 +39,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+    [super viewWillAppear:animated];
 	returned = NO;
 	label.text = self.prompt;
 	tf.text = self.text;

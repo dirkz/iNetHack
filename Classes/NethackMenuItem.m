@@ -33,7 +33,7 @@
 			isTitle = YES;
 			children = [[NSMutableArray alloc] init];
 		}
-		title = [[NSString alloc] initWithCString:t];
+        title =	[[NSString alloc] initWithCString:t encoding:NSASCIIStringEncoding];
 		isSelected = p;
 		glyph = g;
 		self.isMeta = m;
