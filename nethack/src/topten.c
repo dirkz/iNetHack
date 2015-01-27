@@ -132,7 +132,7 @@ struct toptenentry *tt;
 	static const char fmt32[] = "%c%c %s %s%*c";
 	static const char fmt33[] = "%s %s %s %s %s %s%*c";
 #else
-	static const char fmt[] = "%d.%d.%d %ld %d %d %d %d %d %d %ld %ld %d ";
+	static const char fmt[] = "%d.%d.%d %d %d %d %d %d %d %d %ld %ld %d "; //iNethack32: changed 4th one from %ld to %d
 	static const char fmt32[] = "%c%c %[^,],%[^\n]%*c";
 	static const char fmt33[] = "%s %s %s %s %[^,],%[^\n]%*c";
 #endif

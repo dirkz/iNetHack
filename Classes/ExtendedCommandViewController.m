@@ -68,7 +68,7 @@
 #pragma mark UITableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	int row = [indexPath row];
+	int row = (int) [indexPath row];
 	result = row;
 	[[MainViewController instance] broadcastUIEvent];
 	[self.navigationController popToRootViewControllerAnimated:NO];
@@ -97,7 +97,7 @@
 		cell.backgroundColor = [UIColor blackColor];
 		cell.textLabel.textColor = [UIColor whiteColor];
 	}
-	int row = [indexPath row];
+	int row = (int) [indexPath row];
 	cell.textLabel.text = [[NSString stringWithCString:extcmdlist[row].ef_txt encoding:NSASCIIStringEncoding] capitalizedString];
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	return cell;

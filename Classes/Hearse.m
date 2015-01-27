@@ -74,7 +74,7 @@ static NSString *const hearseCommandDownload = @"download";
 + (NSString *) md5HexForString:(NSString *)s {
 	unsigned char digest[CC_MD5_DIGEST_LENGTH];
 	const char *data = [s cStringUsingEncoding:NSASCIIStringEncoding];
-	CC_MD5(data, strlen(data), digest);
+	CC_MD5(data, (unsigned int) strlen(data), digest);
 	return [self md5HexForDigest:digest];
 }
 
@@ -86,9 +86,9 @@ static NSString *const hearseCommandDownload = @"download";
 	if (fh != -1) {
 		const int bufferSize = 1024;
 		char buffer[bufferSize];
-		int bytesRead;
+		long bytesRead;
 		while ((bytesRead = read(fh, buffer, bufferSize))) {
-			CC_MD5_Update(c, buffer, bytesRead);
+			CC_MD5_Update(c, buffer, (unsigned int) bytesRead);
 		}
 		close(fh);
 		unsigned char digest[CC_MD5_DIGEST_LENGTH];
@@ -105,7 +105,7 @@ static NSString *const hearseCommandDownload = @"download";
 
 + (NSString *) md5HexForData:(NSData *)data {
 	unsigned char digest[CC_MD5_DIGEST_LENGTH];
-	CC_MD5([data bytes], data.length, digest);
+	CC_MD5([data bytes], (unsigned int) data.length, digest);
 	return [self md5HexForDigest:digest];
 }
 

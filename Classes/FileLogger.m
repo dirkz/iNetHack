@@ -28,7 +28,7 @@
 
 + (int) openTmpFile {
 	NSString *template = [NSTemporaryDirectory() stringByAppendingPathComponent:@"log.tmp.XXXX"];
-	int n = template.length+1;
+	int n = (int) template.length+1;
 	char str[n];
 	[template getCString:str maxLength:n encoding:NSASCIIStringEncoding];
 	return mkstemp(str);
@@ -36,7 +36,7 @@
 
 + (NSString *) tmpFileName {
 	NSString *template = [NSTemporaryDirectory() stringByAppendingPathComponent:@"log.tmp.XXXX"];
-	int n = template.length+1;
+	int n = (int) template.length+1;
 	char str[n];
 	[template getCString:str maxLength:n encoding:NSASCIIStringEncoding];
 	char *pStr = mktemp(str);
@@ -84,13 +84,13 @@
 	NSDate *date = [[NSDate alloc] init];
 	NSString *ts = [date description];
 	[date release];
-	int size = ts.length + 2;
+	int size = (int) ts.length + 2;
 	char dateBuffer[size];
 	[ts getCString:dateBuffer maxLength:size encoding:NSASCIIStringEncoding];
 	dateBuffer[size-2] = ' ';
 	dateBuffer[size-1] = 0;
 	fputs(dateBuffer, fd);
-	size = message.length + 2;
+	size = (int) message.length + 2;
 	char msg[size];
 	[message getCString:msg maxLength:size encoding:NSASCIIStringEncoding];
 	msg[size-2] = '\n';

@@ -155,7 +155,7 @@ extern short glyph2tile[];
 		if (menuWindow.menuHow == PICK_ANY) {
 			NSMutableArray *items = [NSMutableArray array];
 			[self collectSelectedItems:menuWindow.menuItems into:items];
-			menuWindow.menuResult = items.count;
+			menuWindow.menuResult = (int) items.count;
 			menuWindow.menuList = malloc(sizeof(menu_item) * items.count);
 			for (int i = 0; i < items.count; ++i) {
 				NethackMenuItem *item = [items objectAtIndex:i];

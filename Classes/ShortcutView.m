@@ -72,6 +72,7 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 		self.cornerRadius  = 5;
 		self.bounds        = (CGRect){CGPointZero, ShortcutTileSize};
 		self.anchorPoint   = CGPointZero;
+        self.contentsScale = [UIScreen mainScreen].scale; //iNethack2: fix for blurry text
 		[[self animationForKey:@"backgroundColor"] setDuration:0.1];
 	}
 	return self;
@@ -86,8 +87,8 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 - (void)drawInContext:(CGContextRef)context
 {
 	if (self.title) {
-		UIFont* const font = [UIFont boldSystemFontOfSize:12];
-		UIGraphicsPushContext(context);
+        UIFont* const font = [UIFont boldSystemFontOfSize:12];
+        UIGraphicsPushContext(context);
 		CGContextSetFillColorWithColor(context, TextColor);
         CGSize stringSize = [self.title sizeWithAttributes: @{NSFontAttributeName: font}];
 		CGPoint p;
@@ -311,7 +312,7 @@ static NSArray *DefaultShortcuts () {
 	NSUInteger touchedIndex = [self shortcutIndexForTouch:touches.anyObject];
 	if (touchedIndex != NSNotFound) {
 		self.highlightedIndex = touchedIndex;
-		self.editTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startEdit:) userInfo:[NSNumber numberWithInt:self.highlightedIndex] repeats:NO];
+		self.editTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startEdit:) userInfo:[NSNumber numberWithInt:(int) self.highlightedIndex] repeats:NO];
 	} else {
 		self.highlightedIndex = -1;
 		self.editTimer = nil;

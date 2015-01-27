@@ -690,10 +690,12 @@ static MainViewController *instance;
             UIAlertController *alert2 = [UIAlertController alertControllerWithTitle:@"Message" message:message
                                                                      preferredStyle:UIAlertControllerStyleAlert];
 
+            [alert2.view setTranslatesAutoresizingMaskIntoConstraints:NO];
+
             alert2.view.frame = CGRectMake([[UIScreen mainScreen] applicationFrame].origin.x,
                                            [[UIScreen mainScreen] applicationFrame].origin.y,
-                                           [[UIScreen mainScreen] applicationFrame].size.width-1,
-                                           [[UIScreen mainScreen] applicationFrame].size.height-1);// iNethack2 - fix for no scrolling on initial story text popup (ios8 bug?)
+                                           [[UIScreen mainScreen] applicationFrame].size.width+1,
+                                           [[UIScreen mainScreen] applicationFrame].size.height+1);// iNethack2 - fix for no scrolling on initial story text popup (ios8 bug?)
 
             UIAlertAction* ok = [UIAlertAction
                                  actionWithTitle:@"OK"
