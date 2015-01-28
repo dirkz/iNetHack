@@ -25,7 +25,6 @@
 		439F0DD51001FECB0050AED4 /* MenuViewLeaf.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439F0DD41001FECB0050AED4 /* MenuViewLeaf.xib */; };
 		439F0ED2100210690050AED4 /* ExtendedCommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F0ED1100210690050AED4 /* ExtendedCommandViewController.m */; };
 		439F0ED4100210770050AED4 /* ExtendedCommandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439F0ED3100210770050AED4 /* ExtendedCommandView.xib */; };
-		439F0F77100245080050AED4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 439F0F76100245080050AED4 /* Icon.png */; };
 		43A103A810B5706E006DD634 /* absurd32.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A103A310B5706E006DD634 /* absurd32.png */; };
 		43A103A910B5706E006DD634 /* chozo32.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A103A410B5706E006DD634 /* chozo32.png */; };
 		43A103AA10B5706E006DD634 /* chozo32b.png in Resources */ = {isa = PBXBuildFile; fileRef = 43A103A510B5706E006DD634 /* chozo32b.png */; };
@@ -315,6 +314,7 @@
 		9194B22C1032CADB009BDE61 /* RoleSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9194B22B1032CADB009BDE61 /* RoleSelectionController.m */; };
 		9194B2AE1032E48A009BDE61 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9194B2AD1032E48A009BDE61 /* QuartzCore.framework */; };
 		FB4307201A72A0D7003B7010 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB43071F1A72A0D6003B7010 /* Images.xcassets */; };
+		FB64D9551A785ED80035BA74 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FB64D9541A785ED80035BA74 /* Icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -346,7 +346,6 @@
 		439F0ED0100210690050AED4 /* ExtendedCommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendedCommandViewController.h; sourceTree = "<group>"; };
 		439F0ED1100210690050AED4 /* ExtendedCommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtendedCommandViewController.m; sourceTree = "<group>"; };
 		439F0ED3100210770050AED4 /* ExtendedCommandView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExtendedCommandView.xib; sourceTree = "<group>"; };
-		439F0F76100245080050AED4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		43A103A310B5706E006DD634 /* absurd32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = absurd32.png; sourceTree = "<group>"; };
 		43A103A410B5706E006DD634 /* chozo32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chozo32.png; sourceTree = "<group>"; };
 		43A103A510B5706E006DD634 /* chozo32b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chozo32b.png; sourceTree = "<group>"; };
@@ -756,6 +755,7 @@
 		9194B22B1032CADB009BDE61 /* RoleSelectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoleSelectionController.m; sourceTree = "<group>"; };
 		9194B2AD1032E48A009BDE61 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FB43071F1A72A0D6003B7010 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = iNetHack2/Images.xcassets; sourceTree = "<group>"; };
+		FB64D9541A785ED80035BA74 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -882,7 +882,6 @@
 				FB43071F1A72A0D6003B7010 /* Images.xcassets */,
 				4394EB9510394C5F0053C8C2 /* Tilesets */,
 				4325C35B1035FC3F00653E8A /* Entitlements.plist */,
-				439F0F76100245080050AED4 /* Icon.png */,
 				43DD0A210FF4E0F700580249 /* dat */,
 				43DC33691070CD1C00FBCE71 /* MainMenuView.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
@@ -898,6 +897,7 @@
 				431FD067100B598200DC7260 /* Settings.bundle */,
 				916CE037102C57E8000535FC /* credits.html */,
 				435C0D7910342A490007613E /* manual.html */,
+				FB64D9541A785ED80035BA74 /* Icon.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1491,6 +1491,7 @@
 				43DD0B4C0FF4E0FC00580249 /* tower1.lev in Resources */,
 				43DD0B4D0FF4E0FC00580249 /* tower2.lev in Resources */,
 				43DD0B4E0FF4E0FC00580249 /* tower3.lev in Resources */,
+				FB64D9551A785ED80035BA74 /* Icon.png in Resources */,
 				43DD0B4F0FF4E0FC00580249 /* Val-fila.lev in Resources */,
 				43DD0B500FF4E0FC00580249 /* Val-filb.lev in Resources */,
 				43DD0B510FF4E0FC00580249 /* Val-goal.lev in Resources */,
@@ -1514,7 +1515,6 @@
 				43ACB5D80FFF4A9F005DB589 /* DirectionInputView.xib in Resources */,
 				439F0DD51001FECB0050AED4 /* MenuViewLeaf.xib in Resources */,
 				439F0ED4100210770050AED4 /* ExtendedCommandView.xib in Resources */,
-				439F0F77100245080050AED4 /* Icon.png in Resources */,
 				43D1142B10074E9F00082C8D /* news in Resources */,
 				431FD068100B598200DC7260 /* Settings.bundle in Resources */,
 				916CE038102C57E8000535FC /* credits.html in Resources */,
