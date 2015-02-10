@@ -33,6 +33,15 @@
 	return YES;
 }
 
+//iNethack2: screenSize that works with both iOS7 + 8
++ (CGSize)screenSize {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    if ((NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return CGSizeMake(screenSize.height, screenSize.width);
+    }
+    return screenSize;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	tv = (UITableView *) self.view;
@@ -40,7 +49,7 @@
 
     //iNethack2: fix for not scrolling all the way to bottom for iphone5+
     long bottom;
-    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [UIScreen mainScreen].bounds.size.height;
+    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [MenuViewController screenSize].height;
     [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
 }
 

@@ -72,3 +72,6 @@ void iphone_finished_bones(const char *bonesid);
 void iphone_test_main();
 void iphone_main();
 
+void iphone_reset_glyph_cache(); //iNethack2: reset glyph cache
+#define VERSION_SANITY2_64 0xb8d26958UL //iNethack2: the versioninfo string for 64-bit bones
+

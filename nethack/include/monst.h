@@ -146,6 +146,7 @@ struct monst {
 	int meating;		/* monster is eating timeout */
 	long mextra[1]; /* monster dependent info */
 #ifdef __APPLE__
+    //iNethack2: changed int to long to differentiate 32/64bit (4byte/8byte)
 	int _winiphone_magic; /* change footprint for hearse, both for target and build platform (for makedefs) */
 #endif
 };

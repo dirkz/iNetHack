@@ -71,6 +71,7 @@ extern short glyph2tile[];
 	[[MainViewController instance] broadcastUIEvent];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
 	amountSlider.continuous = YES;
 	if (!targetsSet) {

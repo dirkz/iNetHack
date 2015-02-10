@@ -610,7 +610,9 @@ E char *FDECL(fname_decode, (CHAR_P, char *, char *, int));
 E const char *FDECL(fqname, (const char *, int, int));
 E FILE *FDECL(fopen_datafile, (const char *,const char *,int));
 E boolean FDECL(uptodate, (int,const char *));
+E boolean FDECL(uptodate_64, (int,const char *)); //iNethack2: for 64-bit bones
 E void FDECL(store_version, (int));
+E void FDECL(store_version_64, (int)); //iNethack2: for 64-bit bones
 #ifdef MFLOPPY
 E void NDECL(set_lock_and_bones);
 #endif

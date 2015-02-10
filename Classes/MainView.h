@@ -57,6 +57,8 @@
 	UIButton *moreButton;
 	
 	NSString *bundleVersionString;
+    
+    NSCache * cache; //iNethack2: glyph cache for faster rendering
 }
 
 @property (nonatomic, readonly) CGPoint start;
@@ -68,6 +70,7 @@
 @property (nonatomic, retain) Window *status;
 @property (nonatomic, retain) Window *message;
 @property (nonatomic, readonly) CGPoint subViewedCenter;
+@property (nonatomic, readonly) NSCache *cache; //iNethack2: glyph cache
 
 - (void) drawTiledMap:(Window *)m clipRect:(CGRect)clipRect;
 - (void) checkForRogueLevel;
@@ -77,5 +80,5 @@
 - (void) moveAlongVector:(CGPoint)d;
 - (void) resetOffset;
 - (void) zoom:(CGFloat)d;
-
+- (void) resetGlyphCache; //iNethack2: reset cache each time level change to ensure walls are correct set
 @end

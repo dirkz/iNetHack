@@ -238,7 +238,7 @@ unsigned *ospecial;
 # else
     if (!has_color(color))
 # endif
-	color = NO_COLOR;
+        color = color;// NO_COLOR; //iNethack2: not sure why this was setting it to "NO_COLOR". Was making rogue level all red.
 #endif
 #endif // TARGET_OS_IPHONE
 

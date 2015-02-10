@@ -3,6 +3,7 @@
 /* NetHack may be freely redistributed.  See license for details. */
 
 #include "hack.h"
+#include "winiphone.h"
 /* #define DEBUG */	/* uncomment to enable code debugging */
 
 #ifdef DEBUG
@@ -921,8 +922,10 @@ void
 mklev()
 {
 	struct mkroom *croom;
+    
+    iphone_reset_glyph_cache(); //iNethack2: new room, so reset the glyph cache
 
-	if(getbones()) return;
+    if(getbones()) return;
 	in_mklev = TRUE;
 	makelevel();
 	bound_digging();

@@ -192,6 +192,11 @@ static MainViewController *instance;
 	[tf becomeFirstResponder];
 }
 
+//iNethack2: call resetGlyphCache of MainView
+- (void) resetGlyphCache {
+    [(MainView *) self.view resetGlyphCache];
+}
+
 - (void) pushViewControllerOnMainThread:(UIViewController *)viewController
 {
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -232,6 +237,12 @@ static MainViewController *instance;
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"license" ofType:@""];
 	NSString *text = [NSString stringWithContentsOfFile:path encoding:NSASCIIStringEncoding error:NULL];
 	[self displayText:text withCondition:nil];
+}
+
+- (void) nethackShowHistory:(id)i {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"history" ofType:@""];
+    NSString *text = [NSString stringWithContentsOfFile:path encoding:NSASCIIStringEncoding error:NULL];
+    [self displayText:text withCondition:nil];
 }
 
 - (void) showManual:(id)obj {
@@ -311,7 +322,8 @@ static MainViewController *instance;
 											action:@selector(nethackShowLog:) accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"License" target:self
 											action:@selector(nethackShowLicense:) accessory:YES]];
-	[menuItems addObject:[MenuItem menuItemWithTitle:@"History" key:'V' accessory:YES]];
+    [menuItems addObject:[MenuItem menuItemWithTitle:@"History" target:self
+                                              action:@selector(nethackShowHistory:) accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Manual" target:self
 											action:@selector(showManual:) accessory:YES]];
 	[menuItems addObject:[MenuItem menuItemWithTitle:@"Credits" target:self

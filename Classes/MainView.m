@@ -54,7 +54,7 @@
 	[super awakeFromNib];
 	
 	bundleVersionString = [[NSString alloc] initWithFormat:@"%@",
-						   [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+						   [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	statusFont = [UIFont systemFontOfSize:16];
 	
 	// tileSize
@@ -69,6 +69,8 @@
 	} else if (tileSize.width < minTileSize.width) {
 		tileSize = minTileSize;
 	}
+    
+    cache = [NSCache new]; //iNethack2: glyph cache
     
 	// load tileset
 	NSString *tilesetName = [[NSUserDefaults standardUserDefaults] objectForKey:kKeyTileset];
@@ -116,27 +118,21 @@
 }
 
 - (CGPoint) subViewedCenter {
-    //iNethack2 fix for screensize
-    return CGPointMake([UIScreen mainScreen].bounds.size.width/2, ([UIScreen mainScreen].bounds.size.height-shortcutView.bounds.size.height)/2);
-    //	return CGPointMake(self.bounds.size.width/2, (self.bounds.size.height-shortcutView.bounds.size.height)/2);
+    return CGPointMake([MainView screenSize].width/2, ([MainView screenSize].height-shortcutView.bounds.size.height)/2);
 }
 
 - (BOOL)canBecomeFirstResponder { return YES; }
 
 - (void)layoutSubviews {
-    CGSize s = [UIScreen mainScreen].bounds.size;// self.bounds.size; //iNethack2: fix for size
+    CGSize s = [MainView screenSize];
 
     CGRect frame;
 
     s = [shortcutView sizeThatFits:s];
-    //iNethack2 replacing these 2 lines
-    /*
-	frame.origin.x = (self.bounds.size.width-s.width)/2;
-	frame.origin.y = self.bounds.size.height-s.height;
-    */
-    frame.origin.x = ([UIScreen mainScreen].bounds.size.width-s.width)/2;
-    frame.origin.y = [UIScreen mainScreen].bounds.size.height-s.height;
 
+    frame.origin.x = ([MainView screenSize].width-s.width)/2;
+    frame.origin.y = [MainView screenSize].height-s.height;
+    
     frame.size.width = s.width;
 	frame.size.height = s.height;
     shortcutView.frame = frame;
@@ -149,6 +145,15 @@
 	}
 
 	[shortcutView setNeedsDisplay];
+}
+
+//iNethack2: screenSize that works with both iOS7 + 8
++ (CGSize)screenSize {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    if ((NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return CGSizeMake(screenSize.height, screenSize.width);
+    }
+    return screenSize;
 }
 
 #pragma mark drawing
@@ -212,7 +217,9 @@
 				 */
 				CGRect r = CGRectMake(start.x+i*tileSize.width, start.y+j*tileSize.height, tileSize.width, tileSize.height);
 				if (CGRectIntersectsRect(clipRect, r)) {
-					UIImage *img = [UIImage imageWithCGImage:[tileSet imageForGlyph:glyph atX:i y:j]];
+					//UIImage *img = [UIImage imageWithCGImage:[tileSet imageForGlyph:glyph atX:i y:j]];
+                    UIImage * img = [self imageForGlyph:glyph size:r.size.width];
+                    
 					[img drawInRect:r];
                     
 					if (u.ux == i && u.uy == j) {
@@ -246,8 +253,43 @@
 	}
 
     [self.layer needsDisplay];
-
 }
+
+- (void) resetGlyphCache {
+    if ( cache != nil ) {
+        [cache removeAllObjects];
+    }
+}
+
+- (UIImage *)imageForGlyph:(int)glyph size:(int)size
+{
+    NSNumber * key = @(size*MAX_GLYPH + glyph);
+    UIImage * img = [cache objectForKey:key];
+    if ( img == nil ) {
+        //#if 1
+        CGImageRef imageRef = [tileSet imageForGlyph:glyph];
+        //#else
+        //        CGImageRef imageRef = [tileSet imageForGlyph:glyph atX:i y:j];
+        //#endif
+        CGContextRef bitmap = CGBitmapContextCreate(NULL,
+                                                    size, size,
+                                                    CGImageGetBitsPerComponent(imageRef),
+                                                    0,
+                                                    CGImageGetColorSpace(imageRef),
+                                                    CGImageGetBitmapInfo(imageRef));
+        CGContextSetInterpolationQuality(bitmap, kCGInterpolationHigh);
+        CGContextDrawImage(bitmap, CGRectMake(0,0,size,size), imageRef);
+        CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
+        img = [UIImage imageWithCGImage:newImageRef];
+        CGContextRelease(bitmap);
+        CGImageRelease(newImageRef);
+        
+        [cache setObject:img forKey:key];
+    }
+    
+    return img;
+}
+
 
 - (void) checkForRogueLevel {
 	if (u.uz.dlevel && Is_rogue_level(&u.uz)) {
@@ -316,7 +358,7 @@
 		strings = [status.strings copy];
 		[status unlock];
 		if (strings.count > 0) {
-            statusSize = [self drawStrings:[strings copy] withSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, 18) atPoint:p];
+            statusSize = [self drawStrings:[strings copy] withSize:CGSizeMake([MainView screenSize].width, 18) atPoint:p];
 		}
 	}
 	if (message) {
@@ -329,7 +371,7 @@
 		strings = [message.strings copy];
 		[message unlock];
 		if (strings.count > 0) {
-            CGSize bounds = [UIScreen mainScreen].bounds.size;//self.bounds.size; //iNethack2 fix for size
+            CGSize bounds = [MainView screenSize];
 			for (NSString *s in strings) {
                 CGSize size = [s sizeWithAttributes: @ { NSFontAttributeName: statusFont}];
 				if (p.y > maxY) {
@@ -375,7 +417,7 @@
 		size = &dummySize;
 	}
 	*size = CGSizeMake(0,0);
-    CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width;//self.bounds.size.width; //iNethack2 fix for size
+    CGFloat maxWidth = [MainView screenSize].width;
 	for (NSString *s in strings) {
         CGSize tmpSize = [s sizeWithAttributes:@ { NSFontAttributeName:font}];
 		while (tmpSize.width > maxWidth) {
@@ -394,7 +436,7 @@
 		size = &dummySize;
 	}
 	*size = CGSizeMake(0,0);
-    CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width; //self.bounds.size.width; //iNethack2 fix for size
+    CGFloat maxWidth = [MainView screenSize].width;
     CGSize tmpSize = [s sizeWithAttributes:@ { NSFontAttributeName:font}];
 	while (tmpSize.width > maxWidth) {
 		font = [font fontWithSize:font.pointSize-1];
@@ -407,7 +449,7 @@
 
 - (void) drawStrings:(NSArray *)strings atPosition:(CGPoint)p {
 	UIFont *f = statusFont;
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;//self.bounds.size.width; //iNethack2 fix for size
+    CGFloat width = [MainView screenSize].width;
 	CGFloat height = 0;
 	for (NSString *s in strings) {
         CGSize size = [s sizeWithAttributes:@ { NSFontAttributeName:f}];
