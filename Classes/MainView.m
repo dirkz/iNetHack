@@ -83,9 +83,9 @@
 	} else {
 		if ([tilesetName isEqualToString:@"nhtiles"]) {
 			tilesetTileSize = CGSizeMake(16,16);
-			maxTileSize = tilesetTileSize;
-			if (tileSize.width > 16) {
-				tileSize = CGSizeMake(16,16);
+			maxTileSize = CGSizeMake(32,32);
+			if (tileSize.width > 32) {
+				tileSize = CGSizeMake(32,32);
 			}
 		} else if ([tilesetName isEqualToString:@"tiles32"]) {
 			tilesetTileSize = CGSizeMake(32,32);
@@ -93,8 +93,14 @@
 			if (tileSize.width > 32) {
 				tileSize = CGSizeMake(32,32);
 			}
-		}
-		NSString *imgName = [NSString stringWithFormat:@"%@.png", tilesetName];
+        } else if ([tilesetName isEqualToString:@"nextstep"]) {
+            tilesetTileSize = CGSizeMake(10,10);
+            maxTileSize = CGSizeMake(30,30);
+            if (tileSize.width > 30) {
+                tileSize = CGSizeMake(30,30);
+            }
+        }
+        NSString *imgName = [NSString stringWithFormat:@"%@.png", tilesetName];
 		UIImage *tilesetImage = [UIImage imageNamed:imgName];
 		if (!tilesetImage) {
 			tilesetImage = [UIImage imageNamed:@"chozo32b.png"];
@@ -218,8 +224,9 @@
 				CGRect r = CGRectMake(start.x+i*tileSize.width, start.y+j*tileSize.height, tileSize.width, tileSize.height);
 				if (CGRectIntersectsRect(clipRect, r)) {
 					//UIImage *img = [UIImage imageWithCGImage:[tileSet imageForGlyph:glyph atX:i y:j]];
-                    UIImage * img = [self imageForGlyph:glyph size:r.size.width];
-                    
+                    //UIImage * img = [self imageForGlyph:glyph size:r.size.width];
+                    UIImage * img = [self imageForGlyph:glyph size:tilesetTileSize.width]; //use native width of tile rather than cache for each scaled size.
+
 					[img drawInRect:r];
                     
 					if (u.ux == i && u.uy == j) {
@@ -241,7 +248,6 @@
 						}
                         //iNethack2 fix for stroke color.
                         CGColorRef   playerRectColorRef = [[UIColor colorWithRed:playerRectColor[0] green:playerRectColor[1] blue:playerRectColor[2] alpha:playerRectColor[3]] CGColor];
-                        //CGContextSetStrokeColor(ctx, playerRectColor);
                         CGContextSetStrokeColorWithColor(ctx, playerRectColorRef);
 						CGContextStrokeRect(ctx, r);
 					} else if (glyph_is_pet(glyph)) {
@@ -264,6 +270,7 @@
 - (UIImage *)imageForGlyph:(int)glyph size:(int)size
 {
     NSNumber * key = @(size*MAX_GLYPH + glyph);
+
     UIImage * img = [cache objectForKey:key];
     if ( img == nil ) {
         //#if 1
@@ -277,6 +284,7 @@
                                                     0,
                                                     CGImageGetColorSpace(imageRef),
                                                     CGImageGetBitmapInfo(imageRef));
+
         CGContextSetInterpolationQuality(bitmap, kCGInterpolationHigh);
         CGContextDrawImage(bitmap, CGRectMake(0,0,size,size), imageRef);
         CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
@@ -286,7 +294,6 @@
         
         [cache setObject:img forKey:key];
     }
-    
     return img;
 }
 
@@ -310,6 +317,11 @@
 	
 	CGSize total = CGSizeMake(size.width, 0);
 	CGRect backgroundRect = CGRectMake(p.x, p.y, size.width, size.height);
+    NSShadow *shadow = [NSShadow new];
+    [shadow setShadowColor: [UIColor colorWithWhite:0.0f alpha:1.0f]];
+    [shadow setShadowOffset: CGSizeMake(1.0f, 1.0f)];
+    [shadow setShadowBlurRadius:1.5f];
+
 	for (NSString *s in strings) {
         
 		UIFont *font = [self fontAndSize:&backgroundRect.size forString:s withFont:statusFont];
@@ -317,7 +329,8 @@
         CGRect backgroundRect = CGRectMake(p.x, p.y, backgroundRect.size.width, backgroundRect.size.height);
 		CGContextFillRect(ctx, backgroundRect);
         CGSize tmp = [s sizeWithAttributes:@{NSFontAttributeName:font}];
-        [s drawAtPoint:p withAttributes: @ {NSFontAttributeName:font, NSForegroundColorAttributeName: [UIColor whiteColor]}]; //iNethack2: fix for drawAtPoint
+        [s drawAtPoint:p withAttributes: @ {NSFontAttributeName:font, NSForegroundColorAttributeName: [UIColor whiteColor],NSShadowAttributeName: shadow,
+        NSBackgroundColorAttributeName: [UIColor clearColor]}]; //iNethack2: fix for drawAtPoint
         
 		p.y += tmp.height;
 		total.height += tmp.height;
@@ -334,7 +347,11 @@
 	self.message = mainViewController.messageWindow;
 	
 	CGPoint center = self.subViewedCenter;
-
+    NSShadow *shadow = [NSShadow new];
+    [shadow setShadowColor: [UIColor colorWithWhite:0.0f alpha:1.0f]];
+    [shadow setShadowOffset: CGSizeMake(1.0f, 1.0f)];
+    [shadow setShadowBlurRadius:1.5f];
+    
 	if (map) {
 		[self checkForRogueLevel];
 		[self drawTiledMap:map clipRect:rect];
@@ -346,7 +363,7 @@
             CGSize size = [m sizeWithAttributes:@{NSFontAttributeName:statusFont}];
 			center.x -= size.width/2;
 			center.y -= size.height/2;
-            [m drawAtPoint:center withAttributes:@{NSFontAttributeName:statusFont, NSForegroundColorAttributeName: [UIColor whiteColor]}];
+            [m drawAtPoint:center withAttributes:@{NSFontAttributeName:statusFont, NSForegroundColorAttributeName: [UIColor whiteColor], NSShadowAttributeName: shadow}];
         }
 	}
 	
@@ -387,7 +404,7 @@
 				}
 				if (p.x + size.width < bounds.width) {
                     size = [s sizeWithAttributes: @ { NSFontAttributeName: statusFont}];
-                    [s drawAtPoint:p withAttributes:@{ NSFontAttributeName:statusFont, NSForegroundColorAttributeName: [UIColor whiteColor]}];
+                    [s drawAtPoint:p withAttributes:@{ NSFontAttributeName:statusFont, NSForegroundColorAttributeName: [UIColor whiteColor], NSShadowAttributeName: shadow}];
 					p.x += size.width + 4;
 				} else {
 					if (p.x != 0) {
@@ -396,7 +413,7 @@
 					p.x = 0;
 					UIFont *font = [self fontAndSize:&size forString:s withFont:statusFont];
                     size = [s sizeWithAttributes: @ { NSFontAttributeName: font}];
-                    [s drawAtPoint:p withAttributes:@{ NSFontAttributeName:font, NSForegroundColorAttributeName: [UIColor whiteColor]}];
+                    [s drawAtPoint:p withAttributes:@{ NSFontAttributeName:font, NSForegroundColorAttributeName: [UIColor whiteColor], NSShadowAttributeName: shadow}];
 					p.x += size.width;
 				}
 			}

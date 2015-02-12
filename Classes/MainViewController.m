@@ -716,10 +716,10 @@ static MainViewController *instance;
                                  {
                                      [alert2 dismissViewControllerAnimated:YES completion:nil];
                                      [self broadcastUIEvent];
-                                     
                                  }];
-            [alert2 addAction:ok];
 
+            [alert2 addAction:ok];
+            
             [self presentViewController:alert2 animated:YES completion:nil];
             return;
         }
@@ -741,7 +741,7 @@ static MainViewController *instance;
 }
 
 //iNethack2 -- trying this function instead of clickedButtonAtIndex as clickedButtonAtIndex was occasionally hanging
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
     //NSLog(@"alert finished");
     if (alertView.numberOfButtons == 2) {
         if (buttonIndex == 1) {
@@ -753,7 +753,7 @@ static MainViewController *instance;
 }
 
 //iNethack2 -- trying this function instead of clickedButtonAtIndex as clickedButtonAtIndex was occasionally hanging
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+- (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex {
     currentYnFunction.chosen = (int) buttonIndex;
     [self broadcastUIEvent];
     [actionSheet release];
@@ -766,6 +766,16 @@ static MainViewController *instance;
 	[uiCondition wait];
 	[uiCondition unlock];
 }
+
+//iNethack2: screenSize that works with both iOS7 + 8
++ (CGSize)screenSize {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    if ((NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return CGSizeMake(screenSize.height, screenSize.width);
+    }
+    return screenSize;
+}
+
 
 - (void) displayYnQuestionOnUIThread:(NethackYnFunction *)yn {
 	currentYnFunction = yn;
@@ -781,7 +791,16 @@ static MainViewController *instance;
 		[menu addButtonWithTitle:[NSString stringWithCString:str encoding:NSASCIIStringEncoding]];
 		//NSLog(@"added button %d %s", i, str);
 	}
-	[menu showInView:self.view];
+    /*
+     iNethack2: on iPad iOS8, actionsheet not displaying in center because of self view bounds not matching screen size. 
+        So this hack sets bounds to match screen size, displays actionsheet, then sets them back. 
+        TODO: replace ActionSheet with proper UIAlertController. Will require several changes to accepting the user input.
+        Also there are issues with rotation while displayed, but may be unfixable (or not worth the effort).
+    */
+    CGRect oldViewBounds = CGRectFromString(NSStringFromCGRect(self.view.bounds));
+    self.view.bounds = CGRectMake(0, 0, [MainViewController screenSize].width, [MainViewController screenSize].height);
+    [menu showInView:self.view];
+    self.view.bounds=oldViewBounds;
 }
 
 - (void) getLine:(char *)line prompt:(const char *)p {

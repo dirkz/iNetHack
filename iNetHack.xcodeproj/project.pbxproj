@@ -317,6 +317,7 @@
 		FB4307201A72A0D7003B7010 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB43071F1A72A0D6003B7010 /* Images.xcassets */; };
 		FB64D9551A785ED80035BA74 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FB64D9541A785ED80035BA74 /* Icon.png */; };
 		FBB7FAA51A893650008F64AD /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBB7FAA41A89364F008F64AD /* Images-2.xcassets */; };
+		FBB7FAA91A8C256D008F64AD /* nextstep.png in Resources */ = {isa = PBXBuildFile; fileRef = FBB7FAA81A8C256C008F64AD /* nextstep.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -760,6 +761,7 @@
 		FB43071F1A72A0D6003B7010 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = iNetHack2/Images.xcassets; sourceTree = "<group>"; };
 		FB64D9541A785ED80035BA74 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		FBB7FAA41A89364F008F64AD /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "iNetHack2/Images-2.xcassets"; sourceTree = "<group>"; };
+		FBB7FAA81A8C256C008F64AD /* nextstep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nextstep.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -925,6 +927,7 @@
 				43A103A310B5706E006DD634 /* absurd32.png */,
 				43A103A410B5706E006DD634 /* chozo32.png */,
 				43A103A510B5706E006DD634 /* chozo32b.png */,
+				FBB7FAA81A8C256C008F64AD /* nextstep.png */,
 				43A103A610B5706E006DD634 /* nhtiles.png */,
 				43A103A710B5706E006DD634 /* tiles32.png */,
 				43A7B1C9103046EA0083CE1B /* petmark.png */,
@@ -1384,6 +1387,7 @@
 				43DD0AC30FF4E0FC00580249 /* Arc-fila.lev in Resources */,
 				43DD0AC40FF4E0FC00580249 /* Arc-filb.lev in Resources */,
 				43DD0AC50FF4E0FC00580249 /* Arc-goal.lev in Resources */,
+				FBB7FAA91A8C256D008F64AD /* nextstep.png in Resources */,
 				43DD0AC60FF4E0FC00580249 /* Arc-loca.lev in Resources */,
 				43DD0AC70FF4E0FC00580249 /* Arc-strt.lev in Resources */,
 				43DD0AC90FF4E0FC00580249 /* asmodeus.lev in Resources */,
