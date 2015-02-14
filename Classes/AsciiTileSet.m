@@ -58,8 +58,9 @@ static float _colorTable[][4] = {
 		UIColor *brightBlueColor = [[UIColor alloc] initWithRed:0 green:0 blue:1 alpha:1];
 		UIColor *brightMagentaColor = [[UIColor alloc] initWithRed:0.2f green:0 blue:0.2f alpha:1];
 		UIColor *brightCyanColor = [[UIColor alloc] initWithRed:0 green:1 blue:1 alpha:1];
+        UIColor *blackColor = [[UIColor alloc] initWithRed:0.2f green:0.2f blue:0.2f alpha:1];
 		colorTable = [[NSArray alloc] initWithObjects:
-					  [UIColor blackColor],
+					  blackColor, //[UIColor blackColor], //iNethack2: use dark grey so you can see black monsters/items
 					  [UIColor redColor],
 					  [UIColor greenColor],
 					  [UIColor brownColor],

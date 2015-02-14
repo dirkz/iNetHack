@@ -153,7 +153,12 @@ static NSString *const hearseCommandDownload = @"download";
 						  VERSION_MAJOR, VERSION_MINOR, PATCHLEVEL, EDITLEVEL] copy];
 		netHackVersionCrc = [[Hearse md5HexForString:netHackVersion] copy];
 		deleteUploadedBones = YES;
-		hearseInternalVersion = [@"45" copy]; // will be changed in uploadBonesFile:
+#if __LP64__
+        hearseInternalVersion = [@"55" copy]; // iNethack2: the id for iNethack2 64-bit mode.
+#else
+        hearseInternalVersion = [@"45" copy]; // will be changed in uploadBonesFile:
+#endif
+       
 		optimumNumberOfBonesDownloads = 2; // always want to download 2 bones
 		
 		logger = [[FileLogger alloc] initWithFile:@"hearse.log" maxSize:cHearseLogSize];

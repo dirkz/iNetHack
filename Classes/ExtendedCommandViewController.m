@@ -55,7 +55,7 @@
 	UITableView *tv = (UITableView *) self.view;
 	tv.backgroundColor = [UIColor blackColor];
     long bottom;
-    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [UIScreen mainScreen].bounds.size.height;
+    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [ExtendedCommandViewController screenSize].height;
     [tv setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
 }
 
@@ -63,6 +63,15 @@
 	if (result == -1) {
 		[[MainViewController instance] broadcastUIEvent];
 	}
+}
+
+//iNethack2: screenSize that works with both iOS7 + 8
++ (CGSize)screenSize {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    if ((NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return CGSizeMake(screenSize.height, screenSize.width);
+    }
+    return screenSize;
 }
 
 #pragma mark UITableView delegate

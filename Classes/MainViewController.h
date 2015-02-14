@@ -122,6 +122,8 @@
 - (void) nethackKeyboard:(id)i;
 - (int) getExtendedCommand;
 
+- (void) resetGlyphCache; //iNethack2: reset cache each time level change to ensure walls are correct set
+
 - (void) doPlayerSelection;
 
 - (void) nethackShowLog:(id)i;

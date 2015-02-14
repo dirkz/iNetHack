@@ -40,6 +40,7 @@
 #include <fcntl.h>
 #include "dlb.h"
 #include "hack.h"
+#include "date.h"
 
 #ifdef __APPLE__
 #include "TargetConditionals.h"
@@ -417,7 +418,7 @@ char iphone_yn_function(const char *question, const char *choices, CHAR_P def) {
 				BOOL alphaBegan = NO;
 				BOOL terminateLoop = NO;
 				int index;
-				int start;
+				int start=0; //iNethack2: initializing this as it was causing a crash when bringing up screens with no inventory options
 				for (int i = 0; i < preLets.length && !terminateLoop; ++i) {
 					index = i;
 					char c = [preLets characterAtIndex:i];
@@ -664,6 +665,101 @@ void iphone_finished_bones(const char *bonesid) {
 	NSString *dest = [NSString stringWithFormat:@"bon%s.bad", bonesid];
 	NSError *error = nil;
 	[[NSFileManager defaultManager] removeItemAtPath:dest error:&error];
+}
+//iNethack2: pass along the glyph cache reset
+void iphone_reset_glyph_cache() {
+	[[MainViewController instance] resetGlyphCache];
+}
+
+
+boolean
+check_version_64(version_data, filename, complain)
+struct version_info *version_data;
+const char *filename;
+boolean complain;
+{
+    unsigned long sanity2;
+#if __LP64__
+    sanity2=VERSION_SANITY2_64;
+#else
+    sanity2=VERSION_SANITY2;
+#endif
+    
+    if (
+#ifdef VERSION_COMPATIBILITY
+        version_data->incarnation < VERSION_COMPATIBILITY ||
+        version_data->incarnation > VERSION_NUMBER
+#else
+        version_data->incarnation != VERSION_NUMBER
+#endif
+        ) {
+        if (complain)
+            pline("Version mismatch for file \"%s\".", filename);
+        return FALSE;
+    } else if (
+#ifndef IGNORED_FEATURES
+               version_data->feature_set != VERSION_FEATURES ||
+#else
+               (version_data->feature_set & ~IGNORED_FEATURES) !=
+               (VERSION_FEATURES & ~IGNORED_FEATURES) ||
+#endif
+               version_data->entity_count != VERSION_SANITY1 ||
+               version_data->struct_sizes != sanity2) {
+        if (complain)
+            pline("Configuration incompatibility for file \"%s\".",
+                  filename);
+        return FALSE;
+    }
+    return TRUE;
+}
+
+/* this used to be based on file date and somewhat OS-dependant,
+ but now examines the initial part of the file's contents */
+boolean
+uptodate_64(fd, name)
+int fd;
+const char *name;
+{
+    int rlen;
+    struct version_info vers_info;
+    boolean verbose = name ? TRUE : FALSE;
+    
+    rlen = read(fd, (genericptr_t) &vers_info, sizeof vers_info);
+    minit();		/* ZEROCOMP */
+    if (rlen == 0) {
+        if (verbose) {
+            pline("File \"%s\" is empty?", name);
+            wait_synch();
+        }
+        return FALSE;
+    }
+    if (!check_version_64(&vers_info, name, verbose)) {
+        if (verbose) wait_synch();
+        return FALSE;
+    }
+    return TRUE;
+}
+
+void
+store_version_64(fd)
+int fd;
+{
+#if __LP64__
+    const static struct version_info version_data = {
+        VERSION_NUMBER, VERSION_FEATURES,
+        VERSION_SANITY1, VERSION_SANITY2_64
+    };
+#else
+    const static struct version_info version_data = {
+        VERSION_NUMBER, VERSION_FEATURES,
+        VERSION_SANITY1, VERSION_SANITY2
+    };
+#endif
+    bufoff(fd);
+    /* bwrite() before bufon() uses plain write() */
+    bwrite(fd,(genericptr_t)&version_data,(unsigned)(sizeof version_data));
+    bufon(fd);
+    return;
 }
 
 void iphone_main() {

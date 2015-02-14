@@ -350,7 +350,7 @@ struct obj *corpse;
 	     * this code would have to know the size of the version
 	     * information itself.
 	     */
-	    store_version(fd);
+	    store_version_64(fd); //iNethack2: 64-bit compatible
 	    bwrite(fd, (genericptr_t) &c, sizeof c);
 	    bwrite(fd, (genericptr_t) bonesid, (unsigned) c);	/* DD.nnn */
 	    savefruitchn(fd, COUNT_SAVE);
@@ -368,7 +368,7 @@ struct obj *corpse;
 	}
 #endif /* MFLOPPY */
 
-	store_version(fd);
+	store_version_64(fd); //iNethack2: 64-bit compatible
 	bwrite(fd, (genericptr_t) &c, sizeof c);
 	bwrite(fd, (genericptr_t) bonesid, (unsigned) c);	/* DD.nnn */
 	savefruitchn(fd, WRITE_SAVE | FREE_SAVE);
@@ -394,7 +394,8 @@ getbones()
 #ifdef WIZARD
 		&& !wizard
 #endif
-		) return(0);
+	) return(0);
+//       ) c=c; //iNethack2: for debugging, you can force using bones here by commenting out above line.
 	if(no_bones_level(&u.uz)) return(0);
 	fd = open_bonesfile(&u.uz, &bonesid);
 	if (fd < 0) return(0);
@@ -403,7 +404,7 @@ getbones()
 	iphone_will_load_bones(bonesid);
 #endif
 	
-	if ((ok = uptodate(fd, bones)) == 0) {
+	if ((ok = uptodate_64(fd, bones)) == 0) {   //iNethack2: 64-bit compatible for bones
 #ifdef WIZARD
 	    if (!wizard)
 #endif

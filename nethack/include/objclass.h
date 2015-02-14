@@ -178,6 +178,7 @@ struct fruit {
 	int fid;
 	struct fruit *nextf;
 };
+
 #define newfruit() (struct fruit *)alloc(sizeof(struct fruit))
 #define dealloc_fruit(rind) free((genericptr_t) (rind))
 

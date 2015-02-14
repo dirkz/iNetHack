@@ -39,9 +39,6 @@ extern short glyph2tile[];
 	return YES;
 }
 
-
-
-
 - (void) selectAllItems:(NSArray *)items select:(BOOL)s {
 	for (NethackMenuItem *i in items) {
 		if (i.isTitle) {
@@ -126,15 +123,24 @@ extern short glyph2tile[];
 	}
 }
 
+//iNethack2: screenSize that works with both iOS7 + 8
++ (CGSize)screenSize {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    if ((NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return CGSizeMake(screenSize.height, screenSize.width);
+    }
+    return screenSize;
+}
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	tv = (UITableView *) self.view;
 	tv.backgroundColor = [UIColor blackColor];
+    tv.allowsSelection=TRUE; //iNethack2: to help fix bugginess with amount selection transition
 
     //iNethack2 - fix for uitableview not scrolling down far enough on iphone5+
     long bottom;
-    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [UIScreen mainScreen].bounds.size.height;
+    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [NethackMenuViewController screenSize].height;
     [tv setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
 }
 
@@ -167,6 +173,8 @@ extern short glyph2tile[];
 	}
 }
 
+
+
 #pragma mark UITableView delegate
 
 - (NethackMenuItem *) nethackMenuItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -190,6 +198,7 @@ extern short glyph2tile[];
 	menuWindow.menuList = malloc(sizeof(menu_item));
 	menuWindow.menuList->count = i.amount;
 	menuWindow.menuList->item = i.identifier;
+    menuWindow.nethackMenuItem.amount = i.amount;
 	[self.navigationController popToRootViewControllerAnimated:NO];
 }
 
@@ -278,10 +287,10 @@ extern short glyph2tile[];
 	}
 	
 	cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
-	
-	cell.editing = YES;
-
-	return cell;
+    cell.editing = YES;
+    cell.textLabel.numberOfLines=0; //iNethack2: word wrap instead of ellipses
+    cell.detailTextLabel.numberOfLines=0; //iNethack2: word wrap instead of ellipses
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
@@ -289,5 +298,32 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 	// I guess we never land here
 	NSLog(@"commitEditingStyle");
 }
+
+//iNethack2: fixes swipe-to-left issue for cells and handles itemAmount
+//overrides the other code that does itemAmount
+//TODO: make THROW non-weapons work with itemAmount (title becomes "Menu" so this code doesn't know the context..need to fix)
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    tv.allowsSelection=FALSE; //iNethack2: to help fix bugginess with amount selection transition
+    //iNethack2: support for selecting amount to put/take to/from a container.
+    if ((menuWindow.menuHow == PICK_ONE && ([self.title containsString:@"throw"] || [self.title containsString:@"drop"]))
+        ||
+        (menuWindow.menuHow == PICK_ANY && ([self.title containsString:@"Put"] || [self.title containsString:@"Take"]))) {
+        NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
+        if (!i.isMeta || i.isGold) {
+            menuWindow.nethackMenuItem = i;
+            int a = [i.title parseNetHackAmount];
+            if (a > 1) {
+                itemAmountViewController.menuWindow = menuWindow;
+                [self.navigationController pushViewController:itemAmountViewController animated:YES];
+            } else
+                tv.allowsSelection=TRUE; //iNethack2: to help fix bugginess with amount selection transition
+        }
+    } else  {
+        tv.allowsSelection=TRUE; //iNethack2: to help fix bugginess with amount selection transition
+    }
+    return UITableViewCellEditingStyleNone;
+}
+
 
 @end

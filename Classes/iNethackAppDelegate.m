@@ -188,7 +188,7 @@
 }
 
 - (void) mailBadBones {
-	NSString *recipients = @"mailto:nethackhearse@gmail.com?cc=me@dirkz.com&subject=Bad bones files";
+	NSString *recipients = @"mailto:nethackhearse@gmail.com?cc=jeff@futureshocksoftware.com&subject=Bad bones files";
 	NSString *body = @"&body=\n";
 	for (NSDictionary *d in badBones) {
 		body = [body stringByAppendingFormat:@"File: %@ md5: %@\n",

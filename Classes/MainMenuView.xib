@@ -27,7 +27,7 @@
                         <action selector="startNewGame:" destination="-1" eventType="touchUpInside" id="5"/>
                     </connections>
                 </button>
-                <imageView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" image="Icon.png" id="6">
+                <imageView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="Icon.png" id="6">
                     <rect key="frame" x="128" y="20" width="78" height="82"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -37,7 +37,7 @@
         </view>
     </objects>
     <resources>
-        <image name="Icon.png" width="57" height="57"/>
+        <image name="Icon.png" width="1024" height="1024"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

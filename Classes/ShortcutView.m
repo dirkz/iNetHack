@@ -26,9 +26,10 @@
 #import "TextInputViewController.h"
 
 NSString *const ShortcutPrefencesIdentifier = @"Shortcut Bar";
-
+CGSize ShortcutTileSize;
 #define ShortcutMainMenuIdentifier @"mainMenu"
 #define ShortcutKeyboardIdentifier @"keyboard"
+#define ShortcutLogIdentifier @"log"
 
 static Shortcut *ShortcutForIdentifier (NSString *identifier) {
 	NSString *title = identifier;
@@ -39,12 +40,13 @@ static Shortcut *ShortcutForIdentifier (NSString *identifier) {
 	} else if ([identifier isEqualToString:ShortcutKeyboardIdentifier]) {
 		title    = @"abc";
 		selector = @selector(nethackKeyboard:);
+    } else if ([identifier isEqualToString:ShortcutLogIdentifier]) {
+        title    = @"log";
+        selector = @selector(nethackShowLog:);
 	}
 	return [[[Shortcut alloc] initWithTitle:title keys:(selector ? nil : identifier) selector:selector target:nil]
 			autorelease];
 }
-
-static const CGSize ShortcutTileSize  = { 40, 40 };
 
 #define TextColor        UIColor.whiteColor.CGColor
 #define BackgroundColor  UIColor.darkGrayColor.CGColor
@@ -65,6 +67,9 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 - (id)init
 {
 	if (self = [super init]) {
+        ShortcutTileSize =  CGSizeMake(40, 40);
+        if ([[UIScreen mainScreen] bounds].size.width>740)  //iNethack2: increase shortcut boxes slightly for larger screens
+            ShortcutTileSize =  CGSizeMake(60, 60);
 		self.opacity       = 1.0f;
 		self.isHighlighted = NO;
 		self.borderColor   = UIColor.whiteColor.CGColor;
@@ -73,6 +78,8 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 		self.bounds        = (CGRect){CGPointZero, ShortcutTileSize};
 		self.anchorPoint   = CGPointZero;
         self.contentsScale = [UIScreen mainScreen].scale; //iNethack2: fix for blurry text
+        
+        
 		[[self animationForKey:@"backgroundColor"] setDuration:0.1];
 	}
 	return self;
@@ -87,7 +94,10 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 - (void)drawInContext:(CGContextRef)context
 {
 	if (self.title) {
-        UIFont* const font = [UIFont boldSystemFontOfSize:12];
+        //UIFont* const font = [UIFont boldSystemFontOfSize:12];
+        UIFont* font = [UIFont boldSystemFontOfSize:12];
+        if ([[UIScreen mainScreen] bounds].size.width>740)  //iNethack2: increase shortcut font slightly for larger screens
+            font = [UIFont boldSystemFontOfSize:16];
         UIGraphicsPushContext(context);
 		CGContextSetFillColorWithColor(context, TextColor);
         CGSize stringSize = [self.title sizeWithAttributes: @{NSFontAttributeName: font}];
@@ -113,9 +123,9 @@ static const CGSize ShortcutTileSize  = { 40, 40 };
 
 static NSArray *DefaultShortcuts () {
 	return [NSArray arrayWithObjects:
-			@".",          @"9s",      @":",        @"9.",
+			@".",          @"20s",      @":",        @"20.",
 			@",",          @"#",
-			ShortcutMainMenuIdentifier,   ShortcutKeyboardIdentifier,
+			ShortcutMainMenuIdentifier,   ShortcutKeyboardIdentifier, ShortcutLogIdentifier,
 			@";",
 			@"i",          @"e",        @"t",        @"f",
 			@"z",          @"Z",        @"a",        @"o",
@@ -253,19 +263,19 @@ static NSArray *DefaultShortcuts () {
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 3) {
+	if (buttonIndex == 4) {
 		// Remove shortcut
 		NSMutableArray* identifiers = [[[NSUserDefaults standardUserDefaults] arrayForKey:ShortcutPrefencesIdentifier] mutableCopy];
 		[identifiers removeObjectAtIndex:editIndex];
 		[[NSUserDefaults standardUserDefaults] setObject:identifiers forKey:ShortcutPrefencesIdentifier];
 		[identifiers release];
-	} else if (buttonIndex == 0 || buttonIndex == 1) {
-		// Main Menu or Keyboard
+	} else if (buttonIndex == 0 || buttonIndex == 1 || buttonIndex == 2) {
+		// Main Menu or Keyboard or Log
 		NSMutableArray* identifiers = [[[NSUserDefaults standardUserDefaults] arrayForKey:ShortcutPrefencesIdentifier] mutableCopy];
-		[identifiers replaceObjectAtIndex:editIndex withObject:(buttonIndex == 0 ? ShortcutMainMenuIdentifier : ShortcutKeyboardIdentifier)];
+        [identifiers replaceObjectAtIndex:editIndex withObject:(buttonIndex == 0 ? ShortcutMainMenuIdentifier : buttonIndex==1 ? ShortcutKeyboardIdentifier : ShortcutLogIdentifier)];
 		[[NSUserDefaults standardUserDefaults] setObject:identifiers forKey:ShortcutPrefencesIdentifier];
 		[identifiers release];
-	} else if (buttonIndex == 2) {
+	} else if (buttonIndex == 3) {
 		// Custom key sequence
 		TextInputViewController* textInputViewController = [TextInputViewController new];
 		textInputViewController.prompt        = @"Enter a key sequence:";
@@ -286,13 +296,14 @@ static NSArray *DefaultShortcuts () {
 	UIActionSheet *menu = [[UIActionSheet alloc] init];
 	[menu addButtonWithTitle:@"Show Main Menu"];
 	[menu addButtonWithTitle:@"Show Keyboard"];
+    [menu addButtonWithTitle:@"Show Log"];
 	[menu addButtonWithTitle:@"Custom Key Sequence"];
 	[menu addButtonWithTitle:@"Remove Shortcut"];
 	[menu addButtonWithTitle:@"Cancel"];
 	menu.title                  = @"What action would you like this shortcut to perform?";
 	menu.delegate               = self;
-	menu.destructiveButtonIndex = 3;
-	menu.cancelButtonIndex      = 4;
+	menu.destructiveButtonIndex = 4;
+	menu.cancelButtonIndex      = 5;
 	[menu showInView:self.superview];
 	[menu release];
 }

@@ -5,7 +5,7 @@
 #include "hack.h"
 #include "lev.h"
 #include "tcap.h" /* for TERMLIB and ASCIIGRAPH */
-
+#include "winiphone.h"
 #if defined(MICRO)
 extern int dotcnt;	/* shared with save */
 extern int dotrow;	/* shared with save */
@@ -312,17 +312,16 @@ boolean ghostly;
 STATIC_OVL struct fruit *
 loadfruitchn(fd)
 int fd;
-{
-	register struct fruit *flist, *fnext;
-
+{	register struct fruit *flist, *fnext;
 	flist = 0;
-	while (fnext = newfruit(),
-	       mread(fd, (genericptr_t)fnext, sizeof *fnext),
-	       fnext->fid != 0) {
-		fnext->nextf = flist;
-		flist = fnext;
-	}
-	dealloc_fruit(fnext);
+    while (fnext = newfruit(),
+   	       mread(fd, (genericptr_t)fnext, sizeof *fnext),
+           fnext->fid != 0) {
+        fnext->nextf = flist;
+        flist = fnext;
+    }
+    
+    dealloc_fruit(fnext);
 	return flist;
 }
 
@@ -707,7 +706,7 @@ boolean ghostly;
 #ifdef TOS
 	short tlev;
 #endif
-
+    iphone_reset_glyph_cache();
 	if (ghostly)
 	    clear_id_mapping();
 
@@ -717,7 +716,7 @@ boolean ghostly;
 	/* Load the old fruit info.  We have to do it first, so the
 	 * information is available when restoring the objects.
 	 */
-	if (ghostly) oldfruit = loadfruitchn(fd);
+    if (ghostly) oldfruit = loadfruitchn(fd);
 
 	/* First some sanity checks */
 	mread(fd, (genericptr_t) &hpid, sizeof(hpid));

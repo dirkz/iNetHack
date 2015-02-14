@@ -112,7 +112,9 @@
 				<string>Absurd</string>
 				<string>Abigaba Chozo</string>
 				<string>Abigaba Chozo B</string>
+				<string>DawnHack</string>
 				<string>Original (16x16)</string>
+				<string>NeXTSTEP</string>
 				<string>Tiles32</string>
 				<string>ASCII</string>
 			</array>
@@ -121,7 +123,9 @@
 				<string>absurd32</string>
 				<string>chozo32</string>
 				<string>chozo32b</string>
+				<string>dawnhack32</string>
 				<string>nhtiles</string>
+				<string>nextstep</string>
 				<string>tiles32</string>
 				<string>ascii</string>
 			</array>
