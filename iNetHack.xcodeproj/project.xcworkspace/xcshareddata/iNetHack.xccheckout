@@ -12,8 +12,6 @@
 	<dict>
 		<key>56915648EC21194979F9C58FC18F41188251E8B0</key>
 		<string>github-akolade:akolade/iNethack.git</string>
-		<key>5aa2a760-743d-11de-9207-fb4211ab666b++505</key>
-		<string>http://inethack.googlecode.com/svn/trunk</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>iNetHack.xcodeproj</string>
@@ -21,13 +19,6 @@
 	<dict>
 		<key>56915648EC21194979F9C58FC18F41188251E8B0</key>
 		<string>../..</string>
-		<key>5aa2a760-743d-11de-9207-fb4211ab666b++505</key>
-		<string>../../../inethack-newest</string>
-	</dict>
-	<key>IDESourceControlProjectRepositoryRootDictionary</key>
-	<dict>
-		<key>5aa2a760-743d-11de-9207-fb4211ab666b++505</key>
-		<string>http://inethack.googlecode.com/svn</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>github-akolade:akolade/iNethack.git</string>
@@ -44,14 +35,6 @@
 			<string>56915648EC21194979F9C58FC18F41188251E8B0</string>
 			<key>IDESourceControlWCCName</key>
 			<string>iNetHack</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.subversion</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>5aa2a760-743d-11de-9207-fb4211ab666b++505</string>
-			<key>IDESourceControlWCCName</key>
-			<string>inethack-newest</string>
 		</dict>
 	</array>
 </dict>
