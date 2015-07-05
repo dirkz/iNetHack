@@ -316,6 +316,8 @@
 		FB33C48B1A7F774A0020F638 /* dawnhack32.png in Resources */ = {isa = PBXBuildFile; fileRef = FB33C48A1A7F774A0020F638 /* dawnhack32.png */; };
 		FB4307201A72A0D7003B7010 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB43071F1A72A0D6003B7010 /* Images.xcassets */; };
 		FB64D9551A785ED80035BA74 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FB64D9541A785ED80035BA74 /* Icon.png */; };
+		FBA6C9DA1B47442C006C88B5 /* nevanda32.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA6C9D81B47442C006C88B5 /* nevanda32.png */; };
+		FBA6C9DB1B47442C006C88B5 /* nevanda32black.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA6C9D91B47442C006C88B5 /* nevanda32black.png */; };
 		FBB7FAA51A893650008F64AD /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBB7FAA41A89364F008F64AD /* Images-2.xcassets */; };
 		FBB7FAA91A8C256D008F64AD /* nextstep.png in Resources */ = {isa = PBXBuildFile; fileRef = FBB7FAA81A8C256C008F64AD /* nextstep.png */; };
 /* End PBXBuildFile section */
@@ -760,6 +762,8 @@
 		FB33C48A1A7F774A0020F638 /* dawnhack32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dawnhack32.png; sourceTree = "<group>"; };
 		FB43071F1A72A0D6003B7010 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = iNetHack2/Images.xcassets; sourceTree = "<group>"; };
 		FB64D9541A785ED80035BA74 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		FBA6C9D81B47442C006C88B5 /* nevanda32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nevanda32.png; sourceTree = "<group>"; };
+		FBA6C9D91B47442C006C88B5 /* nevanda32black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nevanda32black.png; sourceTree = "<group>"; };
 		FBB7FAA41A89364F008F64AD /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "iNetHack2/Images-2.xcassets"; sourceTree = "<group>"; };
 		FBB7FAA81A8C256C008F64AD /* nextstep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nextstep.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -923,6 +927,8 @@
 		4394EB9510394C5F0053C8C2 /* Tilesets */ = {
 			isa = PBXGroup;
 			children = (
+				FBA6C9D81B47442C006C88B5 /* nevanda32.png */,
+				FBA6C9D91B47442C006C88B5 /* nevanda32black.png */,
 				FB33C48A1A7F774A0020F638 /* dawnhack32.png */,
 				43A103A310B5706E006DD634 /* absurd32.png */,
 				43A103A410B5706E006DD634 /* chozo32.png */,
@@ -1458,6 +1464,7 @@
 				43DD0B150FF4E0FC00580249 /* opthelp in Resources */,
 				43DD0B160FF4E0FC00580249 /* options in Resources */,
 				43DD0B180FF4E0FC00580249 /* oracle.lev in Resources */,
+				FBA6C9DA1B47442C006C88B5 /* nevanda32.png in Resources */,
 				43DD0B190FF4E0FC00580249 /* oracles in Resources */,
 				43DD0B1A0FF4E0FC00580249 /* oracles.txt in Resources */,
 				43DD0B1B0FF4E0FC00580249 /* orcus.lev in Resources */,
@@ -1502,6 +1509,7 @@
 				43DD0B450FF4E0FC00580249 /* Tou-fila.lev in Resources */,
 				43DD0B460FF4E0FC00580249 /* Tou-filb.lev in Resources */,
 				43DD0B470FF4E0FC00580249 /* Tou-goal.lev in Resources */,
+				FBA6C9DB1B47442C006C88B5 /* nevanda32black.png in Resources */,
 				43DD0B480FF4E0FC00580249 /* Tou-loca.lev in Resources */,
 				43DD0B490FF4E0FC00580249 /* Tou-strt.lev in Resources */,
 				43DD0B4C0FF4E0FC00580249 /* tower1.lev in Resources */,

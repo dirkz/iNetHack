@@ -550,7 +550,7 @@ void iphone_init_options() {
 		[tmp getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
 	}
 #if TARGET_IPHONE_SIMULATOR
-	wizard = YES;
+	wizard = NO; //akolade YES for sim usually..
 #else
 	wizard = [defaults boolForKey:kOptionWizard];
 #endif

@@ -329,8 +329,12 @@
         CGRect backgroundRect = CGRectMake(p.x, p.y, backgroundRect.size.width, backgroundRect.size.height);
 		CGContextFillRect(ctx, backgroundRect);
         CGSize tmp = [s sizeWithAttributes:@{NSFontAttributeName:font}];
-        [s drawAtPoint:p withAttributes: @ {NSFontAttributeName:font, NSForegroundColorAttributeName: [UIColor whiteColor],NSShadowAttributeName: shadow,
-        NSBackgroundColorAttributeName: [UIColor clearColor]}]; //iNethack2: fix for drawAtPoint
+        //iNethack2: some users reported missing status bars. Couldn't reproduce, but using below as it worked for the messages...
+        [s drawAtPoint:p withAttributes:@{ NSFontAttributeName:font, NSForegroundColorAttributeName: [UIColor whiteColor], NSShadowAttributeName: shadow}];
+        //iNethack2: old drawAtPoint below
+        //   [s drawAtPoint:p withAttributes: @ {NSFontAttributeName:font, NSForegroundColorAttributeName: [UIColor whiteColor],NSShadowAttributeName: shadow,
+        // NSBackgroundColorAttributeName: [UIColor clearColor]}]; //iNethack2: fix for drawAtPoint
+        
         
 		p.y += tmp.height;
 		total.height += tmp.height;
@@ -374,6 +378,7 @@
 		[status lock];
 		strings = [status.strings copy];
 		[status unlock];
+        //iNethack2: sometimes the below doesnt draw for some people?
 		if (strings.count > 0) {
             statusSize = [self drawStrings:[strings copy] withSize:CGSizeMake([MainView screenSize].width, 18) atPoint:p];
 		}
@@ -387,6 +392,7 @@
 		[message lock];
 		strings = [message.strings copy];
 		[message unlock];
+
 		if (strings.count > 0) {
             CGSize bounds = [MainView screenSize];
 			for (NSString *s in strings) {
