@@ -148,7 +148,7 @@ genl_preference_update,
 FILE *iphone_fopen(const char *filename, const char *mode) {
 	NSString *path = [[NSBundle mainBundle]
 					  pathForResource:[NSString stringWithCString:filename encoding:NSASCIIStringEncoding] ofType:@""];
-	const char *pathc = [path cStringUsingEncoding:NSStringEncodingConversionAllowLossy];
+	const char *pathc = [path fileSystemRepresentation];
 	FILE *file = fopen(pathc, mode);
 	return file;
 }
@@ -579,7 +579,7 @@ void iphone_remove_stale_files() {
     
 	for (NSString *filename in filelist) {
 		if ([filename startsWithString:pattern]) {
-			int fail = unlink([filename cStringUsingEncoding:NSASCIIStringEncoding]);
+			int fail = unlink([filename fileSystemRepresentation]);
 			if (!fail) {
 				NSLog(@"removed %@", filename);
 			} else {

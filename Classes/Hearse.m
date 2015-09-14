@@ -82,7 +82,7 @@ static NSString *const hearseCommandDownload = @"download";
 	CC_MD5_CTX context;
 	CC_MD5_CTX *c = &context;
 	CC_MD5_Init(c);
-	int fh = open([filename cStringUsingEncoding:NSASCIIStringEncoding], O_RDONLY);
+	int fh = open([filename fileSystemRepresentation], O_RDONLY);
 	if (fh != -1) {
 		const int bufferSize = 1024;
 		char buffer[bufferSize];
