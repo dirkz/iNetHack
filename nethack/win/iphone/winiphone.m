@@ -635,7 +635,7 @@ void iphone_test_main() {
 
 void iphone_test_endianness() {
 	NSString *filename = @"endianness";
-	const char *cFilename = [filename cStringUsingEncoding:NSASCIIStringEncoding];
+	const char *cFilename = [filename fileSystemRepresentation];
 	int someInt = 42;
 	[[NSFileManager defaultManager] removeItemAtPath:filename error:NULL];
 	int fd = open(cFilename, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
