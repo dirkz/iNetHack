@@ -28,19 +28,18 @@
 
 + (int) openTmpFile {
 	NSString *template = [NSTemporaryDirectory() stringByAppendingPathComponent:@"log.tmp.XXXX"];
-	int n = (int) template.length+1;
-	char str[n];
-	[template getCString:str maxLength:n encoding:NSASCIIStringEncoding];
+	char str[PATH_MAX];
+	strlcpy(str, [template fileSystemRepresentation], PATH_MAX);
 	return mkstemp(str);
 }
 
 + (NSString *) tmpFileName {
+	NSFileManager *fm = [NSFileManager defaultManager];
 	NSString *template = [NSTemporaryDirectory() stringByAppendingPathComponent:@"log.tmp.XXXX"];
-	int n = (int) template.length+1;
-	char str[n];
-	[template getCString:str maxLength:n encoding:NSASCIIStringEncoding];
+	char str[PATH_MAX];
+	strlcpy(str, [template fileSystemRepresentation], PATH_MAX);
 	char *pStr = mktemp(str);
-	return [NSString stringWithCString:pStr encoding:NSASCIIStringEncoding];
+	return [fm stringWithFileSystemRepresentation:pStr length:strlen(pStr)];
 }
 
 - (void) resize {
@@ -71,7 +70,7 @@
 		filename = [path copy];
 		maxSize = ms;
 		[self resize];
-		fd = fopen([filename cStringUsingEncoding:NSASCIIStringEncoding], "a");
+		fd = fopen([filename fileSystemRepresentation], "a");
 	}
 	return self;
 }
@@ -100,7 +99,7 @@
 
 - (void) flush {
 	fclose(fd);
-	fd = fopen([filename cStringUsingEncoding:NSASCIIStringEncoding], "a");
+	fd = fopen([filename fileSystemRepresentation], "a");
 }
 
 - (void) dealloc {
