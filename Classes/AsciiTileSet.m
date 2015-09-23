@@ -59,7 +59,31 @@ static float _colorTable[][4] = {
 		UIColor *brightMagentaColor = [[UIColor alloc] initWithRed:0.2f green:0 blue:0.2f alpha:1];
 		UIColor *brightCyanColor = [[UIColor alloc] initWithRed:0 green:1 blue:1 alpha:1];
         UIColor *blackColor = [[UIColor alloc] initWithRed:0.2f green:0.2f blue:0.2f alpha:1];
-		colorTable = [[NSArray alloc] initWithObjects:
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        //iNethack2: monochrome ascii
+        NSString *theTileset = [defaults objectForKey:@"tileset"];
+        if ([theTileset isEqualToString:@"asciimono"]) {
+            colorTable = [[NSArray alloc] initWithObjects:
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor], // NO_COLOR
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          [UIColor lightGrayColor],
+                          nil];
+        } else {
+            colorTable = [[NSArray alloc] initWithObjects:
 					  blackColor, //[UIColor blackColor], //iNethack2: use dark grey so you can see black monsters/items
 					  [UIColor redColor],
 					  [UIColor greenColor],
@@ -77,6 +101,7 @@ static float _colorTable[][4] = {
 					  brightCyanColor,
 					  [UIColor whiteColor],
 					  nil];
+        }
 		[brightGreenColor release];
 		[brightBlueColor release];
 		[brightMagentaColor release];
