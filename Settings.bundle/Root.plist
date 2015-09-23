@@ -119,6 +119,7 @@
 				<string>NeXTSTEP</string>
 				<string>Tiles32</string>
 				<string>ASCII</string>
+				<string>ASCII (monochrome)</string>
 			</array>
 			<key>Values</key>
 			<array>
@@ -132,7 +133,18 @@
 				<string>nextstep</string>
 				<string>tiles32</string>
 				<string>ascii</string>
+				<string>asciimono</string>
 			</array>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Boulder Symbol</string>
+			<key>Key</key>
+			<string>boulderSym</string>
+			<key>DefaultValue</key>
+			<string>`</string>
 		</dict>
 		<dict>
 			<key>Type</key>

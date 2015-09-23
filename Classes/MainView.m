@@ -77,7 +77,7 @@
 	if (!tilesetName) {
 		tilesetName = @"chozo32b";
 	}
-	if ([tilesetName isEqualToString:@"ascii"]) {
+	if ([tilesetName isEqualToString:@"ascii"] || [tilesetName isEqualToString:@"asciimono"]) {
 		asciiTileset = YES;
 		tileSet = [[AsciiTileSet alloc] initWithTileSize:tilesetTileSize];
 	} else {
