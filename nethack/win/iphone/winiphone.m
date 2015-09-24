@@ -49,6 +49,7 @@
 #define kOptionUsername (@"username")
 #define kOptionAutopickup (@"autopickup")
 #define kOptionPickupTypes (@"pickupTypes")
+#define kOptionBoulderSym (@"boulderSym")
 #define kOptionWizard (@"wizard")
 #define kOptionAutokick (@"autokick")
 #define kOptionTime (@"time")
@@ -136,6 +137,7 @@ genl_preference_update,
 	[defaults registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 								@"YES", kOptionAutopickup,
 								@"$\"=/!?+", kOptionPickupTypes,
+                                @"`", kOptionBoulderSym,
 								@"YES", kOptionAutokick,
 								@"YES", kOptionShowExp,
 								@"YES", kOptionTime,
@@ -537,7 +539,19 @@ void iphone_init_options() {
 	flags.verbose = TRUE;
 	flags.toptenwin = TRUE;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	flags.pickup = [defaults boolForKey:kOptionAutopickup];
+    //iNethack2: custom boulder symbol
+    NSString *boulderSym = [defaults objectForKey:kOptionBoulderSym];
+    if (boulderSym==NULL)
+        boulderSym=@"`";
+    const char *bould = [boulderSym UTF8String];
+    boulderSym = [boulderSym substringToIndex:1];
+    //Update user preference to ensure it's only 1 character long
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"boulderSym"]) {
+        [[NSUserDefaults standardUserDefaults] setObject:boulderSym forKey:@"boulderSym"];
+    }
+    iflags.bouldersym = (uchar) bould[0];
+    
+    flags.pickup = [defaults boolForKey:kOptionAutopickup];
 	NSString *pickupTypes = [defaults objectForKey:kOptionPickupTypes];
 	if (flags.pickup && pickupTypes) {
 		NSMutableString *tmp = [NSMutableString string];
@@ -550,7 +564,7 @@ void iphone_init_options() {
 		[tmp getCString:flags.pickup_types maxLength:MAXOCLASSES encoding:NSASCIIStringEncoding];
 	}
 #if TARGET_IPHONE_SIMULATOR
-	wizard = NO; //akolade YES for sim usually..
+	wizard = NO; //iNethack2 YES for sim usually..
 #else
 	wizard = [defaults boolForKey:kOptionWizard];
 #endif
