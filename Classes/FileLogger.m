@@ -98,8 +98,7 @@
 }
 
 - (void) flush {
-	fclose(fd);
-	fd = fopen([filename fileSystemRepresentation], "a");
+	fflush(fd);
 }
 
 - (void) dealloc {
