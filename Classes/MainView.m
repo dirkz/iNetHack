@@ -35,6 +35,7 @@
 
 @synthesize start, tileSize, dummyTextField, tileSet;
 @synthesize status, map, message;
+@synthesize cache;
 
 + (void) initialize {
 	NSAutoreleasePool* pool = [NSAutoreleasePool new];

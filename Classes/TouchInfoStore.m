@@ -34,8 +34,8 @@
 	return self;
 }
 
-- (int) count {
-	return (int) currentTouchInfos.count;
+- (NSInteger) count {
+	return currentTouchInfos.count;
 }
 
 - (void) storeTouches:(NSSet *)touches {

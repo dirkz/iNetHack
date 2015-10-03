@@ -23,17 +23,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface MenuItem : NSObject {
-
-	NSString *title;
-	id target;
-	SEL action;
-	BOOL accessory;
-	
-	NSArray *children;
-	char key;
-	NSInteger tag;
-}
+@interface MenuItem : NSObject
 
 @property (nonatomic, copy)     NSString *title;
 @property (nonatomic, retain)   id target;

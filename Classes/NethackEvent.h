@@ -23,14 +23,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NethackEvent : NSObject {
-	
-	int key;
-	int x;
-	int y;
-	int mod;
-
-}
+@interface NethackEvent : NSObject
 
 @property (nonatomic, assign) int key;
 @property (nonatomic, assign) int x;

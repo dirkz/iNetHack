@@ -23,17 +23,12 @@
 #import <Foundation/Foundation.h>
 
 
-@interface TilePosition : NSObject {
-	
-	int x;
-	int y;
-
-}
+@interface TilePosition : NSObject
 
 @property (nonatomic, assign) int x;
 @property (nonatomic, assign) int y;
 
-+ (id) tilePositionWithX:(int)i y:(int)j;
-- (id) initWithX:(int)i y:(int)j;
++ (instancetype) tilePositionWithX:(int)i y:(int)j;
+- (instancetype) initWithX:(int)i y:(int)j;
 
 @end

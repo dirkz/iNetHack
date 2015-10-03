@@ -33,7 +33,6 @@
 	IBOutlet UISlider *amountSlider;
 	IBOutlet UIButton *dropButton;
 	
-	Window *menuWindow;
 	BOOL targetsSet;
 	
 }

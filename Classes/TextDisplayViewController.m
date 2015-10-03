@@ -25,7 +25,7 @@
 
 @implementation TextDisplayViewController
 
-@synthesize text, condition, isHTML, isLog;
+@synthesize text, condition, HTML = isHTML, log = isLog;
 
 - (void)dealloc
 {

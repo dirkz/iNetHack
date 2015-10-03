@@ -35,8 +35,8 @@
 + (int) openTmpFile;
 + (NSString *) tmpFileName;
 
-- (id) initWithFile:(NSString *)path maxSize:(int)ms;
-- (id) initWithFile:(NSString *)path;
+- (instancetype) initWithFile:(NSString *)path maxSize:(int)ms;
+- (instancetype) initWithFile:(NSString *)path;
 - (void) logString:(NSString *)message;
 - (void) flush;
 

@@ -30,7 +30,7 @@
 
 }
 
-- (id) initWithTileSize:(CGSize)ts;
+- (instancetype) initWithTileSize:(CGSize)ts;
 - (UIColor *) mapNetHackColor:(int)ocolor;
 
 @end

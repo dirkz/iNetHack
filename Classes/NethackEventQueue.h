@@ -28,7 +28,6 @@
 	
 	NSCondition *mutex;
 	NSMutableArray *events;
-	NethackEvent *lastEvent;
 
 }
 

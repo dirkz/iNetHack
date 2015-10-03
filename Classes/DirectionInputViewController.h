@@ -23,11 +23,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DirectionInputViewController : UIViewController {
-	
-	int direction;
-
-}
+@interface DirectionInputViewController : UIViewController
 
 @property (nonatomic, readonly) int direction;
 

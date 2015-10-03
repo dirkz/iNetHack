@@ -32,10 +32,8 @@
 
 	MainViewController *mainViewController;
 	UIFont *statusFont;
-	CGSize tileSize;
 	CGSize maxTileSize;
 	CGSize minTileSize;
-	CGPoint start;
 	IBOutlet UITextField *dummyTextField;
 
 	BOOL tiled;
@@ -50,10 +48,6 @@
 	CGSize tilesetTileSize;
 	BOOL asciiTileset;
 	
-	Window *map;
-	Window *status;
-	Window *message;
-	
 	UIButton *moreButton;
 	
 	NSString *bundleVersionString;
@@ -64,7 +58,7 @@
 @property (nonatomic, readonly) CGPoint start;
 @property (nonatomic, readonly) CGSize tileSize;
 @property (nonatomic, readonly) IBOutlet UITextField *dummyTextField;
-@property (nonatomic, readonly) BOOL isMoved;
+@property (nonatomic, readonly, getter=isMoved) BOOL moved;
 @property (nonatomic, readonly) TileSet *tileSet;
 @property (nonatomic, retain) Window *map;
 @property (nonatomic, retain) Window *status;

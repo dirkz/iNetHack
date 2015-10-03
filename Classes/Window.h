@@ -30,12 +30,6 @@
 
 @interface Window : NSObject <NSLocking> {
 	
-	int type;
-	int curx;
-	int cury;
-	int width;
-	int height;
-	
 	int maxWidth;
 	int maxHeight;
 	
@@ -45,27 +39,13 @@
 	NSMutableArray *log;
 	
 	NSMutableArray *menuItems;
-	NSString *menuPrompt;
-	BOOL isShallowMenu;
-	int menuHow;
-	menu_item *menuList;
-	int menuResult;
 
 	NSString *prompt;
 	BOOL acceptBareHanded;
 	BOOL acceptMore;
 	BOOL acceptMoney;
 	
-	// used for determining amounts on PICK_ONE
-	NethackMenuItem *nethackMenuItem;
-	
 	NSCondition *messageCondition;
-	
-	// used when there are too many messages to fit on screen
-	BOOL shouldDisplay;
-	
-	// used for blocking map display (e.g. spell of detect monsters)
-	BOOL blocking;
 }
 
 @property (nonatomic, readonly) int type;
@@ -77,18 +57,21 @@
 @property (nonatomic, readonly) NSMutableArray *log;
 @property (nonatomic, readonly) NSString *text;
 @property (nonatomic, readonly) NSMutableArray *menuItems;
-@property (nonatomic, retain) NSString *menuPrompt;
-@property (nonatomic, readonly) BOOL isShallowMenu;
+@property (nonatomic, copy) NSString *menuPrompt;
+@property (nonatomic, readonly, getter=isShallowMenu) BOOL shallowMenu;
 @property (nonatomic, assign) int menuHow;
 @property (nonatomic, assign) menu_item *menuList;
 @property (nonatomic, assign) int menuResult;
+/// used for determining amounts on \c PICK_ONE
 @property (nonatomic, retain) NethackMenuItem *nethackMenuItem;
 
 @property (nonatomic, assign) BOOL acceptBareHanded;
 @property (nonatomic, assign) BOOL acceptMore;
 @property (nonatomic, assign) BOOL acceptMoney;
 
+/// used when there are too many messages to fit on screen
 @property (assign) BOOL shouldDisplay;
+/// used for blocking map display (e.g. spell of detect monsters)
 @property (assign) BOOL blocking;
 
 - (id) initWithType:(int)t;

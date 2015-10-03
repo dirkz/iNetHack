@@ -23,11 +23,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ExtendedCommandViewController : UIViewController {
-	
-	int result;
-
-}
+@interface ExtendedCommandViewController : UIViewController
 
 @property (nonatomic, readonly) int result;
 

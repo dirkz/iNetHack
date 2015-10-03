@@ -27,11 +27,10 @@
 @interface TouchInfoStore : NSObject {
 	
 	NSMutableDictionary *currentTouchInfos;
-	NSTimeInterval singleTapTimestamp;
 
 }
 
-@property (nonatomic, readonly) int count;
+@property (nonatomic, readonly) NSInteger count;
 @property (nonatomic, assign) NSTimeInterval singleTapTimestamp;
 
 - (void) storeTouches:(NSSet *)touches;

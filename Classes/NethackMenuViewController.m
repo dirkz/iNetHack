@@ -44,7 +44,7 @@ extern short glyph2tile[];
 		if (i.isTitle) {
 			[self selectAllItems:i.children select:s];
 		} else {
-			i.isSelected = s;
+			i.selected = s;
 		}
 	}
 }
@@ -93,7 +93,7 @@ extern short glyph2tile[];
 			NSString *title = [NSString stringWithFormat:@"%d %s ($)", (int) u.ugold, currency(u.ugold)];
 			NethackMenuItem *mi = [[NethackMenuItem alloc] initWithId:&any title:[title cStringUsingEncoding:NSASCIIStringEncoding]
 																glyph:kNoGlyph isMeta:YES preselected:NO];
-			mi.isGold = YES;
+			mi.gold = YES;
 			[menuWindow addMenuItem:mi];
 			[mi release];
 		}
@@ -205,7 +205,7 @@ extern short glyph2tile[];
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NethackMenuItem *i = [self nethackMenuItemAtIndexPath:indexPath];
 	if (menuWindow.menuHow == PICK_ANY) {
-		i.isSelected = !i.isSelected;
+		i.selected = !i.isSelected;
 		UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 		cell.accessoryType = i.isSelected ? UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
 	} else {

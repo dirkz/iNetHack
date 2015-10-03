@@ -25,7 +25,6 @@
 @class MainMenuViewController;
 
 @interface iNethackAppDelegate : NSObject <UIApplicationDelegate> {
-    UIWindow *window;
 	IBOutlet UINavigationController *mainNavigationController;
 	IBOutlet MainMenuViewController *mainMenuViewController;
 	NSMutableArray *badBones;
