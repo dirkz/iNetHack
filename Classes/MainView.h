@@ -59,12 +59,12 @@
 @property (nonatomic, readonly) CGSize tileSize;
 @property (nonatomic, readonly) IBOutlet UITextField *dummyTextField;
 @property (nonatomic, readonly, getter=isMoved) BOOL moved;
-@property (nonatomic, readonly) TileSet *tileSet;
+@property (nonatomic, readonly, retain) TileSet *tileSet;
 @property (nonatomic, retain) Window *map;
 @property (nonatomic, retain) Window *status;
 @property (nonatomic, retain) Window *message;
 @property (nonatomic, readonly) CGPoint subViewedCenter;
-@property (nonatomic, readonly) NSCache *cache; //iNethack2: glyph cache
+@property (nonatomic, readonly, retain) NSCache *cache; //iNethack2: glyph cache
 
 - (void) drawTiledMap:(Window *)m clipRect:(CGRect)clipRect;
 - (void) checkForRogueLevel;

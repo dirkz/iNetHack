@@ -30,6 +30,6 @@
 @property (nonatomic, assign) int y;
 @property (nonatomic, assign) int mod;
 
-- (id) initWithKey:(int)k x:(int)i y:(int)j mod:(int)m;
+- (instancetype) initWithKey:(int)k x:(int)i y:(int)j mod:(int)m;
 
 @end

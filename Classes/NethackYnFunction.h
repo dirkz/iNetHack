@@ -31,6 +31,6 @@
 @property (nonatomic, assign) int chosen;
 @property (nonatomic, readonly) char choice;
 
-- (id) initWithQuestion:(const char *)q choices:(const char *)ch defaultChoice:(const char)c;
+- (instancetype) initWithQuestion:(const char *)q choices:(const char *)ch defaultChoice:(const char)c;
 
 @end

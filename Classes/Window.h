@@ -34,12 +34,8 @@
 	int maxHeight;
 	
 	int *glyphs;
-	NSMutableArray *strings;
 	int maxLogEntries;
-	NSMutableArray *log;
 	
-	NSMutableArray *menuItems;
-
 	NSString *prompt;
 	BOOL acceptBareHanded;
 	BOOL acceptMore;
@@ -53,10 +49,10 @@
 @property (nonatomic, assign) int cury;
 @property (nonatomic, assign) int width;
 @property (nonatomic, assign) int height;
-@property (nonatomic, readonly) NSMutableArray *strings;
-@property (nonatomic, readonly) NSMutableArray *log;
-@property (nonatomic, readonly) NSString *text;
-@property (nonatomic, readonly) NSMutableArray *menuItems;
+@property (nonatomic, readonly, retain) NSMutableArray *strings;
+@property (nonatomic, readonly, retain) NSMutableArray *log;
+@property (nonatomic, readonly, copy) NSString *text;
+@property (nonatomic, readonly, retain) NSMutableArray *menuItems;
 @property (nonatomic, copy) NSString *menuPrompt;
 @property (nonatomic, readonly, getter=isShallowMenu) BOOL shallowMenu;
 @property (nonatomic, assign) int menuHow;
@@ -74,7 +70,7 @@
 /// used for blocking map display (e.g. spell of detect monsters)
 @property (assign) BOOL blocking;
 
-- (id) initWithType:(int)t;
+- (instancetype) initWithType:(int)t;
 - (int) glyphAtX:(int)x y:(int)y;
 - (void) setGlyph:(int)g atX:(int)x y:(int)y;
 - (void) clear;

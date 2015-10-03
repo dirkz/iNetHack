@@ -31,7 +31,7 @@
 
 }
 
-@property (nonatomic, readonly) NethackEvent *lastEvent;
+@property (nonatomic, readonly, retain) NethackEvent *lastEvent;
 
 - (void) addNethackEvent:(NethackEvent *)e;
 - (void) addKeyEvent:(int)k;
