@@ -475,9 +475,18 @@ static NSString *const hearseCommandDownload = @"download";
 	[self logMessage:msg];
 }
 
+- (void) logMessage:(NSString *)message format:(va_list)format
+{
+	if (message) {
+		NSString *s = [[NSString alloc] initWithFormat:message arguments:format];
+		[self logMessage:s];
+		[s release];
+	}
+}
+
 - (void) logMessage:(NSString *)message {
 	if (message) {
-		NSLogv(message, NULL);
+		NSLog(@"%@", message);
 		[logger logString:message];
 	}
 }
@@ -485,9 +494,8 @@ static NSString *const hearseCommandDownload = @"download";
 - (void) logFormat:(NSString *)message, ... {
 	va_list vlist;
 	va_start(vlist, message);
-	NSString *s = [[NSString alloc] initWithFormat:message arguments:vlist];
-	[self logMessage:s];
-	[s release];
+	[self logMessage:message format:vlist];
+	va_end(vlist);
 }
 
 - (void) dealloc {
