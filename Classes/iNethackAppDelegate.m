@@ -53,8 +53,8 @@
 //	return;
 
 	BOOL badBonesSeen = [self checkNetHackDirectories];
-
-    [application setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO]; // prevent start orientation bug
+    //iNethack2: UPDATE: iOS9 the below fix actually causese issues. commenting out.
+ //   [application setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO]; // prevent start orientation bug
     [application setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 
     // use mainNavigationController.view to skip main menu
