@@ -361,6 +361,7 @@ static MainViewController *instance;
 	menuViewController.menuItems = menuItems;
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
+    
     [self.navigationController pushViewController:menuViewController animated:YES];
 	[menuViewController release];
 }
