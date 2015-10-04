@@ -58,13 +58,22 @@ static MainViewController *instance;
 	return instance;
 }
 
++ (void)messageWithoutFormat:(NSString*)msg {
+	[[[self instance] messageWindow] putString:[msg cStringUsingEncoding:NSASCIIStringEncoding]];
+}
+
++ (void) message:(NSString *)message format:(va_list)arg_list {
+	NSString *msg = [[NSString alloc] initWithFormat:message arguments:arg_list];
+	[self messageWithoutFormat:msg];
+	[msg release];
+}
+
+
 + (void) message:(NSString *)format, ... {
 	va_list arg_list;
 	va_start(arg_list, format);
-	NSString *msg = [[NSString alloc] initWithFormat:format arguments:arg_list];
+	[self message:format format:arg_list];
 	va_end(arg_list);
-	[[[self instance] messageWindow] putString:[msg cStringUsingEncoding:NSASCIIStringEncoding]];
-	[msg release];
 }
 
 - (void) awakeFromNib {
