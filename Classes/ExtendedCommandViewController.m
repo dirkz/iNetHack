@@ -54,9 +54,13 @@
 	result = -1;
 	UITableView *tv = (UITableView *) self.view;
 	tv.backgroundColor = [UIColor blackColor];
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //iNethack2: Update iOS9: this scrolling fix no longer needed. Commenting out.
+    /*
     long bottom;
     bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [ExtendedCommandViewController screenSize].height;
     [tv setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
+     */
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
