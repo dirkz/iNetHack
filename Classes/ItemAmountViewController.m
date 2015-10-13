@@ -65,7 +65,7 @@ extern short glyph2tile[];
 	menuWindow.nethackMenuItem.amount = v;
 }
 
-//akolade
+//iNethack2: amount text box value changed
 - (void) textValueHasChanged:(id)sender {
     UITextField *textfield = (UITextField *) sender;
     //UISlider *slider = (UISlider *) sender;
@@ -102,7 +102,7 @@ extern short glyph2tile[];
 		[amountSlider addTarget:self action:@selector(sliderValueHasChanged:) forControlEvents:UIControlEventValueChanged];
 		[dropButton addTarget:self action:@selector(finishPickOne:) forControlEvents:UIControlEventTouchUpInside];
         
-        //akolade
+        //iNethack2: amount text box setup
         [amountTextField addTarget:self action:@selector(textValueHasChanged:) forControlEvents:
          UIControlEventEditingChanged];
         
