@@ -26,7 +26,7 @@
 @interface NSString (NetHack)
 
 // splits the given string into title and detail string
-- (NSArray *) splitNetHackDetails;
+- (NSArray<NSString*> *) splitNetHackDetails;
 
 // tries to parse an item amount
 - (int) parseNetHackAmount;
