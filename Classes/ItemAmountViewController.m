@@ -58,7 +58,27 @@ extern short glyph2tile[];
 	UISlider *slider = (UISlider *) sender;
 	int v = round(slider.value);
 	amountTextLabel.text = [NSString stringWithFormat:@"%d", v];
+    
+    int textv = [amountTextField.text intValue];
+    if (textv!=v)
+        amountTextField.text = [NSString stringWithFormat:@"%d", v];
 	menuWindow.nethackMenuItem.amount = v;
+}
+
+//iNethack2: amount text box value changed
+- (void) textValueHasChanged:(id)sender {
+    UITextField *textfield = (UITextField *) sender;
+    //UISlider *slider = (UISlider *) sender;
+    //int v = round(slider.value);
+
+    int v = [textfield.text intValue];
+    int maxminv = min(v, amountSlider.maximumValue);
+    maxminv = max(maxminv, amountSlider.minimumValue);
+    if (amountSlider.value != maxminv)
+        amountSlider.value = maxminv;
+    amountTextLabel.text = [NSString stringWithFormat:@"%d", maxminv];
+    menuWindow.nethackMenuItem.amount = maxminv;
+    
 }
 
 - (void) finishPickOne:(id)sender {
@@ -74,12 +94,18 @@ extern short glyph2tile[];
 
 - (void)viewWillAppear:(BOOL)animated {
 	amountSlider.continuous = YES;
+
 	if (!targetsSet) {
 		// things like this should be in awakeFromNib
 		// but when called the outlets don't seem to be initialized
 		// so we have to do that here
 		[amountSlider addTarget:self action:@selector(sliderValueHasChanged:) forControlEvents:UIControlEventValueChanged];
 		[dropButton addTarget:self action:@selector(finishPickOne:) forControlEvents:UIControlEventTouchUpInside];
+        
+        //iNethack2: amount text box setup
+        [amountTextField addTarget:self action:@selector(textValueHasChanged:) forControlEvents:
+         UIControlEventEditingChanged];
+        
 		targetsSet = YES;
 	}
 	if (menuWindow.nethackMenuItem.glyph != NO_GLYPH && menuWindow.nethackMenuItem.glyph != kNoGlyph) {
@@ -100,6 +126,10 @@ extern short glyph2tile[];
 	amountSlider.minimumValue = 0;
 	amountSlider.maximumValue = amount;
 	amountSlider.value = amount;
+    
+
+    [amountTextField setKeyboardType:UIKeyboardTypeDecimalPad];
+    amountTextField.text = [NSString stringWithFormat:@"%d",amount];
 }
 
 - (void)dealloc {

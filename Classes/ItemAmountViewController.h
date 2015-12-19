@@ -32,6 +32,7 @@
 	IBOutlet UILabel *amountTextLabel;
 	IBOutlet UISlider *amountSlider;
 	IBOutlet UIButton *dropButton;
+    IBOutlet UITextField *amountTextField; //iNethack2: amount text box
 	
 	BOOL targetsSet;
 	

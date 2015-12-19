@@ -46,11 +46,17 @@
 	[super viewWillAppear:animated];
 	tv = (UITableView *) self.view;
 	tv.backgroundColor = [UIColor blackColor];
+    tv.separatorStyle = UITableViewCellSeparatorStyleNone; // iNethack2: prevent line separator
 
     //iNethack2: fix for not scrolling all the way to bottom for iphone5+
-    long bottom;
-    bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [MenuViewController screenSize].height;
-    [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
+    //iNethack2: only needed for iOS8 and less..
+    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_8_3) {
+        long bottom;
+        bottom= (self.view.frame.size.height + self.view.frame.origin.y) - [MenuViewController screenSize].height;
+        [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, bottom, 0)];
+    }
+    
+    
 }
 
 #pragma mark UITableView delegate

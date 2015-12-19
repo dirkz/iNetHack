@@ -103,15 +103,15 @@
 }
 
 - (NSString *) text {
-	NSString *result = [NSString string];
+	NSMutableString *result = [NSMutableString string];
 	for (NSString *s in strings) {
 		if (result.length > 0) {
-			result = [result stringByAppendingFormat:@"\n%@", s];
+			[result appendFormat:@"\n%@", s];
 		} else {
-			result = [result stringByAppendingFormat:@"%@", s];
+			[result appendString:s];
 		}
 	}
-	return result;
+	return [NSString stringWithString:result]; //creates a non-mutable NSString, just in case.
 }
 
 - (void) startMenu {
