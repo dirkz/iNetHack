@@ -27,15 +27,6 @@
 	
 	IBOutlet UITextField *tf;
 	IBOutlet UILabel *label;
-	NSString *prompt;
-	NSString *text;
-	BOOL numerical;
-	UIReturnKeyType returnKeyType;
-	
-	id target;
-	SEL action;
-
-	NSCondition *condition;
 	BOOL returned;
 	
 	// avoid reentrance problems (issue 66)

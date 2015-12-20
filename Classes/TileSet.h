@@ -33,9 +33,9 @@
 + (TileSet *) instance;
 + (int) glyphToTileIndex:(int)g;
 
-- (id) initWithImage:(UIImage *)image tileSize:(CGSize)ts;
-- (CGImageRef) imageAt:(int)i;
-- (CGImageRef) imageForGlyph:(int)g atX:(int)x y:(int)y;
-- (CGImageRef) imageForGlyph:(int)g;
+- (instancetype) initWithImage:(UIImage *)image tileSize:(CGSize)ts;
+- (CGImageRef) imageAt:(int)i CF_RETURNS_NOT_RETAINED;
+- (CGImageRef) imageForGlyph:(int)g atX:(int)x y:(int)y CF_RETURNS_NOT_RETAINED;
+- (CGImageRef) imageForGlyph:(int)g CF_RETURNS_NOT_RETAINED;
 
 @end

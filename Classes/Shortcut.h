@@ -25,19 +25,17 @@
 
 @interface Shortcut : NSObject {
 	
-	NSString *title;
-	NSString *keys;
 	SEL selector;
 	id target;
 
 }
 
-@property (nonatomic, readonly) NSString *title;
-@property (nonatomic, readonly) NSString *keys;
+@property (nonatomic, readonly, copy) NSString *title;
+@property (nonatomic, readonly, copy) NSString *keys;
 @property (nonatomic, readonly) char key;
 
-- (id) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar;
-- (id) initWithTitle:(NSString *)t keys:(NSString *)k;
+- (instancetype) initWithTitle:(NSString *)t keys:(NSString *)k selector:(SEL)s target:(id)tar;
+- (instancetype) initWithTitle:(NSString *)t keys:(NSString *)k;
 - (void) invoke:(id)sender;
 
 @end

@@ -19,7 +19,7 @@
 
 @interface RoleSelectionController ()
 @property (retain) UINavigationController *navigationController;
-- (id)initWithNavigationController:(UINavigationController *)navController;
+- (instancetype)initWithNavigationController:(UINavigationController *)navController;
 - (void)moveToNextStep:(id)sender;
 @end
 

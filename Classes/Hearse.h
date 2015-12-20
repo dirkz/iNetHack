@@ -71,7 +71,7 @@
 + (void) dumpResponse:(NSHTTPURLResponse *)response;
 + (void) dumpData:(NSData *)data;
 
-- (BOOL) isHearseReachable;
+@property (nonatomic, readonly, getter=isHearseReachable) BOOL hearseReachable;
 - (void) start;
 - (void) mainHearseLoop:(id)arg;
 - (NSString *) urlForCommand:(NSString *)cmd;

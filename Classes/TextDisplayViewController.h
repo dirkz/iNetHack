@@ -26,15 +26,11 @@
 @interface TextDisplayViewController : UIViewController <UIWebViewDelegate> {
 	UIWebView *webView;
 	UITextView *textView;
-	NSCondition *condition;
-	NSString *text;
-	BOOL isHTML;
-	BOOL isLog;
 }
 
 @property (nonatomic, copy) NSString *text;
-@property (assign) BOOL isHTML;
+@property (assign, getter=isHTML) BOOL HTML;
 @property (nonatomic, retain) NSCondition *condition;
-@property (assign) BOOL isLog;
+@property (assign, getter=isLog) BOOL log;
 
 @end

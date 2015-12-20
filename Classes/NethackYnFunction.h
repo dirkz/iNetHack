@@ -23,14 +23,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NethackYnFunction : NSObject {
-	
-	const char *question;
-	const char *choices;
-	char defaultChoice;
-	int chosen;
-
-}
+@interface NethackYnFunction : NSObject
 
 @property (nonatomic, readonly) const char *question;
 @property (nonatomic, readonly) const char *choices;
@@ -38,6 +31,6 @@
 @property (nonatomic, assign) int chosen;
 @property (nonatomic, readonly) char choice;
 
-- (id) initWithQuestion:(const char *)q choices:(const char *)ch defaultChoice:(const char)c;
+- (instancetype) initWithQuestion:(const char *)q choices:(const char *)ch defaultChoice:(const char)c;
 
 @end

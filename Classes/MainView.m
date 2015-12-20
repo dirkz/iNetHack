@@ -35,12 +35,13 @@
 
 @synthesize start, tileSize, dummyTextField, tileSet;
 @synthesize status, map, message;
+@synthesize cache;
 
 + (void) initialize {
-	NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	@autoreleasepool {
 	[[NSUserDefaults standardUserDefaults]
-	 registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:40] forKey:kKeyTileSize]];
-	[pool drain];
+	 registerDefaults:[NSDictionary dictionaryWithObject:@(40.0f) forKey:kKeyTileSize]];
+	}
 }
 
 - (id)initWithFrame:(CGRect)frame {

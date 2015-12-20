@@ -34,7 +34,6 @@
 	IBOutlet UIButton *dropButton;
     IBOutlet UITextField *amountTextField; //iNethack2: amount text box
 	
-	Window *menuWindow;
 	BOOL targetsSet;
 	
 }

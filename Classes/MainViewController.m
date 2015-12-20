@@ -49,6 +49,10 @@ extern volatile boolean winiphone_clickable_tiles;
 
 static MainViewController *instance;
 
+@interface MainViewController () <RoleSelectionControllerDelegate>
+
+@end
+
 @implementation MainViewController
 
 @synthesize windows, clip, nethackEventQueue;
@@ -215,7 +219,7 @@ static MainViewController *instance;
 
 - (void) displayText:(NSString *)text withCondition:(NSCondition *)condition isLog:(BOOL)l {
 	TextDisplayViewController *viewController = [TextDisplayViewController new];
-	viewController.isLog = l;
+	viewController.log = l;
 	viewController.text = text;
 	viewController.condition = condition;
     self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
@@ -258,7 +262,7 @@ static MainViewController *instance;
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"manual" ofType:@"html"];
 	TextDisplayViewController *viewController = [TextDisplayViewController new];
 	viewController.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
-	viewController.isHTML = YES;
+	viewController.HTML = YES;
     self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
     [self.navigationController pushViewController:viewController animated:YES];
 	[viewController release];
@@ -268,7 +272,7 @@ static MainViewController *instance;
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"credits" ofType:@"html"];
 	TextDisplayViewController *viewController = [TextDisplayViewController new];
 	viewController.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
-	viewController.isHTML = YES;
+	viewController.HTML = YES;
     self.navigationController.view.frame = [[UIScreen mainScreen] applicationFrame]; //iNethack2 - fix for width on iphone6
     [self.navigationController pushViewController:viewController animated:YES];
 	[viewController release];

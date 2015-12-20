@@ -27,7 +27,7 @@
 @implementation Window
 
 @synthesize type, curx, cury, width, height, strings, menuItems, menuPrompt;
-@synthesize isShallowMenu, menuHow, menuList, menuResult, log;
+@synthesize shallowMenu = isShallowMenu, menuHow, menuList, menuResult, log;
 @synthesize acceptBareHanded, acceptMore, acceptMoney;
 @synthesize nethackMenuItem;
 @synthesize shouldDisplay;

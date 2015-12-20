@@ -23,17 +23,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface MenuItem : NSObject {
-
-	NSString *title;
-	id target;
-	SEL action;
-	BOOL accessory;
-	
-	NSArray *children;
-	char key;
-	NSInteger tag;
-}
+@interface MenuItem : NSObject
 
 @property (nonatomic, copy)     NSString *title;
 @property (nonatomic, retain)   id target;
@@ -43,14 +33,14 @@
 @property (nonatomic, readonly) char key;
 @property (nonatomic, assign)   NSInteger tag;
 
-+ (id) menuItemWithTitle:(NSString *)n target:(id)t action:(SEL)s accessory:(BOOL)a;
-+ (id) menuItemWithTitle:(NSString *)n children:(NSArray *)ch;
-+ (id) menuItemWithTitle:(NSString *)n key:(char)k accessory:(BOOL)a;
-+ (id) menuItemWithTitle:(NSString *)n key:(char)k;
-- (id) initWithTitle:(NSString *)n target:(id)t action:(SEL)s accessory:(BOOL)a;
-- (id) initWithTitle:(NSString *)n children:(NSArray *)ch;
-- (id) initWithTitle:(NSString *)n key:(char)k accessory:(BOOL)a;
-- (id) initWithTitle:(NSString *)n key:(char)k;
++ (instancetype) menuItemWithTitle:(NSString *)n target:(id)t action:(SEL)s accessory:(BOOL)a;
++ (instancetype) menuItemWithTitle:(NSString *)n children:(NSArray *)ch;
++ (instancetype) menuItemWithTitle:(NSString *)n key:(char)k accessory:(BOOL)a;
++ (instancetype) menuItemWithTitle:(NSString *)n key:(char)k;
+- (instancetype) initWithTitle:(NSString *)n target:(id)t action:(SEL)s accessory:(BOOL)a;
+- (instancetype) initWithTitle:(NSString *)n children:(NSArray *)ch;
+- (instancetype) initWithTitle:(NSString *)n key:(char)k accessory:(BOOL)a;
+- (instancetype) initWithTitle:(NSString *)n key:(char)k;
 - (void) invoke;
 
 @end

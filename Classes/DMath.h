@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum _dmathdirection { kUp, kUpRight, kRight, kDownRight, kDown, kDownLeft, kLeft, kUpLeft } dmathdirection;
+typedef NS_ENUM(NSInteger, dmathdirection) { kUp, kUpRight, kRight, kDownRight, kDown, kDownLeft, kLeft, kUpLeft };
 
 @interface DMath : NSObject {
 
