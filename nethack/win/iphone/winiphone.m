@@ -50,6 +50,7 @@
 #define kOptionAutopickup (@"autopickup")
 #define kOptionPickupTypes (@"pickupTypes")
 #define kOptionBoulderSym (@"boulderSym")
+#define kOptionPickupThrown (@"pickupThrown")
 #define kOptionWizard (@"wizard")
 #define kOptionAutokick (@"autokick")
 #define kOptionTime (@"time")
@@ -138,6 +139,7 @@ genl_preference_update,
 								@"YES", kOptionAutopickup,
 								@"$\"=/!?+", kOptionPickupTypes,
                                 @"`", kOptionBoulderSym,
+                                @"YES", kOptionPickupThrown,
 								@"YES", kOptionAutokick,
 								@"YES", kOptionShowExp,
 								@"YES", kOptionTime,
@@ -550,6 +552,9 @@ void iphone_init_options() {
         [[NSUserDefaults standardUserDefaults] setObject:boulderSym forKey:@"boulderSym"];
     }
     iflags.bouldersym = (uchar) bould[0];
+    
+    //iNethack2: pickup_thrown setting
+    iflags.pickup_thrown = [defaults boolForKey:kOptionPickupThrown];
     
     flags.pickup = [defaults boolForKey:kOptionAutopickup];
 	NSString *pickupTypes = [defaults objectForKey:kOptionPickupTypes];
