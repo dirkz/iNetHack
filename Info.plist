@@ -26,8 +26,20 @@
 	<string>public.app-category.adventure-games</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>hearse.krollmark.com</key>
+			<string></string>
+		</dict>
+	</dict>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>MainView</string>
 	<key>UIStatusBarHidden</key>
@@ -43,7 +55,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIFileSharingEnabled</key>
-	<true/>
 </dict>
 </plist>
