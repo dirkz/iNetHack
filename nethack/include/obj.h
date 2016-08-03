@@ -88,7 +88,7 @@ struct obj {
 #define OATTACHED_MONST   1	/* monst struct in oextra */
 #define OATTACHED_M_ID    2	/* monst id in oextra */
 #define OATTACHED_UNUSED3 3
-
+    Bitfield(was_thrown,1); /* thrown by the hero since last picked up */
 	Bitfield(in_use,1);	/* for magic items before useup items */
 	Bitfield(bypass,1);	/* mark this as an object to be skipped by bhito() */
 	/* 6 free bits */

@@ -811,6 +811,8 @@ static MainViewController *instance;
         TODO: replace ActionSheet with proper UIAlertController. Will require several changes to accepting the user input.
         Also there are issues with rotation while displayed, but may be unfixable (or not worth the effort).
     */
+    // iNethack2: iOS9: Keyboard stopped dismissing when yn menu appears, the next line forced it to close
+    [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];
     CGRect oldViewBounds = CGRectFromString(NSStringFromCGRect(self.view.bounds));
     self.view.bounds = CGRectMake(0, 0, [MainViewController screenSize].width, [MainViewController screenSize].height);
     [menu showInView:self.view];
@@ -843,7 +845,9 @@ static MainViewController *instance;
 }
 
 - (void) showDirectionInputView:(id)obj {
-	[self.view addSubview:directionInputViewController.view];
+    // iNethack2: iOS9: Keyboard stopped dismissing when yn menu appears, the next line forced it to close
+    [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];
+    [self.view addSubview:directionInputViewController.view];
 	directionInputViewController.view.frame = self.view.frame;
 }
 
